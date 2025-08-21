@@ -1,0 +1,24 @@
+project:
+  type: book
+  output-dir: ../docs
+
+book:
+  title: "Minería de Datos"
+  subtitle: "ITAM 2025"
+  author: "Saúl Caballero"
+  chapters:
+    - index.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    lang: es
+    font-size: 1.1em
+
+
+

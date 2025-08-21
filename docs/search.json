@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Minería de Datos",
+    "section": "",
+    "text": "Temario\n\nEvaluación\n\n\nMaterial\n\n\nReferencias principales\n\nAn Introduction to Statistical Learning, James et al. (2023)\nThe Elements of Statistical Learning, Hastie, Tibshirani, y Friedman (2017)\n\n\n\n\n\nHastie, Trevor, Robert Tibshirani, y Jerome Friedman. 2017. The Elements of Statistical Learning. Springer Series en Statistics. Springer New York Inc. https://hastie.su.domains/ElemStatLearn/.\n\n\nJames, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, y Jonathan Taylor. 2023. An Introduction to Statistical Learning: With Applications in Python. Springer Texts en Statistics. Cham: Springer. https://doi.org/10.1007/978-3-031-38747-0.",
+    "crumbs": [
+      "Temario"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "Referencias",
+    "section": "",
+    "text": "Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2017. The\nElements of Statistical Learning. Springer Series in Statistics.\nSpringer New York Inc. https://hastie.su.domains/ElemStatLearn/.\n\n\nJames, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and\nJonathan Taylor. 2023. An Introduction to\nStatistical Learning: With Applications in Python. Springer\nTexts in Statistics. Cham: Springer. https://doi.org/10.1007/978-3-031-38747-0.",
+    "crumbs": [
+      "Referencias"
+    ]
+  }
+]

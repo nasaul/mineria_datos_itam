@@ -1,0 +1,11 @@
+# Temario {.unnumbered}
+
+### Evaluación {.unnumbered}
+
+### Material {.unnumbered}
+
+
+### Referencias principales {.unnumbered}
+
+- [An Introduction to Statistical Learning](https://www.statlearning.com/), @ISL 
+- [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/), @ESL 
