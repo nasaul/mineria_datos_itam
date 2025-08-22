@@ -8,6 +8,8 @@ book:
   author: "Saúl Caballero"
   chapters:
     - index.qmd
+    - 01-introduccion.qmd
+    - 02-principios.qmd
     - references.qmd
   open-graph: true
 

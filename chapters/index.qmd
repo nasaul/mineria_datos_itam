@@ -2,8 +2,8 @@
 
 - Introducción al aprendizaje de máquina
 - Principios de aprendizaje supervisado
-- Métodos de remuestreo y validación cruzada
 - Regresión lineal
+- Métodos de remuestreo y validación cruzada
 - Principios de Regularización
 - Problemas de clasificación, métricas y evaluación
 - Árboles, bosques aleatorios y boosting

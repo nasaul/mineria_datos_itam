@@ -1,0 +1,52 @@
+# Introducción
+
+## ¿Qué es aprendizaje de máquina?
+
+**Métodos computacionales** para **aprender de datos** con el fin de producir **reglas** para mejorar el desempeño en alguna tarea o toma de decisión.
+
+En este curso nos enfocamos en las tareas de *aprendizaje supervisado* (predecir o estimar una variable respuesta a partir de datos de entrada) y *aprendizaje no supervisado* (describir estructuras interesantes en datos, donde no necesariamente hay una respuesta que predecir). Existe también aprendizaje por refuerzo, en donde buscamos aprender a tomar decisiones en un entorno en donde la decisión afecta directa e inmediatamente al entorno.
+
+Las tareas más apropiadas para este enfoque, en general, son aquellas en donde:
+
+- Existe una cantidad considerable de datos relevantes para aprender a ejecutar la tarea.
+- El costo por errores al ejecutar la tarea es relativamente bajo (al menos comparado con alternativas).
+- La tarea se repite de manera más o menos homogénea una cantidad grande de veces.
+
+#### Ejemplos de tareas de aprendizaje: {.unnumbered}
+
+-   Predecir si un cliente de tarjeta de crédito va a caer en impago en los próximos doce meses.
+-   Estimar el ingreso mensual de un hogar a partir de las características de la vivienda, posesiones y equipamiento y localización geográfica.
+-   Dividir a los clientes de Netflix según sus gustos.
+-   Recomendar artículos a clientes de un programa de lealtad o servicio online.
+-   Reconocer un tipos de documentos (identificación, comprobante de domicilio, comprobante de ingresos) para acelerar el proceso de evaluación de crédito.
+
+Las razones usuales para intentar resolver estos problemas **computacionalmente** son diversas:
+
+-   Quisiéramos obtener una respuesta barata, rápida, **automatizada**, y con suficiente precisión. Por ejemplo, reconocer caracteres en una placa de coche de una fotografía se puede hacer por personas, pero eso es lento y costoso.  Hacer mediciones directas del ingreso de un hogar requiere mucho tiempo y esfuerzo.
+-   Quisiéramos **superar el desempeño actual** de los expertos o de reglas simples utilizando datos: por ejemplo, en la decisión de dar o no un préstamo a un solicitante, puede ser posible tomar mejores decisiones con algoritmos que con evaluaciones personales o con reglas simples que toman en cuenta el ingreso mensual, por ejemplo.
+-   Al resolver estos problemas computacionalmente tenemos oportunidad de aprender más del problema que nos interesa: estas soluciones forman parte de un ciclo de **análisis de datos** donde podemos aprender de una forma más concentrada cuáles son características y patrones importantes de nuestros datos.
+
+Es posible aproximarse a todos estos problemas usando reglas (por ejemplo, si los pixeles del centro de la imagen están vacíos, entonces es un cero, si el crédito total es mayor al 50% del ingreso anual, declinar el préstamo, etc). Las razones para no tomar un enfoque de reglas construidas "a mano":
+
+-   Cuando conjuntos de reglas creadas a mano se desempeñan mal (por ejemplo, para otorgar créditos, reconocer caracteres, etc.)
+-   Reglas creadas a mano pueden ser difíciles de mantener (por ejemplo, un corrector ortográfico), pues para problemas interesantes muchas veces se requieren grandes cantidades de reglas. Por ejemplo: ¿qué búsquedas www se enfocan en dar direcciones como resultados? ¿cómo filtrar comentarios no aceptables en foros?
+-  Finalmente, notamos que en estos problemas nuestro interés principal **no** es entender qué variables influyen en otras (en el proceso natural o de negocio). Sin más teoría o diseño de datos, los métodos que utilizaremos explotan patrones en los datos que no necesariamente explican cómo funcionan los sistemas de interés.
+
+## Aprendizaje supervisado y no supervisado
+
+Las tareas de aprendizaje se dividen en dos grandes partes: aprendizaje supervisado y aprendizaje no supervisado.
+
+En **Aprendizaje supervisado** buscamos construir un modelo o algoritmo para predecir o estimar un *target* o una *respuesta* a partir de ciertas variables de entrada.
+
+Predecir y estimar, en este contexto, se refieren a cosas similares. Generalmente se usa *predecir* cuando se trata de variables que no son observables ahora, sino en el futuro, y *estimar* cuando nos interesan variables actuales que no podemos observar ahora por costos o por la naturaleza del fenómeno.
+
+Por ejemplo, para identificar a los clientes con alto riesgo de impago de tarjeta de crédito, utilizamos datos históricos de clientes que han pagado y no han pagado. Con estos datos entrenamos un algoritmo para detectar anticipadamente los clientes con alto riesgo de impago.
+
+Usualmente dividimos los problemas de aprendizaje supervisado en dos tipos, dependiendo de la variables salida:
+
+-   Problemas de **regresión**: cuando la salida es una variable numérica. El ejemplo de estimación de ingreso es un problema de regresión
+-   Problemas de **clasificación**: cuando la salida es una variable categórica. El ejemplo de detección de dígitos escritos a manos es un problema de clasificación.
+
+En contraste, en **Aprendizaje no supervisado** no hay *target* o variable respuesta. Buscamos modelar y entender las relaciones entre variables y entre observaciones, o patrones importantes o interesantes en los datos.
+
+Los problemas supervisados tienen un objetivo claro: hacer las mejores predicciones posibles bajo ciertas restricciones. Los problemas no supervisados tienden a tener objetivos más vagos, y por lo mismo pueden ser más difíciles.
