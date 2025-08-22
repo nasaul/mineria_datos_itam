@@ -9,6 +9,7 @@ book:
   chapters:
     - index.qmd
     - references.qmd
+  open-graph: true
 
 bibliography: references.bib
 

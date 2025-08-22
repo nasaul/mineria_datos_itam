@@ -1,9 +1,32 @@
 # Temario {.unnumbered}
 
+- Introducción al aprendizaje de máquina
+- Principios de aprendizaje supervisado
+- Métodos de remuestreo y validación cruzada
+- Regresión lineal
+- Principios de Regularización
+- Problemas de clasificación, métricas y evaluación
+- Árboles, bosques aleatorios y boosting
+- Redes neuronales
+- Métodos no supervisados
+
 ### Evaluación {.unnumbered}
 
-### Material {.unnumbered}
+- Dos exámenes parciales (40%)
+- Proyecto final (30%):
+  - Entrega (75%)
+  - Exposición (25%)  
+- Examen final (30%)
 
+### Profesor
+
+**Nombre**: Saúl Caballero Ramírez
+
+**Correo**: saul.caballero.ramirez@gmail.com
+
+**Correo alternativo**: saul@nixtla.io
+
+El canal más rápido y efectivo será el siguiente canal de **[Slack](https://join.slack.com/t/mineriadedatosgrupo/shared_invite/zt-3bop206bb-BIXS8DXRH46~ezS_Jb1w7Q)**. La idea de este canal es que puedan comunicarse entre ustedes para ayudarse a aprender y si necesitan de mi ayuda intentaré contestar en un periodo corto de tiempo. 
 
 ### Referencias principales {.unnumbered}
 
