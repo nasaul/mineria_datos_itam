@@ -1,1 +1,40 @@
 # Principios de aprendizaje supervisado
+
+## Definición de aprendizaje supervisado
+
+Supongamos que observamos una variable cuantitativa $Y \in \mathbb{R}$ y tenemos $p$ variables predictoras, $X_1, X_2, ..., X_p$, las cuales denotaremos como $X = (X_1, X_2, ..., X_p)$. Supongamos que existe alguna reluación entre ellas y se puede expresar de la siguiente forma: 
+
+$$ Y = f(x) + \epsilon$$
+
+- Función $f$: función desconocida que relaciona a $X$ con $Y$. Representa la información sistémica que $X$ aporta a $Y$.
+- Error $\epsilon$: representa qué tan equivocados estamos con respecto al verdadero valor de $Y$.
+
+La tarea del aprendizaje supervisado es aprender la función $f$. Existen dos razones por las cuales estimar $f$: **predicción** e **inferencia**.
+
+### Predicción
+
+En muchas ocasiones existen un conjunto de variables $X$ que están listas para aprovecharse, sin embargo, puede que no se pueda obtener la variable $Y$ de manera inmediata. En este sentido, podemos predecir la variable $Y$ siguiendo la ecuación: 
+
+$$\hat{Y} = \hat{f}(X)$$
+
+donde $\hat{f}$ representa nuestro estimador de $f$ y $\hat{Y}$ es nuestra predicción de $Y$. En este sentido $\hat{f}$ es una *caja negra* en el sentido en el que no nos preocupa cuál es la función, sino que provee predicciones **precisas** para $Y$.
+
+La **precisión** de $\hat{Y}$ depende de dos cantidades:
+
+- **Error reducible**: En general, $\hat{f}$ no será un estimador perfecto de $f$ y esto introducirá un error el cuál puede reducirse. Ejemplos: Introducir una estructura lineal cuándo el problema tiene estructura cuadrática, falta de variables explicativas, exceso de variables que no contribuyen a la predicción.
+- **Error ireducible**: La variable $Y$ es una función también de $\epsilon$ y por definición nuestra predicción tendra un error inherente. Ejemplos: Predecir que comerán mañana, determinar si lloverá o no, determinar cuándo ocurrirá un temblor, ¿quién ganará una elección?.
+
+$$ \begin{align*}
+\mathbb{E}[(Y-\hat{Y})^2] &= \mathbb{E}[(f(X) + \epsilon -\hat{f}(x))^2]\\
+&= \underset{Reducible}{\underbrace{\mathbb{E}[(f(X) - \hat{f}(x))^2]}} + \underset{Irreducible}{\underbrace{\text{Var}(\epsilon)}}
+\end{align*}$$
+
+El objetivo del curso se enfoca en técnicas para estimar $f$ con el objectivo de minimizar el error reducible. Es importante tener en cuenta que el error irreducible siempre nos pondrá una cota en la predicción de $Y$.
+
+## Inferencia
+
+Existen problemas en donde nos interesa más entender la relación intrinseca que existe entre $Y$ y $X$. En esta situación nuestro objetivo no es hacer predicción, entonces $\hat{f}$ ya no puede ser tratada como una caja negra. En este tipo de enfoque se contestan preguntas cómo:
+
+- ¿Cuáles son los predictores que se asocian con la variable $Y$?: Muchas veces solo un subconjunto de los datos $X$ son los que realmente están relacionados con $Y$.
+- ¿Cuál es la relación entre $Y$ y $X_i$? 
+- ¿La relación entre $Y$ y $X_i$ es lineal o más compleja?
