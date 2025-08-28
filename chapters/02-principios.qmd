@@ -31,10 +31,39 @@ $$ \begin{align*}
 
 El objetivo del curso se enfoca en técnicas para estimar $f$ con el objectivo de minimizar el error reducible. Es importante tener en cuenta que el error irreducible siempre nos pondrá una cota en la predicción de $Y$.
 
-## Inferencia
+### Inferencia
 
 Existen problemas en donde nos interesa más entender la relación intrinseca que existe entre $Y$ y $X$. En esta situación nuestro objetivo no es hacer predicción, entonces $\hat{f}$ ya no puede ser tratada como una caja negra. En este tipo de enfoque se contestan preguntas cómo:
 
 - ¿Cuáles son los predictores que se asocian con la variable $Y$?: Muchas veces solo un subconjunto de los datos $X$ son los que realmente están relacionados con $Y$.
 - ¿Cuál es la relación entre $Y$ y $X_i$? 
 - ¿La relación entre $Y$ y $X_i$ es lineal o más compleja?
+
+## ¿Cómo estimar $f$?
+
+Asumiremos que tenemos $n$ datos diferentes estas observaciones serán llamadas **conjunto de entrenamiento**. $x_{ij}$ representa el valor del predictor $j$ para la observación $i$, donde $i=1,2,...,n$ y $j=1,2,...,p$. $y_i$ representa la variable respuesta de la observación $i$. Entonces nuestro **conjunto de entrenamiento** consiste en: 
+
+$${(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}$$
+
+donde $x_i=(x_{i1}, x_{i2}, ..., x_{ip})^T$.
+
+Nuestro objetivo es aplicar un método de aprendizaje en el conjunto de datos para poder estimar una función desconocida de $f$. Nos encantaría encontrar una función $\hat{f}$ de forma tal que $Y\simeq \hat{f}(X)$ para cualquier observación $(X, Y)$. Muchos de estos enfoque se pueden caracterizar como métodos *paramétricos* o *no paramétricos*.
+
+### Métodos paramétricos
+
+Los métodos paramétricos involucran un enfoque de dos pasos:
+
+1. Hacemos un supuesto de la forma función de $f$. Por ejemplo, la más sencilla es que $f$ es linear en $\beta$:
+
+$$ f(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p$$
+
+Una vez haciendo haciendo el supuesto de linealidad el problema de estimar $f$ es simplificado ya que en lugar de explorar el espacio funcional uno solo necesita estimar $p+1$ coeficientes $\beta_0, ..., \beta_p$.
+
+2. Necesitamos un proceso que utilice los datos de entrenamiento para *ajustar* u *entrenar* el modelo. El enfoque más sencillo es el método de mínimos cuadrados ordinarios (OLS):
+
+$$\underset{\beta_0, \beta_1, ..., \beta_p}{min} \sum_{i=1}^{N}(y_i - (\beta_0 + \beta_1 x_{i1} +\beta_2 x_{i2} + ... + \beta_p X_p))^2$$
+
+El enfoque basado en modelado se refiere a los modelos *paramétricos*; reduce el problema de estimar $f$ a estimar un conjunto de parámetros. La desventaja potencial es que el modelo podría no ser igual a la verdadera $f$ y tendremos malas estimaciones del valor de $y$.
+
+### Métodos no paramétricos
+

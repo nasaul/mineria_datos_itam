@@ -345,8 +345,13 @@ window.Quarto = {
   <li><a href="#definición-de-aprendizaje-supervisado" id="toc-definición-de-aprendizaje-supervisado" class="nav-link active" data-scroll-target="#definición-de-aprendizaje-supervisado"><span class="header-section-number">2.1</span> Definición de aprendizaje supervisado</a>
   <ul class="collapse">
   <li><a href="#predicción" id="toc-predicción" class="nav-link" data-scroll-target="#predicción"><span class="header-section-number">2.1.1</span> Predicción</a></li>
+  <li><a href="#inferencia" id="toc-inferencia" class="nav-link" data-scroll-target="#inferencia"><span class="header-section-number">2.1.2</span> Inferencia</a></li>
   </ul></li>
-  <li><a href="#inferencia" id="toc-inferencia" class="nav-link" data-scroll-target="#inferencia"><span class="header-section-number">2.2</span> Inferencia</a></li>
+  <li><a href="#cómo-estimar-f" id="toc-cómo-estimar-f" class="nav-link" data-scroll-target="#cómo-estimar-f"><span class="header-section-number">2.2</span> ¿Cómo estimar <span class="math inline">\(f\)</span>?</a>
+  <ul class="collapse">
+  <li><a href="#métodos-paramétricos" id="toc-métodos-paramétricos" class="nav-link" data-scroll-target="#métodos-paramétricos"><span class="header-section-number">2.2.1</span> Métodos paramétricos</a></li>
+  <li><a href="#métodos-no-paramétricos" id="toc-métodos-no-paramétricos" class="nav-link" data-scroll-target="#métodos-no-paramétricos"><span class="header-section-number">2.2.2</span> Métodos no paramétricos</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -398,17 +403,41 @@ window.Quarto = {
 \end{align*}\]</span></p>
 <p>El objetivo del curso se enfoca en técnicas para estimar <span class="math inline">\(f\)</span> con el objectivo de minimizar el error reducible. Es importante tener en cuenta que el error irreducible siempre nos pondrá una cota en la predicción de <span class="math inline">\(Y\)</span>.</p>
 </section>
-</section>
-<section id="inferencia" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="inferencia"><span class="header-section-number">2.2</span> Inferencia</h2>
+<section id="inferencia" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="inferencia"><span class="header-section-number">2.1.2</span> Inferencia</h3>
 <p>Existen problemas en donde nos interesa más entender la relación intrinseca que existe entre <span class="math inline">\(Y\)</span> y <span class="math inline">\(X\)</span>. En esta situación nuestro objetivo no es hacer predicción, entonces <span class="math inline">\(\hat{f}\)</span> ya no puede ser tratada como una caja negra. En este tipo de enfoque se contestan preguntas cómo:</p>
 <ul>
 <li>¿Cuáles son los predictores que se asocian con la variable <span class="math inline">\(Y\)</span>?: Muchas veces solo un subconjunto de los datos <span class="math inline">\(X\)</span> son los que realmente están relacionados con <span class="math inline">\(Y\)</span>.</li>
 <li>¿Cuál es la relación entre <span class="math inline">\(Y\)</span> y <span class="math inline">\(X_i\)</span>?</li>
 <li>¿La relación entre <span class="math inline">\(Y\)</span> y <span class="math inline">\(X_i\)</span> es lineal o más compleja?</li>
 </ul>
+</section>
+</section>
+<section id="cómo-estimar-f" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="cómo-estimar-f"><span class="header-section-number">2.2</span> ¿Cómo estimar <span class="math inline">\(f\)</span>?</h2>
+<p>Asumiremos que tenemos <span class="math inline">\(n\)</span> datos diferentes estas observaciones serán llamadas <strong>conjunto de entrenamiento</strong>. <span class="math inline">\(x_{ij}\)</span> representa el valor del predictor <span class="math inline">\(j\)</span> para la observación <span class="math inline">\(i\)</span>, donde <span class="math inline">\(i=1,2,...,n\)</span> y <span class="math inline">\(j=1,2,...,p\)</span>. <span class="math inline">\(y_i\)</span> representa la variable respuesta de la observación <span class="math inline">\(i\)</span>. Entonces nuestro <strong>conjunto de entrenamiento</strong> consiste en:</p>
+<p><span class="math display">\[{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)}\]</span></p>
+<p>donde <span class="math inline">\(x_i=(x_{i1}, x_{i2}, ..., x_{ip})^T\)</span>.</p>
+<p>Nuestro objetivo es aplicar un método de aprendizaje en el conjunto de datos para poder estimar una función desconocida de <span class="math inline">\(f\)</span>. Nos encantaría encontrar una función <span class="math inline">\(\hat{f}\)</span> de forma tal que <span class="math inline">\(Y\simeq \hat{f}(X)\)</span> para cualquier observación <span class="math inline">\((X, Y)\)</span>. Muchos de estos enfoque se pueden caracterizar como métodos <em>paramétricos</em> o <em>no paramétricos</em>.</p>
+<section id="métodos-paramétricos" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="métodos-paramétricos"><span class="header-section-number">2.2.1</span> Métodos paramétricos</h3>
+<p>Los métodos paramétricos involucran un enfoque de dos pasos:</p>
+<ol type="1">
+<li>Hacemos un supuesto de la forma función de <span class="math inline">\(f\)</span>. Por ejemplo, la más sencilla es que <span class="math inline">\(f\)</span> es linear en <span class="math inline">\(\beta\)</span>:</li>
+</ol>
+<p><span class="math display">\[ f(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p\]</span></p>
+<p>Una vez haciendo haciendo el supuesto de linealidad el problema de estimar <span class="math inline">\(f\)</span> es simplificado ya que en lugar de explorar el espacio funcional uno solo necesita estimar <span class="math inline">\(p+1\)</span> coeficientes <span class="math inline">\(\beta_0, ..., \beta_p\)</span>.</p>
+<ol start="2" type="1">
+<li>Necesitamos un proceso que utilice los datos de entrenamiento para <em>ajustar</em> u <em>entrenar</em> el modelo. El enfoque más sencillo es el método de mínimos cuadrados ordinarios (OLS):</li>
+</ol>
+<p><span class="math display">\[\underset{\beta_0, \beta_1, ..., \beta_p}{min} \sum_{i=1}^{N}(y_i - (\beta_0 + \beta_1 x_{i1} +\beta_2 x_{i2} + ... + \beta_p X_p))^2\]</span></p>
+<p>El enfoque basado en modelado se refiere a los modelos <em>paramétricos</em>; reduce el problema de estimar <span class="math inline">\(f\)</span> a estimar un conjunto de parámetros. La desventaja potencial es que el modelo podría no ser igual a la verdadera <span class="math inline">\(f\)</span> y tendremos malas estimaciones del valor de <span class="math inline">\(y\)</span>.</p>
+</section>
+<section id="métodos-no-paramétricos" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="métodos-no-paramétricos"><span class="header-section-number">2.2.2</span> Métodos no paramétricos</h3>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
