@@ -1,0 +1,251 @@
+# Regresión lineal
+
+## Regresión Lineal Simple
+
+Comenzaremos con el caso más sencillo: predecir una variable de resultado `Y` a partir de una única variable predictora `X`.
+
+El modelo matemático que queremos ajustar es una línea recta:
+
+$$Y = \beta_0 + \beta_1 X + \epsilon$$
+
+Donde:
+
+- **$Y$**: La variable dependiente (lo que queremos predecir).
+- **$X$**: La variable independiente (nuestro predictor).
+- **$\beta_0$**: El intercepto (el valor de $Y$ cuando $X=0$).
+- **$\beta_1$**: La pendiente (cuánto cambia $Y$ por cada unidad que aumenta $X$).
+- **$\epsilon$**: El término de error (la parte de $Y$ que nuestro modelo no puede explicar).
+
+Nuestro objetivo 🎯 es encontrar los **mejores valores posibles** para los coeficientes $\beta_0$ y $\beta_1$ usando los datos que tenemos.
+
+
+
+### ¿Cómo estimamos los coeficientes $\beta_0$ y $\beta_1$?
+
+"Mejor" para nosotros significa encontrar la línea que minimice la distancia vertical entre cada punto de dato y la propia línea. Específicamente, minimizamos la **Suma de los Errores al Cuadrado** (SEC o *Sum of Squared Errors*, SSE).
+
+La función de costo (o pérdida) que queremos minimizar es:
+
+$$J(\beta_0, \beta_1) = \sum_{i=1}^{n} (y_i - (\beta_0 + \beta_1 x_i))^2$$
+
+Tenemos dos métodos principales para encontrar los $\beta$ que minimizan esta función:
+
+#### Método 1: Las Ecuaciones Normales (La solución analítica 🧠)
+
+Este método utiliza cálculo para encontrar el mínimo exacto de la función de costo. Para ello, tomamos las derivadas parciales de $J$ con respecto a $\beta_0$ y $\beta_1$, las igualamos a cero y resolvemos para los coeficientes.
+
+::: {.callout-note collapse="true"}
+## **Derivada parcial con respecto a $\beta_0$**:
+$$\frac{\partial J}{\partial \beta_0} = \sum_{i=1}^{n} -2(y_i - \beta_0 - \beta_1 x_i) = 0$$
+$$\sum y_i - n\beta_0 - \beta_1 \sum x_i = 0$$
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$
+::: 
+
+::: {.callout-note collapse="true"}
+## **Derivada parcial con respecto a $\beta_1$**
+$$\frac{\partial J}{\partial \beta_1} = \sum_{i=1}^{n} -2x_i(y_i - \beta_0 - \beta_1 x_i) = 0$$
+Sustituyendo $\beta_0$ de la primera ecuación y resolviendo, llegamos a:
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}$$
+::: 
+
+Estas fórmulas nos dan los valores óptimos y exactos de los coeficientes directamente a partir de los datos.
+
+#### Método 2: Descenso en Gradiente (La solución iterativa ⚙️)
+
+Este es un método computacional que nos "acerca" progresivamente a la solución. Es especialmente útil cuando tenemos una cantidad masiva de datos y calcular la solución analítica es muy costoso.
+
+**La intuición:** Imagina que estás en una montaña (la función de costo) y quieres llegar al valle (el costo mínimo). El Descenso en Gradiente te dice que mires a tu alrededor y des un paso en la dirección más inclinada hacia abajo. Repites esto hasta llegar al fondo.
+
+
+
+El algoritmo funciona así:
+
+1.  **Inicializa** los coeficientes $\beta_0$ y $\beta_1$ con valores aleatorios (o en ceros).
+2.  **Calcula el gradiente** de la función de costo. El gradiente es un vector que apunta en la dirección del máximo ascenso. Nosotros iremos en la dirección opuesta.
+    -   $\frac{\partial J}{\partial \beta_0} = -2 \sum (y_i - (\beta_0 + \beta_1 x_i))$
+    -   $\frac{\partial J}{\partial \beta_1} = -2 \sum x_i(y_i - (\beta_0 + \beta_1 x_i))$
+3.  **Actualiza** los coeficientes usando una **tasa de aprendizaje** ($\alpha$), que controla el tamaño del paso que damos.
+    -   $\beta_0 := \beta_0 - \alpha \frac{\partial J}{\partial \beta_0}$
+    -   $\beta_1 := \beta_1 - \alpha \frac{\partial J}{\partial \beta_1}$
+4.  **Repite** los pasos 2 y 3 durante un número determinado de iteraciones o hasta que el cambio en el costo sea muy pequeño (convergencia).
+
+::: {.callout-note collapse="true"}
+# Explicacion visual
+![](imgs/gradient_descent.gif)
+:::
+
+### ¿Cuáles son los supuestos de la regresión? 🧐
+
+Para que nuestro modelo sea confiable (es decir, para que los coeficientes y las predicciones tengan sentido), debemos cumplir con ciertos supuestos.
+
+1.  **Linealidad:** La relación entre $\beta$ y $Y$ debe ser lineal.
+    -   **¿Para qué sirve?** Si la relación no es lineal, nuestro modelo de línea recta será intrínsecamente incorrecto. Podemos verificar esto visualmente con un diagrama de dispersión.
+
+2.  **Independencia de los errores:** Los errores (residuos) no deben estar correlacionados entre sí.
+    -   **¿Para qué sirve?** Es crucial para datos de series temporales. Si los errores están correlacionados, la información de un error nos da pistas sobre el siguiente, lo cual viola la idea de que cada observación es independiente.
+
+3.  **Homocedasticidad (Varianza constante de los errores):** La varianza de los errores debe ser constante para todos los niveles de $X$.
+    -   **¿Para qué sirve?** Si la varianza cambia (heterocedasticidad), nuestras predicciones serán mejores para algunas partes de los datos que para otras, y los intervalos de confianza para los coeficientes serán poco fiables. Visualmente, en un gráfico de residuos vs. valores predichos, no queremos ver una forma de cono o embudo.
+
+4.  **Normalidad de los errores:** Los errores deben seguir una distribución normal con media cero.
+    -   **¿Para qué sirve?** Este supuesto es fundamental para poder realizar pruebas de hipótesis sobre los coeficientes (como los p-values) y construir intervalos de confianza. Podemos verificarlo con un histograma de los residuos o un gráfico Q-Q.
+
+---
+
+### ¿Cómo evaluar la precisión del modelo? 📈
+
+Una vez que hemos ajustado el modelo, ¿cómo sabemos si es bueno?
+
+#### Coeficiente de Determinación ($R^2$)
+
+El **$R^2$** mide la proporción de la varianza total en la variable dependiente ($Y$) que es explicada por nuestro modelo.
+
+$$R^2 = 1 - \frac{\text{Suma de Errores al Cuadrado (SEC)}}{\text{Suma Total de Cuadrados (STC)}} = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}$$
+
+-   $R^2$ varía entre 0 y 1 (o 0% y 100%).
+-   Un $R^2$ de 0.85 significa que el 85% de la variabilidad en $Y$ puede ser explicada por $X$.
+-   Un $R^2$ más alto generalmente indica un mejor ajuste del modelo.
+
+#### p-values (Valores p)
+
+El **p-value** nos ayuda a determinar si nuestra variable predictora $X$ es **estadísticamente significativa**. Responde a la pregunta: ¿Es probable que la relación que observamos entre $X$ y $Y$ haya ocurrido por puro azar?
+
+-   **Hipótesis Nula ($H_0$):** No hay relación entre $X$ y $Y$ (es decir, $\beta_1 = 0$).
+-   **Hipótesis Alternativa ($H_a$):** Sí hay una relación entre $X$ y $Y$ (es decir, $\beta_1 \neq 0$).
+
+Un **p-value pequeño** (típicamente < 0.05) nos da evidencia para rechazar la hipótesis nula. Esto sugiere que nuestra variable $X$ es un predictor útil para $Y$.
+
+---
+
+## Parte 2: Regresión Lineal Múltiple
+
+Ahora, ¿qué pasa si tenemos múltiples predictores ($X_1, X_2, ..., X_p$)? El modelo se expande:
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p + \epsilon$$
+
+La intuición es la misma, pero en lugar de ajustar una línea, estamos ajustando un **hiperplano** en un espacio multidimensional.
+
+Para manejar esto de forma elegante, usamos notación matricial:
+
+$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}$$
+
+Donde:
+- $\mathbf{y}$ es el vector de observaciones.
+- $\mathbf{X}$ es la matriz de diseño (con una primera columna de unos para el intercepto).
+- $\boldsymbol{\beta}$ es el vector de coeficientes.
+- $\boldsymbol{\epsilon}$ es el vector de errores.
+
+La función de costo en forma matricial es:
+$$J(\boldsymbol{\beta}) = (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$$
+
+---
+
+## Transformaciones Comunes en Modelos Lineales
+
+A veces, la relación entre X e Y no es estrictamente lineal. Las transformaciones logarítmicas nos permiten modelar relaciones no lineales y, además, ofrecen interpretaciones muy útiles en términos de cambios porcentuales.
+
+### Modelo Log-Nivel (Transformación en Y)
+
+Este modelo se usa cuando el efecto de X sobre Y no es absoluto, sino porcentual. Por ejemplo, cómo un año más de educación afecta el *porcentaje* de aumento salarial.
+
+-   **Ecuación:** $\ln(Y) = \beta_0 + \beta_1 X + \epsilon$
+-   **Interpretación:** Un **incremento de una unidad** en $X$ está asociado con un cambio de $(100 \cdot \beta_1)\%$ en $Y$.
+
+
+
+::: {.callout-note collapse="true"}
+#### Explicación Matemática de la Aproximación
+La clave está en la propiedad del logaritmo y el cálculo. La derivada de $\ln(Y)$ con respecto a $X$ es $\beta_1$:
+$$\frac{d(\ln(Y))}{dX} = \beta_1$$
+Sabemos que $d(\ln(Y)) = \frac{dY}{Y}$. Por tanto:
+$$\frac{dY/Y}{dX} = \beta_1$$
+Para cambios pequeños (o discretos, $\Delta$), podemos aproximar los diferenciales:
+$$\beta_1 \approx \frac{\Delta Y / Y}{\Delta X}$$
+Si consideramos un cambio unitario en X, $\Delta X = 1$, entonces:
+$$\beta_1 \approx \frac{\Delta Y}{Y}$$
+Esto significa que $\beta_1$ es la aproximación del cambio porcentual en $Y$ ante un cambio de una unidad en $X$.
+:::
+
+### Modelo Nivel-Log (Transformación en X)
+
+Este modelo es útil cuando el efecto de X sobre Y se reduce a medida que X aumenta (rendimientos decrecientes). Por ejemplo, el efecto de añadir presupuesto de marketing sobre las ventas.
+
+-   **Ecuación:** $Y = \beta_0 + \beta_1 \ln(X) + \epsilon$
+-   **Interpretación:** Un **incremento del 1%** en $X$ está asociado con un cambio de $(\beta_1 / 100)$ **unidades** en $Y$.
+
+::: {.callout-note collapse="true"}
+#### Explicación Matemática de la Aproximación
+Tomamos la derivada de $Y$ con respecto a $\ln(X)$:
+$$\frac{dY}{d(\ln(X))} = \beta_1$$
+Usando la regla de la cadena, sabemos que $d(\ln(X)) = \frac{dX}{X}$. Sustituyendo:
+$$\frac{dY}{dX/X} = \beta_1 \implies dY = \beta_1 \frac{dX}{X}$$
+Para cambios discretos, aproximamos:
+$$\Delta Y \approx \beta_1 \frac{\Delta X}{X}$$
+Si consideramos un cambio del 1% en X, entonces $\frac{\Delta X}{X} = 0.01$. La ecuación se convierte en:
+$$\Delta Y \approx \beta_1 (0.01) = \frac{\beta_1}{100}$$
+Esto significa que un cambio del 1% en $X$ provoca un cambio de $\beta_1/100$ unidades en $Y$.
+:::
+
+### Modelo Log-Log (Transformación en X e Y)
+
+Este modelo es muy común en economía y modela la **elasticidad** constante entre dos variables.
+
+-   **Ecuación:** $\ln(Y) = \beta_0 + \beta_1 \ln(X) + \epsilon$
+-   **Interpretación:** Un **incremento del 1%** en $X$ está asociado con un cambio del $\beta_1\%$ en $Y$.
+
+
+
+::: {.callout-note collapse="true"}
+#### Explicación Matemática de la Aproximación
+Este caso combina los dos anteriores. $\beta_1$ es la derivada de $\ln(Y)$ con respecto a $\ln(X)$, que es la definición de elasticidad.
+$$\beta_1 = \frac{d(\ln(Y))}{d(\ln(X))}$$
+Usando las propiedades del cálculo que vimos antes:
+$$\beta_1 = \frac{dY/Y}{dX/X}$$
+Aproximando para cambios discretos:
+$$\beta_1 \approx \frac{\Delta Y / Y}{\Delta X / X}$$
+Esta es la definición de elasticidad: el cambio porcentual en $Y$ dividido por el cambio porcentual en $X$. Por lo tanto, si $X$ cambia en un 1% ($\Delta X / X = 0.01$), el cambio porcentual en $Y$ ($\Delta Y / Y$) será aproximadamente $\beta_1 \times 0.01$, es decir, un $\beta_1\%$.
+:::
+
+---
+
+## Parte 4: Ejercicio en Clase
+
+Ahora es su turno. En grupos, vamos a derivar las soluciones para la Regresión Lineal Múltiple.
+
+### Tarea 1: Derivar las Ecuaciones Normales para el caso Múltiple
+
+Usando la función de costo matricial $J(\boldsymbol{\beta})$, encuentren el vector de coeficientes $\boldsymbol{\beta}$ que la minimiza.
+
+**Pista:** La derivada de $J(\boldsymbol{\beta})$ con respecto al vector $\boldsymbol{\beta}$ es $\nabla_{\boldsymbol{\beta}}J = -2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$. Igualen esta derivada a cero y despejen $\boldsymbol{\beta}$.
+
+::: {.callout-note collapse="true"}
+### Ver la solución
+
+$$-2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}) = 0$$
+$$\mathbf{X}^T\mathbf{y} - \mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}} = 0$$
+$$\mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}^T\mathbf{y}$$
+$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
+  
+Esta es la famosa solución de Mínimos Cuadrados Ordinarios (MCO) en forma matricial.
+:::
+
+### Tarea 2: Formular el Descenso en Gradiente para el caso Múltiple
+
+Basándose en el gradiente que se les dio en la pista anterior y el algoritmo que vimos para el caso simple, escriban la regla de actualización para el **vector** $\boldsymbol{\beta}$ en el Descenso en Gradiente.
+
+**Preguntas a responder:**
+1.  ¿Cuál es el gradiente de la función de costo?
+2.  ¿Cómo se ve la regla de actualización para el vector $\boldsymbol{\beta}$ completo?
+
+::: {.callout-note collapse="true"}
+### Ver la solución
+
+1. El gradiente es:
+  $$\nabla J(\boldsymbol{\beta}) = -2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$$
+  
+2. La regla de actualización vectorial es:
+  $$\boldsymbol{\beta} := \boldsymbol{\beta} - \alpha \nabla J(\boldsymbol{\beta})$$
+  $$\boldsymbol{\beta} := \boldsymbol{\beta} - \alpha (-2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta}))$$
+  Simplificando (el 2 a menudo se absorbe en la tasa de aprendizaje $\alpha$):
+  $$\boldsymbol{\beta} := \boldsymbol{\beta} + \alpha \mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$$
+:::
