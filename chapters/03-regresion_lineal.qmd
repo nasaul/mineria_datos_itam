@@ -304,3 +304,427 @@ Esta es la definición de elasticidad: el cambio porcentual en $Y$ dividido por 
 :::
 
 ---
+
+## Regresión Regularizada (Penalizada) 🎯
+
+Hasta ahora hemos visto la regresión lineal clásica, pero ¿qué pasa cuando tenemos **muchas variables** o cuando nuestro modelo sufre de **sobreajuste**? Aquí es donde entran las técnicas de **regularización**.
+
+### ¿Por qué necesitamos regularización?
+
+La regresión lineal ordinaria (OLS) puede presentar varios problemas:
+
+1. **Sobreajuste**: Cuando tenemos muchas variables relativas al número de observaciones
+2. **Multicolinealidad**: Variables predictoras altamente correlacionadas
+3. **Inestabilidad**: Pequeños cambios en los datos causan grandes cambios en los coeficientes
+4. **Interpretabilidad**: Demasiadas variables hacen difícil entender el modelo
+
+La **regularización** añade una **penalización** a la función de costo para controlar la complejidad del modelo.
+
+---
+
+### Ridge Regression (Regresión Ridge) 🏔️
+
+La **regresión Ridge** añade una penalización **L2** (suma de cuadrados) a los coeficientes:
+
+$$J_{Ridge}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \sum_{j=1}^{p} \beta_j^2$$
+
+Donde:
+- $\lambda > 0$ es el **parámetro de regularización**
+- $\sum_{j=1}^{p} \beta_j^2$ es la **penalización L2**
+
+#### Características de Ridge:
+
+✅ **Ventajas:**
+- Reduce el sobreajuste
+- Maneja bien la multicolinealidad
+- Siempre tiene solución única
+- Estabiliza los coeficientes
+
+❌ **Desventajas:**
+- **NO** elimina variables (coeficientes nunca son exactamente cero)
+- Dificulta la interpretabilidad
+- Requiere estandarizar las variables
+
+#### Solución Analítica:
+
+$$\hat{\boldsymbol{\beta}}_{Ridge} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+El término $\lambda\mathbf{I}$ hace que la matriz sea invertible incluso con multicolinealidad.
+
+#### ¿Cómo elegir λ?
+
+- **λ = 0**: Regresión ordinaria (sin penalización)
+- **λ → ∞**: Todos los coeficientes → 0
+- **λ óptimo**: Se encuentra usando **validación cruzada**
+
+---
+
+### Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️
+
+La **regresión Lasso** usa penalización **L1** (suma de valores absolutos):
+
+$$J_{Lasso}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \sum_{j=1}^{p} |\beta_j|$$
+
+#### Características de Lasso:
+
+✅ **Ventajas:**
+- **Selección automática de variables** (coeficientes = 0)
+- Modelos más interpretables y simples
+- Útil cuando muchas variables son irrelevantes
+
+❌ **Desventajas:**
+- Puede ser inestable con grupos de variables correlacionadas
+- Selecciona arbitrariamente entre variables correlacionadas
+- No tiene solución analítica cerrada
+
+#### La "Magia" de L1: ¿Por qué produce ceros exactos?
+
+La penalización L1 crea una región factible con **esquinas puntiagudas**. La solución óptima tiende a ocurrir en estas esquinas, donde algunos coeficientes son exactamente cero.
+
+::: {.callout-note collapse="true"}
+## Intuición Geométrica
+Imagina que estás minimizando una función bajo la restricción de que $|\beta_1| + |\beta_2| \leq t$. Esta restricción forma un **diamante** en 2D. La función objetivo forma **elipses**. La solución está donde la elipse más pequeña toca el diamante, y esto frecuentemente ocurre en los vértices (donde $\beta_1 = 0$ o $\beta_2 = 0$).
+:::
+
+---
+
+### Elastic Net: Lo Mejor de Ambos Mundos 🕸️
+
+**Elastic Net** combina las penalizaciones L1 y L2:
+
+$$J_{ElasticNet}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda_1 \sum_{j=1}^{p} |\beta_j| + \lambda_2 \sum_{j=1}^{p} \beta_j^2$$
+
+O equivalentemente, con un parámetro de mezcla $\alpha$:
+
+$$J_{ElasticNet}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \left[ \alpha \sum_{j=1}^{p} |\beta_j| + (1-\alpha) \sum_{j=1}^{p} \beta_j^2 \right]$$
+
+Donde:
+- $\alpha \in [0,1]$ controla la mezcla entre L1 y L2
+- $\alpha = 0$: Pure Ridge
+- $\alpha = 1$: Pure Lasso
+- $\alpha = 0.5$: Igual peso a ambas penalizaciones
+
+#### Características de Elastic Net:
+
+✅ **Ventajas:**
+- **Selección de variables** como Lasso
+- **Estabilidad** como Ridge
+- Maneja bien **grupos de variables correlacionadas**
+- Más flexible que Ridge o Lasso por separado
+
+❌ **Desventajas:**
+- Dos hiperparámetros para ajustar ($\lambda$ y $\alpha$)
+- Más complejo computacionalmente
+
+---
+
+### Comparación Visual: Ridge vs Lasso vs Elastic Net
+
+| **Aspecto** | **Ridge** | **Lasso** | **Elastic Net** |
+|-------------|-----------|-----------|-----------------|
+| **Penalización** | L2: $\sum \beta_j^2$ | L1: $\sum |\beta_j|$ | L1 + L2 combinadas |
+| **Selección de variables** | ❌ No | ✅ Sí | ✅ Sí |
+| **Coeficientes exactamente cero** | ❌ No | ✅ Sí | ✅ Sí |
+| **Manejo de multicolinealidad** | ✅ Excelente | ⚠️ Problemático | ✅ Muy bueno |
+| **Estabilidad** | ✅ Alta | ⚠️ Media | ✅ Alta |
+| **Interpretabilidad** | ⚠️ Media | ✅ Alta | ✅ Alta |
+| **Cuando usar** | Todas las variables importan | Pocas variables importantes | Situaciones mixtas |
+
+### ¿Cuándo usar cada método?
+
+#### Usa **Ridge** cuando:
+- Crees que **todas las variables** contribuyen al modelo
+- Tienes **multicolinealidad** severa
+- Quieres **estabilizar** coeficientes sin eliminar variables
+- El número de observaciones es **pequeño** relativo a variables
+
+#### Usa **Lasso** cuando:
+- Crees que **pocas variables** son realmente importantes
+- Quieres un modelo **simple e interpretable**
+- Necesitas **selección automática** de variables
+- Tienes muchas variables **irrelevantes**
+
+#### Usa **Elastic Net** cuando:
+- No estás seguro de cuántas variables son importantes
+- Tienes **grupos de variables correlacionadas**
+- Quieres balancear **selección** y **estabilidad**
+- Es tu **primera opción** cuando no conoces la estructura de los datos
+
+---
+
+### Validación de Modelos y Selección de Hiperparámetros
+
+#### ¿Por qué necesitamos dividir nuestros datos?
+
+Cuando construimos modelos de machine learning, enfrentamos un dilema fundamental: **¿cómo sabemos si nuestro modelo funcionará bien con datos nuevos?**
+
+##### El Problema del Sobreajuste
+
+Imagina que estás preparándote para un examen. Si solo estudias las preguntas exactas que aparecerán en el examen, podrías obtener una calificación perfecta. Pero si las preguntas cambian ligeramente, tu rendimiento se desplomaría. Esto es **sobreajuste**: el modelo memoriza los datos de entrenamiento pero no generaliza.
+
+#### División Típica de Datos: Entrenamiento/Validación/Prueba
+
+La estrategia estándar es dividir nuestros datos en **tres conjuntos**:
+
+```
+📊 Dataset Completo (100%)
+├── 🏋️ Entrenamiento (60%) - Para ajustar coeficientes
+├── 🎯 Validación (20%)     - Para seleccionar hiperparámetros  
+└── 🧪 Prueba (20%)         - Para evaluación final
+```
+
+##### Conjunto de Entrenamiento (60%)
+- **Propósito**: Ajustar los coeficientes $\beta$ del modelo
+- **Analogía**: Los ejercicios que haces para aprender
+
+##### Conjunto de Validación (20%)
+- **Propósito**: Comparar diferentes hiperparámetros (como $\lambda$ en Ridge/Lasso)
+- **Analogía**: Exámenes de práctica para decidir qué estrategia de estudio funciona mejor
+
+##### Conjunto de Prueba (20%)
+- **Propósito**: Evaluación final y honesta del modelo
+- **Analogía**: El examen final real
+- **⚠️ Regla de Oro**: ¡Solo se usa UNA vez al final!
+
+#### ¿Qué pasa si tenemos pocos datos?
+
+Cuando nuestro dataset es pequeño (< 1000 observaciones), dividir en tres partes puede ser problemático:
+
+❌ **Problemas con datasets pequeños:**
+- Conjunto de entrenamiento muy pequeño → modelo pobre
+- Conjunto de validación pequeño → selección inestable de hiperparámetros
+- Conjunto de prueba pequeño → evaluación poco confiable
+
+**Solución**: ¡Validación Cruzada!
+
+---
+
+#### Validación Cruzada (Cross-Validation)
+
+La **validación cruzada** es una técnica que maximiza el uso de nuestros datos limitados. En lugar de usar una sola división, usamos **múltiples divisiones**.
+
+##### Validación Cruzada k-fold
+
+El método más común es **k-fold cross-validation**:
+
+1. **Dividir** el dataset en $k$ "pliegues" (folds) de igual tamaño
+2. **Repetir** $k$ veces:
+   - Usar $k-1$ pliegues para entrenamiento
+   - Usar 1 pliegue para validación
+3. **Promediar** los resultados de las $k$ evaluaciones
+
+```{python}
+#| label: cv-visualization
+#| fig-cap: "Visualización de 5-Fold Cross Validation mostrando cómo se dividen los datos en cada iteración"
+#| fig-width: 12
+#| fig-height: 8
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import matplotlib
+matplotlib.rcParams['figure.dpi'] = 150  # Higher DPI for better quality
+
+# Visualización de 5-Fold Cross Validation
+fig, axes = plt.subplots(5, 1, figsize=(12, 8))
+fig.suptitle('Validación Cruzada 5-Fold: División de Datos', fontsize=16, fontweight='bold')
+
+k = 5
+colors = ['lightblue', 'lightcoral']
+
+for fold in range(k):
+    ax = axes[fold]
+    
+    # Crear rectángulos para cada fold
+    for i in range(k):
+        if i == fold:
+            # Este es el fold de validación
+            rect = patches.Rectangle((i, 0), 1, 1, linewidth=2, 
+                                   edgecolor='red', facecolor=colors[1])
+            ax.add_patch(rect)
+        else:
+            # Estos son los folds de entrenamiento
+            rect = patches.Rectangle((i, 0), 1, 1, linewidth=2, 
+                                   edgecolor='blue', facecolor=colors[0])
+            ax.add_patch(rect)
+    
+    # Configurar ejes
+    ax.set_xlim(0, k)
+    ax.set_ylim(0, 1)
+    ax.set_xticks(np.arange(k) + 0.5)
+    ax.set_xticklabels([f'Fold {i+1}' for i in range(k)])
+    ax.set_yticks([])
+    ax.set_ylabel(f'Iteración {fold+1}', rotation=0, ha='right', va='center')
+    
+    # Añadir título para la primera iteración
+    if fold == 0:
+        ax.text(k/2, 1.3, 'División de Datos en Cada Iteración', 
+                ha='center', va='center', fontsize=12, fontweight='bold')
+
+# Añadir leyenda
+legend_elements = [patches.Patch(facecolor=colors[0], edgecolor='blue', label='Entrenamiento'),
+                  patches.Patch(facecolor=colors[1], edgecolor='red', label='Validación')]
+fig.legend(handles=legend_elements, loc='center right', bbox_to_anchor=(0.95, 0.5))
+
+plt.tight_layout()
+plt.show()
+```
+
+##### Ventajas de la Validación Cruzada
+
+✅ **Maximiza el uso de datos**: Cada observación se usa tanto para entrenamiento como validación
+
+✅ **Estimación más robusta**: Promedia múltiples evaluaciones independientes
+
+✅ **Reduce la varianza**: Menos dependiente de una división particular
+
+✅ **Detecta inestabilidad**: Si los resultados varían mucho entre folds, el modelo es inestable
+
+#### Validación Cruzada para Selección de Hiperparámetros
+
+En regresión regularizada, usamos CV para encontrar el mejor $\lambda$:
+
+```{python}
+#| label: validation-curve
+#| fig-cap: "Curva de validación mostrando cómo seleccionar el hiperparámetro óptimo λ usando validación cruzada"
+#| fig-width: 12
+#| fig-height: 6
+#| echo: false
+
+# Ejemplo conceptual de selección de hiperparámetros
+alphas = np.logspace(-3, 2, 20)  # Valores de lambda a probar
+cv_scores = []
+
+print("🎯 SELECCIÓN DE HIPERPARÁMETROS CON VALIDACIÓN CRUZADA")
+print("=" * 60)
+print("Para cada valor de λ:")
+print("  1. Aplicar 5-fold CV")
+print("  2. Calcular error promedio")
+print("  3. Seleccionar λ con menor error")
+
+# Simular scores para visualización
+np.random.seed(42)
+true_minimum = 0.1
+cv_scores = []
+
+for alpha in alphas:
+    # Simular error de CV (menor cerca del óptimo)
+    distance = abs(np.log10(alpha) - np.log10(true_minimum))
+    base_error = 0.5 + distance**2 * 0.1
+    noise = np.random.normal(0, 0.05)
+    cv_scores.append(base_error + noise)
+
+cv_scores = np.array(cv_scores)
+
+# Encontrar el mejor alpha
+best_idx = np.argmin(cv_scores)
+best_alpha = alphas[best_idx]
+
+# Graficar curva de validación
+plt.figure(figsize=(12, 6))
+plt.plot(alphas, cv_scores, 'bo-', alpha=0.7, label='Error de Validación Cruzada')
+plt.axvline(x=best_alpha, color='red', linestyle='--', 
+           label=f'λ óptimo = {best_alpha:.3f}')
+plt.scatter([best_alpha], [cv_scores[best_idx]], color='red', s=100, zorder=5)
+
+plt.xscale('log')
+plt.xlabel('λ (Parámetro de Regularización)')
+plt.ylabel('Error de Validación Cruzada')
+plt.title('Curva de Validación: Selección de Hiperparámetros')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Añadir anotaciones
+plt.annotate('Infraajuste\n(λ muy alto)', 
+            xy=(10, 0.7), xytext=(50, 0.8),
+            arrowprops=dict(arrowstyle='->', color='orange', alpha=0.7),
+            fontsize=10, ha='center', color='orange')
+
+plt.annotate('Sobreajuste\n(λ muy bajo)', 
+            xy=(0.01, 0.6), xytext=(0.003, 0.9),
+            arrowprops=dict(arrowstyle='->', color='purple', alpha=0.7),
+            fontsize=10, ha='center', color='purple')
+
+plt.tight_layout()
+plt.show()
+
+print(f"\n📈 Resultado: λ óptimo = {best_alpha:.4f}")
+print(f"📉 Error de CV mínimo = {cv_scores[best_idx]:.4f}")
+```
+
+#### Proceso Completo de Validación
+
+El flujo completo para modelos regularizados es:
+
+```
+1. 📊 Dividir datos originales
+   └── 80% para desarrollo (entrenamiento + validación)
+   └── 20% para prueba final (¡NO TOCAR hasta el final!)
+
+2. 🔄 En el conjunto de desarrollo:
+   └── Para cada λ candidato:
+       ├── Aplicar k-fold CV
+       ├── Calcular error promedio
+       └── Guardar resultado
+
+3. 🎯 Seleccionar λ con menor error de CV
+
+4. 🏗️ Entrenar modelo final con λ óptimo en TODO el conjunto de desarrollo
+
+5. 🧪 Evaluación final en conjunto de prueba
+```
+
+#### Variantes de Validación Cruzada
+
+##### Leave-One-Out CV (LOOCV)
+- **k = n** (número de observaciones)
+- **Ventaja**: Máximo uso de datos para entrenamiento
+- **Desventaja**: Computacionalmente costoso, alta varianza
+
+##### Stratified CV
+- **Para problemas de clasificación**
+- Mantiene la proporción de clases en cada fold
+
+##### Time Series CV
+- **Para datos temporales**
+- Respeta el orden temporal (no mezcla futuro con pasado)
+
+::: {.callout-important}
+## **⚠️ Errores Comunes**
+
+1. **Data Leakage**: Usar información del conjunto de prueba durante el desarrollo
+2. **Múltiples evaluaciones**: Evaluar repetidamente en el conjunto de prueba
+3. **Selección de modelo sesgada**: Elegir el modelo basándose en el conjunto de prueba
+4. **CV incorrecto**: Aplicar transformaciones antes de la división de CV
+:::
+
+#### ¿Cuándo usar cada enfoque?
+
+| **Tamaño del Dataset** | **Enfoque Recomendado** | **Razón** |
+|------------------------|------------------------|-----------|
+| **Grande (>10,000)** | Train/Validation/Test | Suficientes datos para división estable |
+| **Mediano (1,000-10,000)** | Train/Test + CV | CV para hiperparámetros, test para evaluación final |
+| **Pequeño (<1,000)** | Solo CV (sin test separado) | Maximizar datos disponibles |
+| **Muy pequeño (<100)** | LOOCV o Bootstrap | Cada observación es valiosa |
+
+::: {.callout-tip}
+## **Consejo Práctico**
+Empieza siempre con **Elastic Net** con $\alpha = 0.5$. Si el modelo selecciona muchas variables, prueba valores de $\alpha$ más cercanos a 1 (más Lasso). Si elimina variables importantes, prueba valores cercanos a 0 (más Ridge).
+:::
+
+---
+
+### Ejercicio Práctico: Comparando los Tres Métodos
+
+En el notebook correspondiente, implementaremos:
+
+1. **Generación de datos** con diferentes estructuras de correlación
+2. **Comparación visual** de los caminos de regularización
+3. **Validación cruzada** para selección de hiperparámetros
+4. **Evaluación** del rendimiento en datos de prueba
+5. **Interpretación** de los coeficientes seleccionados
+
+**Pregunta de reflexión:** ¿En qué situaciones esperarías que Ridge supere a Lasso, y viceversa?
+
+---

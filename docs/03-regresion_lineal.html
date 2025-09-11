@@ -376,6 +376,17 @@ window.Quarto = {
   <li><a href="#modelo-nivel-log-transformación-en-x" id="toc-modelo-nivel-log-transformación-en-x" class="nav-link" data-scroll-target="#modelo-nivel-log-transformación-en-x"><span class="header-section-number">3.6.2</span> Modelo Nivel-Log (Transformación en X)</a></li>
   <li><a href="#modelo-log-log-transformación-en-x-e-y" id="toc-modelo-log-log-transformación-en-x-e-y" class="nav-link" data-scroll-target="#modelo-log-log-transformación-en-x-e-y"><span class="header-section-number">3.6.3</span> Modelo Log-Log (Transformación en X e Y)</a></li>
   </ul></li>
+  <li><a href="#regresión-regularizada-penalizada" id="toc-regresión-regularizada-penalizada" class="nav-link" data-scroll-target="#regresión-regularizada-penalizada"><span class="header-section-number">3.7</span> Regresión Regularizada (Penalizada) 🎯</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-necesitamos-regularización" id="toc-por-qué-necesitamos-regularización" class="nav-link" data-scroll-target="#por-qué-necesitamos-regularización"><span class="header-section-number">3.7.1</span> ¿Por qué necesitamos regularización?</a></li>
+  <li><a href="#ridge-regression-regresión-ridge" id="toc-ridge-regression-regresión-ridge" class="nav-link" data-scroll-target="#ridge-regression-regresión-ridge"><span class="header-section-number">3.7.2</span> Ridge Regression (Regresión Ridge) 🏔️</a></li>
+  <li><a href="#lasso-regression-least-absolute-shrinkage-and-selection-operator" id="toc-lasso-regression-least-absolute-shrinkage-and-selection-operator" class="nav-link" data-scroll-target="#lasso-regression-least-absolute-shrinkage-and-selection-operator"><span class="header-section-number">3.7.3</span> Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️</a></li>
+  <li><a href="#elastic-net-lo-mejor-de-ambos-mundos" id="toc-elastic-net-lo-mejor-de-ambos-mundos" class="nav-link" data-scroll-target="#elastic-net-lo-mejor-de-ambos-mundos"><span class="header-section-number">3.7.4</span> Elastic Net: Lo Mejor de Ambos Mundos 🕸️</a></li>
+  <li><a href="#comparación-visual-ridge-vs-lasso-vs-elastic-net" id="toc-comparación-visual-ridge-vs-lasso-vs-elastic-net" class="nav-link" data-scroll-target="#comparación-visual-ridge-vs-lasso-vs-elastic-net"><span class="header-section-number">3.7.5</span> Comparación Visual: Ridge vs Lasso vs Elastic Net</a></li>
+  <li><a href="#cuándo-usar-cada-método" id="toc-cuándo-usar-cada-método" class="nav-link" data-scroll-target="#cuándo-usar-cada-método"><span class="header-section-number">3.7.6</span> ¿Cuándo usar cada método?</a></li>
+  <li><a href="#validación-de-modelos-y-selección-de-hiperparámetros" id="toc-validación-de-modelos-y-selección-de-hiperparámetros" class="nav-link" data-scroll-target="#validación-de-modelos-y-selección-de-hiperparámetros"><span class="header-section-number">3.7.7</span> Validación de Modelos y Selección de Hiperparámetros</a></li>
+  <li><a href="#ejercicio-práctico-comparando-los-tres-métodos" id="toc-ejercicio-práctico-comparando-los-tres-métodos" class="nav-link" data-scroll-target="#ejercicio-práctico-comparando-los-tres-métodos"><span class="header-section-number">3.7.8</span> Ejercicio Práctico: Comparando los Tres Métodos</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -764,6 +775,423 @@ Explicación Matemática de la Aproximación
 </div>
 </div>
 </div>
+<hr>
+</section>
+</section>
+<section id="regresión-regularizada-penalizada" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="regresión-regularizada-penalizada"><span class="header-section-number">3.7</span> Regresión Regularizada (Penalizada) 🎯</h2>
+<p>Hasta ahora hemos visto la regresión lineal clásica, pero ¿qué pasa cuando tenemos <strong>muchas variables</strong> o cuando nuestro modelo sufre de <strong>sobreajuste</strong>? Aquí es donde entran las técnicas de <strong>regularización</strong>.</p>
+<section id="por-qué-necesitamos-regularización" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="por-qué-necesitamos-regularización"><span class="header-section-number">3.7.1</span> ¿Por qué necesitamos regularización?</h3>
+<p>La regresión lineal ordinaria (OLS) puede presentar varios problemas:</p>
+<ol type="1">
+<li><strong>Sobreajuste</strong>: Cuando tenemos muchas variables relativas al número de observaciones</li>
+<li><strong>Multicolinealidad</strong>: Variables predictoras altamente correlacionadas</li>
+<li><strong>Inestabilidad</strong>: Pequeños cambios en los datos causan grandes cambios en los coeficientes</li>
+<li><strong>Interpretabilidad</strong>: Demasiadas variables hacen difícil entender el modelo</li>
+</ol>
+<p>La <strong>regularización</strong> añade una <strong>penalización</strong> a la función de costo para controlar la complejidad del modelo.</p>
+<hr>
+</section>
+<section id="ridge-regression-regresión-ridge" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="ridge-regression-regresión-ridge"><span class="header-section-number">3.7.2</span> Ridge Regression (Regresión Ridge) 🏔️</h3>
+<p>La <strong>regresión Ridge</strong> añade una penalización <strong>L2</strong> (suma de cuadrados) a los coeficientes:</p>
+<p><span class="math display">\[J_{Ridge}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \sum_{j=1}^{p} \beta_j^2\]</span></p>
+<p>Donde: - <span class="math inline">\(\lambda &gt; 0\)</span> es el <strong>parámetro de regularización</strong> - <span class="math inline">\(\sum_{j=1}^{p} \beta_j^2\)</span> es la <strong>penalización L2</strong></p>
+<section id="características-de-ridge" class="level4" data-number="3.7.2.1">
+<h4 data-number="3.7.2.1" class="anchored" data-anchor-id="características-de-ridge"><span class="header-section-number">3.7.2.1</span> Características de Ridge:</h4>
+<p>✅ <strong>Ventajas:</strong> - Reduce el sobreajuste - Maneja bien la multicolinealidad - Siempre tiene solución única - Estabiliza los coeficientes</p>
+<p>❌ <strong>Desventajas:</strong> - <strong>NO</strong> elimina variables (coeficientes nunca son exactamente cero) - Dificulta la interpretabilidad - Requiere estandarizar las variables</p>
+</section>
+<section id="solución-analítica" class="level4" data-number="3.7.2.2">
+<h4 data-number="3.7.2.2" class="anchored" data-anchor-id="solución-analítica"><span class="header-section-number">3.7.2.2</span> Solución Analítica:</h4>
+<p><span class="math display">\[\hat{\boldsymbol{\beta}}_{Ridge} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}\]</span></p>
+<p>El término <span class="math inline">\(\lambda\mathbf{I}\)</span> hace que la matriz sea invertible incluso con multicolinealidad.</p>
+</section>
+<section id="cómo-elegir-λ" class="level4" data-number="3.7.2.3">
+<h4 data-number="3.7.2.3" class="anchored" data-anchor-id="cómo-elegir-λ"><span class="header-section-number">3.7.2.3</span> ¿Cómo elegir λ?</h4>
+<ul>
+<li><strong>λ = 0</strong>: Regresión ordinaria (sin penalización)</li>
+<li><strong>λ → ∞</strong>: Todos los coeficientes → 0</li>
+<li><strong>λ óptimo</strong>: Se encuentra usando <strong>validación cruzada</strong></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="lasso-regression-least-absolute-shrinkage-and-selection-operator" class="level3" data-number="3.7.3">
+<h3 data-number="3.7.3" class="anchored" data-anchor-id="lasso-regression-least-absolute-shrinkage-and-selection-operator"><span class="header-section-number">3.7.3</span> Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️</h3>
+<p>La <strong>regresión Lasso</strong> usa penalización <strong>L1</strong> (suma de valores absolutos):</p>
+<p><span class="math display">\[J_{Lasso}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \sum_{j=1}^{p} |\beta_j|\]</span></p>
+<section id="características-de-lasso" class="level4" data-number="3.7.3.1">
+<h4 data-number="3.7.3.1" class="anchored" data-anchor-id="características-de-lasso"><span class="header-section-number">3.7.3.1</span> Características de Lasso:</h4>
+<p>✅ <strong>Ventajas:</strong> - <strong>Selección automática de variables</strong> (coeficientes = 0) - Modelos más interpretables y simples - Útil cuando muchas variables son irrelevantes</p>
+<p>❌ <strong>Desventajas:</strong> - Puede ser inestable con grupos de variables correlacionadas - Selecciona arbitrariamente entre variables correlacionadas - No tiene solución analítica cerrada</p>
+</section>
+<section id="la-magia-de-l1-por-qué-produce-ceros-exactos" class="level4" data-number="3.7.3.2">
+<h4 data-number="3.7.3.2" class="anchored" data-anchor-id="la-magia-de-l1-por-qué-produce-ceros-exactos"><span class="header-section-number">3.7.3.2</span> La “Magia” de L1: ¿Por qué produce ceros exactos?</h4>
+<p>La penalización L1 crea una región factible con <strong>esquinas puntiagudas</strong>. La solución óptima tiende a ocurrir en estas esquinas, donde algunos coeficientes son exactamente cero.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Intuición Geométrica
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Imagina que estás minimizando una función bajo la restricción de que <span class="math inline">\(|\beta_1| + |\beta_2| \leq t\)</span>. Esta restricción forma un <strong>diamante</strong> en 2D. La función objetivo forma <strong>elipses</strong>. La solución está donde la elipse más pequeña toca el diamante, y esto frecuentemente ocurre en los vértices (donde <span class="math inline">\(\beta_1 = 0\)</span> o <span class="math inline">\(\beta_2 = 0\)</span>).</p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="elastic-net-lo-mejor-de-ambos-mundos" class="level3" data-number="3.7.4">
+<h3 data-number="3.7.4" class="anchored" data-anchor-id="elastic-net-lo-mejor-de-ambos-mundos"><span class="header-section-number">3.7.4</span> Elastic Net: Lo Mejor de Ambos Mundos 🕸️</h3>
+<p><strong>Elastic Net</strong> combina las penalizaciones L1 y L2:</p>
+<p><span class="math display">\[J_{ElasticNet}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda_1 \sum_{j=1}^{p} |\beta_j| + \lambda_2 \sum_{j=1}^{p} \beta_j^2\]</span></p>
+<p>O equivalentemente, con un parámetro de mezcla <span class="math inline">\(\alpha\)</span>:</p>
+<p><span class="math display">\[J_{ElasticNet}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \left[ \alpha \sum_{j=1}^{p} |\beta_j| + (1-\alpha) \sum_{j=1}^{p} \beta_j^2 \right]\]</span></p>
+<p>Donde: - <span class="math inline">\(\alpha \in [0,1]\)</span> controla la mezcla entre L1 y L2 - <span class="math inline">\(\alpha = 0\)</span>: Pure Ridge - <span class="math inline">\(\alpha = 1\)</span>: Pure Lasso - <span class="math inline">\(\alpha = 0.5\)</span>: Igual peso a ambas penalizaciones</p>
+<section id="características-de-elastic-net" class="level4" data-number="3.7.4.1">
+<h4 data-number="3.7.4.1" class="anchored" data-anchor-id="características-de-elastic-net"><span class="header-section-number">3.7.4.1</span> Características de Elastic Net:</h4>
+<p>✅ <strong>Ventajas:</strong> - <strong>Selección de variables</strong> como Lasso - <strong>Estabilidad</strong> como Ridge - Maneja bien <strong>grupos de variables correlacionadas</strong> - Más flexible que Ridge o Lasso por separado</p>
+<p>❌ <strong>Desventajas:</strong> - Dos hiperparámetros para ajustar (<span class="math inline">\(\lambda\)</span> y <span class="math inline">\(\alpha\)</span>) - Más complejo computacionalmente</p>
+<hr>
+</section>
+</section>
+<section id="comparación-visual-ridge-vs-lasso-vs-elastic-net" class="level3" data-number="3.7.5">
+<h3 data-number="3.7.5" class="anchored" data-anchor-id="comparación-visual-ridge-vs-lasso-vs-elastic-net"><span class="header-section-number">3.7.5</span> Comparación Visual: Ridge vs Lasso vs Elastic Net</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspecto</strong></th>
+<th><strong>Ridge</strong></th>
+<th><strong>Lasso</strong></th>
+<th><strong>Elastic Net</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Penalización</strong></td>
+<td>L2: <span class="math inline">\(\sum \beta_j^2\)</span></td>
+<td>L1: <span class="math inline">\(\sum |\beta_j|\)</span></td>
+<td>L1 + L2 combinadas</td>
+</tr>
+<tr class="even">
+<td><strong>Selección de variables</strong></td>
+<td>❌ No</td>
+<td>✅ Sí</td>
+<td>✅ Sí</td>
+</tr>
+<tr class="odd">
+<td><strong>Coeficientes exactamente cero</strong></td>
+<td>❌ No</td>
+<td>✅ Sí</td>
+<td>✅ Sí</td>
+</tr>
+<tr class="even">
+<td><strong>Manejo de multicolinealidad</strong></td>
+<td>✅ Excelente</td>
+<td>⚠️ Problemático</td>
+<td>✅ Muy bueno</td>
+</tr>
+<tr class="odd">
+<td><strong>Estabilidad</strong></td>
+<td>✅ Alta</td>
+<td>⚠️ Media</td>
+<td>✅ Alta</td>
+</tr>
+<tr class="even">
+<td><strong>Interpretabilidad</strong></td>
+<td>⚠️ Media</td>
+<td>✅ Alta</td>
+<td>✅ Alta</td>
+</tr>
+<tr class="odd">
+<td><strong>Cuando usar</strong></td>
+<td>Todas las variables importan</td>
+<td>Pocas variables importantes</td>
+<td>Situaciones mixtas</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cuándo-usar-cada-método" class="level3" data-number="3.7.6">
+<h3 data-number="3.7.6" class="anchored" data-anchor-id="cuándo-usar-cada-método"><span class="header-section-number">3.7.6</span> ¿Cuándo usar cada método?</h3>
+<section id="usa-ridge-cuando" class="level4" data-number="3.7.6.1">
+<h4 data-number="3.7.6.1" class="anchored" data-anchor-id="usa-ridge-cuando"><span class="header-section-number">3.7.6.1</span> Usa <strong>Ridge</strong> cuando:</h4>
+<ul>
+<li>Crees que <strong>todas las variables</strong> contribuyen al modelo</li>
+<li>Tienes <strong>multicolinealidad</strong> severa</li>
+<li>Quieres <strong>estabilizar</strong> coeficientes sin eliminar variables</li>
+<li>El número de observaciones es <strong>pequeño</strong> relativo a variables</li>
+</ul>
+</section>
+<section id="usa-lasso-cuando" class="level4" data-number="3.7.6.2">
+<h4 data-number="3.7.6.2" class="anchored" data-anchor-id="usa-lasso-cuando"><span class="header-section-number">3.7.6.2</span> Usa <strong>Lasso</strong> cuando:</h4>
+<ul>
+<li>Crees que <strong>pocas variables</strong> son realmente importantes</li>
+<li>Quieres un modelo <strong>simple e interpretable</strong></li>
+<li>Necesitas <strong>selección automática</strong> de variables</li>
+<li>Tienes muchas variables <strong>irrelevantes</strong></li>
+</ul>
+</section>
+<section id="usa-elastic-net-cuando" class="level4" data-number="3.7.6.3">
+<h4 data-number="3.7.6.3" class="anchored" data-anchor-id="usa-elastic-net-cuando"><span class="header-section-number">3.7.6.3</span> Usa <strong>Elastic Net</strong> cuando:</h4>
+<ul>
+<li>No estás seguro de cuántas variables son importantes</li>
+<li>Tienes <strong>grupos de variables correlacionadas</strong></li>
+<li>Quieres balancear <strong>selección</strong> y <strong>estabilidad</strong></li>
+<li>Es tu <strong>primera opción</strong> cuando no conoces la estructura de los datos</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="validación-de-modelos-y-selección-de-hiperparámetros" class="level3" data-number="3.7.7">
+<h3 data-number="3.7.7" class="anchored" data-anchor-id="validación-de-modelos-y-selección-de-hiperparámetros"><span class="header-section-number">3.7.7</span> Validación de Modelos y Selección de Hiperparámetros</h3>
+<section id="por-qué-necesitamos-dividir-nuestros-datos" class="level4" data-number="3.7.7.1">
+<h4 data-number="3.7.7.1" class="anchored" data-anchor-id="por-qué-necesitamos-dividir-nuestros-datos"><span class="header-section-number">3.7.7.1</span> ¿Por qué necesitamos dividir nuestros datos?</h4>
+<p>Cuando construimos modelos de machine learning, enfrentamos un dilema fundamental: <strong>¿cómo sabemos si nuestro modelo funcionará bien con datos nuevos?</strong></p>
+<section id="el-problema-del-sobreajuste" class="level5" data-number="3.7.7.1.1">
+<h5 data-number="3.7.7.1.1" class="anchored" data-anchor-id="el-problema-del-sobreajuste"><span class="header-section-number">3.7.7.1.1</span> El Problema del Sobreajuste</h5>
+<p>Imagina que estás preparándote para un examen. Si solo estudias las preguntas exactas que aparecerán en el examen, podrías obtener una calificación perfecta. Pero si las preguntas cambian ligeramente, tu rendimiento se desplomaría. Esto es <strong>sobreajuste</strong>: el modelo memoriza los datos de entrenamiento pero no generaliza.</p>
+</section>
+</section>
+<section id="división-típica-de-datos-entrenamientovalidaciónprueba" class="level4" data-number="3.7.7.2">
+<h4 data-number="3.7.7.2" class="anchored" data-anchor-id="división-típica-de-datos-entrenamientovalidaciónprueba"><span class="header-section-number">3.7.7.2</span> División Típica de Datos: Entrenamiento/Validación/Prueba</h4>
+<p>La estrategia estándar es dividir nuestros datos en <strong>tres conjuntos</strong>:</p>
+<pre><code>📊 Dataset Completo (100%)
+├── 🏋️ Entrenamiento (60%) - Para ajustar coeficientes
+├── 🎯 Validación (20%)     - Para seleccionar hiperparámetros  
+└── 🧪 Prueba (20%)         - Para evaluación final</code></pre>
+<section id="conjunto-de-entrenamiento-60" class="level5" data-number="3.7.7.2.1">
+<h5 data-number="3.7.7.2.1" class="anchored" data-anchor-id="conjunto-de-entrenamiento-60"><span class="header-section-number">3.7.7.2.1</span> Conjunto de Entrenamiento (60%)</h5>
+<ul>
+<li><strong>Propósito</strong>: Ajustar los coeficientes <span class="math inline">\(\beta\)</span> del modelo</li>
+<li><strong>Analogía</strong>: Los ejercicios que haces para aprender</li>
+</ul>
+</section>
+<section id="conjunto-de-validación-20" class="level5" data-number="3.7.7.2.2">
+<h5 data-number="3.7.7.2.2" class="anchored" data-anchor-id="conjunto-de-validación-20"><span class="header-section-number">3.7.7.2.2</span> Conjunto de Validación (20%)</h5>
+<ul>
+<li><strong>Propósito</strong>: Comparar diferentes hiperparámetros (como <span class="math inline">\(\lambda\)</span> en Ridge/Lasso)</li>
+<li><strong>Analogía</strong>: Exámenes de práctica para decidir qué estrategia de estudio funciona mejor</li>
+</ul>
+</section>
+<section id="conjunto-de-prueba-20" class="level5" data-number="3.7.7.2.3">
+<h5 data-number="3.7.7.2.3" class="anchored" data-anchor-id="conjunto-de-prueba-20"><span class="header-section-number">3.7.7.2.3</span> Conjunto de Prueba (20%)</h5>
+<ul>
+<li><strong>Propósito</strong>: Evaluación final y honesta del modelo</li>
+<li><strong>Analogía</strong>: El examen final real</li>
+<li><strong>⚠️ Regla de Oro</strong>: ¡Solo se usa UNA vez al final!</li>
+</ul>
+</section>
+</section>
+<section id="qué-pasa-si-tenemos-pocos-datos" class="level4" data-number="3.7.7.3">
+<h4 data-number="3.7.7.3" class="anchored" data-anchor-id="qué-pasa-si-tenemos-pocos-datos"><span class="header-section-number">3.7.7.3</span> ¿Qué pasa si tenemos pocos datos?</h4>
+<p>Cuando nuestro dataset es pequeño (&lt; 1000 observaciones), dividir en tres partes puede ser problemático:</p>
+<p>❌ <strong>Problemas con datasets pequeños:</strong> - Conjunto de entrenamiento muy pequeño → modelo pobre - Conjunto de validación pequeño → selección inestable de hiperparámetros - Conjunto de prueba pequeño → evaluación poco confiable</p>
+<p><strong>Solución</strong>: ¡Validación Cruzada!</p>
+<hr>
+</section>
+<section id="validación-cruzada-cross-validation" class="level4" data-number="3.7.7.4">
+<h4 data-number="3.7.7.4" class="anchored" data-anchor-id="validación-cruzada-cross-validation"><span class="header-section-number">3.7.7.4</span> Validación Cruzada (Cross-Validation)</h4>
+<p>La <strong>validación cruzada</strong> es una técnica que maximiza el uso de nuestros datos limitados. En lugar de usar una sola división, usamos <strong>múltiples divisiones</strong>.</p>
+<section id="validación-cruzada-k-fold" class="level5" data-number="3.7.7.4.1">
+<h5 data-number="3.7.7.4.1" class="anchored" data-anchor-id="validación-cruzada-k-fold"><span class="header-section-number">3.7.7.4.1</span> Validación Cruzada k-fold</h5>
+<p>El método más común es <strong>k-fold cross-validation</strong>:</p>
+<ol type="1">
+<li><strong>Dividir</strong> el dataset en <span class="math inline">\(k\)</span> “pliegues” (folds) de igual tamaño</li>
+<li><strong>Repetir</strong> <span class="math inline">\(k\)</span> veces:
+<ul>
+<li>Usar <span class="math inline">\(k-1\)</span> pliegues para entrenamiento</li>
+<li>Usar 1 pliegue para validación</li>
+</ul></li>
+<li><strong>Promediar</strong> los resultados de las <span class="math inline">\(k\)</span> evaluaciones</li>
+</ol>
+<div id="cell-cv-visualization" class="cell" data-fig-height="8" data-fig-width="12" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div id="cv-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="03-regresion_lineal_files/figure-html/cv-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Visualización de 5-Fold Cross Validation mostrando cómo se dividen los datos en cada iteración</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ventajas-de-la-validación-cruzada" class="level5" data-number="3.7.7.4.2">
+<h5 data-number="3.7.7.4.2" class="anchored" data-anchor-id="ventajas-de-la-validación-cruzada"><span class="header-section-number">3.7.7.4.2</span> Ventajas de la Validación Cruzada</h5>
+<p>✅ <strong>Maximiza el uso de datos</strong>: Cada observación se usa tanto para entrenamiento como validación</p>
+<p>✅ <strong>Estimación más robusta</strong>: Promedia múltiples evaluaciones independientes</p>
+<p>✅ <strong>Reduce la varianza</strong>: Menos dependiente de una división particular</p>
+<p>✅ <strong>Detecta inestabilidad</strong>: Si los resultados varían mucho entre folds, el modelo es inestable</p>
+</section>
+</section>
+<section id="validación-cruzada-para-selección-de-hiperparámetros" class="level4" data-number="3.7.7.5">
+<h4 data-number="3.7.7.5" class="anchored" data-anchor-id="validación-cruzada-para-selección-de-hiperparámetros"><span class="header-section-number">3.7.7.5</span> Validación Cruzada para Selección de Hiperparámetros</h4>
+<p>En regresión regularizada, usamos CV para encontrar el mejor <span class="math inline">\(\lambda\)</span>:</p>
+<div id="cell-validation-curve" class="cell" data-fig-height="6" data-fig-width="12" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>🎯 SELECCIÓN DE HIPERPARÁMETROS CON VALIDACIÓN CRUZADA
+============================================================
+Para cada valor de λ:
+  1. Aplicar 5-fold CV
+  2. Calcular error promedio
+  3. Seleccionar λ con menor error</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="validation-curve" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="03-regresion_lineal_files/figure-html/validation-curve-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Curva de validación mostrando cómo seleccionar el hiperparámetro óptimo λ usando validación cruzada</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+📈 Resultado: λ óptimo = 0.1274
+📉 Error de CV mínimo = 0.4776</code></pre>
+</div>
+</div>
+</section>
+<section id="proceso-completo-de-validación" class="level4" data-number="3.7.7.6">
+<h4 data-number="3.7.7.6" class="anchored" data-anchor-id="proceso-completo-de-validación"><span class="header-section-number">3.7.7.6</span> Proceso Completo de Validación</h4>
+<p>El flujo completo para modelos regularizados es:</p>
+<pre><code>1. 📊 Dividir datos originales
+   └── 80% para desarrollo (entrenamiento + validación)
+   └── 20% para prueba final (¡NO TOCAR hasta el final!)
+
+2. 🔄 En el conjunto de desarrollo:
+   └── Para cada λ candidato:
+       ├── Aplicar k-fold CV
+       ├── Calcular error promedio
+       └── Guardar resultado
+
+3. 🎯 Seleccionar λ con menor error de CV
+
+4. 🏗️ Entrenar modelo final con λ óptimo en TODO el conjunto de desarrollo
+
+5. 🧪 Evaluación final en conjunto de prueba</code></pre>
+</section>
+<section id="variantes-de-validación-cruzada" class="level4" data-number="3.7.7.7">
+<h4 data-number="3.7.7.7" class="anchored" data-anchor-id="variantes-de-validación-cruzada"><span class="header-section-number">3.7.7.7</span> Variantes de Validación Cruzada</h4>
+<section id="leave-one-out-cv-loocv" class="level5" data-number="3.7.7.7.1">
+<h5 data-number="3.7.7.7.1" class="anchored" data-anchor-id="leave-one-out-cv-loocv"><span class="header-section-number">3.7.7.7.1</span> Leave-One-Out CV (LOOCV)</h5>
+<ul>
+<li><strong>k = n</strong> (número de observaciones)</li>
+<li><strong>Ventaja</strong>: Máximo uso de datos para entrenamiento</li>
+<li><strong>Desventaja</strong>: Computacionalmente costoso, alta varianza</li>
+</ul>
+</section>
+<section id="stratified-cv" class="level5" data-number="3.7.7.7.2">
+<h5 data-number="3.7.7.7.2" class="anchored" data-anchor-id="stratified-cv"><span class="header-section-number">3.7.7.7.2</span> Stratified CV</h5>
+<ul>
+<li><strong>Para problemas de clasificación</strong></li>
+<li>Mantiene la proporción de clases en cada fold</li>
+</ul>
+</section>
+<section id="time-series-cv" class="level5" data-number="3.7.7.7.3">
+<h5 data-number="3.7.7.7.3" class="anchored" data-anchor-id="time-series-cv"><span class="header-section-number">3.7.7.7.3</span> Time Series CV</h5>
+<ul>
+<li><strong>Para datos temporales</strong></li>
+<li>Respeta el orden temporal (no mezcla futuro con pasado)</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<strong>⚠️ Errores Comunes</strong>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Data Leakage</strong>: Usar información del conjunto de prueba durante el desarrollo</li>
+<li><strong>Múltiples evaluaciones</strong>: Evaluar repetidamente en el conjunto de prueba</li>
+<li><strong>Selección de modelo sesgada</strong>: Elegir el modelo basándose en el conjunto de prueba</li>
+<li><strong>CV incorrecto</strong>: Aplicar transformaciones antes de la división de CV</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="cuándo-usar-cada-enfoque" class="level4" data-number="3.7.7.8">
+<h4 data-number="3.7.7.8" class="anchored" data-anchor-id="cuándo-usar-cada-enfoque"><span class="header-section-number">3.7.7.8</span> ¿Cuándo usar cada enfoque?</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 40%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tamaño del Dataset</strong></th>
+<th><strong>Enfoque Recomendado</strong></th>
+<th><strong>Razón</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Grande (&gt;10,000)</strong></td>
+<td>Train/Validation/Test</td>
+<td>Suficientes datos para división estable</td>
+</tr>
+<tr class="even">
+<td><strong>Mediano (1,000-10,000)</strong></td>
+<td>Train/Test + CV</td>
+<td>CV para hiperparámetros, test para evaluación final</td>
+</tr>
+<tr class="odd">
+<td><strong>Pequeño (&lt;1,000)</strong></td>
+<td>Solo CV (sin test separado)</td>
+<td>Maximizar datos disponibles</td>
+</tr>
+<tr class="even">
+<td><strong>Muy pequeño (&lt;100)</strong></td>
+<td>LOOCV o Bootstrap</td>
+<td>Cada observación es valiosa</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<strong>Consejo Práctico</strong>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Empieza siempre con <strong>Elastic Net</strong> con <span class="math inline">\(\alpha = 0.5\)</span>. Si el modelo selecciona muchas variables, prueba valores de <span class="math inline">\(\alpha\)</span> más cercanos a 1 (más Lasso). Si elimina variables importantes, prueba valores cercanos a 0 (más Ridge).</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejercicio-práctico-comparando-los-tres-métodos" class="level3" data-number="3.7.8">
+<h3 data-number="3.7.8" class="anchored" data-anchor-id="ejercicio-práctico-comparando-los-tres-métodos"><span class="header-section-number">3.7.8</span> Ejercicio Práctico: Comparando los Tres Métodos</h3>
+<p>En el notebook correspondiente, implementaremos:</p>
+<ol type="1">
+<li><strong>Generación de datos</strong> con diferentes estructuras de correlación</li>
+<li><strong>Comparación visual</strong> de los caminos de regularización</li>
+<li><strong>Validación cruzada</strong> para selección de hiperparámetros</li>
+<li><strong>Evaluación</strong> del rendimiento en datos de prueba</li>
+<li><strong>Interpretación</strong> de los coeficientes seleccionados</li>
+</ol>
+<p><strong>Pregunta de reflexión:</strong> ¿En qué situaciones esperarías que Ridge supere a Lasso, y viceversa?</p>
 <hr>
 
 
