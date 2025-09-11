@@ -12,7 +12,7 @@
 
 ### Evaluación {.unnumbered}
 
-- Tareas (20%)
+- Tarea (20%)
 - Examen parcial (20%)
 - Proyecto final (30%):
   - Entrega (75%)
