@@ -70,16 +70,16 @@ El algoritmo funciona así:
 4.  **Repite** los pasos 2 y 3 durante un número determinado de iteraciones o hasta que el cambio en el costo sea muy pequeño (convergencia).
 
 ::: {.callout-note collapse="true"}
-# Explicacion visual
+#### Explicacion visual
 ![](imgs/gradient_descent.gif)
 :::
 
-### ¿Cuáles son los supuestos de la regresión? 🧐
+## ¿Cuáles son los supuestos de la regresión? 🧐
 
 Para que nuestro modelo sea confiable (es decir, para que los coeficientes y las predicciones tengan sentido), debemos cumplir con ciertos supuestos.
 
 1.  **Linealidad:** La relación entre $\beta$ y $Y$ debe ser lineal.
-    -   **¿Para qué sirve?** Si la relación no es lineal, nuestro modelo de línea recta será intrínsecamente incorrecto. Podemos verificar esto visualmente con un diagrama de dispersión.
+    -   **¿Para qué sirve?** Si la relación no es lineal, nuestro modelo de línea recta será intrínsecamente incorrecto.
 
 2.  **Independencia de los errores:** Los errores (residuos) no deben estar correlacionados entre sí.
     -   **¿Para qué sirve?** Es crucial para datos de series temporales. Si los errores están correlacionados, la información de un error nos da pistas sobre el siguiente, lo cual viola la idea de que cada observación es independiente.
@@ -92,11 +92,11 @@ Para que nuestro modelo sea confiable (es decir, para que los coeficientes y las
 
 ---
 
-### ¿Cómo evaluar la precisión del modelo? 📈
+## ¿Cómo evaluar la precisión del modelo? 📈
 
 Una vez que hemos ajustado el modelo, ¿cómo sabemos si es bueno?
 
-#### Coeficiente de Determinación ($R^2$)
+### Coeficiente de Determinación ($R^2$)
 
 El **$R^2$** mide la proporción de la varianza total en la variable dependiente ($Y$) que es explicada por nuestro modelo.
 
@@ -106,7 +106,7 @@ $$R^2 = 1 - \frac{\text{Suma de Errores al Cuadrado (SEC)}}{\text{Suma Total de 
 -   Un $R^2$ de 0.85 significa que el 85% de la variabilidad en $Y$ puede ser explicada por $X$.
 -   Un $R^2$ más alto generalmente indica un mejor ajuste del modelo.
 
-#### p-values (Valores p)
+### p-values (Valores p)
 
 El **p-value** nos ayuda a determinar si nuestra variable predictora $X$ es **estadísticamente significativa**. Responde a la pregunta: ¿Es probable que la relación que observamos entre $X$ y $Y$ haya ocurrido por puro azar?
 
@@ -115,9 +115,106 @@ El **p-value** nos ayuda a determinar si nuestra variable predictora $X$ es **es
 
 Un **p-value pequeño** (típicamente < 0.05) nos da evidencia para rechazar la hipótesis nula. Esto sugiere que nuestra variable $X$ es un predictor útil para $Y$.
 
+## Métricas de Error de Predicción
+
+Además del $R^2$, existen múltiples métricas para evaluar qué tan bien predice nuestro modelo. Cada una tiene sus ventajas y casos de uso específicos:
+
+### Error Cuadrático Medio (MSE)
+
+El **MSE** mide el promedio de los errores al cuadrado:
+
+$$MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+- **Ventajas:** Penaliza fuertemente errores grandes, diferenciable (útil para optimización)
+- **Desventajas:** Sensible a valores atípicos, difícil de interpretar (unidades al cuadrado)
+- **Cuándo usar:** Cuando errores grandes son especialmente costosos
+
+### Raíz del Error Cuadrático Medio (RMSE)
+
+El **RMSE** es la raíz cuadrada del MSE:
+
+$$RMSE = \sqrt{MSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+
+- **Ventajas:** Mismas unidades que la variable objetivo, interpretable
+- **Desventajas:** Aún sensible a valores atípicos
+- **Interpretación:** "En promedio, nuestras predicciones se desvían X unidades del valor real"
+
+### Error Absoluto Medio (MAE)
+
+El **MAE** mide el promedio de los errores absolutos:
+
+$$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
+
+- **Ventajas:** Robusto a valores atípicos, fácil de interpretar
+- **Desventajas:** No diferenciable en cero, trata todos los errores por igual
+- **Cuándo usar:** Cuando hay valores atípicos o todos los errores tienen igual importancia
+
+### Error Porcentual Absoluto Medio (MAPE)
+
+El **MAPE** expresa el error como porcentaje del valor real:
+
+$$MAPE = \frac{100}{n} \sum_{i=1}^{n} \left|\frac{y_i - \hat{y}_i}{y_i}\right|$$
+
+- **Ventajas:** Interpretable (% de error), adimensional, útil para comparar modelos en diferentes escalas
+- **Desventajas:** Indefinido cuando $y_i = 0$, asimétrico (penaliza más las sobreestimaciones)
+- **Interpretación:** "Nuestras predicciones se desvían en promedio X% del valor real"
+- **Cuándo usar:** Para comparar precisión entre diferentes productos, regiones, o escalas
+
+### Error Porcentual Absoluto Medio Simétrico (SMAPE)
+
+El **SMAPE** es una versión simétrica del MAPE:
+
+$$SMAPE = \frac{100}{n} \sum_{i=1}^{n} \frac{|y_i - \hat{y}_i|}{(|y_i| + |\hat{y}_i|)/2}$$
+
+- **Ventajas:** Simétrico, acotado entre 0% y 200%
+- **Desventajas:** Puede ser contraintuitivo, no tan estándar como MAPE
+- **Cuándo usar:** Cuando queremos evitar el sesgo del MAPE hacia sobreestimaciones
+
+### Error Logarítmico Cuadrático Medio (MSLE)
+
+El **MSLE** usa transformación logarítmica:
+
+$$MSLE = \frac{1}{n} \sum_{i=1}^{n} (\log(1 + y_i) - \log(1 + \hat{y}_i))^2$$
+
+- **Ventajas:** Penaliza más las subestimaciones que las sobreestimaciones
+- **Desventajas:** Solo para valores positivos, menos interpretable
+- **Cuándo usar:** Cuando subestimar es más costoso que sobreestimar (ej: demanda de inventario)
+
+### $R^2$ Ajustado
+
+El **$R^2$ ajustado** penaliza por el número de variables en el modelo:
+
+$$R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-p-1}$$
+
+Donde $p$ es el número de predictores.
+
+- **Ventajas:** No aumenta automáticamente al añadir variables
+- **Cuándo usar:** Para comparar modelos con diferente número de variables
+- **Interpretación:** Similar a $R^2$ pero más conservador
+
+#### ¿Cuál métrica elegir?
+
+La elección de métrica depende del contexto del problema:
+
+| **Métrica** | **Mejor para** | **Evitar cuando** |
+|-------------|----------------|-------------------|
+| **RMSE** | Errores grandes son costosos | Hay muchos valores atípicos |
+| **MAE** | Errores tienen igual importancia | Necesitas diferenciabilidad |
+| **MAPE** | Comparar diferentes escalas | Hay valores cercanos a cero |
+| **SMAPE** | Comparar con simetría | Interpretación debe ser simple |
+| **R²** | Explicar variabilidad | Solo importa precisión de predicción |
+
+::: {.callout-tip}
+## **Recomendación práctica**
+Usa **múltiples métricas** para evaluar tu modelo. Una combinación típica sería:
+- **RMSE** para precisión general
+- **MAPE** para interpretabilidad de negocio  
+- **R²** para explicación de variabilidad
+:::
+
 ---
 
-## Parte 2: Regresión Lineal Múltiple
+## Regresión Lineal Múltiple
 
 Ahora, ¿qué pasa si tenemos múltiples predictores ($X_1, X_2, ..., X_p$)? El modelo se expande:
 
@@ -207,45 +304,3 @@ Esta es la definición de elasticidad: el cambio porcentual en $Y$ dividido por 
 :::
 
 ---
-
-## Parte 4: Ejercicio en Clase
-
-Ahora es su turno. En grupos, vamos a derivar las soluciones para la Regresión Lineal Múltiple.
-
-### Tarea 1: Derivar las Ecuaciones Normales para el caso Múltiple
-
-Usando la función de costo matricial $J(\boldsymbol{\beta})$, encuentren el vector de coeficientes $\boldsymbol{\beta}$ que la minimiza.
-
-**Pista:** La derivada de $J(\boldsymbol{\beta})$ con respecto al vector $\boldsymbol{\beta}$ es $\nabla_{\boldsymbol{\beta}}J = -2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$. Igualen esta derivada a cero y despejen $\boldsymbol{\beta}$.
-
-::: {.callout-note collapse="true"}
-### Ver la solución
-
-$$-2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\hat{\boldsymbol{\beta}}) = 0$$
-$$\mathbf{X}^T\mathbf{y} - \mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}} = 0$$
-$$\mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}^T\mathbf{y}$$
-$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
-  
-Esta es la famosa solución de Mínimos Cuadrados Ordinarios (MCO) en forma matricial.
-:::
-
-### Tarea 2: Formular el Descenso en Gradiente para el caso Múltiple
-
-Basándose en el gradiente que se les dio en la pista anterior y el algoritmo que vimos para el caso simple, escriban la regla de actualización para el **vector** $\boldsymbol{\beta}$ en el Descenso en Gradiente.
-
-**Preguntas a responder:**
-1.  ¿Cuál es el gradiente de la función de costo?
-2.  ¿Cómo se ve la regla de actualización para el vector $\boldsymbol{\beta}$ completo?
-
-::: {.callout-note collapse="true"}
-### Ver la solución
-
-1. El gradiente es:
-  $$\nabla J(\boldsymbol{\beta}) = -2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$$
-  
-2. La regla de actualización vectorial es:
-  $$\boldsymbol{\beta} := \boldsymbol{\beta} - \alpha \nabla J(\boldsymbol{\beta})$$
-  $$\boldsymbol{\beta} := \boldsymbol{\beta} - \alpha (-2\mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta}))$$
-  Simplificando (el 2 a menudo se absorbe en la tasa de aprendizaje $\alpha$):
-  $$\boldsymbol{\beta} := \boldsymbol{\beta} + \alpha \mathbf{X}^T(\mathbf{y} - \mathbf{X}\boldsymbol{\beta})$$
-:::
