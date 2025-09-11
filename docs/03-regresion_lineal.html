@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Regresión lineal – Minería de Datos</title>
+<title>Regresión lineal – Minería de Datos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="3&nbsp; Regresión lineal – Minería de Datos">
+<meta property="og:title" content="Regresión lineal – Minería de Datos">
 <meta property="og:description" content="">
 <meta property="og:image" content="imgs/gradient_descent.gif">
 <meta property="og:site_name" content="Minería de Datos">
@@ -281,7 +281,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-regresion_lineal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regresión lineal</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-regresion_lineal.html"><span class="chapter-title">Regresión lineal</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -317,20 +317,17 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduccion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
+  <a href="./01-introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-principios.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Principios de aprendizaje supervisado</span></span></a>
+  <a href="./02-principios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Principios de aprendizaje supervisado</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-regresion_lineal.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regresión lineal</span></span></a>
+  <a href="./03-regresion_lineal.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Regresión lineal</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -339,6 +336,32 @@ window.Quarto = {
  <span class="menu-text">Referencias</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ejemplos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción a Python para Minería de Datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresion_lineal_alumnos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso en gradiente con regresión lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./violaciones_supuestos_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Violaciones de los Supuestos de Regresión Lineal</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -349,43 +372,43 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#regresión-lineal-simple" id="toc-regresión-lineal-simple" class="nav-link active" data-scroll-target="#regresión-lineal-simple"><span class="header-section-number">3.1</span> Regresión Lineal Simple</a>
+  <li><a href="#regresión-lineal-simple" id="toc-regresión-lineal-simple" class="nav-link active" data-scroll-target="#regresión-lineal-simple">Regresión Lineal Simple</a>
   <ul class="collapse">
-  <li><a href="#cómo-estimamos-los-coeficientes-beta_0-y-beta_1" id="toc-cómo-estimamos-los-coeficientes-beta_0-y-beta_1" class="nav-link" data-scroll-target="#cómo-estimamos-los-coeficientes-beta_0-y-beta_1"><span class="header-section-number">3.1.1</span> ¿Cómo estimamos los coeficientes <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span>?</a></li>
+  <li><a href="#cómo-estimamos-los-coeficientes-beta_0-y-beta_1" id="toc-cómo-estimamos-los-coeficientes-beta_0-y-beta_1" class="nav-link" data-scroll-target="#cómo-estimamos-los-coeficientes-beta_0-y-beta_1">¿Cómo estimamos los coeficientes <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span>?</a></li>
   </ul></li>
-  <li><a href="#cuáles-son-los-supuestos-de-la-regresión" id="toc-cuáles-son-los-supuestos-de-la-regresión" class="nav-link" data-scroll-target="#cuáles-son-los-supuestos-de-la-regresión"><span class="header-section-number">3.2</span> ¿Cuáles son los supuestos de la regresión? 🧐</a></li>
-  <li><a href="#cómo-evaluar-la-precisión-del-modelo" id="toc-cómo-evaluar-la-precisión-del-modelo" class="nav-link" data-scroll-target="#cómo-evaluar-la-precisión-del-modelo"><span class="header-section-number">3.3</span> ¿Cómo evaluar la precisión del modelo? 📈</a>
+  <li><a href="#cuáles-son-los-supuestos-de-la-regresión" id="toc-cuáles-son-los-supuestos-de-la-regresión" class="nav-link" data-scroll-target="#cuáles-son-los-supuestos-de-la-regresión">¿Cuáles son los supuestos de la regresión? 🧐</a></li>
+  <li><a href="#cómo-evaluar-la-precisión-del-modelo" id="toc-cómo-evaluar-la-precisión-del-modelo" class="nav-link" data-scroll-target="#cómo-evaluar-la-precisión-del-modelo">¿Cómo evaluar la precisión del modelo? 📈</a>
   <ul class="collapse">
-  <li><a href="#coeficiente-de-determinación-r2" id="toc-coeficiente-de-determinación-r2" class="nav-link" data-scroll-target="#coeficiente-de-determinación-r2"><span class="header-section-number">3.3.1</span> Coeficiente de Determinación (<span class="math inline">\(R^2\)</span>)</a></li>
-  <li><a href="#p-values-valores-p" id="toc-p-values-valores-p" class="nav-link" data-scroll-target="#p-values-valores-p"><span class="header-section-number">3.3.2</span> p-values (Valores p)</a></li>
+  <li><a href="#coeficiente-de-determinación-r2" id="toc-coeficiente-de-determinación-r2" class="nav-link" data-scroll-target="#coeficiente-de-determinación-r2">Coeficiente de Determinación (<span class="math inline">\(R^2\)</span>)</a></li>
+  <li><a href="#p-values-valores-p" id="toc-p-values-valores-p" class="nav-link" data-scroll-target="#p-values-valores-p">p-values (Valores p)</a></li>
   </ul></li>
-  <li><a href="#métricas-de-error-de-predicción" id="toc-métricas-de-error-de-predicción" class="nav-link" data-scroll-target="#métricas-de-error-de-predicción"><span class="header-section-number">3.4</span> Métricas de Error de Predicción</a>
+  <li><a href="#métricas-de-error-de-predicción" id="toc-métricas-de-error-de-predicción" class="nav-link" data-scroll-target="#métricas-de-error-de-predicción">Métricas de Error de Predicción</a>
   <ul class="collapse">
-  <li><a href="#error-cuadrático-medio-mse" id="toc-error-cuadrático-medio-mse" class="nav-link" data-scroll-target="#error-cuadrático-medio-mse"><span class="header-section-number">3.4.1</span> Error Cuadrático Medio (MSE)</a></li>
-  <li><a href="#raíz-del-error-cuadrático-medio-rmse" id="toc-raíz-del-error-cuadrático-medio-rmse" class="nav-link" data-scroll-target="#raíz-del-error-cuadrático-medio-rmse"><span class="header-section-number">3.4.2</span> Raíz del Error Cuadrático Medio (RMSE)</a></li>
-  <li><a href="#error-absoluto-medio-mae" id="toc-error-absoluto-medio-mae" class="nav-link" data-scroll-target="#error-absoluto-medio-mae"><span class="header-section-number">3.4.3</span> Error Absoluto Medio (MAE)</a></li>
-  <li><a href="#error-porcentual-absoluto-medio-mape" id="toc-error-porcentual-absoluto-medio-mape" class="nav-link" data-scroll-target="#error-porcentual-absoluto-medio-mape"><span class="header-section-number">3.4.4</span> Error Porcentual Absoluto Medio (MAPE)</a></li>
-  <li><a href="#error-porcentual-absoluto-medio-simétrico-smape" id="toc-error-porcentual-absoluto-medio-simétrico-smape" class="nav-link" data-scroll-target="#error-porcentual-absoluto-medio-simétrico-smape"><span class="header-section-number">3.4.5</span> Error Porcentual Absoluto Medio Simétrico (SMAPE)</a></li>
-  <li><a href="#error-logarítmico-cuadrático-medio-msle" id="toc-error-logarítmico-cuadrático-medio-msle" class="nav-link" data-scroll-target="#error-logarítmico-cuadrático-medio-msle"><span class="header-section-number">3.4.6</span> Error Logarítmico Cuadrático Medio (MSLE)</a></li>
-  <li><a href="#r2-ajustado" id="toc-r2-ajustado" class="nav-link" data-scroll-target="#r2-ajustado"><span class="header-section-number">3.4.7</span> <span class="math inline">\(R^2\)</span> Ajustado</a></li>
+  <li><a href="#error-cuadrático-medio-mse" id="toc-error-cuadrático-medio-mse" class="nav-link" data-scroll-target="#error-cuadrático-medio-mse">Error Cuadrático Medio (MSE)</a></li>
+  <li><a href="#raíz-del-error-cuadrático-medio-rmse" id="toc-raíz-del-error-cuadrático-medio-rmse" class="nav-link" data-scroll-target="#raíz-del-error-cuadrático-medio-rmse">Raíz del Error Cuadrático Medio (RMSE)</a></li>
+  <li><a href="#error-absoluto-medio-mae" id="toc-error-absoluto-medio-mae" class="nav-link" data-scroll-target="#error-absoluto-medio-mae">Error Absoluto Medio (MAE)</a></li>
+  <li><a href="#error-porcentual-absoluto-medio-mape" id="toc-error-porcentual-absoluto-medio-mape" class="nav-link" data-scroll-target="#error-porcentual-absoluto-medio-mape">Error Porcentual Absoluto Medio (MAPE)</a></li>
+  <li><a href="#error-porcentual-absoluto-medio-simétrico-smape" id="toc-error-porcentual-absoluto-medio-simétrico-smape" class="nav-link" data-scroll-target="#error-porcentual-absoluto-medio-simétrico-smape">Error Porcentual Absoluto Medio Simétrico (SMAPE)</a></li>
+  <li><a href="#error-logarítmico-cuadrático-medio-msle" id="toc-error-logarítmico-cuadrático-medio-msle" class="nav-link" data-scroll-target="#error-logarítmico-cuadrático-medio-msle">Error Logarítmico Cuadrático Medio (MSLE)</a></li>
+  <li><a href="#r2-ajustado" id="toc-r2-ajustado" class="nav-link" data-scroll-target="#r2-ajustado"><span class="math inline">\(R^2\)</span> Ajustado</a></li>
   </ul></li>
-  <li><a href="#regresión-lineal-múltiple" id="toc-regresión-lineal-múltiple" class="nav-link" data-scroll-target="#regresión-lineal-múltiple"><span class="header-section-number">3.5</span> Regresión Lineal Múltiple</a></li>
-  <li><a href="#transformaciones-comunes-en-modelos-lineales" id="toc-transformaciones-comunes-en-modelos-lineales" class="nav-link" data-scroll-target="#transformaciones-comunes-en-modelos-lineales"><span class="header-section-number">3.6</span> Transformaciones Comunes en Modelos Lineales</a>
+  <li><a href="#regresión-lineal-múltiple" id="toc-regresión-lineal-múltiple" class="nav-link" data-scroll-target="#regresión-lineal-múltiple">Regresión Lineal Múltiple</a></li>
+  <li><a href="#transformaciones-comunes-en-modelos-lineales" id="toc-transformaciones-comunes-en-modelos-lineales" class="nav-link" data-scroll-target="#transformaciones-comunes-en-modelos-lineales">Transformaciones Comunes en Modelos Lineales</a>
   <ul class="collapse">
-  <li><a href="#modelo-log-nivel-transformación-en-y" id="toc-modelo-log-nivel-transformación-en-y" class="nav-link" data-scroll-target="#modelo-log-nivel-transformación-en-y"><span class="header-section-number">3.6.1</span> Modelo Log-Nivel (Transformación en Y)</a></li>
-  <li><a href="#modelo-nivel-log-transformación-en-x" id="toc-modelo-nivel-log-transformación-en-x" class="nav-link" data-scroll-target="#modelo-nivel-log-transformación-en-x"><span class="header-section-number">3.6.2</span> Modelo Nivel-Log (Transformación en X)</a></li>
-  <li><a href="#modelo-log-log-transformación-en-x-e-y" id="toc-modelo-log-log-transformación-en-x-e-y" class="nav-link" data-scroll-target="#modelo-log-log-transformación-en-x-e-y"><span class="header-section-number">3.6.3</span> Modelo Log-Log (Transformación en X e Y)</a></li>
+  <li><a href="#modelo-log-nivel-transformación-en-y" id="toc-modelo-log-nivel-transformación-en-y" class="nav-link" data-scroll-target="#modelo-log-nivel-transformación-en-y">Modelo Log-Nivel (Transformación en Y)</a></li>
+  <li><a href="#modelo-nivel-log-transformación-en-x" id="toc-modelo-nivel-log-transformación-en-x" class="nav-link" data-scroll-target="#modelo-nivel-log-transformación-en-x">Modelo Nivel-Log (Transformación en X)</a></li>
+  <li><a href="#modelo-log-log-transformación-en-x-e-y" id="toc-modelo-log-log-transformación-en-x-e-y" class="nav-link" data-scroll-target="#modelo-log-log-transformación-en-x-e-y">Modelo Log-Log (Transformación en X e Y)</a></li>
   </ul></li>
-  <li><a href="#regresión-regularizada-penalizada" id="toc-regresión-regularizada-penalizada" class="nav-link" data-scroll-target="#regresión-regularizada-penalizada"><span class="header-section-number">3.7</span> Regresión Regularizada (Penalizada) 🎯</a>
+  <li><a href="#regresión-regularizada-penalizada" id="toc-regresión-regularizada-penalizada" class="nav-link" data-scroll-target="#regresión-regularizada-penalizada">Regresión Regularizada (Penalizada) 🎯</a>
   <ul class="collapse">
-  <li><a href="#por-qué-necesitamos-regularización" id="toc-por-qué-necesitamos-regularización" class="nav-link" data-scroll-target="#por-qué-necesitamos-regularización"><span class="header-section-number">3.7.1</span> ¿Por qué necesitamos regularización?</a></li>
-  <li><a href="#ridge-regression-regresión-ridge" id="toc-ridge-regression-regresión-ridge" class="nav-link" data-scroll-target="#ridge-regression-regresión-ridge"><span class="header-section-number">3.7.2</span> Ridge Regression (Regresión Ridge) 🏔️</a></li>
-  <li><a href="#lasso-regression-least-absolute-shrinkage-and-selection-operator" id="toc-lasso-regression-least-absolute-shrinkage-and-selection-operator" class="nav-link" data-scroll-target="#lasso-regression-least-absolute-shrinkage-and-selection-operator"><span class="header-section-number">3.7.3</span> Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️</a></li>
-  <li><a href="#elastic-net-lo-mejor-de-ambos-mundos" id="toc-elastic-net-lo-mejor-de-ambos-mundos" class="nav-link" data-scroll-target="#elastic-net-lo-mejor-de-ambos-mundos"><span class="header-section-number">3.7.4</span> Elastic Net: Lo Mejor de Ambos Mundos 🕸️</a></li>
-  <li><a href="#comparación-visual-ridge-vs-lasso-vs-elastic-net" id="toc-comparación-visual-ridge-vs-lasso-vs-elastic-net" class="nav-link" data-scroll-target="#comparación-visual-ridge-vs-lasso-vs-elastic-net"><span class="header-section-number">3.7.5</span> Comparación Visual: Ridge vs Lasso vs Elastic Net</a></li>
-  <li><a href="#cuándo-usar-cada-método" id="toc-cuándo-usar-cada-método" class="nav-link" data-scroll-target="#cuándo-usar-cada-método"><span class="header-section-number">3.7.6</span> ¿Cuándo usar cada método?</a></li>
-  <li><a href="#validación-de-modelos-y-selección-de-hiperparámetros" id="toc-validación-de-modelos-y-selección-de-hiperparámetros" class="nav-link" data-scroll-target="#validación-de-modelos-y-selección-de-hiperparámetros"><span class="header-section-number">3.7.7</span> Validación de Modelos y Selección de Hiperparámetros</a></li>
-  <li><a href="#ejercicio-práctico-comparando-los-tres-métodos" id="toc-ejercicio-práctico-comparando-los-tres-métodos" class="nav-link" data-scroll-target="#ejercicio-práctico-comparando-los-tres-métodos"><span class="header-section-number">3.7.8</span> Ejercicio Práctico: Comparando los Tres Métodos</a></li>
+  <li><a href="#por-qué-necesitamos-regularización" id="toc-por-qué-necesitamos-regularización" class="nav-link" data-scroll-target="#por-qué-necesitamos-regularización">¿Por qué necesitamos regularización?</a></li>
+  <li><a href="#ridge-regression-regresión-ridge" id="toc-ridge-regression-regresión-ridge" class="nav-link" data-scroll-target="#ridge-regression-regresión-ridge">Ridge Regression (Regresión Ridge) 🏔️</a></li>
+  <li><a href="#lasso-regression-least-absolute-shrinkage-and-selection-operator" id="toc-lasso-regression-least-absolute-shrinkage-and-selection-operator" class="nav-link" data-scroll-target="#lasso-regression-least-absolute-shrinkage-and-selection-operator">Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️</a></li>
+  <li><a href="#elastic-net-lo-mejor-de-ambos-mundos" id="toc-elastic-net-lo-mejor-de-ambos-mundos" class="nav-link" data-scroll-target="#elastic-net-lo-mejor-de-ambos-mundos">Elastic Net: Lo Mejor de Ambos Mundos 🕸️</a></li>
+  <li><a href="#comparación-visual-ridge-vs-lasso-vs-elastic-net" id="toc-comparación-visual-ridge-vs-lasso-vs-elastic-net" class="nav-link" data-scroll-target="#comparación-visual-ridge-vs-lasso-vs-elastic-net">Comparación Visual: Ridge vs Lasso vs Elastic Net</a></li>
+  <li><a href="#cuándo-usar-cada-método" id="toc-cuándo-usar-cada-método" class="nav-link" data-scroll-target="#cuándo-usar-cada-método">¿Cuándo usar cada método?</a></li>
+  <li><a href="#validación-de-modelos-y-selección-de-hiperparámetros" id="toc-validación-de-modelos-y-selección-de-hiperparámetros" class="nav-link" data-scroll-target="#validación-de-modelos-y-selección-de-hiperparámetros">Validación de Modelos y Selección de Hiperparámetros</a></li>
+  <li><a href="#ejercicio-práctico-comparando-los-tres-métodos" id="toc-ejercicio-práctico-comparando-los-tres-métodos" class="nav-link" data-scroll-target="#ejercicio-práctico-comparando-los-tres-métodos">Ejercicio Práctico: Comparando los Tres Métodos</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -396,7 +419,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Regresión lineal</span></h1>
+<h1 class="title"><span class="chapter-title">Regresión lineal</span></h1>
 </div>
 
 
@@ -413,8 +436,8 @@ window.Quarto = {
 </header>
 
 
-<section id="regresión-lineal-simple" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="regresión-lineal-simple"><span class="header-section-number">3.1</span> Regresión Lineal Simple</h2>
+<section id="regresión-lineal-simple" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-lineal-simple">Regresión Lineal Simple</h2>
 <p>Comenzaremos con el caso más sencillo: predecir una variable de resultado <code>Y</code> a partir de una única variable predictora <code>X</code>.</p>
 <p>El modelo matemático que queremos ajustar es una línea recta:</p>
 <p><span class="math display">\[Y = \beta_0 + \beta_1 X + \epsilon\]</span></p>
@@ -427,14 +450,14 @@ window.Quarto = {
 <li><strong><span class="math inline">\(\epsilon\)</span></strong>: El término de error (la parte de <span class="math inline">\(Y\)</span> que nuestro modelo no puede explicar).</li>
 </ul>
 <p>Nuestro objetivo 🎯 es encontrar los <strong>mejores valores posibles</strong> para los coeficientes <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span> usando los datos que tenemos.</p>
-<section id="cómo-estimamos-los-coeficientes-beta_0-y-beta_1" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="cómo-estimamos-los-coeficientes-beta_0-y-beta_1"><span class="header-section-number">3.1.1</span> ¿Cómo estimamos los coeficientes <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span>?</h3>
+<section id="cómo-estimamos-los-coeficientes-beta_0-y-beta_1" class="level3">
+<h3 class="anchored" data-anchor-id="cómo-estimamos-los-coeficientes-beta_0-y-beta_1">¿Cómo estimamos los coeficientes <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span>?</h3>
 <p>“Mejor” para nosotros significa encontrar la línea que minimice la distancia vertical entre cada punto de dato y la propia línea. Específicamente, minimizamos la <strong>Suma de los Errores al Cuadrado</strong> (SEC o <em>Sum of Squared Errors</em>, SSE).</p>
 <p>La función de costo (o pérdida) que queremos minimizar es:</p>
 <p><span class="math display">\[J(\beta_0, \beta_1) = \sum_{i=1}^{n} (y_i - (\beta_0 + \beta_1 x_i))^2\]</span></p>
 <p>Tenemos dos métodos principales para encontrar los <span class="math inline">\(\beta\)</span> que minimizan esta función:</p>
-<section id="método-1-las-ecuaciones-normales-la-solución-analítica" class="level4" data-number="3.1.1.1">
-<h4 data-number="3.1.1.1" class="anchored" data-anchor-id="método-1-las-ecuaciones-normales-la-solución-analítica"><span class="header-section-number">3.1.1.1</span> Método 1: Las Ecuaciones Normales (La solución analítica 🧠)</h4>
+<section id="método-1-las-ecuaciones-normales-la-solución-analítica" class="level4">
+<h4 class="anchored" data-anchor-id="método-1-las-ecuaciones-normales-la-solución-analítica">Método 1: Las Ecuaciones Normales (La solución analítica 🧠)</h4>
 <p>Este método utiliza cálculo para encontrar el mínimo exacto de la función de costo. Para ello, tomamos las derivadas parciales de <span class="math inline">\(J\)</span> con respecto a <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span>, las igualamos a cero y resolvemos para los coeficientes.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -470,8 +493,8 @@ window.Quarto = {
 </div>
 <p>Estas fórmulas nos dan los valores óptimos y exactos de los coeficientes directamente a partir de los datos.</p>
 </section>
-<section id="método-2-descenso-en-gradiente-la-solución-iterativa" class="level4" data-number="3.1.1.2">
-<h4 data-number="3.1.1.2" class="anchored" data-anchor-id="método-2-descenso-en-gradiente-la-solución-iterativa"><span class="header-section-number">3.1.1.2</span> Método 2: Descenso en Gradiente (La solución iterativa ⚙️)</h4>
+<section id="método-2-descenso-en-gradiente-la-solución-iterativa" class="level4">
+<h4 class="anchored" data-anchor-id="método-2-descenso-en-gradiente-la-solución-iterativa">Método 2: Descenso en Gradiente (La solución iterativa ⚙️)</h4>
 <p>Este es un método computacional que nos “acerca” progresivamente a la solución. Es especialmente útil cuando tenemos una cantidad masiva de datos y calcular la solución analítica es muy costoso.</p>
 <p><strong>La intuición:</strong> Imagina que estás en una montaña (la función de costo) y quieres llegar al valle (el costo mínimo). El Descenso en Gradiente te dice que mires a tu alrededor y des un paso en la dirección más inclinada hacia abajo. Repites esto hasta llegar al fondo.</p>
 <p>El algoritmo funciona así:</p>
@@ -508,8 +531,8 @@ Explicacion visual
 </section>
 </section>
 </section>
-<section id="cuáles-son-los-supuestos-de-la-regresión" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="cuáles-son-los-supuestos-de-la-regresión"><span class="header-section-number">3.2</span> ¿Cuáles son los supuestos de la regresión? 🧐</h2>
+<section id="cuáles-son-los-supuestos-de-la-regresión" class="level2">
+<h2 class="anchored" data-anchor-id="cuáles-son-los-supuestos-de-la-regresión">¿Cuáles son los supuestos de la regresión? 🧐</h2>
 <p>Para que nuestro modelo sea confiable (es decir, para que los coeficientes y las predicciones tengan sentido), debemos cumplir con ciertos supuestos.</p>
 <ol type="1">
 <li><strong>Linealidad:</strong> La relación entre <span class="math inline">\(\beta\)</span> y <span class="math inline">\(Y\)</span> debe ser lineal.
@@ -531,11 +554,11 @@ Explicacion visual
 </ol>
 <hr>
 </section>
-<section id="cómo-evaluar-la-precisión-del-modelo" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="cómo-evaluar-la-precisión-del-modelo"><span class="header-section-number">3.3</span> ¿Cómo evaluar la precisión del modelo? 📈</h2>
+<section id="cómo-evaluar-la-precisión-del-modelo" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-evaluar-la-precisión-del-modelo">¿Cómo evaluar la precisión del modelo? 📈</h2>
 <p>Una vez que hemos ajustado el modelo, ¿cómo sabemos si es bueno?</p>
-<section id="coeficiente-de-determinación-r2" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="coeficiente-de-determinación-r2"><span class="header-section-number">3.3.1</span> Coeficiente de Determinación (<span class="math inline">\(R^2\)</span>)</h3>
+<section id="coeficiente-de-determinación-r2" class="level3">
+<h3 class="anchored" data-anchor-id="coeficiente-de-determinación-r2">Coeficiente de Determinación (<span class="math inline">\(R^2\)</span>)</h3>
 <p>El <strong><span class="math inline">\(R^2\)</span></strong> mide la proporción de la varianza total en la variable dependiente (<span class="math inline">\(Y\)</span>) que es explicada por nuestro modelo.</p>
 <p><span class="math display">\[R^2 = 1 - \frac{\text{Suma de Errores al Cuadrado (SEC)}}{\text{Suma Total de Cuadrados (STC)}} = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2}\]</span></p>
 <ul>
@@ -544,8 +567,8 @@ Explicacion visual
 <li>Un <span class="math inline">\(R^2\)</span> más alto generalmente indica un mejor ajuste del modelo.</li>
 </ul>
 </section>
-<section id="p-values-valores-p" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="p-values-valores-p"><span class="header-section-number">3.3.2</span> p-values (Valores p)</h3>
+<section id="p-values-valores-p" class="level3">
+<h3 class="anchored" data-anchor-id="p-values-valores-p">p-values (Valores p)</h3>
 <p>El <strong>p-value</strong> nos ayuda a determinar si nuestra variable predictora <span class="math inline">\(X\)</span> es <strong>estadísticamente significativa</strong>. Responde a la pregunta: ¿Es probable que la relación que observamos entre <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> haya ocurrido por puro azar?</p>
 <ul>
 <li><strong>Hipótesis Nula (<span class="math inline">\(H_0\)</span>):</strong> No hay relación entre <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> (es decir, <span class="math inline">\(\beta_1 = 0\)</span>).</li>
@@ -554,11 +577,11 @@ Explicacion visual
 <p>Un <strong>p-value pequeño</strong> (típicamente &lt; 0.05) nos da evidencia para rechazar la hipótesis nula. Esto sugiere que nuestra variable <span class="math inline">\(X\)</span> es un predictor útil para <span class="math inline">\(Y\)</span>.</p>
 </section>
 </section>
-<section id="métricas-de-error-de-predicción" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="métricas-de-error-de-predicción"><span class="header-section-number">3.4</span> Métricas de Error de Predicción</h2>
+<section id="métricas-de-error-de-predicción" class="level2">
+<h2 class="anchored" data-anchor-id="métricas-de-error-de-predicción">Métricas de Error de Predicción</h2>
 <p>Además del <span class="math inline">\(R^2\)</span>, existen múltiples métricas para evaluar qué tan bien predice nuestro modelo. Cada una tiene sus ventajas y casos de uso específicos:</p>
-<section id="error-cuadrático-medio-mse" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="error-cuadrático-medio-mse"><span class="header-section-number">3.4.1</span> Error Cuadrático Medio (MSE)</h3>
+<section id="error-cuadrático-medio-mse" class="level3">
+<h3 class="anchored" data-anchor-id="error-cuadrático-medio-mse">Error Cuadrático Medio (MSE)</h3>
 <p>El <strong>MSE</strong> mide el promedio de los errores al cuadrado:</p>
 <p><span class="math display">\[MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2\]</span></p>
 <ul>
@@ -567,8 +590,8 @@ Explicacion visual
 <li><strong>Cuándo usar:</strong> Cuando errores grandes son especialmente costosos</li>
 </ul>
 </section>
-<section id="raíz-del-error-cuadrático-medio-rmse" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="raíz-del-error-cuadrático-medio-rmse"><span class="header-section-number">3.4.2</span> Raíz del Error Cuadrático Medio (RMSE)</h3>
+<section id="raíz-del-error-cuadrático-medio-rmse" class="level3">
+<h3 class="anchored" data-anchor-id="raíz-del-error-cuadrático-medio-rmse">Raíz del Error Cuadrático Medio (RMSE)</h3>
 <p>El <strong>RMSE</strong> es la raíz cuadrada del MSE:</p>
 <p><span class="math display">\[RMSE = \sqrt{MSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}\]</span></p>
 <ul>
@@ -577,8 +600,8 @@ Explicacion visual
 <li><strong>Interpretación:</strong> “En promedio, nuestras predicciones se desvían X unidades del valor real”</li>
 </ul>
 </section>
-<section id="error-absoluto-medio-mae" class="level3" data-number="3.4.3">
-<h3 data-number="3.4.3" class="anchored" data-anchor-id="error-absoluto-medio-mae"><span class="header-section-number">3.4.3</span> Error Absoluto Medio (MAE)</h3>
+<section id="error-absoluto-medio-mae" class="level3">
+<h3 class="anchored" data-anchor-id="error-absoluto-medio-mae">Error Absoluto Medio (MAE)</h3>
 <p>El <strong>MAE</strong> mide el promedio de los errores absolutos:</p>
 <p><span class="math display">\[MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|\]</span></p>
 <ul>
@@ -587,8 +610,8 @@ Explicacion visual
 <li><strong>Cuándo usar:</strong> Cuando hay valores atípicos o todos los errores tienen igual importancia</li>
 </ul>
 </section>
-<section id="error-porcentual-absoluto-medio-mape" class="level3" data-number="3.4.4">
-<h3 data-number="3.4.4" class="anchored" data-anchor-id="error-porcentual-absoluto-medio-mape"><span class="header-section-number">3.4.4</span> Error Porcentual Absoluto Medio (MAPE)</h3>
+<section id="error-porcentual-absoluto-medio-mape" class="level3">
+<h3 class="anchored" data-anchor-id="error-porcentual-absoluto-medio-mape">Error Porcentual Absoluto Medio (MAPE)</h3>
 <p>El <strong>MAPE</strong> expresa el error como porcentaje del valor real:</p>
 <p><span class="math display">\[MAPE = \frac{100}{n} \sum_{i=1}^{n} \left|\frac{y_i - \hat{y}_i}{y_i}\right|\]</span></p>
 <ul>
@@ -598,8 +621,8 @@ Explicacion visual
 <li><strong>Cuándo usar:</strong> Para comparar precisión entre diferentes productos, regiones, o escalas</li>
 </ul>
 </section>
-<section id="error-porcentual-absoluto-medio-simétrico-smape" class="level3" data-number="3.4.5">
-<h3 data-number="3.4.5" class="anchored" data-anchor-id="error-porcentual-absoluto-medio-simétrico-smape"><span class="header-section-number">3.4.5</span> Error Porcentual Absoluto Medio Simétrico (SMAPE)</h3>
+<section id="error-porcentual-absoluto-medio-simétrico-smape" class="level3">
+<h3 class="anchored" data-anchor-id="error-porcentual-absoluto-medio-simétrico-smape">Error Porcentual Absoluto Medio Simétrico (SMAPE)</h3>
 <p>El <strong>SMAPE</strong> es una versión simétrica del MAPE:</p>
 <p><span class="math display">\[SMAPE = \frac{100}{n} \sum_{i=1}^{n} \frac{|y_i - \hat{y}_i|}{(|y_i| + |\hat{y}_i|)/2}\]</span></p>
 <ul>
@@ -608,8 +631,8 @@ Explicacion visual
 <li><strong>Cuándo usar:</strong> Cuando queremos evitar el sesgo del MAPE hacia sobreestimaciones</li>
 </ul>
 </section>
-<section id="error-logarítmico-cuadrático-medio-msle" class="level3" data-number="3.4.6">
-<h3 data-number="3.4.6" class="anchored" data-anchor-id="error-logarítmico-cuadrático-medio-msle"><span class="header-section-number">3.4.6</span> Error Logarítmico Cuadrático Medio (MSLE)</h3>
+<section id="error-logarítmico-cuadrático-medio-msle" class="level3">
+<h3 class="anchored" data-anchor-id="error-logarítmico-cuadrático-medio-msle">Error Logarítmico Cuadrático Medio (MSLE)</h3>
 <p>El <strong>MSLE</strong> usa transformación logarítmica:</p>
 <p><span class="math display">\[MSLE = \frac{1}{n} \sum_{i=1}^{n} (\log(1 + y_i) - \log(1 + \hat{y}_i))^2\]</span></p>
 <ul>
@@ -618,8 +641,8 @@ Explicacion visual
 <li><strong>Cuándo usar:</strong> Cuando subestimar es más costoso que sobreestimar (ej: demanda de inventario)</li>
 </ul>
 </section>
-<section id="r2-ajustado" class="level3" data-number="3.4.7">
-<h3 data-number="3.4.7" class="anchored" data-anchor-id="r2-ajustado"><span class="header-section-number">3.4.7</span> <span class="math inline">\(R^2\)</span> Ajustado</h3>
+<section id="r2-ajustado" class="level3">
+<h3 class="anchored" data-anchor-id="r2-ajustado"><span class="math inline">\(R^2\)</span> Ajustado</h3>
 <p>El <strong><span class="math inline">\(R^2\)</span> ajustado</strong> penaliza por el número de variables en el modelo:</p>
 <p><span class="math display">\[R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-p-1}\]</span></p>
 <p>Donde <span class="math inline">\(p\)</span> es el número de predictores.</p>
@@ -628,8 +651,8 @@ Explicacion visual
 <li><strong>Cuándo usar:</strong> Para comparar modelos con diferente número de variables</li>
 <li><strong>Interpretación:</strong> Similar a <span class="math inline">\(R^2\)</span> pero más conservador</li>
 </ul>
-<section id="cuál-métrica-elegir" class="level4" data-number="3.4.7.1">
-<h4 data-number="3.4.7.1" class="anchored" data-anchor-id="cuál-métrica-elegir"><span class="header-section-number">3.4.7.1</span> ¿Cuál métrica elegir?</h4>
+<section id="cuál-métrica-elegir" class="level4">
+<h4 class="anchored" data-anchor-id="cuál-métrica-elegir">¿Cuál métrica elegir?</h4>
 <p>La elección de métrica depende del contexto del problema:</p>
 <table class="caption-top table">
 <colgroup>
@@ -690,8 +713,8 @@ Explicacion visual
 </section>
 </section>
 </section>
-<section id="regresión-lineal-múltiple" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="regresión-lineal-múltiple"><span class="header-section-number">3.5</span> Regresión Lineal Múltiple</h2>
+<section id="regresión-lineal-múltiple" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-lineal-múltiple">Regresión Lineal Múltiple</h2>
 <p>Ahora, ¿qué pasa si tenemos múltiples predictores (<span class="math inline">\(X_1, X_2, ..., X_p\)</span>)? El modelo se expande:</p>
 <p><span class="math display">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p + \epsilon\]</span></p>
 <p>La intuición es la misma, pero en lugar de ajustar una línea, estamos ajustando un <strong>hiperplano</strong> en un espacio multidimensional.</p>
@@ -701,11 +724,11 @@ Explicacion visual
 <p>La función de costo en forma matricial es: <span class="math display">\[J(\boldsymbol{\beta}) = (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})^T (\mathbf{y} - \mathbf{X}\boldsymbol{\beta})\]</span></p>
 <hr>
 </section>
-<section id="transformaciones-comunes-en-modelos-lineales" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="transformaciones-comunes-en-modelos-lineales"><span class="header-section-number">3.6</span> Transformaciones Comunes en Modelos Lineales</h2>
+<section id="transformaciones-comunes-en-modelos-lineales" class="level2">
+<h2 class="anchored" data-anchor-id="transformaciones-comunes-en-modelos-lineales">Transformaciones Comunes en Modelos Lineales</h2>
 <p>A veces, la relación entre X e Y no es estrictamente lineal. Las transformaciones logarítmicas nos permiten modelar relaciones no lineales y, además, ofrecen interpretaciones muy útiles en términos de cambios porcentuales.</p>
-<section id="modelo-log-nivel-transformación-en-y" class="level3" data-number="3.6.1">
-<h3 data-number="3.6.1" class="anchored" data-anchor-id="modelo-log-nivel-transformación-en-y"><span class="header-section-number">3.6.1</span> Modelo Log-Nivel (Transformación en Y)</h3>
+<section id="modelo-log-nivel-transformación-en-y" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-log-nivel-transformación-en-y">Modelo Log-Nivel (Transformación en Y)</h3>
 <p>Este modelo se usa cuando el efecto de X sobre Y no es absoluto, sino porcentual. Por ejemplo, cómo un año más de educación afecta el <em>porcentaje</em> de aumento salarial.</p>
 <ul>
 <li><strong>Ecuación:</strong> <span class="math inline">\(\ln(Y) = \beta_0 + \beta_1 X + \epsilon\)</span></li>
@@ -728,8 +751,8 @@ Explicación Matemática de la Aproximación
 </div>
 </div>
 </section>
-<section id="modelo-nivel-log-transformación-en-x" class="level3" data-number="3.6.2">
-<h3 data-number="3.6.2" class="anchored" data-anchor-id="modelo-nivel-log-transformación-en-x"><span class="header-section-number">3.6.2</span> Modelo Nivel-Log (Transformación en X)</h3>
+<section id="modelo-nivel-log-transformación-en-x" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-nivel-log-transformación-en-x">Modelo Nivel-Log (Transformación en X)</h3>
 <p>Este modelo es útil cuando el efecto de X sobre Y se reduce a medida que X aumenta (rendimientos decrecientes). Por ejemplo, el efecto de añadir presupuesto de marketing sobre las ventas.</p>
 <ul>
 <li><strong>Ecuación:</strong> <span class="math inline">\(Y = \beta_0 + \beta_1 \ln(X) + \epsilon\)</span></li>
@@ -752,8 +775,8 @@ Explicación Matemática de la Aproximación
 </div>
 </div>
 </section>
-<section id="modelo-log-log-transformación-en-x-e-y" class="level3" data-number="3.6.3">
-<h3 data-number="3.6.3" class="anchored" data-anchor-id="modelo-log-log-transformación-en-x-e-y"><span class="header-section-number">3.6.3</span> Modelo Log-Log (Transformación en X e Y)</h3>
+<section id="modelo-log-log-transformación-en-x-e-y" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-log-log-transformación-en-x-e-y">Modelo Log-Log (Transformación en X e Y)</h3>
 <p>Este modelo es muy común en economía y modela la <strong>elasticidad</strong> constante entre dos variables.</p>
 <ul>
 <li><strong>Ecuación:</strong> <span class="math inline">\(\ln(Y) = \beta_0 + \beta_1 \ln(X) + \epsilon\)</span></li>
@@ -778,11 +801,11 @@ Explicación Matemática de la Aproximación
 <hr>
 </section>
 </section>
-<section id="regresión-regularizada-penalizada" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="regresión-regularizada-penalizada"><span class="header-section-number">3.7</span> Regresión Regularizada (Penalizada) 🎯</h2>
+<section id="regresión-regularizada-penalizada" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-regularizada-penalizada">Regresión Regularizada (Penalizada) 🎯</h2>
 <p>Hasta ahora hemos visto la regresión lineal clásica, pero ¿qué pasa cuando tenemos <strong>muchas variables</strong> o cuando nuestro modelo sufre de <strong>sobreajuste</strong>? Aquí es donde entran las técnicas de <strong>regularización</strong>.</p>
-<section id="por-qué-necesitamos-regularización" class="level3" data-number="3.7.1">
-<h3 data-number="3.7.1" class="anchored" data-anchor-id="por-qué-necesitamos-regularización"><span class="header-section-number">3.7.1</span> ¿Por qué necesitamos regularización?</h3>
+<section id="por-qué-necesitamos-regularización" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-necesitamos-regularización">¿Por qué necesitamos regularización?</h3>
 <p>La regresión lineal ordinaria (OLS) puede presentar varios problemas:</p>
 <ol type="1">
 <li><strong>Sobreajuste</strong>: Cuando tenemos muchas variables relativas al número de observaciones</li>
@@ -793,23 +816,23 @@ Explicación Matemática de la Aproximación
 <p>La <strong>regularización</strong> añade una <strong>penalización</strong> a la función de costo para controlar la complejidad del modelo.</p>
 <hr>
 </section>
-<section id="ridge-regression-regresión-ridge" class="level3" data-number="3.7.2">
-<h3 data-number="3.7.2" class="anchored" data-anchor-id="ridge-regression-regresión-ridge"><span class="header-section-number">3.7.2</span> Ridge Regression (Regresión Ridge) 🏔️</h3>
+<section id="ridge-regression-regresión-ridge" class="level3">
+<h3 class="anchored" data-anchor-id="ridge-regression-regresión-ridge">Ridge Regression (Regresión Ridge) 🏔️</h3>
 <p>La <strong>regresión Ridge</strong> añade una penalización <strong>L2</strong> (suma de cuadrados) a los coeficientes:</p>
 <p><span class="math display">\[J_{Ridge}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \sum_{j=1}^{p} \beta_j^2\]</span></p>
 <p>Donde: - <span class="math inline">\(\lambda &gt; 0\)</span> es el <strong>parámetro de regularización</strong> - <span class="math inline">\(\sum_{j=1}^{p} \beta_j^2\)</span> es la <strong>penalización L2</strong></p>
-<section id="características-de-ridge" class="level4" data-number="3.7.2.1">
-<h4 data-number="3.7.2.1" class="anchored" data-anchor-id="características-de-ridge"><span class="header-section-number">3.7.2.1</span> Características de Ridge:</h4>
+<section id="características-de-ridge" class="level4">
+<h4 class="anchored" data-anchor-id="características-de-ridge">Características de Ridge:</h4>
 <p>✅ <strong>Ventajas:</strong> - Reduce el sobreajuste - Maneja bien la multicolinealidad - Siempre tiene solución única - Estabiliza los coeficientes</p>
 <p>❌ <strong>Desventajas:</strong> - <strong>NO</strong> elimina variables (coeficientes nunca son exactamente cero) - Dificulta la interpretabilidad - Requiere estandarizar las variables</p>
 </section>
-<section id="solución-analítica" class="level4" data-number="3.7.2.2">
-<h4 data-number="3.7.2.2" class="anchored" data-anchor-id="solución-analítica"><span class="header-section-number">3.7.2.2</span> Solución Analítica:</h4>
+<section id="solución-analítica" class="level4">
+<h4 class="anchored" data-anchor-id="solución-analítica">Solución Analítica:</h4>
 <p><span class="math display">\[\hat{\boldsymbol{\beta}}_{Ridge} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}\]</span></p>
 <p>El término <span class="math inline">\(\lambda\mathbf{I}\)</span> hace que la matriz sea invertible incluso con multicolinealidad.</p>
 </section>
-<section id="cómo-elegir-λ" class="level4" data-number="3.7.2.3">
-<h4 data-number="3.7.2.3" class="anchored" data-anchor-id="cómo-elegir-λ"><span class="header-section-number">3.7.2.3</span> ¿Cómo elegir λ?</h4>
+<section id="cómo-elegir-λ" class="level4">
+<h4 class="anchored" data-anchor-id="cómo-elegir-λ">¿Cómo elegir λ?</h4>
 <ul>
 <li><strong>λ = 0</strong>: Regresión ordinaria (sin penalización)</li>
 <li><strong>λ → ∞</strong>: Todos los coeficientes → 0</li>
@@ -818,17 +841,17 @@ Explicación Matemática de la Aproximación
 <hr>
 </section>
 </section>
-<section id="lasso-regression-least-absolute-shrinkage-and-selection-operator" class="level3" data-number="3.7.3">
-<h3 data-number="3.7.3" class="anchored" data-anchor-id="lasso-regression-least-absolute-shrinkage-and-selection-operator"><span class="header-section-number">3.7.3</span> Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️</h3>
+<section id="lasso-regression-least-absolute-shrinkage-and-selection-operator" class="level3">
+<h3 class="anchored" data-anchor-id="lasso-regression-least-absolute-shrinkage-and-selection-operator">Lasso Regression (Least Absolute Shrinkage and Selection Operator) ✂️</h3>
 <p>La <strong>regresión Lasso</strong> usa penalización <strong>L1</strong> (suma de valores absolutos):</p>
 <p><span class="math display">\[J_{Lasso}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \sum_{j=1}^{p} |\beta_j|\]</span></p>
-<section id="características-de-lasso" class="level4" data-number="3.7.3.1">
-<h4 data-number="3.7.3.1" class="anchored" data-anchor-id="características-de-lasso"><span class="header-section-number">3.7.3.1</span> Características de Lasso:</h4>
+<section id="características-de-lasso" class="level4">
+<h4 class="anchored" data-anchor-id="características-de-lasso">Características de Lasso:</h4>
 <p>✅ <strong>Ventajas:</strong> - <strong>Selección automática de variables</strong> (coeficientes = 0) - Modelos más interpretables y simples - Útil cuando muchas variables son irrelevantes</p>
 <p>❌ <strong>Desventajas:</strong> - Puede ser inestable con grupos de variables correlacionadas - Selecciona arbitrariamente entre variables correlacionadas - No tiene solución analítica cerrada</p>
 </section>
-<section id="la-magia-de-l1-por-qué-produce-ceros-exactos" class="level4" data-number="3.7.3.2">
-<h4 data-number="3.7.3.2" class="anchored" data-anchor-id="la-magia-de-l1-por-qué-produce-ceros-exactos"><span class="header-section-number">3.7.3.2</span> La “Magia” de L1: ¿Por qué produce ceros exactos?</h4>
+<section id="la-magia-de-l1-por-qué-produce-ceros-exactos" class="level4">
+<h4 class="anchored" data-anchor-id="la-magia-de-l1-por-qué-produce-ceros-exactos">La “Magia” de L1: ¿Por qué produce ceros exactos?</h4>
 <p>La penalización L1 crea una región factible con <strong>esquinas puntiagudas</strong>. La solución óptima tiende a ocurrir en estas esquinas, donde algunos coeficientes son exactamente cero.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
@@ -849,22 +872,22 @@ Intuición Geométrica
 <hr>
 </section>
 </section>
-<section id="elastic-net-lo-mejor-de-ambos-mundos" class="level3" data-number="3.7.4">
-<h3 data-number="3.7.4" class="anchored" data-anchor-id="elastic-net-lo-mejor-de-ambos-mundos"><span class="header-section-number">3.7.4</span> Elastic Net: Lo Mejor de Ambos Mundos 🕸️</h3>
+<section id="elastic-net-lo-mejor-de-ambos-mundos" class="level3">
+<h3 class="anchored" data-anchor-id="elastic-net-lo-mejor-de-ambos-mundos">Elastic Net: Lo Mejor de Ambos Mundos 🕸️</h3>
 <p><strong>Elastic Net</strong> combina las penalizaciones L1 y L2:</p>
 <p><span class="math display">\[J_{ElasticNet}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda_1 \sum_{j=1}^{p} |\beta_j| + \lambda_2 \sum_{j=1}^{p} \beta_j^2\]</span></p>
 <p>O equivalentemente, con un parámetro de mezcla <span class="math inline">\(\alpha\)</span>:</p>
 <p><span class="math display">\[J_{ElasticNet}(\boldsymbol{\beta}) = \sum_{i=1}^{n} (y_i - \mathbf{x}_i^T\boldsymbol{\beta})^2 + \lambda \left[ \alpha \sum_{j=1}^{p} |\beta_j| + (1-\alpha) \sum_{j=1}^{p} \beta_j^2 \right]\]</span></p>
 <p>Donde: - <span class="math inline">\(\alpha \in [0,1]\)</span> controla la mezcla entre L1 y L2 - <span class="math inline">\(\alpha = 0\)</span>: Pure Ridge - <span class="math inline">\(\alpha = 1\)</span>: Pure Lasso - <span class="math inline">\(\alpha = 0.5\)</span>: Igual peso a ambas penalizaciones</p>
-<section id="características-de-elastic-net" class="level4" data-number="3.7.4.1">
-<h4 data-number="3.7.4.1" class="anchored" data-anchor-id="características-de-elastic-net"><span class="header-section-number">3.7.4.1</span> Características de Elastic Net:</h4>
+<section id="características-de-elastic-net" class="level4">
+<h4 class="anchored" data-anchor-id="características-de-elastic-net">Características de Elastic Net:</h4>
 <p>✅ <strong>Ventajas:</strong> - <strong>Selección de variables</strong> como Lasso - <strong>Estabilidad</strong> como Ridge - Maneja bien <strong>grupos de variables correlacionadas</strong> - Más flexible que Ridge o Lasso por separado</p>
 <p>❌ <strong>Desventajas:</strong> - Dos hiperparámetros para ajustar (<span class="math inline">\(\lambda\)</span> y <span class="math inline">\(\alpha\)</span>) - Más complejo computacionalmente</p>
 <hr>
 </section>
 </section>
-<section id="comparación-visual-ridge-vs-lasso-vs-elastic-net" class="level3" data-number="3.7.5">
-<h3 data-number="3.7.5" class="anchored" data-anchor-id="comparación-visual-ridge-vs-lasso-vs-elastic-net"><span class="header-section-number">3.7.5</span> Comparación Visual: Ridge vs Lasso vs Elastic Net</h3>
+<section id="comparación-visual-ridge-vs-lasso-vs-elastic-net" class="level3">
+<h3 class="anchored" data-anchor-id="comparación-visual-ridge-vs-lasso-vs-elastic-net">Comparación Visual: Ridge vs Lasso vs Elastic Net</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -926,10 +949,10 @@ Intuición Geométrica
 </tbody>
 </table>
 </section>
-<section id="cuándo-usar-cada-método" class="level3" data-number="3.7.6">
-<h3 data-number="3.7.6" class="anchored" data-anchor-id="cuándo-usar-cada-método"><span class="header-section-number">3.7.6</span> ¿Cuándo usar cada método?</h3>
-<section id="usa-ridge-cuando" class="level4" data-number="3.7.6.1">
-<h4 data-number="3.7.6.1" class="anchored" data-anchor-id="usa-ridge-cuando"><span class="header-section-number">3.7.6.1</span> Usa <strong>Ridge</strong> cuando:</h4>
+<section id="cuándo-usar-cada-método" class="level3">
+<h3 class="anchored" data-anchor-id="cuándo-usar-cada-método">¿Cuándo usar cada método?</h3>
+<section id="usa-ridge-cuando" class="level4">
+<h4 class="anchored" data-anchor-id="usa-ridge-cuando">Usa <strong>Ridge</strong> cuando:</h4>
 <ul>
 <li>Crees que <strong>todas las variables</strong> contribuyen al modelo</li>
 <li>Tienes <strong>multicolinealidad</strong> severa</li>
@@ -937,8 +960,8 @@ Intuición Geométrica
 <li>El número de observaciones es <strong>pequeño</strong> relativo a variables</li>
 </ul>
 </section>
-<section id="usa-lasso-cuando" class="level4" data-number="3.7.6.2">
-<h4 data-number="3.7.6.2" class="anchored" data-anchor-id="usa-lasso-cuando"><span class="header-section-number">3.7.6.2</span> Usa <strong>Lasso</strong> cuando:</h4>
+<section id="usa-lasso-cuando" class="level4">
+<h4 class="anchored" data-anchor-id="usa-lasso-cuando">Usa <strong>Lasso</strong> cuando:</h4>
 <ul>
 <li>Crees que <strong>pocas variables</strong> son realmente importantes</li>
 <li>Quieres un modelo <strong>simple e interpretable</strong></li>
@@ -946,8 +969,8 @@ Intuición Geométrica
 <li>Tienes muchas variables <strong>irrelevantes</strong></li>
 </ul>
 </section>
-<section id="usa-elastic-net-cuando" class="level4" data-number="3.7.6.3">
-<h4 data-number="3.7.6.3" class="anchored" data-anchor-id="usa-elastic-net-cuando"><span class="header-section-number">3.7.6.3</span> Usa <strong>Elastic Net</strong> cuando:</h4>
+<section id="usa-elastic-net-cuando" class="level4">
+<h4 class="anchored" data-anchor-id="usa-elastic-net-cuando">Usa <strong>Elastic Net</strong> cuando:</h4>
 <ul>
 <li>No estás seguro de cuántas variables son importantes</li>
 <li>Tienes <strong>grupos de variables correlacionadas</strong></li>
@@ -957,39 +980,39 @@ Intuición Geométrica
 <hr>
 </section>
 </section>
-<section id="validación-de-modelos-y-selección-de-hiperparámetros" class="level3" data-number="3.7.7">
-<h3 data-number="3.7.7" class="anchored" data-anchor-id="validación-de-modelos-y-selección-de-hiperparámetros"><span class="header-section-number">3.7.7</span> Validación de Modelos y Selección de Hiperparámetros</h3>
-<section id="por-qué-necesitamos-dividir-nuestros-datos" class="level4" data-number="3.7.7.1">
-<h4 data-number="3.7.7.1" class="anchored" data-anchor-id="por-qué-necesitamos-dividir-nuestros-datos"><span class="header-section-number">3.7.7.1</span> ¿Por qué necesitamos dividir nuestros datos?</h4>
+<section id="validación-de-modelos-y-selección-de-hiperparámetros" class="level3">
+<h3 class="anchored" data-anchor-id="validación-de-modelos-y-selección-de-hiperparámetros">Validación de Modelos y Selección de Hiperparámetros</h3>
+<section id="por-qué-necesitamos-dividir-nuestros-datos" class="level4">
+<h4 class="anchored" data-anchor-id="por-qué-necesitamos-dividir-nuestros-datos">¿Por qué necesitamos dividir nuestros datos?</h4>
 <p>Cuando construimos modelos de machine learning, enfrentamos un dilema fundamental: <strong>¿cómo sabemos si nuestro modelo funcionará bien con datos nuevos?</strong></p>
-<section id="el-problema-del-sobreajuste" class="level5" data-number="3.7.7.1.1">
-<h5 data-number="3.7.7.1.1" class="anchored" data-anchor-id="el-problema-del-sobreajuste"><span class="header-section-number">3.7.7.1.1</span> El Problema del Sobreajuste</h5>
+<section id="el-problema-del-sobreajuste" class="level5">
+<h5 class="anchored" data-anchor-id="el-problema-del-sobreajuste">El Problema del Sobreajuste</h5>
 <p>Imagina que estás preparándote para un examen. Si solo estudias las preguntas exactas que aparecerán en el examen, podrías obtener una calificación perfecta. Pero si las preguntas cambian ligeramente, tu rendimiento se desplomaría. Esto es <strong>sobreajuste</strong>: el modelo memoriza los datos de entrenamiento pero no generaliza.</p>
 </section>
 </section>
-<section id="división-típica-de-datos-entrenamientovalidaciónprueba" class="level4" data-number="3.7.7.2">
-<h4 data-number="3.7.7.2" class="anchored" data-anchor-id="división-típica-de-datos-entrenamientovalidaciónprueba"><span class="header-section-number">3.7.7.2</span> División Típica de Datos: Entrenamiento/Validación/Prueba</h4>
+<section id="división-típica-de-datos-entrenamientovalidaciónprueba" class="level4">
+<h4 class="anchored" data-anchor-id="división-típica-de-datos-entrenamientovalidaciónprueba">División Típica de Datos: Entrenamiento/Validación/Prueba</h4>
 <p>La estrategia estándar es dividir nuestros datos en <strong>tres conjuntos</strong>:</p>
 <pre><code>📊 Dataset Completo (100%)
 ├── 🏋️ Entrenamiento (60%) - Para ajustar coeficientes
 ├── 🎯 Validación (20%)     - Para seleccionar hiperparámetros  
 └── 🧪 Prueba (20%)         - Para evaluación final</code></pre>
-<section id="conjunto-de-entrenamiento-60" class="level5" data-number="3.7.7.2.1">
-<h5 data-number="3.7.7.2.1" class="anchored" data-anchor-id="conjunto-de-entrenamiento-60"><span class="header-section-number">3.7.7.2.1</span> Conjunto de Entrenamiento (60%)</h5>
+<section id="conjunto-de-entrenamiento-60" class="level5">
+<h5 class="anchored" data-anchor-id="conjunto-de-entrenamiento-60">Conjunto de Entrenamiento (60%)</h5>
 <ul>
 <li><strong>Propósito</strong>: Ajustar los coeficientes <span class="math inline">\(\beta\)</span> del modelo</li>
 <li><strong>Analogía</strong>: Los ejercicios que haces para aprender</li>
 </ul>
 </section>
-<section id="conjunto-de-validación-20" class="level5" data-number="3.7.7.2.2">
-<h5 data-number="3.7.7.2.2" class="anchored" data-anchor-id="conjunto-de-validación-20"><span class="header-section-number">3.7.7.2.2</span> Conjunto de Validación (20%)</h5>
+<section id="conjunto-de-validación-20" class="level5">
+<h5 class="anchored" data-anchor-id="conjunto-de-validación-20">Conjunto de Validación (20%)</h5>
 <ul>
 <li><strong>Propósito</strong>: Comparar diferentes hiperparámetros (como <span class="math inline">\(\lambda\)</span> en Ridge/Lasso)</li>
 <li><strong>Analogía</strong>: Exámenes de práctica para decidir qué estrategia de estudio funciona mejor</li>
 </ul>
 </section>
-<section id="conjunto-de-prueba-20" class="level5" data-number="3.7.7.2.3">
-<h5 data-number="3.7.7.2.3" class="anchored" data-anchor-id="conjunto-de-prueba-20"><span class="header-section-number">3.7.7.2.3</span> Conjunto de Prueba (20%)</h5>
+<section id="conjunto-de-prueba-20" class="level5">
+<h5 class="anchored" data-anchor-id="conjunto-de-prueba-20">Conjunto de Prueba (20%)</h5>
 <ul>
 <li><strong>Propósito</strong>: Evaluación final y honesta del modelo</li>
 <li><strong>Analogía</strong>: El examen final real</li>
@@ -997,18 +1020,18 @@ Intuición Geométrica
 </ul>
 </section>
 </section>
-<section id="qué-pasa-si-tenemos-pocos-datos" class="level4" data-number="3.7.7.3">
-<h4 data-number="3.7.7.3" class="anchored" data-anchor-id="qué-pasa-si-tenemos-pocos-datos"><span class="header-section-number">3.7.7.3</span> ¿Qué pasa si tenemos pocos datos?</h4>
+<section id="qué-pasa-si-tenemos-pocos-datos" class="level4">
+<h4 class="anchored" data-anchor-id="qué-pasa-si-tenemos-pocos-datos">¿Qué pasa si tenemos pocos datos?</h4>
 <p>Cuando nuestro dataset es pequeño (&lt; 1000 observaciones), dividir en tres partes puede ser problemático:</p>
 <p>❌ <strong>Problemas con datasets pequeños:</strong> - Conjunto de entrenamiento muy pequeño → modelo pobre - Conjunto de validación pequeño → selección inestable de hiperparámetros - Conjunto de prueba pequeño → evaluación poco confiable</p>
 <p><strong>Solución</strong>: ¡Validación Cruzada!</p>
 <hr>
 </section>
-<section id="validación-cruzada-cross-validation" class="level4" data-number="3.7.7.4">
-<h4 data-number="3.7.7.4" class="anchored" data-anchor-id="validación-cruzada-cross-validation"><span class="header-section-number">3.7.7.4</span> Validación Cruzada (Cross-Validation)</h4>
+<section id="validación-cruzada-cross-validation" class="level4">
+<h4 class="anchored" data-anchor-id="validación-cruzada-cross-validation">Validación Cruzada (Cross-Validation)</h4>
 <p>La <strong>validación cruzada</strong> es una técnica que maximiza el uso de nuestros datos limitados. En lugar de usar una sola división, usamos <strong>múltiples divisiones</strong>.</p>
-<section id="validación-cruzada-k-fold" class="level5" data-number="3.7.7.4.1">
-<h5 data-number="3.7.7.4.1" class="anchored" data-anchor-id="validación-cruzada-k-fold"><span class="header-section-number">3.7.7.4.1</span> Validación Cruzada k-fold</h5>
+<section id="validación-cruzada-k-fold" class="level5">
+<h5 class="anchored" data-anchor-id="validación-cruzada-k-fold">Validación Cruzada k-fold</h5>
 <p>El método más común es <strong>k-fold cross-validation</strong>:</p>
 <ol type="1">
 <li><strong>Dividir</strong> el dataset en <span class="math inline">\(k\)</span> “pliegues” (folds) de igual tamaño</li>
@@ -1030,16 +1053,16 @@ Intuición Geométrica
 </div>
 </div>
 </section>
-<section id="ventajas-de-la-validación-cruzada" class="level5" data-number="3.7.7.4.2">
-<h5 data-number="3.7.7.4.2" class="anchored" data-anchor-id="ventajas-de-la-validación-cruzada"><span class="header-section-number">3.7.7.4.2</span> Ventajas de la Validación Cruzada</h5>
+<section id="ventajas-de-la-validación-cruzada" class="level5">
+<h5 class="anchored" data-anchor-id="ventajas-de-la-validación-cruzada">Ventajas de la Validación Cruzada</h5>
 <p>✅ <strong>Maximiza el uso de datos</strong>: Cada observación se usa tanto para entrenamiento como validación</p>
 <p>✅ <strong>Estimación más robusta</strong>: Promedia múltiples evaluaciones independientes</p>
 <p>✅ <strong>Reduce la varianza</strong>: Menos dependiente de una división particular</p>
 <p>✅ <strong>Detecta inestabilidad</strong>: Si los resultados varían mucho entre folds, el modelo es inestable</p>
 </section>
 </section>
-<section id="validación-cruzada-para-selección-de-hiperparámetros" class="level4" data-number="3.7.7.5">
-<h4 data-number="3.7.7.5" class="anchored" data-anchor-id="validación-cruzada-para-selección-de-hiperparámetros"><span class="header-section-number">3.7.7.5</span> Validación Cruzada para Selección de Hiperparámetros</h4>
+<section id="validación-cruzada-para-selección-de-hiperparámetros" class="level4">
+<h4 class="anchored" data-anchor-id="validación-cruzada-para-selección-de-hiperparámetros">Validación Cruzada para Selección de Hiperparámetros</h4>
 <p>En regresión regularizada, usamos CV para encontrar el mejor <span class="math inline">\(\lambda\)</span>:</p>
 <div id="cell-validation-curve" class="cell" data-fig-height="6" data-fig-width="12" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
@@ -1065,8 +1088,8 @@ Para cada valor de λ:
 </div>
 </div>
 </section>
-<section id="proceso-completo-de-validación" class="level4" data-number="3.7.7.6">
-<h4 data-number="3.7.7.6" class="anchored" data-anchor-id="proceso-completo-de-validación"><span class="header-section-number">3.7.7.6</span> Proceso Completo de Validación</h4>
+<section id="proceso-completo-de-validación" class="level4">
+<h4 class="anchored" data-anchor-id="proceso-completo-de-validación">Proceso Completo de Validación</h4>
 <p>El flujo completo para modelos regularizados es:</p>
 <pre><code>1. 📊 Dividir datos originales
    └── 80% para desarrollo (entrenamiento + validación)
@@ -1084,25 +1107,25 @@ Para cada valor de λ:
 
 5. 🧪 Evaluación final en conjunto de prueba</code></pre>
 </section>
-<section id="variantes-de-validación-cruzada" class="level4" data-number="3.7.7.7">
-<h4 data-number="3.7.7.7" class="anchored" data-anchor-id="variantes-de-validación-cruzada"><span class="header-section-number">3.7.7.7</span> Variantes de Validación Cruzada</h4>
-<section id="leave-one-out-cv-loocv" class="level5" data-number="3.7.7.7.1">
-<h5 data-number="3.7.7.7.1" class="anchored" data-anchor-id="leave-one-out-cv-loocv"><span class="header-section-number">3.7.7.7.1</span> Leave-One-Out CV (LOOCV)</h5>
+<section id="variantes-de-validación-cruzada" class="level4">
+<h4 class="anchored" data-anchor-id="variantes-de-validación-cruzada">Variantes de Validación Cruzada</h4>
+<section id="leave-one-out-cv-loocv" class="level5">
+<h5 class="anchored" data-anchor-id="leave-one-out-cv-loocv">Leave-One-Out CV (LOOCV)</h5>
 <ul>
 <li><strong>k = n</strong> (número de observaciones)</li>
 <li><strong>Ventaja</strong>: Máximo uso de datos para entrenamiento</li>
 <li><strong>Desventaja</strong>: Computacionalmente costoso, alta varianza</li>
 </ul>
 </section>
-<section id="stratified-cv" class="level5" data-number="3.7.7.7.2">
-<h5 data-number="3.7.7.7.2" class="anchored" data-anchor-id="stratified-cv"><span class="header-section-number">3.7.7.7.2</span> Stratified CV</h5>
+<section id="stratified-cv" class="level5">
+<h5 class="anchored" data-anchor-id="stratified-cv">Stratified CV</h5>
 <ul>
 <li><strong>Para problemas de clasificación</strong></li>
 <li>Mantiene la proporción de clases en cada fold</li>
 </ul>
 </section>
-<section id="time-series-cv" class="level5" data-number="3.7.7.7.3">
-<h5 data-number="3.7.7.7.3" class="anchored" data-anchor-id="time-series-cv"><span class="header-section-number">3.7.7.7.3</span> Time Series CV</h5>
+<section id="time-series-cv" class="level5">
+<h5 class="anchored" data-anchor-id="time-series-cv">Time Series CV</h5>
 <ul>
 <li><strong>Para datos temporales</strong></li>
 <li>Respeta el orden temporal (no mezcla futuro con pasado)</li>
@@ -1127,8 +1150,8 @@ Para cada valor de λ:
 </div>
 </section>
 </section>
-<section id="cuándo-usar-cada-enfoque" class="level4" data-number="3.7.7.8">
-<h4 data-number="3.7.7.8" class="anchored" data-anchor-id="cuándo-usar-cada-enfoque"><span class="header-section-number">3.7.7.8</span> ¿Cuándo usar cada enfoque?</h4>
+<section id="cuándo-usar-cada-enfoque" class="level4">
+<h4 class="anchored" data-anchor-id="cuándo-usar-cada-enfoque">¿Cuándo usar cada enfoque?</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 40%">
@@ -1181,8 +1204,8 @@ Para cada valor de λ:
 <hr>
 </section>
 </section>
-<section id="ejercicio-práctico-comparando-los-tres-métodos" class="level3" data-number="3.7.8">
-<h3 data-number="3.7.8" class="anchored" data-anchor-id="ejercicio-práctico-comparando-los-tres-métodos"><span class="header-section-number">3.7.8</span> Ejercicio Práctico: Comparando los Tres Métodos</h3>
+<section id="ejercicio-práctico-comparando-los-tres-métodos" class="level3">
+<h3 class="anchored" data-anchor-id="ejercicio-práctico-comparando-los-tres-métodos">Ejercicio Práctico: Comparando los Tres Métodos</h3>
 <p>En el notebook correspondiente, implementaremos:</p>
 <ol type="1">
 <li><strong>Generación de datos</strong> con diferentes estructuras de correlación</li>
@@ -1614,7 +1637,7 @@ Para cada valor de λ:
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./02-principios.html" class="pagination-link" aria-label="Principios de aprendizaje supervisado">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Principios de aprendizaje supervisado</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Principios de aprendizaje supervisado</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

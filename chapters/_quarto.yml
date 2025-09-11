@@ -12,6 +12,11 @@ book:
     - 02-principios.qmd
     - 03-regresion_lineal.qmd
     - references.qmd
+    - part: "Ejemplos"
+      chapters:
+        - introduccion.ipynb
+        - regresion_lineal_alumnos.ipynb
+        - violaciones_supuestos_regresion.ipynb
   open-graph: true
 
 bibliography: references.bib
@@ -26,6 +31,7 @@ format:
       dark: darkly
     lang: es
     font-size: 1.1em
+    number-sections: false
 
 
 
