@@ -213,3 +213,5 @@ __marimo__/
 
 # Quarto
 .quarto
+_freeze/
+chapters/*.ipynb

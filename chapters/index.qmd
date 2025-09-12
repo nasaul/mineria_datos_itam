@@ -12,7 +12,8 @@
 
 ### Evaluación {.unnumbered}
 
-- Dos exámenes parciales (40%)
+- Tarea (20%)
+- Examen parcial (20%)
 - Proyecto final (30%):
   - Entrega (75%)
   - Exposición (25%)  
