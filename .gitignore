@@ -3,6 +3,8 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Claude 
+CLAUDE.md
 # C extensions
 *.so
 
@@ -211,3 +213,5 @@ __marimo__/
 
 # Quarto
 .quarto
+_freeze/
+chapters/*.ipynb

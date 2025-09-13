@@ -1,0 +1,857 @@
+# Requerimientos computacionales
+
+Este capítulo proporciona una guía completa para instalar y configurar las herramientas computacionales necesarias para el curso de Minería de Datos. Cubriremos la instalación y uso básico de Git, GitHub, y Conda en sistemas Windows y macOS.
+
+## Git
+
+### ¿Qué es Git?
+
+Git es un sistema de control de versiones distribuido que permite rastrear cambios en archivos y coordinar el trabajo entre múltiples personas. Es esencial para el desarrollo de software y la gestión de proyectos de análisis de datos.
+
+**Características principales:**
+- Control de versiones: mantiene un historial completo de cambios
+- Trabajo colaborativo: permite que múltiples personas trabajen en el mismo proyecto
+- Ramificación (branching): facilita el desarrollo de características en paralelo
+- Respaldo distribuido: cada copia del repositorio es un respaldo completo
+
+### Instalación de Git
+
+#### Windows
+
+1. **Descargar Git:**
+   - Visita [https://git-scm.com/download/win](https://git-scm.com/download/win)
+   - Descarga la versión más reciente para Windows
+
+2. **Instalación:**
+   - Ejecuta el archivo descargado
+   - Acepta las opciones por defecto (recomendado para principiantes)
+   - Importante: asegúrate de seleccionar "Git Bash Here" durante la instalación
+
+3. **Verificar instalación:**
+   ```bash
+   git --version
+   ```
+
+#### macOS
+
+**Opción 1: Usando Homebrew (recomendado)**
+```bash
+# Instalar Homebrew si no lo tienes
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Instalar Git
+brew install git
+```
+
+**Opción 2: Descarga directa**
+1. Visita [https://git-scm.com/download/mac](https://git-scm.com/download/mac)
+2. Descarga e instala el paquete
+
+**Opción 3: Xcode Command Line Tools**
+```bash
+xcode-select --install
+```
+
+### Configuración inicial de Git
+
+Después de instalar Git, configura tu identidad:
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu.email@ejemplo.com"
+```
+
+### Comandos básicos de Git
+
+#### Inicializar un repositorio
+```bash
+# Crear un nuevo repositorio
+git init
+
+# Clonar un repositorio existente
+git clone https://github.com/usuario/repositorio.git
+```
+
+#### Operaciones básicas
+```bash
+# Ver el estado del repositorio
+git status
+
+# Añadir archivos al área de staging
+git add archivo.py
+git add .  # Añadir todos los archivos
+
+# Crear un commit
+git commit -m "Mensaje descriptivo del cambio"
+
+# Ver el historial de commits
+git log --oneline
+```
+
+#### Trabajar con repositorios remotos
+```bash
+# Ver repositorios remotos configurados
+git remote -v
+
+# Añadir un repositorio remoto
+git remote add origin https://github.com/usuario/repositorio.git
+
+# Enviar cambios al repositorio remoto
+git push origin main
+
+# Obtener cambios del repositorio remoto
+git pull origin main
+```
+
+## GitHub
+
+### ¿Qué es GitHub?
+
+GitHub es una plataforma de desarrollo colaborativo basada en Git que permite:
+- Hospedar repositorios de código
+- Colaborar en proyectos
+- Realizar seguimiento de issues y bugs
+- Automatizar workflows
+- Crear documentación con GitHub Pages
+
+### Creación de cuenta en GitHub
+
+1. Visita [https://github.com](https://github.com)
+2. Haz clic en "Sign up"
+3. Completa el formulario de registro
+4. Verifica tu email
+5. Configura tu perfil
+
+### Conectar Git local con GitHub
+
+#### Autenticación con Token Personal
+
+1. **Crear un Personal Access Token:**
+   - Ve a GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - Generate new token (classic)
+   - Selecciona los permisos necesarios: `repo`, `workflow`
+   - Guarda el token en un lugar seguro
+
+2. **Usar el token:**
+   ```bash
+   # Al hacer push por primera vez, usa tu username y el token como password
+   git push origin main
+   ```
+
+#### Autenticación con SSH (recomendado para uso avanzado)
+
+1. **Generar clave SSH:**
+   ```bash
+   ssh-keygen -t ed25519 -C "tu.email@ejemplo.com"
+   ```
+
+2. **Añadir la clave a GitHub:**
+   ```bash
+   # Copiar la clave pública
+   cat ~/.ssh/id_ed25519.pub
+   ```
+   - Ve a GitHub → Settings → SSH and GPG keys → New SSH key
+   - Pega la clave pública
+
+3. **Probar la conexión:**
+   ```bash
+   ssh -T git@github.com
+   ```
+
+## Pull Requests
+
+### ¿Qué son los Pull Requests?
+
+Los Pull Requests (PRs) son una funcionalidad de GitHub que permite:
+- Proponer cambios a un repositorio
+- Revisar código antes de integrarlo
+- Discutir modificaciones
+- Mantener un historial de cambios
+
+### Flujo de trabajo con Pull Requests
+
+#### 1. Crear una nueva rama
+```bash
+# Crear y cambiar a una nueva rama
+git checkout -b nueva-caracteristica
+
+# O usando el comando más moderno
+git switch -c nueva-caracteristica
+```
+
+#### 2. Realizar cambios y commits
+```bash
+# Hacer cambios en tu código
+# ...
+
+# Añadir y commitear cambios
+git add .
+git commit -m "Implementa nueva característica"
+```
+
+#### 3. Subir la rama a GitHub
+```bash
+git push origin nueva-caracteristica
+```
+
+#### 4. Crear el Pull Request
+1. Ve a tu repositorio en GitHub
+2. Haz clic en "Compare & pull request"
+3. Añade un título y descripción clara
+4. Selecciona los revisores si es necesario
+5. Haz clic en "Create pull request"
+
+#### 5. Proceso de revisión
+- Los revisores pueden añadir comentarios
+- Puedes hacer cambios adicionales con nuevos commits
+- Una vez aprobado, el PR puede ser fusionado
+
+#### 6. Fusionar y limpiar
+```bash
+# Después de que se fusione el PR, actualiza tu rama principal
+git checkout main
+git pull origin main
+
+# Elimina la rama local
+git branch -d nueva-caracteristica
+```
+
+## Conda
+
+### ¿Qué es Conda?
+
+Conda es un gestor de paquetes y entornos de código abierto que:
+- Instala, ejecuta y actualiza paquetes y sus dependencias
+- Crea, guarda, carga y cambia entre entornos
+- Funciona con cualquier lenguaje (Python, R, Ruby, Lua, Scala, Java, etc.)
+- Es multiplataforma (Windows, macOS, Linux)
+
+### Instalación de Conda
+
+#### Opción 1: Miniconda (recomendado)
+
+**Windows:**
+1. Descargar desde [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)
+2. Ejecutar el instalador
+3. Seguir las instrucciones por defecto
+4. Reiniciar la terminal
+
+**macOS:**
+```bash
+# Descargar e instalar con curl
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+bash Miniconda3-latest-MacOSX-x86_64.sh
+
+# Para Apple Silicon (M1/M2)
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+bash Miniconda3-latest-MacOSX-arm64.sh
+```
+
+#### Opción 2: Anaconda (instalación completa)
+
+1. Descargar desde [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution)
+2. Seguir las instrucciones de instalación para tu sistema operativo
+
+### Verificar la instalación
+
+```bash
+conda --version
+conda info
+```
+
+## Gestión de Entornos con Conda
+
+### ¿Por qué usar entornos?
+
+Los entornos virtuales permiten:
+- Aislar dependencias entre proyectos
+- Usar diferentes versiones de Python/paquetes
+- Evitar conflictos entre bibliotecas
+- Reproducir entornos de trabajo
+
+### Comandos básicos para entornos
+
+#### Crear entornos
+```bash
+# Crear un entorno con Python específico
+conda create -n mi_entorno python=3.10
+
+# Crear un entorno con paquetes específicos
+conda create -n ciencia_datos python=3.10 numpy pandas matplotlib
+
+# Crear entorno desde un archivo
+conda env create -f environment.yml
+```
+
+#### Activar y desactivar entornos
+```bash
+# Activar un entorno
+conda activate mi_entorno
+
+# Desactivar el entorno actual
+conda deactivate
+
+# Listar entornos disponibles
+conda env list
+```
+
+#### Gestionar paquetes en entornos
+```bash
+# Instalar paquetes
+conda install numpy pandas scikit-learn
+
+# Instalar desde conda-forge (recomendado)
+conda install -c conda-forge seaborn
+
+# Instalar múltiples paquetes
+conda install jupyter matplotlib seaborn
+
+# Listar paquetes instalados
+conda list
+
+# Actualizar paquetes
+conda update numpy
+conda update --all
+```
+
+#### Eliminar entornos
+```bash
+# Eliminar un entorno
+conda env remove -n mi_entorno
+```
+
+### Archivo environment.yml
+
+Para reproducir entornos, crea un archivo `environment.yml`:
+
+```yaml
+name: mineria_datos
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - jupyter
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - pip
+  - pip:
+    - some-pip-package
+```
+
+Crear el entorno desde el archivo:
+```bash
+conda env create -f environment.yml
+```
+
+### Mejores prácticas
+
+1. **Un entorno por proyecto:** Crea un entorno específico para cada proyecto
+2. **Usa conda-forge:** Preferir el canal conda-forge para paquetes actualizados
+3. **Exporta tus entornos:** Mantén archivos environment.yml para reproducibilidad
+4. **Actualiza regularmente:** Mantén tus entornos actualizados
+5. **Documenta dependencias:** Incluye versiones específicas cuando sea crítico
+
+### Solución de problemas comunes
+
+#### Problema: Conda no se reconoce en la terminal
+**Solución:** Reinicia la terminal o añade conda al PATH:
+```bash
+# Windows (en Command Prompt como administrador)
+conda init cmd.exe
+
+# macOS/Linux
+conda init bash
+```
+
+#### Problema: Conflictos de paquetes
+**Solución:** Usa mamba (más rápido) o especifica canales:
+```bash
+# Instalar mamba
+conda install mamba -n base -c conda-forge
+
+# Usar mamba en lugar de conda
+mamba install numpy pandas
+```
+
+#### Problema: Entorno no se activa
+**Solución:** Verifica la instalación y configuración:
+```bash
+conda info --envs
+conda config --show
+```
+
+## Configuración de Conda en diferentes entornos
+
+### Conda en Windows con Git Bash
+
+Git Bash en Windows puede requerir configuración adicional para funcionar correctamente con Conda:
+
+#### 1. Configuración inicial en Git Bash
+
+Después de instalar Miniconda en Windows, es posible que conda no esté disponible en Git Bash por defecto:
+
+```bash
+# Verificar si conda está disponible
+conda --version
+```
+
+Si no funciona, necesitas inicializar conda para Git Bash:
+
+```bash
+# Navega al directorio de instalación de Miniconda (ajusta la ruta según tu instalación)
+cd /c/Users/TuUsuario/miniconda3/Scripts
+
+# Inicializar conda para bash
+./conda.exe init bash
+```
+
+#### 2. Alternativa: Añadir conda al PATH manualmente
+
+Si la inicialización no funciona, añade conda manualmente al PATH en Git Bash:
+
+```bash
+# Añadir estas líneas a tu archivo ~/.bashrc
+echo 'export PATH="/c/Users/TuUsuario/miniconda3:$PATH"' >> ~/.bashrc
+echo 'export PATH="/c/Users/TuUsuario/miniconda3/Scripts:$PATH"' >> ~/.bashrc
+
+# Recargar el archivo bashrc
+source ~/.bashrc
+```
+
+#### 3. Verificar la configuración
+
+```bash
+# Reiniciar Git Bash y verificar
+conda --version
+conda info
+```
+
+#### 4. Trabajar con entornos en Git Bash
+
+```bash
+# Crear y activar entorno
+conda create -n mineria_datos python=3.10
+conda activate mineria_datos
+
+# Si aparece un error de activación, usa:
+source activate mineria_datos
+```
+
+### Troubleshooting específico para Windows
+
+#### Problema: "conda: command not found" en Git Bash
+**Soluciones:**
+
+1. **Reinstalar Miniconda con "Add to PATH" marcado**
+2. **Usar el Anaconda Prompt** (más confiable en Windows)
+3. **Configurar manualmente el PATH:**
+
+```bash
+# En ~/.bashrc, añade:
+alias conda='/c/Users/TuUsuario/miniconda3/Scripts/conda.exe'
+alias python='/c/Users/TuUsuario/miniconda3/python.exe'
+```
+
+#### Problema: Activación de entorno no funciona
+```bash
+# En lugar de conda activate, usa:
+source /c/Users/TuUsuario/miniconda3/etc/profile.d/conda.sh
+conda activate mineria_datos
+```
+
+## Visual Studio Code
+
+### ¿Por qué usar VS Code para ciencia de datos?
+
+Visual Studio Code es un editor de código ligero pero potente que ofrece:
+- Soporte excelente para Python y Jupyter notebooks
+- Integración nativa con conda y entornos virtuales
+- Extensiones específicas para ciencia de datos
+- Terminal integrado
+- Control de versiones Git integrado
+- IntelliSense y debugging avanzado
+
+### Instalación de Visual Studio Code
+
+#### Windows y macOS
+1. Descargar desde [https://code.visualstudio.com/](https://code.visualstudio.com/)
+2. Ejecutar el instalador siguiendo las instrucciones por defecto
+3. Reiniciar el sistema si es necesario
+
+### Extensiones esenciales para ciencia de datos
+
+Instala estas extensiones desde el marketplace de VS Code (Ctrl/Cmd + Shift + X):
+
+#### Extensiones obligatorias:
+```
+- Python (Microsoft)
+- Jupyter (Microsoft)
+- Python Debugger (Microsoft)
+```
+
+#### Extensiones recomendadas:
+```
+- GitLens — Git supercharged
+- Pylance (análisis avanzado de Python)
+- autoDocstring - Python Docstring Generator
+- Python Indent
+- Bracket Pair Colorizer
+- Data Wrangler (Microsoft)
+```
+
+### Configuración de Python y Conda en VS Code
+
+#### 1. Seleccionar el intérprete de Python
+
+1. Abre VS Code
+2. Presiona `Ctrl+Shift+P` (Windows) o `Cmd+Shift+P` (macOS)
+3. Escribe "Python: Select Interpreter"
+4. Selecciona el intérprete del entorno `mineria_datos`
+
+La ruta debería ser similar a:
+- **Windows:** `C:\Users\TuUsuario\miniconda3\envs\mineria_datos\python.exe`
+- **macOS:** `/Users/TuUsuario/miniconda3/envs/mineria_datos/bin/python`
+
+#### 2. Verificar la configuración
+
+Crea un archivo de prueba `test.py`:
+```python
+import sys
+print(f"Python path: {sys.executable}")
+print(f"Python version: {sys.version}")
+
+# Verificar paquetes
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sklearn
+
+print("¡Todos los paquetes importados correctamente!")
+```
+
+#### 3. Configurar terminal integrado
+
+En VS Code, abre el terminal integrado (`Ctrl+`` ` o `View → Terminal`) y configura conda:
+
+**Windows:**
+```bash
+# Si usas Git Bash en VS Code
+conda activate mineria_datos
+```
+
+**macOS:**
+```bash
+conda activate mineria_datos
+```
+
+### Trabajar con Jupyter Notebooks en VS Code
+
+#### 1. Crear un nuevo notebook
+1. `Ctrl+Shift+P` → "Jupyter: Create New Jupyter Notebook"
+2. O crear un archivo con extensión `.ipynb`
+
+#### 2. Seleccionar kernel
+1. En la esquina superior derecha del notebook, haz clic en "Select Kernel"
+2. Selecciona "Python Environments"
+3. Escoge el entorno `mineria_datos`
+
+#### 3. Verificar configuración del notebook
+```python
+# Primera celda del notebook
+import sys
+print(f"Ejecutándose en: {sys.executable}")
+
+# Importar bibliotecas del curso
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+
+print("Notebook configurado correctamente para el curso!")
+```
+
+### Configuración avanzada de VS Code
+
+#### Configuración del workspace
+
+Crea un archivo `.vscode/settings.json` en tu directorio del proyecto:
+
+```json
+{
+    "python.defaultInterpreterPath": "./mineria_datos/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "jupyter.defaultKernel": "mineria_datos",
+    "files.associations": {
+        "*.qmd": "markdown"
+    },
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "editor.formatOnSave": true
+}
+```
+
+#### Atajos de teclado útiles
+
+- `Ctrl+Shift+P`: Command Palette
+- `Ctrl+`` `: Toggle Terminal
+- `Shift+Enter`: Ejecutar celda de notebook
+- `Ctrl+Enter`: Ejecutar celda sin avanzar
+- `F5`: Iniciar debugging
+- `Ctrl+Shift+G`: Control de versiones Git
+
+### Integración con Git en VS Code
+
+#### 1. Clonar repositorio
+1. `Ctrl+Shift+P` → "Git: Clone"
+2. Pega la URL del repositorio
+3. Selecciona la carpeta destino
+
+#### 2. Operaciones Git básicas
+- **Source Control panel** (`Ctrl+Shift+G`): Ver cambios
+- **Stage changes**: Hacer clic en el "+" junto a los archivos
+- **Commit**: Escribir mensaje y presionar `Ctrl+Enter`
+- **Push/Pull**: Usar los botones en la barra de estado
+
+#### 3. Crear branches
+1. Clic en el nombre de la branch en la barra de estado
+2. "Create new branch"
+3. Escribir el nombre de la nueva branch
+
+## Configuración completa del entorno para el curso
+
+### Pasos de configuración paso a paso
+
+#### 1. Instalar las herramientas base
+- **Git** (siguiendo las instrucciones de instalación según tu sistema operativo)
+- **Conda** (Miniconda recomendado)
+- **Visual Studio Code** (opcional pero recomendado)
+
+#### 2. Crear y configurar el entorno de conda
+
+**En cualquier terminal (Command Prompt, Git Bash, Terminal de macOS):**
+
+```bash
+# Crear el entorno del curso
+conda create -n mineria_datos python=3.10
+
+# Activar el entorno
+conda activate mineria_datos
+```
+
+**Si tienes problemas con conda activate en Windows Git Bash:**
+```bash
+# Alternativa para Windows Git Bash
+source activate mineria_datos
+```
+
+#### 3. Instalar paquetes necesarios
+
+**Opción recomendada (con mamba para mayor velocidad):**
+```bash
+# Instalar mamba primero
+conda install mamba -c conda-forge
+
+# Instalar todos los paquetes del curso
+mamba install jupyter numpy pandas matplotlib seaborn scikit-learn nbclient ipykernel pyyaml plotly -y
+```
+
+**Opción alternativa (solo con conda):**
+```bash
+conda install jupyter numpy pandas matplotlib seaborn scikit-learn nbclient ipykernel pyyaml plotly -y
+```
+
+#### 4. Configurar Jupyter para el entorno
+
+```bash
+# Registrar el entorno como kernel de Jupyter
+python -m ipykernel install --user --name mineria_datos --display-name "Python (Minería de Datos)"
+
+# Verificar que el kernel se registró correctamente
+jupyter kernelspec list
+```
+
+#### 5. Verificar la instalación
+
+```bash
+# Probar que todos los paquetes se importan correctamente
+python -c "
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sklearn
+import plotly
+print('✅ ¡Todos los paquetes instalados correctamente!')
+print(f'Python version: {pd.__version__}')
+print(f'Pandas version: {pd.__version__}')
+print(f'NumPy version: {np.__version__}')
+print(f'Scikit-learn version: {sklearn.__version__}')
+"
+```
+
+### Configuración específica por entorno
+
+#### Para usuarios de Windows Git Bash
+
+Si planeas usar Git Bash como tu terminal principal:
+
+```bash
+# Añadir conda al PATH permanentemente
+echo 'export PATH="/c/Users/TuUsuario/miniconda3/Scripts:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+# Verificar configuración
+conda info
+```
+
+#### Para usuarios de Visual Studio Code
+
+1. **Instalar VS Code y extensiones:**
+   - Python (Microsoft)
+   - Jupyter (Microsoft) 
+   - Python Debugger (Microsoft)
+
+2. **Configurar el intérprete:**
+   - `Ctrl+Shift+P` → "Python: Select Interpreter"
+   - Seleccionar el intérprete del entorno `mineria_datos`
+
+3. **Crear archivo de configuración del workspace:**
+
+Crea `.vscode/settings.json` en tu directorio de proyecto:
+```json
+{
+    "python.defaultInterpreterPath": "~/miniconda3/envs/mineria_datos/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "jupyter.defaultKernel": "mineria_datos",
+    "files.associations": {
+        "*.qmd": "markdown"
+    }
+}
+```
+
+#### Para usuarios de Jupyter Lab (opcional)
+
+Si prefieres usar JupyterLab en lugar de notebooks en VS Code:
+
+```bash
+# Instalar JupyterLab
+conda install jupyterlab
+
+# Iniciar JupyterLab
+jupyter lab
+```
+
+### Clonar el repositorio del curso
+
+Una vez configurado tu entorno, clona el repositorio del curso:
+
+```bash
+# Clonar el repositorio (sustituye por la URL real del curso)
+git clone [URL_DEL_REPOSITORIO_DEL_CURSO]
+
+# Navegar al directorio
+cd nombre-del-repositorio
+
+# Activar el entorno
+conda activate mineria_datos
+
+# Si hay un archivo environment.yml, úsalo para instalar dependencias adicionales
+conda env update -f environment.yml
+```
+
+### Flujo de trabajo recomendado
+
+1. **Iniciar sesión de trabajo:**
+   ```bash
+   # Activar entorno
+   conda activate mineria_datos
+   
+   # Navegar al directorio del proyecto
+   cd ruta/al/proyecto
+   
+   # Abrir VS Code (si lo usas)
+   code .
+   ```
+
+2. **Para cada tarea/proyecto:**
+   - Crear una nueva branch en Git
+   - Trabajar en tus notebooks/scripts
+   - Hacer commits regularmente
+   - Crear Pull Request cuando esté listo
+
+3. **Mantener el entorno actualizado:**
+   ```bash
+   # Actualizar paquetes periódicamente
+   conda update --all
+   ```
+
+### Verificación final
+
+Ejecuta este script para verificar que todo está configurado correctamente:
+
+```python
+# test_setup.py
+import sys
+import subprocess
+
+def test_environment():
+    print("🔍 Verificando configuración del entorno...")
+    
+    # Verificar Python
+    print(f"✅ Python: {sys.version}")
+    print(f"✅ Ejecutable: {sys.executable}")
+    
+    # Verificar paquetes críticos
+    required_packages = [
+        'pandas', 'numpy', 'matplotlib', 'seaborn', 
+        'sklearn', 'jupyter', 'plotly'
+    ]
+    
+    for package in required_packages:
+        try:
+            __import__(package)
+            print(f"✅ {package}: disponible")
+        except ImportError:
+            print(f"❌ {package}: NO disponible")
+    
+    # Verificar conda
+    try:
+        result = subprocess.run(['conda', '--version'], 
+                              capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f"✅ Conda: {result.stdout.strip()}")
+        else:
+            print("❌ Conda: no disponible")
+    except FileNotFoundError:
+        print("❌ Conda: no encontrado en PATH")
+    
+    # Verificar git
+    try:
+        result = subprocess.run(['git', '--version'], 
+                              capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f"✅ Git: {result.stdout.strip()}")
+        else:
+            print("❌ Git: no disponible")
+    except FileNotFoundError:
+        print("❌ Git: no encontrado en PATH")
+    
+    print("\n🎉 ¡Verificación completa!")
+
+if __name__ == "__main__":
+    test_environment()
+```
+
+Guarda este script como `test_setup.py` y ejecútalo:
+```bash
+python test_setup.py
+```
+
+¡Con esta configuración completa, estarás listo para trabajar eficientemente en todos los proyectos del curso de Minería de Datos!
