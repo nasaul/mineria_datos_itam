@@ -9,9 +9,7 @@ preview: setup-links
 setup-links:
 	@if [ ! -L "chapters/introduccion.ipynb" ]; then \
 		cd chapters && \
-		ln -sf ../notebooks/introduccion.ipynb . && \
-		ln -sf ../notebooks/regresion_lineal_alumnos.ipynb . && \
-		ln -sf ../notebooks/violaciones_supuestos_regresion.ipynb . && \
+		ln -sf ../notebooks/*.ipynb . && \
 		echo "Created symbolic links to notebooks"; \
 	fi
 

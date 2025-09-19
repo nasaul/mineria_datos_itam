@@ -17,7 +17,7 @@ book:
     - part: "Ejemplos"
       chapters:
         - introduccion.ipynb
-        - regresion_lineal_alumnos.ipynb
+        - regresion_lineal.ipynb
         - violaciones_supuestos_regresion.ipynb
   open-graph: true
 
