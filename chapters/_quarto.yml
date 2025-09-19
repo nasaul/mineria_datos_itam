@@ -11,14 +11,17 @@ book:
     - 00-requerimientos-computacion.qmd
     - 01-introduccion.qmd
     - 02-principios.qmd
-    - 03-regresion_lineal.qmd
+    - part: "Regresion lineal"
+      chapters: 
+        - 03-regresion_lineal.qmd
+        - violaciones_supuestos_regresion.ipynb
+        - analisis_advertising_dataset.ipynb
     - 04-clasificacion.qmd
     - references.qmd
     - part: "Ejemplos"
       chapters:
         - introduccion.ipynb
         - regresion_lineal.ipynb
-        - violaciones_supuestos_regresion.ipynb
   open-graph: true
 
 bibliography: references.bib
