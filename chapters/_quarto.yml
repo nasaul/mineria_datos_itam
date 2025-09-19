@@ -12,6 +12,7 @@ book:
     - 01-introduccion.qmd
     - 02-principios.qmd
     - 03-regresion_lineal.qmd
+    - 04-clasificacion.qmd
     - references.qmd
     - part: "Ejemplos"
       chapters:
@@ -23,7 +24,7 @@ book:
 bibliography: references.bib
 
 execute:
-  freeze: true
+  freeze: auto
   
 format:
   html:

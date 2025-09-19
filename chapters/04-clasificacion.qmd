@@ -1,0 +1,410 @@
+# Clasificación
+
+## Introducción al Problema de Clasificación
+
+En los capítulos anteriores hemos trabajado con problemas de regresión, donde la variable respuesta $Y$ es cuantitativa (continua). En este capítulo estudiaremos los **problemas de clasificación**, donde la variakbble respuesta $Y$ es **cualitativa** (categórica o discreta).
+
+### Definición Formal
+
+Un problema de clasificación consiste en asignar una observación $\mathbf{x} = (x_1, x_2, ..., x_p)$ a una de $K$ clases o categorías posibles. Formalmente:
+
+- **Entrada**: Un vector de características $\mathbf{x} \in \mathbb{R}^p$
+- **Salida**: Una etiqueta de clase $y \in \mathcal{C} = \{C_1, C_2, ..., C_K\}$
+
+Donde $\mathcal{C}$ es el conjunto finito de clases posibles.
+
+### Ejemplos de Problemas de Clasificación
+
+1. **Clasificación binaria** ($K=2$):
+   - Detección de spam en correos electrónicos (spam/no spam)
+   - Diagnóstico médico (enfermo/sano)
+   - Aprobación de crédito (aprobado/rechazado)
+
+2. **Clasificación multiclase** ($K>2$):
+   - Reconocimiento de dígitos escritos a mano (0-9)
+   - Clasificación de tipos de flores (setosa/versicolor/virginica)
+   - Categorización de noticias (deportes/política/tecnología/etc.)
+
+### Objetivo del Aprendizaje
+
+El objetivo es aprender una función de clasificación $f: \mathbb{R}^p \rightarrow \mathcal{C}$ que minimice el error de clasificación esperado:
+
+$$\mathbb{E}[L(Y, f(\mathbf{X}))]$$
+
+Donde $L$ es una función de pérdida. La función de pérdida más común es la **pérdida 0-1**:
+
+$$L_{0-1}(y, \hat{y}) = \begin{cases}
+0 & \text{si } y = \hat{y} \\
+1 & \text{si } y \neq \hat{y}
+\end{cases}$$
+
+## Funciones de Pérdida en Clasificación
+
+Aunque la pérdida 0-1 es intuitiva y directamente relacionada con la tasa de error, presenta limitaciones importantes: no es diferenciable y no proporciona información sobre la **confianza** de las predicciones. Por esto, en la práctica se utilizan funciones de pérdida alternativas que trabajan con probabilidades.
+
+### Clasificación Binaria: Pérdidas Probabilísticas
+
+Para clasificación binaria, donde $y \in \{0, 1\}$, consideramos predicciones probabilísticas $\hat{p} = P(\hat{Y} = 1 | \mathbf{x})$. Las funciones de pérdida más importantes son:
+
+#### Pérdida de Brier (Brier Score)
+
+La **pérdida de Brier** o pérdida cuadrática mide el error cuadrático medio entre las probabilidades predichas y los valores reales:
+
+$$L_{\text{Brier}}(y, \hat{p}) = (y - \hat{p})^2$$
+
+Para un conjunto de $n$ observaciones:
+
+$$\text{Brier Score} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{p}_i)^2$$
+
+**Propiedades:**
+
+- Rango: $[0, 1]$ (menor es mejor)
+- Es una regla de puntuación **propia** (proper scoring rule)
+- Penaliza fuertemente predicciones confiadas pero incorrectas
+- Se puede descomponer en: calibración + refinamiento
+
+#### Pérdida Logarítmica (Log Loss o Entropía Cruzada Binaria)
+
+La **pérdida logarítmica** mide la distancia entre la distribución verdadera y la predicha usando la divergencia de Kullback-Leibler:
+
+$$L_{\text{log}}(y, \hat{p}) = -[y \log(\hat{p}) + (1-y) \log(1-\hat{p})]$$
+
+Equivalentemente:
+$$L_{\text{log}}(y, \hat{p}) = \begin{cases}
+-\log(\hat{p}) & \text{si } y = 1 \\
+-\log(1-\hat{p}) & \text{si } y = 0
+\end{cases}$$
+
+Para un conjunto de observaciones:
+
+$$\text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} [y_i \log(\hat{p}_i) + (1-y_i) \log(1-\hat{p}_i)]$$
+
+**Propiedades:**
+
+- Rango: $[0, \infty)$ (menor es mejor)
+- También es una regla de puntuación propia
+- Penaliza infinitamente predicciones completamente incorrectas ($\hat{p} = 0$ cuando $y = 1$)
+- Es la función objetivo en regresión logística
+
+### Comparación de Funciones de Pérdida
+
+```{python}
+#| label: classification-loss-functions
+#| fig-cap: "Funciones de perdidas para clasificación"
+#| fig-width: 12
+#| fig-height: 6
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Rango de probabilidades predichas
+p_hat = np.linspace(0.001, 0.999, 1000)
+
+# Pérdidas cuando y = 1
+brier_y1 = (1 - p_hat)**2
+log_y1 = -np.log(p_hat)
+zero_one_y1 = (p_hat < 0.5).astype(float)
+
+# Pérdidas cuando y = 0
+brier_y0 = p_hat**2
+log_y0 = -np.log(1 - p_hat)
+zero_one_y0 = (p_hat >= 0.5).astype(float)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Gráfica cuando y = 1
+axes[0].plot(p_hat, brier_y1, label='Brier', linewidth=2)
+axes[0].plot(p_hat, log_y1, label='Log Loss', linewidth=2)
+axes[0].plot(p_hat, zero_one_y1, label='0-1', linewidth=2, linestyle='--')
+axes[0].set_xlabel('Probabilidad predicha $\hat{p}$')
+axes[0].set_ylabel('Pérdida')
+axes[0].set_title('Pérdida cuando $y = 1$')
+axes[0].set_ylim([0, 5])
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Gráfica cuando y = 0
+axes[1].plot(p_hat, brier_y0, label='Brier', linewidth=2)
+axes[1].plot(p_hat, log_y0, label='Log Loss', linewidth=2)
+axes[1].plot(p_hat, zero_one_y0, label='0-1', linewidth=2, linestyle='--')
+axes[1].set_xlabel('Probabilidad predicha $\hat{p}$')
+axes[1].set_ylabel('Pérdida')
+axes[1].set_title('Pérdida cuando $y = 0$')
+axes[1].set_ylim([0, 5])
+axes[1].legend()
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Reglas de Puntuación Propias
+
+Una **regla de puntuación propia** (proper scoring rule) es una función de pérdida que incentiva al modelo a reportar sus verdaderas probabilidades. Formalmente, una función $S(p, y)$ es propia si:
+
+$$\mathbb{E}_{Y \sim p^*}[S(p^*, Y)] \leq \mathbb{E}_{Y \sim p^*}[S(p, Y)]$$
+
+Donde $p^*$ es la distribución verdadera. Tanto la pérdida de Brier como la log loss son propias, mientras que la pérdida 0-1 no lo es.
+
+### Ventajas y Desventajas
+
+**Pérdida de Brier:**
+
+- ✓ Interpretación directa como MSE de probabilidades
+- ✓ Acotada en $[0,1]$
+- ✓ Menos sensible a predicciones extremas incorrectas
+- ✗ Menos utilizada en optimización de modelos
+
+**Pérdida Logarítmica:**
+
+- ✓ Base teórica sólida (teoría de información)
+- ✓ Función objetivo natural para muchos modelos (logística, redes neuronales)
+- ✓ Diferenciable y convexa
+- ✗ No acotada superiormente
+- ✗ Muy sensible a predicciones extremas incorrectas
+
+## Modelos para Clasificación Binaria
+
+### Clasificador de Bayes para el Caso Binario
+
+El **clasificador de Bayes** es el clasificador óptimo teórico que minimiza el error de clasificación. Para el caso binario con clases $\{0, 1\}$, clasifica según:
+
+$$\hat{y}(\mathbf{x}) = \begin{cases}
+1 & \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) > 0.5 \\
+0 & \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) \leq 0.5
+\end{cases}$$
+
+O más generalmente, con un umbral $\tau$:
+
+$$\hat{y}(\mathbf{x}) = \mathbb{1}[P(Y = 1 | \mathbf{X} = \mathbf{x}) > \tau]$$
+
+#### Estimación mediante el Teorema de Bayes
+
+Usando el teorema de Bayes:
+
+$$P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{P(\mathbf{X} = \mathbf{x} | Y = 1) \cdot P(Y = 1)}{P(\mathbf{X} = \mathbf{x})}$$
+
+Donde:
+
+- $P(Y = 1)$ es la probabilidad a priori de la clase 1
+- $P(\mathbf{X} = \mathbf{x} | Y = 1)$ es la verosimilitud
+- $P(\mathbf{X} = \mathbf{x})$ es la evidencia
+
+En la práctica, el clasificador de Bayes requiere conocer o estimar estas distribuciones, lo cual puede ser difícil en alta dimensión.
+
+### Regresión Logística
+
+La **regresión logística** es uno de los modelos más utilizados para clasificación binaria. Modela directamente la probabilidad posterior usando una transformación logística de una combinación lineal de las características.
+
+#### Modelo
+
+La regresión logística modela la probabilidad de que $Y = 1$ como:
+
+$$P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}} = \frac{1}{1 + e^{-\mathbf{x}^T\boldsymbol{\beta}}}$$
+
+Esta función se conoce como función **sigmoide** o **logística**:
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{e^z}{1 + e^z}$$
+
+#### Transformación Logit
+
+El modelo puede reescribirse usando la transformación **logit** (log-odds):
+
+$$\log\left(\frac{P(Y = 1 | \mathbf{x})}{P(Y = 0 | \mathbf{x})}\right) = \log\left(\frac{p(\mathbf{x})}{1-p(\mathbf{x})}\right) = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p$$
+
+Esto muestra que el log-odds es una función lineal de las características.
+
+#### Estimación de Parámetros
+
+Los parámetros $\boldsymbol{\beta}$ se estiman maximizando la verosimilitud. Para $n$ observaciones:
+
+$$L(\boldsymbol{\beta}) = \prod_{i=1}^{n} p(\mathbf{x}_i)^{y_i} \cdot (1-p(\mathbf{x}_i))^{1-y_i}$$
+
+Tomando el logaritmo:
+
+$$\ell(\boldsymbol{\beta}) = \sum_{i=1}^{n} [y_i \log(p(\mathbf{x}_i)) + (1-y_i) \log(1-p(\mathbf{x}_i))]$$
+
+Esta es exactamente la negativa de la pérdida logarítmica. No existe solución analítica, por lo que se utiliza optimización numérica (típicamente Newton-Raphson o gradiente descendente).
+
+#### Frontera de Decisión
+
+La frontera de decisión en regresión logística es **lineal** en el espacio de características:
+
+$$\{\mathbf{x} : P(Y = 1 | \mathbf{x}) = 0.5\} = \{\mathbf{x} : \mathbf{x}^T\boldsymbol{\beta} = 0\}$$
+
+Esto define un hiperplano que separa las dos clases.
+
+#### Ejemplo en Python
+
+```{python}
+#| label: logistic-regression-example
+#| fig-cap: "Regresión logística: datos, probabilidades y frontera de decisión"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+
+# Generar datos de ejemplo
+np.random.seed(42)
+X, y = make_classification(n_samples=200, n_features=2, n_informative=2,
+                          n_redundant=0, n_clusters_per_class=1,
+                          flip_y=0.1, class_sep=1.5)
+
+# Estandarizar características
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Ajustar regresión logística
+log_reg = LogisticRegression()
+log_reg.fit(X_scaled, y)
+
+# Crear grid para visualización
+xx, yy = np.meshgrid(np.linspace(X_scaled[:, 0].min()-1, X_scaled[:, 0].max()+1, 100),
+                     np.linspace(X_scaled[:, 1].min()-1, X_scaled[:, 1].max()+1, 100))
+Z = log_reg.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
+Z = Z.reshape(xx.shape)
+
+# Visualización
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+
+# Panel 1: Datos
+axes[0].scatter(X_scaled[y==0, 0], X_scaled[y==0, 1], c='blue',
+                alpha=0.6, edgecolors='k', label='Clase 0')
+axes[0].scatter(X_scaled[y==1, 0], X_scaled[y==1, 1], c='red',
+                alpha=0.6, edgecolors='k', label='Clase 1')
+axes[0].set_xlabel('$x_1$')
+axes[0].set_ylabel('$x_2$')
+axes[0].set_title('Datos de Entrenamiento')
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Panel 2: Probabilidades
+contour = axes[1].contourf(xx, yy, Z, levels=20, cmap='RdBu_r', alpha=0.8)
+axes[1].scatter(X_scaled[y==0, 0], X_scaled[y==0, 1], c='blue',
+                alpha=0.6, edgecolors='k', s=20)
+axes[1].scatter(X_scaled[y==1, 0], X_scaled[y==1, 1], c='red',
+                alpha=0.6, edgecolors='k', s=20)
+axes[1].set_xlabel('$x_1$')
+axes[1].set_ylabel('$x_2$')
+axes[1].set_title('Probabilidad $P(Y=1|\\mathbf{x})$')
+plt.colorbar(contour, ax=axes[1])
+
+# Panel 3: Frontera de decisión
+axes[2].contour(xx, yy, Z, levels=[0.5], colors='black', linewidths=2)
+axes[2].contourf(xx, yy, Z, levels=[0, 0.5, 1], colors=['lightblue', 'lightcoral'], alpha=0.4)
+axes[2].scatter(X_scaled[y==0, 0], X_scaled[y==0, 1], c='blue',
+                alpha=0.6, edgecolors='k', s=20, label='Clase 0')
+axes[2].scatter(X_scaled[y==1, 0], X_scaled[y==1, 1], c='red',
+                alpha=0.6, edgecolors='k', s=20, label='Clase 1')
+axes[2].set_xlabel('$x_1$')
+axes[2].set_ylabel('$x_2$')
+axes[2].set_title('Frontera de Decisión')
+axes[2].legend()
+
+plt.tight_layout()
+plt.show()
+
+# Mostrar coeficientes
+print(f"Intercepto (β₀): {log_reg.intercept_[0]:.3f}")
+print(f"Coeficientes: β₁ = {log_reg.coef_[0][0]:.3f}, β₂ = {log_reg.coef_[0][1]:.3f}")
+```
+
+#### Interpretación de Coeficientes
+
+##### Conceptos Fundamentales: Odds y Log-Odds
+
+Antes de interpretar los coeficientes, definamos los conceptos clave:
+
+**Odds (momios o chances)**: La razón entre la probabilidad de éxito y la probabilidad de fracaso:
+
+$$\text{Odds} = \frac{P(Y = 1)}{P(Y = 0)} = \frac{p}{1-p}$$
+
+Si $p = 0.75$, entonces los odds son $\frac{0.75}{0.25} = 3$, es decir, el éxito es 3 veces más probable que el fracaso.
+
+**Log-odds (logit)**: El logaritmo natural de los odds:
+
+$$\text{Log-odds} = \log\left(\frac{p}{1-p}\right) = \text{logit}(p)$$
+
+##### Derivación Matemática
+
+Partiendo del modelo de regresión logística:
+
+$$P(Y = 1 | \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \sum_{j=1}^p \beta_j x_j)}}$$
+
+Calculemos el log-odds:
+
+$$\log\left(\frac{P(Y = 1 | \mathbf{x})}{1 - P(Y = 1 | \mathbf{x})}\right) = \beta_0 + \sum_{j=1}^p \beta_j x_j$$
+
+Ahora, consideremos qué sucede cuando incrementamos $x_k$ en una unidad (de $x_k$ a $x_k + 1$):
+
+**Log-odds original**:
+$$L_0 = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + ... + \beta_p x_p$$
+
+**Log-odds después del incremento**:
+$$L_1 = \beta_0 + \beta_1 x_1 + ... + \beta_k (x_k + 1) + ... + \beta_p x_p$$
+
+**Cambio en log-odds**:
+$$\Delta L = L_1 - L_0 = \beta_k$$
+
+Por lo tanto, **$\beta_k$ representa el cambio en log-odds cuando $x_k$ aumenta en una unidad**.
+
+##### Odds Ratio
+
+El **odds ratio** compara los odds antes y después del cambio:
+
+$$\text{Odds ratio} = \frac{\text{Odds}_{\text{nuevo}}}{\text{Odds}_{\text{original}}} = \frac{e^{L_1}}{e^{L_0}} = e^{L_1 - L_0} = e^{\beta_k}$$
+
+Esto significa que **$e^{\beta_k}$ es el factor por el cual se multiplican los odds cuando $x_k$ aumenta en una unidad**.
+
+##### Ejemplo Práctico: Clicks en Memes y Edad
+
+Imaginemos un estudio sobre la probabilidad de que una persona haga click en un meme según su edad. Nuestro modelo de regresión logística es:
+
+$$\log\left(\frac{P(\text{click} = 1)}{P(\text{click} = 0)}\right) = 2.5 - 0.08 \cdot \text{edad}$$
+
+Donde:
+- $\beta_0 = 2.5$ (intercepto)
+- $\beta_{\text{edad}} = -0.08$ (coeficiente de edad)
+
+**Interpretaciones**:
+
+1. **Coeficiente $\beta_{\text{edad}} = -0.08$**:
+   - Por cada año adicional de edad, el log-odds de hacer click disminuye en 0.08
+   - El signo negativo indica que personas mayores tienen menor probabilidad de hacer click
+
+2. **Odds ratio $e^{-0.08} \approx 0.923$**:
+   - Por cada año adicional de edad, los odds de hacer click se multiplican por 0.923
+   - Equivalentemente: los odds disminuyen un 7.7% por cada año adicional
+
+3. **Ejemplo numérico concreto**:
+
+Para una persona de 20 años:
+$$\text{Log-odds}_{20} = 2.5 - 0.08(20) = 0.9$$
+$$\text{Odds}_{20} = e^{0.9} \approx 2.46$$
+$$P(\text{click})_{20} = \frac{2.46}{1 + 2.46} \approx 0.71$$
+
+Para una persona de 30 años:
+$$\text{Log-odds}_{30} = 2.5 - 0.08(30) = 0.1$$
+$$\text{Odds}_{30} = e^{0.1} \approx 1.11$$
+$$P(\text{click})_{30} = \frac{1.11}{1 + 1.11} \approx 0.53$$
+
+**Verificación del odds ratio**:
+$$\frac{\text{Odds}_{30}}{\text{Odds}_{20}} = \frac{1.11}{2.46} \approx 0.45 = e^{-0.08 \times 10} = (e^{-0.08})^{10}$$
+
+Esto confirma que en 10 años (de 20 a 30), los odds se multiplican por $(0.923)^{10} \approx 0.45$.
+
+##### Resumen de Interpretaciones
+
+| Parámetro | Interpretación | Ejemplo (edad y clicks) |
+|-----------|---------------|-------------------------|
+| $\beta_j > 0$ | Variable aumenta log-odds | Los jóvenes clickean más |
+| $\beta_j < 0$ | Variable disminuye log-odds | Los mayores clickean menos |
+| $\beta_j$ | Cambio en log-odds por unidad | -0.08: cada año reduce log-odds |
+| $e^{\beta_j} > 1$ | Odds aumentan | - |
+| $e^{\beta_j} < 1$ | Odds disminuyen | 0.923: odds bajan 7.7% por año |
+| $e^{\beta_j} = 2$ | Odds se duplican | - |
+| $e^{\beta_j} = 0.5$ | Odds se reducen a la mitad | - |

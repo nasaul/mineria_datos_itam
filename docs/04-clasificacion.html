@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Referencias – Minería de Datos</title>
+<title>Clasificación – Minería de Datos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./introduccion.html" rel="next">
-<link href="./04-clasificacion.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./03-regresion_lineal.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -93,8 +74,39 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="Referencias – Minería de Datos">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Clasificación – Minería de Datos">
+<meta property="og:description" content="">
+<meta property="og:image" content="04-clasificacion_files/figure-html/classification-loss-functions-output-1.png">
 <meta property="og:site_name" content="Minería de Datos">
 </head>
 
@@ -269,7 +281,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">Referencias</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-clasificacion.html"><span class="chapter-title">Clasificación</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -325,12 +337,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-clasificacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clasificación</span></a>
+  <a href="./04-clasificacion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Clasificación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Referencias</span></a>
   </div>
 </li>
@@ -365,8 +377,31 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#introducción-al-problema-de-clasificación" id="toc-introducción-al-problema-de-clasificación" class="nav-link active" data-scroll-target="#introducción-al-problema-de-clasificación">Introducción al Problema de Clasificación</a>
+  <ul class="collapse">
+  <li><a href="#definición-formal" id="toc-definición-formal" class="nav-link" data-scroll-target="#definición-formal">Definición Formal</a></li>
+  <li><a href="#ejemplos-de-problemas-de-clasificación" id="toc-ejemplos-de-problemas-de-clasificación" class="nav-link" data-scroll-target="#ejemplos-de-problemas-de-clasificación">Ejemplos de Problemas de Clasificación</a></li>
+  <li><a href="#objetivo-del-aprendizaje" id="toc-objetivo-del-aprendizaje" class="nav-link" data-scroll-target="#objetivo-del-aprendizaje">Objetivo del Aprendizaje</a></li>
+  </ul></li>
+  <li><a href="#funciones-de-pérdida-en-clasificación" id="toc-funciones-de-pérdida-en-clasificación" class="nav-link" data-scroll-target="#funciones-de-pérdida-en-clasificación">Funciones de Pérdida en Clasificación</a>
+  <ul class="collapse">
+  <li><a href="#clasificación-binaria-pérdidas-probabilísticas" id="toc-clasificación-binaria-pérdidas-probabilísticas" class="nav-link" data-scroll-target="#clasificación-binaria-pérdidas-probabilísticas">Clasificación Binaria: Pérdidas Probabilísticas</a></li>
+  <li><a href="#comparación-de-funciones-de-pérdida" id="toc-comparación-de-funciones-de-pérdida" class="nav-link" data-scroll-target="#comparación-de-funciones-de-pérdida">Comparación de Funciones de Pérdida</a></li>
+  <li><a href="#reglas-de-puntuación-propias" id="toc-reglas-de-puntuación-propias" class="nav-link" data-scroll-target="#reglas-de-puntuación-propias">Reglas de Puntuación Propias</a></li>
+  <li><a href="#ventajas-y-desventajas" id="toc-ventajas-y-desventajas" class="nav-link" data-scroll-target="#ventajas-y-desventajas">Ventajas y Desventajas</a></li>
+  </ul></li>
+  <li><a href="#modelos-para-clasificación-binaria" id="toc-modelos-para-clasificación-binaria" class="nav-link" data-scroll-target="#modelos-para-clasificación-binaria">Modelos para Clasificación Binaria</a>
+  <ul class="collapse">
+  <li><a href="#clasificador-de-bayes-para-el-caso-binario" id="toc-clasificador-de-bayes-para-el-caso-binario" class="nav-link" data-scroll-target="#clasificador-de-bayes-para-el-caso-binario">Clasificador de Bayes para el Caso Binario</a></li>
+  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión Logística</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -374,7 +409,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Referencias</h1>
+<h1 class="title"><span class="chapter-title">Clasificación</span></h1>
 </div>
 
 
@@ -391,21 +426,306 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-ESL" class="csl-entry" role="listitem">
-Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2017. <em>The
-Elements of Statistical Learning</em>. Springer Series in Statistics.
-Springer New York Inc. <a href="https://hastie.su.domains/ElemStatLearn/">https://hastie.su.domains/ElemStatLearn/</a>.
+<section id="introducción-al-problema-de-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="introducción-al-problema-de-clasificación">Introducción al Problema de Clasificación</h2>
+<p>En los capítulos anteriores hemos trabajado con problemas de regresión, donde la variable respuesta <span class="math inline">\(Y\)</span> es cuantitativa (continua). En este capítulo estudiaremos los <strong>problemas de clasificación</strong>, donde la variakbble respuesta <span class="math inline">\(Y\)</span> es <strong>cualitativa</strong> (categórica o discreta).</p>
+<section id="definición-formal" class="level3">
+<h3 class="anchored" data-anchor-id="definición-formal">Definición Formal</h3>
+<p>Un problema de clasificación consiste en asignar una observación <span class="math inline">\(\mathbf{x} = (x_1, x_2, ..., x_p)\)</span> a una de <span class="math inline">\(K\)</span> clases o categorías posibles. Formalmente:</p>
+<ul>
+<li><strong>Entrada</strong>: Un vector de características <span class="math inline">\(\mathbf{x} \in \mathbb{R}^p\)</span></li>
+<li><strong>Salida</strong>: Una etiqueta de clase <span class="math inline">\(y \in \mathcal{C} = \{C_1, C_2, ..., C_K\}\)</span></li>
+</ul>
+<p>Donde <span class="math inline">\(\mathcal{C}\)</span> es el conjunto finito de clases posibles.</p>
+</section>
+<section id="ejemplos-de-problemas-de-clasificación" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplos-de-problemas-de-clasificación">Ejemplos de Problemas de Clasificación</h3>
+<ol type="1">
+<li><strong>Clasificación binaria</strong> (<span class="math inline">\(K=2\)</span>):
+<ul>
+<li>Detección de spam en correos electrónicos (spam/no spam)</li>
+<li>Diagnóstico médico (enfermo/sano)</li>
+<li>Aprobación de crédito (aprobado/rechazado)</li>
+</ul></li>
+<li><strong>Clasificación multiclase</strong> (<span class="math inline">\(K&gt;2\)</span>):
+<ul>
+<li>Reconocimiento de dígitos escritos a mano (0-9)</li>
+<li>Clasificación de tipos de flores (setosa/versicolor/virginica)</li>
+<li>Categorización de noticias (deportes/política/tecnología/etc.)</li>
+</ul></li>
+</ol>
+</section>
+<section id="objetivo-del-aprendizaje" class="level3">
+<h3 class="anchored" data-anchor-id="objetivo-del-aprendizaje">Objetivo del Aprendizaje</h3>
+<p>El objetivo es aprender una función de clasificación <span class="math inline">\(f: \mathbb{R}^p \rightarrow \mathcal{C}\)</span> que minimice el error de clasificación esperado:</p>
+<p><span class="math display">\[\mathbb{E}[L(Y, f(\mathbf{X}))]\]</span></p>
+<p>Donde <span class="math inline">\(L\)</span> es una función de pérdida. La función de pérdida más común es la <strong>pérdida 0-1</strong>:</p>
+<p><span class="math display">\[L_{0-1}(y, \hat{y}) = \begin{cases}
+0 &amp; \text{si } y = \hat{y} \\
+1 &amp; \text{si } y \neq \hat{y}
+\end{cases}\]</span></p>
+</section>
+</section>
+<section id="funciones-de-pérdida-en-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="funciones-de-pérdida-en-clasificación">Funciones de Pérdida en Clasificación</h2>
+<p>Aunque la pérdida 0-1 es intuitiva y directamente relacionada con la tasa de error, presenta limitaciones importantes: no es diferenciable y no proporciona información sobre la <strong>confianza</strong> de las predicciones. Por esto, en la práctica se utilizan funciones de pérdida alternativas que trabajan con probabilidades.</p>
+<section id="clasificación-binaria-pérdidas-probabilísticas" class="level3">
+<h3 class="anchored" data-anchor-id="clasificación-binaria-pérdidas-probabilísticas">Clasificación Binaria: Pérdidas Probabilísticas</h3>
+<p>Para clasificación binaria, donde <span class="math inline">\(y \in \{0, 1\}\)</span>, consideramos predicciones probabilísticas <span class="math inline">\(\hat{p} = P(\hat{Y} = 1 | \mathbf{x})\)</span>. Las funciones de pérdida más importantes son:</p>
+<section id="pérdida-de-brier-brier-score" class="level4">
+<h4 class="anchored" data-anchor-id="pérdida-de-brier-brier-score">Pérdida de Brier (Brier Score)</h4>
+<p>La <strong>pérdida de Brier</strong> o pérdida cuadrática mide el error cuadrático medio entre las probabilidades predichas y los valores reales:</p>
+<p><span class="math display">\[L_{\text{Brier}}(y, \hat{p}) = (y - \hat{p})^2\]</span></p>
+<p>Para un conjunto de <span class="math inline">\(n\)</span> observaciones:</p>
+<p><span class="math display">\[\text{Brier Score} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{p}_i)^2\]</span></p>
+<p><strong>Propiedades:</strong></p>
+<ul>
+<li>Rango: <span class="math inline">\([0, 1]\)</span> (menor es mejor)</li>
+<li>Es una regla de puntuación <strong>propia</strong> (proper scoring rule)</li>
+<li>Penaliza fuertemente predicciones confiadas pero incorrectas</li>
+<li>Se puede descomponer en: calibración + refinamiento</li>
+</ul>
+</section>
+<section id="pérdida-logarítmica-log-loss-o-entropía-cruzada-binaria" class="level4">
+<h4 class="anchored" data-anchor-id="pérdida-logarítmica-log-loss-o-entropía-cruzada-binaria">Pérdida Logarítmica (Log Loss o Entropía Cruzada Binaria)</h4>
+<p>La <strong>pérdida logarítmica</strong> mide la distancia entre la distribución verdadera y la predicha usando la divergencia de Kullback-Leibler:</p>
+<p><span class="math display">\[L_{\text{log}}(y, \hat{p}) = -[y \log(\hat{p}) + (1-y) \log(1-\hat{p})]\]</span></p>
+<p>Equivalentemente: <span class="math display">\[L_{\text{log}}(y, \hat{p}) = \begin{cases}
+-\log(\hat{p}) &amp; \text{si } y = 1 \\
+-\log(1-\hat{p}) &amp; \text{si } y = 0
+\end{cases}\]</span></p>
+<p>Para un conjunto de observaciones:</p>
+<p><span class="math display">\[\text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} [y_i \log(\hat{p}_i) + (1-y_i) \log(1-\hat{p}_i)]\]</span></p>
+<p><strong>Propiedades:</strong></p>
+<ul>
+<li>Rango: <span class="math inline">\([0, \infty)\)</span> (menor es mejor)</li>
+<li>También es una regla de puntuación propia</li>
+<li>Penaliza infinitamente predicciones completamente incorrectas (<span class="math inline">\(\hat{p} = 0\)</span> cuando <span class="math inline">\(y = 1\)</span>)</li>
+<li>Es la función objetivo en regresión logística</li>
+</ul>
+</section>
+</section>
+<section id="comparación-de-funciones-de-pérdida" class="level3">
+<h3 class="anchored" data-anchor-id="comparación-de-funciones-de-pérdida">Comparación de Funciones de Pérdida</h3>
+<div id="cell-classification-loss-functions" class="cell" data-fig-height="6" data-fig-width="12" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div id="classification-loss-functions" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/classification-loss-functions-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Funciones de perdidas para clasificación</figcaption>
+</figure>
 </div>
-<div id="ref-ISL" class="csl-entry" role="listitem">
-James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and
-Jonathan Taylor. 2023. <em><span class="nocase">An Introduction to
-Statistical Learning: With Applications in Python</span></em>. Springer
-Texts in Statistics. Cham: Springer. <a href="https://doi.org/10.1007/978-3-031-38747-0">https://doi.org/10.1007/978-3-031-38747-0</a>.
 </div>
 </div>
+</section>
+<section id="reglas-de-puntuación-propias" class="level3">
+<h3 class="anchored" data-anchor-id="reglas-de-puntuación-propias">Reglas de Puntuación Propias</h3>
+<p>Una <strong>regla de puntuación propia</strong> (proper scoring rule) es una función de pérdida que incentiva al modelo a reportar sus verdaderas probabilidades. Formalmente, una función <span class="math inline">\(S(p, y)\)</span> es propia si:</p>
+<p><span class="math display">\[\mathbb{E}_{Y \sim p^*}[S(p^*, Y)] \leq \mathbb{E}_{Y \sim p^*}[S(p, Y)]\]</span></p>
+<p>Donde <span class="math inline">\(p^*\)</span> es la distribución verdadera. Tanto la pérdida de Brier como la log loss son propias, mientras que la pérdida 0-1 no lo es.</p>
+</section>
+<section id="ventajas-y-desventajas" class="level3">
+<h3 class="anchored" data-anchor-id="ventajas-y-desventajas">Ventajas y Desventajas</h3>
+<p><strong>Pérdida de Brier:</strong></p>
+<ul>
+<li>✓ Interpretación directa como MSE de probabilidades</li>
+<li>✓ Acotada en <span class="math inline">\([0,1]\)</span></li>
+<li>✓ Menos sensible a predicciones extremas incorrectas</li>
+<li>✗ Menos utilizada en optimización de modelos</li>
+</ul>
+<p><strong>Pérdida Logarítmica:</strong></p>
+<ul>
+<li>✓ Base teórica sólida (teoría de información)</li>
+<li>✓ Función objetivo natural para muchos modelos (logística, redes neuronales)</li>
+<li>✓ Diferenciable y convexa</li>
+<li>✗ No acotada superiormente</li>
+<li>✗ Muy sensible a predicciones extremas incorrectas</li>
+</ul>
+</section>
+</section>
+<section id="modelos-para-clasificación-binaria" class="level2">
+<h2 class="anchored" data-anchor-id="modelos-para-clasificación-binaria">Modelos para Clasificación Binaria</h2>
+<section id="clasificador-de-bayes-para-el-caso-binario" class="level3">
+<h3 class="anchored" data-anchor-id="clasificador-de-bayes-para-el-caso-binario">Clasificador de Bayes para el Caso Binario</h3>
+<p>El <strong>clasificador de Bayes</strong> es el clasificador óptimo teórico que minimiza el error de clasificación. Para el caso binario con clases <span class="math inline">\(\{0, 1\}\)</span>, clasifica según:</p>
+<p><span class="math display">\[\hat{y}(\mathbf{x}) = \begin{cases}
+1 &amp; \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) &gt; 0.5 \\
+0 &amp; \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) \leq 0.5
+\end{cases}\]</span></p>
+<p>O más generalmente, con un umbral <span class="math inline">\(\tau\)</span>:</p>
+<p><span class="math display">\[\hat{y}(\mathbf{x}) = \mathbb{1}[P(Y = 1 | \mathbf{X} = \mathbf{x}) &gt; \tau]\]</span></p>
+<section id="estimación-mediante-el-teorema-de-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="estimación-mediante-el-teorema-de-bayes">Estimación mediante el Teorema de Bayes</h4>
+<p>Usando el teorema de Bayes:</p>
+<p><span class="math display">\[P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{P(\mathbf{X} = \mathbf{x} | Y = 1) \cdot P(Y = 1)}{P(\mathbf{X} = \mathbf{x})}\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><span class="math inline">\(P(Y = 1)\)</span> es la probabilidad a priori de la clase 1</li>
+<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x} | Y = 1)\)</span> es la verosimilitud</li>
+<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x})\)</span> es la evidencia</li>
+</ul>
+<p>En la práctica, el clasificador de Bayes requiere conocer o estimar estas distribuciones, lo cual puede ser difícil en alta dimensión.</p>
+</section>
+</section>
+<section id="regresión-logística" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-logística">Regresión Logística</h3>
+<p>La <strong>regresión logística</strong> es uno de los modelos más utilizados para clasificación binaria. Modela directamente la probabilidad posterior usando una transformación logística de una combinación lineal de las características.</p>
+<section id="modelo" class="level4">
+<h4 class="anchored" data-anchor-id="modelo">Modelo</h4>
+<p>La regresión logística modela la probabilidad de que <span class="math inline">\(Y = 1\)</span> como:</p>
+<p><span class="math display">\[P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}} = \frac{1}{1 + e^{-\mathbf{x}^T\boldsymbol{\beta}}}\]</span></p>
+<p>Esta función se conoce como función <strong>sigmoide</strong> o <strong>logística</strong>:</p>
+<p><span class="math display">\[\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{e^z}{1 + e^z}\]</span></p>
+</section>
+<section id="transformación-logit" class="level4">
+<h4 class="anchored" data-anchor-id="transformación-logit">Transformación Logit</h4>
+<p>El modelo puede reescribirse usando la transformación <strong>logit</strong> (log-odds):</p>
+<p><span class="math display">\[\log\left(\frac{P(Y = 1 | \mathbf{x})}{P(Y = 0 | \mathbf{x})}\right) = \log\left(\frac{p(\mathbf{x})}{1-p(\mathbf{x})}\right) = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p\]</span></p>
+<p>Esto muestra que el log-odds es una función lineal de las características.</p>
+</section>
+<section id="estimación-de-parámetros" class="level4">
+<h4 class="anchored" data-anchor-id="estimación-de-parámetros">Estimación de Parámetros</h4>
+<p>Los parámetros <span class="math inline">\(\boldsymbol{\beta}\)</span> se estiman maximizando la verosimilitud. Para <span class="math inline">\(n\)</span> observaciones:</p>
+<p><span class="math display">\[L(\boldsymbol{\beta}) = \prod_{i=1}^{n} p(\mathbf{x}_i)^{y_i} \cdot (1-p(\mathbf{x}_i))^{1-y_i}\]</span></p>
+<p>Tomando el logaritmo:</p>
+<p><span class="math display">\[\ell(\boldsymbol{\beta}) = \sum_{i=1}^{n} [y_i \log(p(\mathbf{x}_i)) + (1-y_i) \log(1-p(\mathbf{x}_i))]\]</span></p>
+<p>Esta es exactamente la negativa de la pérdida logarítmica. No existe solución analítica, por lo que se utiliza optimización numérica (típicamente Newton-Raphson o gradiente descendente).</p>
+</section>
+<section id="frontera-de-decisión" class="level4">
+<h4 class="anchored" data-anchor-id="frontera-de-decisión">Frontera de Decisión</h4>
+<p>La frontera de decisión en regresión logística es <strong>lineal</strong> en el espacio de características:</p>
+<p><span class="math display">\[\{\mathbf{x} : P(Y = 1 | \mathbf{x}) = 0.5\} = \{\mathbf{x} : \mathbf{x}^T\boldsymbol{\beta} = 0\}\]</span></p>
+<p>Esto define un hiperplano que separa las dos clases.</p>
+</section>
+<section id="ejemplo-en-python" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplo-en-python">Ejemplo en Python</h4>
+<div id="cell-logistic-regression-example" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div id="logistic-regression-example" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/logistic-regression-example-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Regresión logística: datos, probabilidades y frontera de decisión</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Intercepto (β₀): 0.057
+Coeficientes: β₁ = -0.273, β₂ = 2.214</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretación-de-coeficientes" class="level4">
+<h4 class="anchored" data-anchor-id="interpretación-de-coeficientes">Interpretación de Coeficientes</h4>
+<section id="conceptos-fundamentales-odds-y-log-odds" class="level5">
+<h5 class="anchored" data-anchor-id="conceptos-fundamentales-odds-y-log-odds">Conceptos Fundamentales: Odds y Log-Odds</h5>
+<p>Antes de interpretar los coeficientes, definamos los conceptos clave:</p>
+<p><strong>Odds (momios o chances)</strong>: La razón entre la probabilidad de éxito y la probabilidad de fracaso:</p>
+<p><span class="math display">\[\text{Odds} = \frac{P(Y = 1)}{P(Y = 0)} = \frac{p}{1-p}\]</span></p>
+<p>Si <span class="math inline">\(p = 0.75\)</span>, entonces los odds son <span class="math inline">\(\frac{0.75}{0.25} = 3\)</span>, es decir, el éxito es 3 veces más probable que el fracaso.</p>
+<p><strong>Log-odds (logit)</strong>: El logaritmo natural de los odds:</p>
+<p><span class="math display">\[\text{Log-odds} = \log\left(\frac{p}{1-p}\right) = \text{logit}(p)\]</span></p>
+</section>
+<section id="derivación-matemática" class="level5">
+<h5 class="anchored" data-anchor-id="derivación-matemática">Derivación Matemática</h5>
+<p>Partiendo del modelo de regresión logística:</p>
+<p><span class="math display">\[P(Y = 1 | \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \sum_{j=1}^p \beta_j x_j)}}\]</span></p>
+<p>Calculemos el log-odds:</p>
+<p><span class="math display">\[\log\left(\frac{P(Y = 1 | \mathbf{x})}{1 - P(Y = 1 | \mathbf{x})}\right) = \beta_0 + \sum_{j=1}^p \beta_j x_j\]</span></p>
+<p>Ahora, consideremos qué sucede cuando incrementamos <span class="math inline">\(x_k\)</span> en una unidad (de <span class="math inline">\(x_k\)</span> a <span class="math inline">\(x_k + 1\)</span>):</p>
+<p><strong>Log-odds original</strong>: <span class="math display">\[L_0 = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + ... + \beta_p x_p\]</span></p>
+<p><strong>Log-odds después del incremento</strong>: <span class="math display">\[L_1 = \beta_0 + \beta_1 x_1 + ... + \beta_k (x_k + 1) + ... + \beta_p x_p\]</span></p>
+<p><strong>Cambio en log-odds</strong>: <span class="math display">\[\Delta L = L_1 - L_0 = \beta_k\]</span></p>
+<p>Por lo tanto, <strong><span class="math inline">\(\beta_k\)</span> representa el cambio en log-odds cuando <span class="math inline">\(x_k\)</span> aumenta en una unidad</strong>.</p>
+</section>
+<section id="odds-ratio" class="level5">
+<h5 class="anchored" data-anchor-id="odds-ratio">Odds Ratio</h5>
+<p>El <strong>odds ratio</strong> compara los odds antes y después del cambio:</p>
+<p><span class="math display">\[\text{Odds ratio} = \frac{\text{Odds}_{\text{nuevo}}}{\text{Odds}_{\text{original}}} = \frac{e^{L_1}}{e^{L_0}} = e^{L_1 - L_0} = e^{\beta_k}\]</span></p>
+<p>Esto significa que <strong><span class="math inline">\(e^{\beta_k}\)</span> es el factor por el cual se multiplican los odds cuando <span class="math inline">\(x_k\)</span> aumenta en una unidad</strong>.</p>
+</section>
+<section id="ejemplo-práctico-clicks-en-memes-y-edad" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-práctico-clicks-en-memes-y-edad">Ejemplo Práctico: Clicks en Memes y Edad</h5>
+<p>Imaginemos un estudio sobre la probabilidad de que una persona haga click en un meme según su edad. Nuestro modelo de regresión logística es:</p>
+<p><span class="math display">\[\log\left(\frac{P(\text{click} = 1)}{P(\text{click} = 0)}\right) = 2.5 - 0.08 \cdot \text{edad}\]</span></p>
+<p>Donde: - <span class="math inline">\(\beta_0 = 2.5\)</span> (intercepto) - <span class="math inline">\(\beta_{\text{edad}} = -0.08\)</span> (coeficiente de edad)</p>
+<p><strong>Interpretaciones</strong>:</p>
+<ol type="1">
+<li><strong>Coeficiente <span class="math inline">\(\beta_{\text{edad}} = -0.08\)</span></strong>:
+<ul>
+<li>Por cada año adicional de edad, el log-odds de hacer click disminuye en 0.08</li>
+<li>El signo negativo indica que personas mayores tienen menor probabilidad de hacer click</li>
+</ul></li>
+<li><strong>Odds ratio <span class="math inline">\(e^{-0.08} \approx 0.923\)</span></strong>:
+<ul>
+<li>Por cada año adicional de edad, los odds de hacer click se multiplican por 0.923</li>
+<li>Equivalentemente: los odds disminuyen un 7.7% por cada año adicional</li>
+</ul></li>
+<li><strong>Ejemplo numérico concreto</strong>:</li>
+</ol>
+<p>Para una persona de 20 años: <span class="math display">\[\text{Log-odds}_{20} = 2.5 - 0.08(20) = 0.9\]</span> <span class="math display">\[\text{Odds}_{20} = e^{0.9} \approx 2.46\]</span> <span class="math display">\[P(\text{click})_{20} = \frac{2.46}{1 + 2.46} \approx 0.71\]</span></p>
+<p>Para una persona de 30 años: <span class="math display">\[\text{Log-odds}_{30} = 2.5 - 0.08(30) = 0.1\]</span> <span class="math display">\[\text{Odds}_{30} = e^{0.1} \approx 1.11\]</span> <span class="math display">\[P(\text{click})_{30} = \frac{1.11}{1 + 1.11} \approx 0.53\]</span></p>
+<p><strong>Verificación del odds ratio</strong>: <span class="math display">\[\frac{\text{Odds}_{30}}{\text{Odds}_{20}} = \frac{1.11}{2.46} \approx 0.45 = e^{-0.08 \times 10} = (e^{-0.08})^{10}\]</span></p>
+<p>Esto confirma que en 10 años (de 20 a 30), los odds se multiplican por <span class="math inline">\((0.923)^{10} \approx 0.45\)</span>.</p>
+</section>
+<section id="resumen-de-interpretaciones" class="level5">
+<h5 class="anchored" data-anchor-id="resumen-de-interpretaciones">Resumen de Interpretaciones</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 29%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th>Interpretación</th>
+<th>Ejemplo (edad y clicks)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\beta_j &gt; 0\)</span></td>
+<td>Variable aumenta log-odds</td>
+<td>Los jóvenes clickean más</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_j &lt; 0\)</span></td>
+<td>Variable disminuye log-odds</td>
+<td>Los mayores clickean menos</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta_j\)</span></td>
+<td>Cambio en log-odds por unidad</td>
+<td>-0.08: cada año reduce log-odds</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(e^{\beta_j} &gt; 1\)</span></td>
+<td>Odds aumentan</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e^{\beta_j} &lt; 1\)</span></td>
+<td>Odds disminuyen</td>
+<td>0.923: odds bajan 7.7% por año</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(e^{\beta_j} = 2\)</span></td>
+<td>Odds se duplican</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e^{\beta_j} = 0.5\)</span></td>
+<td>Odds se reducen a la mitad</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -822,13 +1142,13 @@ Texts in Statistics. Cham: Springer. <a href="https://doi.org/10.1007/978-3-031-
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./04-clasificacion.html" class="pagination-link" aria-label="Clasificación">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Clasificación</span></span>
+      <a href="./03-regresion_lineal.html" class="pagination-link" aria-label="Regresión lineal">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Regresión lineal</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./introduccion.html" class="pagination-link" aria-label="Introducción a Python para Minería de Datos">
-        <span class="nav-page-text"><span class="chapter-title">Introducción a Python para Minería de Datos</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

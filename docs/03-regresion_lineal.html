@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./04-clasificacion.html" rel="next">
 <link href="./02-principios.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -337,6 +337,11 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./04-clasificacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Referencias</span></a>
   </div>
@@ -413,7 +418,6 @@ window.Quarto = {
   <li><a href="#comparación-visual-ridge-vs-lasso-vs-elastic-net" id="toc-comparación-visual-ridge-vs-lasso-vs-elastic-net" class="nav-link" data-scroll-target="#comparación-visual-ridge-vs-lasso-vs-elastic-net">Comparación Visual: Ridge vs Lasso vs Elastic Net</a></li>
   <li><a href="#cuándo-usar-cada-método" id="toc-cuándo-usar-cada-método" class="nav-link" data-scroll-target="#cuándo-usar-cada-método">¿Cuándo usar cada método?</a></li>
   <li><a href="#validación-de-modelos-y-selección-de-hiperparámetros" id="toc-validación-de-modelos-y-selección-de-hiperparámetros" class="nav-link" data-scroll-target="#validación-de-modelos-y-selección-de-hiperparámetros">Validación de Modelos y Selección de Hiperparámetros</a></li>
-  <li><a href="#ejercicio-práctico-comparando-los-tres-métodos" id="toc-ejercicio-práctico-comparando-los-tres-métodos" class="nav-link" data-scroll-target="#ejercicio-práctico-comparando-los-tres-métodos">Ejercicio Práctico: Comparando los Tres Métodos</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1135,94 +1139,10 @@ Para cada valor de λ:
 <li><strong>Para datos temporales</strong></li>
 <li>Respeta el orden temporal (no mezcla futuro con pasado)</li>
 </ul>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<strong>⚠️ Errores Comunes</strong>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><strong>Data Leakage</strong>: Usar información del conjunto de prueba durante el desarrollo</li>
-<li><strong>Múltiples evaluaciones</strong>: Evaluar repetidamente en el conjunto de prueba</li>
-<li><strong>Selección de modelo sesgada</strong>: Elegir el modelo basándose en el conjunto de prueba</li>
-<li><strong>CV incorrecto</strong>: Aplicar transformaciones antes de la división de CV</li>
-</ol>
-</div>
-</div>
-</section>
-</section>
-<section id="cuándo-usar-cada-enfoque" class="level4">
-<h4 class="anchored" data-anchor-id="cuándo-usar-cada-enfoque">¿Cuándo usar cada enfoque?</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 40%">
-<col style="width: 40%">
-<col style="width: 18%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Tamaño del Dataset</strong></th>
-<th><strong>Enfoque Recomendado</strong></th>
-<th><strong>Razón</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Grande (&gt;10,000)</strong></td>
-<td>Train/Validation/Test</td>
-<td>Suficientes datos para división estable</td>
-</tr>
-<tr class="even">
-<td><strong>Mediano (1,000-10,000)</strong></td>
-<td>Train/Test + CV</td>
-<td>CV para hiperparámetros, test para evaluación final</td>
-</tr>
-<tr class="odd">
-<td><strong>Pequeño (&lt;1,000)</strong></td>
-<td>Solo CV (sin test separado)</td>
-<td>Maximizar datos disponibles</td>
-</tr>
-<tr class="even">
-<td><strong>Muy pequeño (&lt;100)</strong></td>
-<td>LOOCV o Bootstrap</td>
-<td>Cada observación es valiosa</td>
-</tr>
-</tbody>
-</table>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<strong>Consejo Práctico</strong>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Empieza siempre con <strong>Elastic Net</strong> con <span class="math inline">\(\alpha = 0.5\)</span>. Si el modelo selecciona muchas variables, prueba valores de <span class="math inline">\(\alpha\)</span> más cercanos a 1 (más Lasso). Si elimina variables importantes, prueba valores cercanos a 0 (más Ridge).</p>
-</div>
-</div>
-<hr>
-</section>
-</section>
-<section id="ejercicio-práctico-comparando-los-tres-métodos" class="level3">
-<h3 class="anchored" data-anchor-id="ejercicio-práctico-comparando-los-tres-métodos">Ejercicio Práctico: Comparando los Tres Métodos</h3>
-<p>En el notebook correspondiente, implementaremos:</p>
-<ol type="1">
-<li><strong>Generación de datos</strong> con diferentes estructuras de correlación</li>
-<li><strong>Comparación visual</strong> de los caminos de regularización</li>
-<li><strong>Validación cruzada</strong> para selección de hiperparámetros</li>
-<li><strong>Evaluación</strong> del rendimiento en datos de prueba</li>
-<li><strong>Interpretación</strong> de los coeficientes seleccionados</li>
-</ol>
-<p><strong>Pregunta de reflexión:</strong> ¿En qué situaciones esperarías que Ridge supere a Lasso, y viceversa?</p>
-<hr>
 
 
+</section>
+</section>
 </section>
 </section>
 
@@ -1646,8 +1566,8 @@ Para cada valor de λ:
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="Referencias">
-        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-clasificacion.html" class="pagination-link" aria-label="Clasificación">
+        <span class="nav-page-text"><span class="chapter-title">Clasificación</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
