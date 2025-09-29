@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Requerimientos computacionales – Minería de Datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./01-introduccion.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2453fe3dad938b07a2e5eff64ea8abce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c1367505ed6638c8d4e510e1459ae853.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2453fe3dad938b07a2e5eff64ea8abce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<meta property="og:title" content="Requerimientos computacionales – Minería de Datos">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Minería de Datos">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./00-requerimientos-computacion.html"><span class="chapter-title">Requerimientos computacionales</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Minería de Datos</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Temario</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-requerimientos-computacion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Requerimientos computacionales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-principios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Principios de aprendizaje supervisado</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regresion lineal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./violaciones_supuestos_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Violaciones de los Supuestos de Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analisis_advertising_dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Análisis de Regresión Lineal con el Dataset Advertising</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ejercicio_wine_quality.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicio: Análisis de Regresión con el Dataset Wine Quality</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-clasificacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ejemplos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción a Python para Minería de Datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso en gradiente con regresión lineal</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#git" id="toc-git" class="nav-link active" data-scroll-target="#git">Git</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-git" id="toc-qué-es-git" class="nav-link" data-scroll-target="#qué-es-git">¿Qué es Git?</a></li>
+  <li><a href="#instalación-de-git" id="toc-instalación-de-git" class="nav-link" data-scroll-target="#instalación-de-git">Instalación de Git</a></li>
+  <li><a href="#configuración-inicial-de-git" id="toc-configuración-inicial-de-git" class="nav-link" data-scroll-target="#configuración-inicial-de-git">Configuración inicial de Git</a></li>
+  <li><a href="#comandos-básicos-de-git" id="toc-comandos-básicos-de-git" class="nav-link" data-scroll-target="#comandos-básicos-de-git">Comandos básicos de Git</a></li>
+  </ul></li>
+  <li><a href="#github" id="toc-github" class="nav-link" data-scroll-target="#github">GitHub</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-github" id="toc-qué-es-github" class="nav-link" data-scroll-target="#qué-es-github">¿Qué es GitHub?</a></li>
+  <li><a href="#creación-de-cuenta-en-github" id="toc-creación-de-cuenta-en-github" class="nav-link" data-scroll-target="#creación-de-cuenta-en-github">Creación de cuenta en GitHub</a></li>
+  <li><a href="#conectar-git-local-con-github" id="toc-conectar-git-local-con-github" class="nav-link" data-scroll-target="#conectar-git-local-con-github">Conectar Git local con GitHub</a></li>
+  </ul></li>
+  <li><a href="#pull-requests" id="toc-pull-requests" class="nav-link" data-scroll-target="#pull-requests">Pull Requests</a>
+  <ul class="collapse">
+  <li><a href="#qué-son-los-pull-requests" id="toc-qué-son-los-pull-requests" class="nav-link" data-scroll-target="#qué-son-los-pull-requests">¿Qué son los Pull Requests?</a></li>
+  <li><a href="#flujo-de-trabajo-con-pull-requests" id="toc-flujo-de-trabajo-con-pull-requests" class="nav-link" data-scroll-target="#flujo-de-trabajo-con-pull-requests">Flujo de trabajo con Pull Requests</a></li>
+  </ul></li>
+  <li><a href="#conda" id="toc-conda" class="nav-link" data-scroll-target="#conda">Conda</a>
+  <ul class="collapse">
+  <li><a href="#qué-es-conda" id="toc-qué-es-conda" class="nav-link" data-scroll-target="#qué-es-conda">¿Qué es Conda?</a></li>
+  <li><a href="#instalación-de-conda" id="toc-instalación-de-conda" class="nav-link" data-scroll-target="#instalación-de-conda">Instalación de Conda</a></li>
+  <li><a href="#verificar-la-instalación" id="toc-verificar-la-instalación" class="nav-link" data-scroll-target="#verificar-la-instalación">Verificar la instalación</a></li>
+  </ul></li>
+  <li><a href="#gestión-de-entornos-con-conda" id="toc-gestión-de-entornos-con-conda" class="nav-link" data-scroll-target="#gestión-de-entornos-con-conda">Gestión de Entornos con Conda</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-usar-entornos" id="toc-por-qué-usar-entornos" class="nav-link" data-scroll-target="#por-qué-usar-entornos">¿Por qué usar entornos?</a></li>
+  <li><a href="#comandos-básicos-para-entornos" id="toc-comandos-básicos-para-entornos" class="nav-link" data-scroll-target="#comandos-básicos-para-entornos">Comandos básicos para entornos</a></li>
+  <li><a href="#archivo-environment.yml" id="toc-archivo-environment.yml" class="nav-link" data-scroll-target="#archivo-environment.yml">Archivo environment.yml</a></li>
+  <li><a href="#mejores-prácticas" id="toc-mejores-prácticas" class="nav-link" data-scroll-target="#mejores-prácticas">Mejores prácticas</a></li>
+  <li><a href="#solución-de-problemas-comunes" id="toc-solución-de-problemas-comunes" class="nav-link" data-scroll-target="#solución-de-problemas-comunes">Solución de problemas comunes</a></li>
+  </ul></li>
+  <li><a href="#configuración-de-conda-en-diferentes-entornos" id="toc-configuración-de-conda-en-diferentes-entornos" class="nav-link" data-scroll-target="#configuración-de-conda-en-diferentes-entornos">Configuración de Conda en diferentes entornos</a>
+  <ul class="collapse">
+  <li><a href="#conda-en-windows-con-git-bash" id="toc-conda-en-windows-con-git-bash" class="nav-link" data-scroll-target="#conda-en-windows-con-git-bash">Conda en Windows con Git Bash</a></li>
+  <li><a href="#troubleshooting-específico-para-windows" id="toc-troubleshooting-específico-para-windows" class="nav-link" data-scroll-target="#troubleshooting-específico-para-windows">Troubleshooting específico para Windows</a></li>
+  </ul></li>
+  <li><a href="#visual-studio-code" id="toc-visual-studio-code" class="nav-link" data-scroll-target="#visual-studio-code">Visual Studio Code</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-usar-vs-code-para-ciencia-de-datos" id="toc-por-qué-usar-vs-code-para-ciencia-de-datos" class="nav-link" data-scroll-target="#por-qué-usar-vs-code-para-ciencia-de-datos">¿Por qué usar VS Code para ciencia de datos?</a></li>
+  <li><a href="#instalación-de-visual-studio-code" id="toc-instalación-de-visual-studio-code" class="nav-link" data-scroll-target="#instalación-de-visual-studio-code">Instalación de Visual Studio Code</a></li>
+  <li><a href="#extensiones-esenciales-para-ciencia-de-datos" id="toc-extensiones-esenciales-para-ciencia-de-datos" class="nav-link" data-scroll-target="#extensiones-esenciales-para-ciencia-de-datos">Extensiones esenciales para ciencia de datos</a></li>
+  <li><a href="#configuración-de-python-y-conda-en-vs-code" id="toc-configuración-de-python-y-conda-en-vs-code" class="nav-link" data-scroll-target="#configuración-de-python-y-conda-en-vs-code">Configuración de Python y Conda en VS Code</a></li>
+  <li><a href="#trabajar-con-jupyter-notebooks-en-vs-code" id="toc-trabajar-con-jupyter-notebooks-en-vs-code" class="nav-link" data-scroll-target="#trabajar-con-jupyter-notebooks-en-vs-code">Trabajar con Jupyter Notebooks en VS Code</a></li>
+  <li><a href="#configuración-avanzada-de-vs-code" id="toc-configuración-avanzada-de-vs-code" class="nav-link" data-scroll-target="#configuración-avanzada-de-vs-code">Configuración avanzada de VS Code</a></li>
+  <li><a href="#integración-con-git-en-vs-code" id="toc-integración-con-git-en-vs-code" class="nav-link" data-scroll-target="#integración-con-git-en-vs-code">Integración con Git en VS Code</a></li>
+  </ul></li>
+  <li><a href="#configuración-completa-del-entorno-para-el-curso" id="toc-configuración-completa-del-entorno-para-el-curso" class="nav-link" data-scroll-target="#configuración-completa-del-entorno-para-el-curso">Configuración completa del entorno para el curso</a>
+  <ul class="collapse">
+  <li><a href="#pasos-de-configuración-paso-a-paso" id="toc-pasos-de-configuración-paso-a-paso" class="nav-link" data-scroll-target="#pasos-de-configuración-paso-a-paso">Pasos de configuración paso a paso</a></li>
+  <li><a href="#configuración-específica-por-entorno" id="toc-configuración-específica-por-entorno" class="nav-link" data-scroll-target="#configuración-específica-por-entorno">Configuración específica por entorno</a></li>
+  <li><a href="#clonar-el-repositorio-del-curso" id="toc-clonar-el-repositorio-del-curso" class="nav-link" data-scroll-target="#clonar-el-repositorio-del-curso">Clonar el repositorio del curso</a></li>
+  <li><a href="#flujo-de-trabajo-recomendado" id="toc-flujo-de-trabajo-recomendado" class="nav-link" data-scroll-target="#flujo-de-trabajo-recomendado">Flujo de trabajo recomendado</a></li>
+  <li><a href="#verificación-final" id="toc-verificación-final" class="nav-link" data-scroll-target="#verificación-final">Verificación final</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Requerimientos computacionales</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Este capítulo proporciona una guía completa para instalar y configurar las herramientas computacionales necesarias para el curso de Minería de Datos. Cubriremos la instalación y uso básico de Git, GitHub, y Conda en sistemas Windows y macOS.</p>
+<section id="git" class="level2">
+<h2 class="anchored" data-anchor-id="git">Git</h2>
+<section id="qué-es-git" class="level3">
+<h3 class="anchored" data-anchor-id="qué-es-git">¿Qué es Git?</h3>
+<p>Git es un sistema de control de versiones distribuido que permite rastrear cambios en archivos y coordinar el trabajo entre múltiples personas. Es esencial para el desarrollo de software y la gestión de proyectos de análisis de datos.</p>
+<p><strong>Características principales:</strong> - Control de versiones: mantiene un historial completo de cambios - Trabajo colaborativo: permite que múltiples personas trabajen en el mismo proyecto - Ramificación (branching): facilita el desarrollo de características en paralelo - Respaldo distribuido: cada copia del repositorio es un respaldo completo</p>
+</section>
+<section id="instalación-de-git" class="level3">
+<h3 class="anchored" data-anchor-id="instalación-de-git">Instalación de Git</h3>
+<section id="windows" class="level4">
+<h4 class="anchored" data-anchor-id="windows">Windows</h4>
+<ol type="1">
+<li><p><strong>Descargar Git:</strong></p>
+<ul>
+<li>Visita <a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></li>
+<li>Descarga la versión más reciente para Windows</li>
+</ul></li>
+<li><p><strong>Instalación:</strong></p>
+<ul>
+<li>Ejecuta el archivo descargado</li>
+<li>Acepta las opciones por defecto (recomendado para principiantes)</li>
+<li>Importante: asegúrate de seleccionar “Git Bash Here” durante la instalación</li>
+</ul></li>
+<li><p><strong>Verificar instalación:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="macos" class="level4">
+<h4 class="anchored" data-anchor-id="macos">macOS</h4>
+<p><strong>Opción 1: Usando Homebrew (recomendado)</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar Homebrew si no lo tienes</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/bin/bash</span> <span class="at">-c</span> <span class="st">"</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="va">)</span><span class="st">"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar Git</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Opción 2: Descarga directa</strong> 1. Visita <a href="https://git-scm.com/download/mac">https://git-scm.com/download/mac</a> 2. Descarga e instala el paquete</p>
+<p><strong>Opción 3: Xcode Command Line Tools</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="configuración-inicial-de-git" class="level3">
+<h3 class="anchored" data-anchor-id="configuración-inicial-de-git">Configuración inicial de Git</h3>
+<p>Después de instalar Git, configura tu identidad:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Tu Nombre"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"tu.email@ejemplo.com"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="comandos-básicos-de-git" class="level3">
+<h3 class="anchored" data-anchor-id="comandos-básicos-de-git">Comandos básicos de Git</h3>
+<section id="inicializar-un-repositorio" class="level4">
+<h4 class="anchored" data-anchor-id="inicializar-un-repositorio">Inicializar un repositorio</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un nuevo repositorio</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clonar un repositorio existente</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/usuario/repositorio.git</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="operaciones-básicas" class="level4">
+<h4 class="anchored" data-anchor-id="operaciones-básicas">Operaciones básicas</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver el estado del repositorio</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir archivos al área de staging</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add archivo.py</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .  <span class="co"># Añadir todos los archivos</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un commit</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Mensaje descriptivo del cambio"</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver el historial de commits</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="trabajar-con-repositorios-remotos" class="level4">
+<h4 class="anchored" data-anchor-id="trabajar-con-repositorios-remotos">Trabajar con repositorios remotos</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver repositorios remotos configurados</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir un repositorio remoto</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin https://github.com/usuario/repositorio.git</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Enviar cambios al repositorio remoto</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener cambios del repositorio remoto</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="github" class="level2">
+<h2 class="anchored" data-anchor-id="github">GitHub</h2>
+<section id="qué-es-github" class="level3">
+<h3 class="anchored" data-anchor-id="qué-es-github">¿Qué es GitHub?</h3>
+<p>GitHub es una plataforma de desarrollo colaborativo basada en Git que permite: - Hospedar repositorios de código - Colaborar en proyectos - Realizar seguimiento de issues y bugs - Automatizar workflows - Crear documentación con GitHub Pages</p>
+</section>
+<section id="creación-de-cuenta-en-github" class="level3">
+<h3 class="anchored" data-anchor-id="creación-de-cuenta-en-github">Creación de cuenta en GitHub</h3>
+<ol type="1">
+<li>Visita <a href="https://github.com">https://github.com</a></li>
+<li>Haz clic en “Sign up”</li>
+<li>Completa el formulario de registro</li>
+<li>Verifica tu email</li>
+<li>Configura tu perfil</li>
+</ol>
+</section>
+<section id="conectar-git-local-con-github" class="level3">
+<h3 class="anchored" data-anchor-id="conectar-git-local-con-github">Conectar Git local con GitHub</h3>
+<section id="autenticación-con-token-personal" class="level4">
+<h4 class="anchored" data-anchor-id="autenticación-con-token-personal">Autenticación con Token Personal</h4>
+<ol type="1">
+<li><p><strong>Crear un Personal Access Token:</strong></p>
+<ul>
+<li>Ve a GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</li>
+<li>Generate new token (classic)</li>
+<li>Selecciona los permisos necesarios: <code>repo</code>, <code>workflow</code></li>
+<li>Guarda el token en un lugar seguro</li>
+</ul></li>
+<li><p><strong>Usar el token:</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Al hacer push por primera vez, usa tu username y el token como password</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="autenticación-con-ssh-recomendado-para-uso-avanzado" class="level4">
+<h4 class="anchored" data-anchor-id="autenticación-con-ssh-recomendado-para-uso-avanzado">Autenticación con SSH (recomendado para uso avanzado)</h4>
+<ol type="1">
+<li><p><strong>Generar clave SSH:</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519 <span class="at">-C</span> <span class="st">"tu.email@ejemplo.com"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Añadir la clave a GitHub:</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copiar la clave pública</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_ed25519.pub</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Ve a GitHub → Settings → SSH and GPG keys → New SSH key</li>
+<li>Pega la clave pública</li>
+</ul></li>
+<li><p><strong>Probar la conexión:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="at">-T</span> git@github.com</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="pull-requests" class="level2">
+<h2 class="anchored" data-anchor-id="pull-requests">Pull Requests</h2>
+<section id="qué-son-los-pull-requests" class="level3">
+<h3 class="anchored" data-anchor-id="qué-son-los-pull-requests">¿Qué son los Pull Requests?</h3>
+<p>Los Pull Requests (PRs) son una funcionalidad de GitHub que permite: - Proponer cambios a un repositorio - Revisar código antes de integrarlo - Discutir modificaciones - Mantener un historial de cambios</p>
+</section>
+<section id="flujo-de-trabajo-con-pull-requests" class="level3">
+<h3 class="anchored" data-anchor-id="flujo-de-trabajo-con-pull-requests">Flujo de trabajo con Pull Requests</h3>
+<section id="crear-una-nueva-rama" class="level4">
+<h4 class="anchored" data-anchor-id="crear-una-nueva-rama">1. Crear una nueva rama</h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear y cambiar a una nueva rama</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> nueva-caracteristica</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># O usando el comando más moderno</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> nueva-caracteristica</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="realizar-cambios-y-commits" class="level4">
+<h4 class="anchored" data-anchor-id="realizar-cambios-y-commits">2. Realizar cambios y commits</h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hacer cambios en tu código</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir y commitear cambios</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Implementa nueva característica"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="subir-la-rama-a-github" class="level4">
+<h4 class="anchored" data-anchor-id="subir-la-rama-a-github">3. Subir la rama a GitHub</h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin nueva-caracteristica</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="crear-el-pull-request" class="level4">
+<h4 class="anchored" data-anchor-id="crear-el-pull-request">4. Crear el Pull Request</h4>
+<ol type="1">
+<li>Ve a tu repositorio en GitHub</li>
+<li>Haz clic en “Compare &amp; pull request”</li>
+<li>Añade un título y descripción clara</li>
+<li>Selecciona los revisores si es necesario</li>
+<li>Haz clic en “Create pull request”</li>
+</ol>
+</section>
+<section id="proceso-de-revisión" class="level4">
+<h4 class="anchored" data-anchor-id="proceso-de-revisión">5. Proceso de revisión</h4>
+<ul>
+<li>Los revisores pueden añadir comentarios</li>
+<li>Puedes hacer cambios adicionales con nuevos commits</li>
+<li>Una vez aprobado, el PR puede ser fusionado</li>
+</ul>
+</section>
+<section id="fusionar-y-limpiar" class="level4">
+<h4 class="anchored" data-anchor-id="fusionar-y-limpiar">6. Fusionar y limpiar</h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Después de que se fusione el PR, actualiza tu rama principal</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Elimina la rama local</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> nueva-caracteristica</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="conda" class="level2">
+<h2 class="anchored" data-anchor-id="conda">Conda</h2>
+<section id="qué-es-conda" class="level3">
+<h3 class="anchored" data-anchor-id="qué-es-conda">¿Qué es Conda?</h3>
+<p>Conda es un gestor de paquetes y entornos de código abierto que: - Instala, ejecuta y actualiza paquetes y sus dependencias - Crea, guarda, carga y cambia entre entornos - Funciona con cualquier lenguaje (Python, R, Ruby, Lua, Scala, Java, etc.) - Es multiplataforma (Windows, macOS, Linux)</p>
+</section>
+<section id="instalación-de-conda" class="level3">
+<h3 class="anchored" data-anchor-id="instalación-de-conda">Instalación de Conda</h3>
+<section id="opción-1-miniconda-recomendado" class="level4">
+<h4 class="anchored" data-anchor-id="opción-1-miniconda-recomendado">Opción 1: Miniconda (recomendado)</h4>
+<p><strong>Windows:</strong> 1. Descargar desde <a href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a> 2. Ejecutar el instalador 3. Seguir las instrucciones por defecto 4. Reiniciar la terminal</p>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Descargar e instalar con curl</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-O</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniconda3-latest-MacOSX-x86_64.sh</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Para Apple Silicon (M1/M2)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-O</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> Miniconda3-latest-MacOSX-arm64.sh</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="opción-2-anaconda-instalación-completa" class="level4">
+<h4 class="anchored" data-anchor-id="opción-2-anaconda-instalación-completa">Opción 2: Anaconda (instalación completa)</h4>
+<ol type="1">
+<li>Descargar desde <a href="https://www.anaconda.com/products/distribution">https://www.anaconda.com/products/distribution</a></li>
+<li>Seguir las instrucciones de instalación para tu sistema operativo</li>
+</ol>
+</section>
+</section>
+<section id="verificar-la-instalación" class="level3">
+<h3 class="anchored" data-anchor-id="verificar-la-instalación">Verificar la instalación</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> <span class="at">--version</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="gestión-de-entornos-con-conda" class="level2">
+<h2 class="anchored" data-anchor-id="gestión-de-entornos-con-conda">Gestión de Entornos con Conda</h2>
+<section id="por-qué-usar-entornos" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-usar-entornos">¿Por qué usar entornos?</h3>
+<p>Los entornos virtuales permiten: - Aislar dependencias entre proyectos - Usar diferentes versiones de Python/paquetes - Evitar conflictos entre bibliotecas - Reproducir entornos de trabajo</p>
+</section>
+<section id="comandos-básicos-para-entornos" class="level3">
+<h3 class="anchored" data-anchor-id="comandos-básicos-para-entornos">Comandos básicos para entornos</h3>
+<section id="crear-entornos" class="level4">
+<h4 class="anchored" data-anchor-id="crear-entornos">Crear entornos</h4>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un entorno con Python específico</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> mi_entorno python=3.10</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un entorno con paquetes específicos</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> ciencia_datos python=3.10 numpy pandas matplotlib</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear entorno desde un archivo</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="activar-y-desactivar-entornos" class="level4">
+<h4 class="anchored" data-anchor-id="activar-y-desactivar-entornos">Activar y desactivar entornos</h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activar un entorno</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mi_entorno</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Desactivar el entorno actual</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Listar entornos disponibles</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env list</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="gestionar-paquetes-en-entornos" class="level4">
+<h4 class="anchored" data-anchor-id="gestionar-paquetes-en-entornos">Gestionar paquetes en entornos</h4>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar paquetes</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar desde conda-forge (recomendado)</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge seaborn</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar múltiples paquetes</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install jupyter matplotlib seaborn</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Listar paquetes instalados</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> list</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Actualizar paquetes</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> update numpy</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> update <span class="at">--all</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="eliminar-entornos" class="level4">
+<h4 class="anchored" data-anchor-id="eliminar-entornos">Eliminar entornos</h4>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar un entorno</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env remove <span class="at">-n</span> mi_entorno</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="archivo-environment.yml" class="level3">
+<h3 class="anchored" data-anchor-id="archivo-environment.yml">Archivo environment.yml</h3>
+<p>Para reproducir entornos, crea un archivo <code>environment.yml</code>:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> mineria_datos</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">channels</span><span class="kw">:</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> conda-forge</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> defaults</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dependencies</span><span class="kw">:</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> python=3.10</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> jupyter</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> numpy</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> pandas</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> matplotlib</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> seaborn</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> scikit-learn</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> pip</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">pip</span><span class="kw">:</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> some-pip-package</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Crear el entorno desde el archivo:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="mejores-prácticas" class="level3">
+<h3 class="anchored" data-anchor-id="mejores-prácticas">Mejores prácticas</h3>
+<ol type="1">
+<li><strong>Un entorno por proyecto:</strong> Crea un entorno específico para cada proyecto</li>
+<li><strong>Usa conda-forge:</strong> Preferir el canal conda-forge para paquetes actualizados</li>
+<li><strong>Exporta tus entornos:</strong> Mantén archivos environment.yml para reproducibilidad</li>
+<li><strong>Actualiza regularmente:</strong> Mantén tus entornos actualizados</li>
+<li><strong>Documenta dependencias:</strong> Incluye versiones específicas cuando sea crítico</li>
+</ol>
+</section>
+<section id="solución-de-problemas-comunes" class="level3">
+<h3 class="anchored" data-anchor-id="solución-de-problemas-comunes">Solución de problemas comunes</h3>
+<section id="problema-conda-no-se-reconoce-en-la-terminal" class="level4">
+<h4 class="anchored" data-anchor-id="problema-conda-no-se-reconoce-en-la-terminal">Problema: Conda no se reconoce en la terminal</h4>
+<p><strong>Solución:</strong> Reinicia la terminal o añade conda al PATH:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows (en Command Prompt como administrador)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init cmd.exe</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS/Linux</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="problema-conflictos-de-paquetes" class="level4">
+<h4 class="anchored" data-anchor-id="problema-conflictos-de-paquetes">Problema: Conflictos de paquetes</h4>
+<p><strong>Solución:</strong> Usa mamba (más rápido) o especifica canales:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar mamba</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install mamba <span class="at">-n</span> base <span class="at">-c</span> conda-forge</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar mamba en lugar de conda</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install numpy pandas</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="problema-entorno-no-se-activa" class="level4">
+<h4 class="anchored" data-anchor-id="problema-entorno-no-se-activa">Problema: Entorno no se activa</h4>
+<p><strong>Solución:</strong> Verifica la instalación y configuración:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info <span class="at">--envs</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--show</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="configuración-de-conda-en-diferentes-entornos" class="level2">
+<h2 class="anchored" data-anchor-id="configuración-de-conda-en-diferentes-entornos">Configuración de Conda en diferentes entornos</h2>
+<section id="conda-en-windows-con-git-bash" class="level3">
+<h3 class="anchored" data-anchor-id="conda-en-windows-con-git-bash">Conda en Windows con Git Bash</h3>
+<p>Git Bash en Windows puede requerir configuración adicional para funcionar correctamente con Conda:</p>
+<section id="configuración-inicial-en-git-bash" class="level4">
+<h4 class="anchored" data-anchor-id="configuración-inicial-en-git-bash">1. Configuración inicial en Git Bash</h4>
+<p>Después de instalar Miniconda en Windows, es posible que conda no esté disponible en Git Bash por defecto:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar si conda está disponible</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> <span class="at">--version</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Si no funciona, necesitas inicializar conda para Git Bash:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navega al directorio de instalación de Miniconda (ajusta la ruta según tu instalación)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /c/Users/TuUsuario/miniconda3/Scripts</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inicializar conda para bash</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./conda.exe</span> init bash</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="alternativa-añadir-conda-al-path-manualmente" class="level4">
+<h4 class="anchored" data-anchor-id="alternativa-añadir-conda-al-path-manualmente">2. Alternativa: Añadir conda al PATH manualmente</h4>
+<p>Si la inicialización no funciona, añade conda manualmente al PATH en Git Bash:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir estas líneas a tu archivo ~/.bashrc</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'export PATH="/c/Users/TuUsuario/miniconda3:$PATH"'</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'export PATH="/c/Users/TuUsuario/miniconda3/Scripts:$PATH"'</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Recargar el archivo bashrc</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bashrc</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="verificar-la-configuración" class="level4">
+<h4 class="anchored" data-anchor-id="verificar-la-configuración">3. Verificar la configuración</h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reiniciar Git Bash y verificar</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> <span class="at">--version</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="trabajar-con-entornos-en-git-bash" class="level4">
+<h4 class="anchored" data-anchor-id="trabajar-con-entornos-en-git-bash">4. Trabajar con entornos en Git Bash</h4>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear y activar entorno</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> mineria_datos python=3.10</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Si aparece un error de activación, usa:</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> activate mineria_datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="troubleshooting-específico-para-windows" class="level3">
+<h3 class="anchored" data-anchor-id="troubleshooting-específico-para-windows">Troubleshooting específico para Windows</h3>
+<section id="problema-conda-command-not-found-en-git-bash" class="level4">
+<h4 class="anchored" data-anchor-id="problema-conda-command-not-found-en-git-bash">Problema: “conda: command not found” en Git Bash</h4>
+<p><strong>Soluciones:</strong></p>
+<ol type="1">
+<li><strong>Reinstalar Miniconda con “Add to PATH” marcado</strong></li>
+<li><strong>Usar el Anaconda Prompt</strong> (más confiable en Windows)</li>
+<li><strong>Configurar manualmente el PATH:</strong></li>
+</ol>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En ~/.bashrc, añade:</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> conda=<span class="st">'/c/Users/TuUsuario/miniconda3/Scripts/conda.exe'</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> python=<span class="st">'/c/Users/TuUsuario/miniconda3/python.exe'</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="problema-activación-de-entorno-no-funciona" class="level4">
+<h4 class="anchored" data-anchor-id="problema-activación-de-entorno-no-funciona">Problema: Activación de entorno no funciona</h4>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En lugar de conda activate, usa:</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /c/Users/TuUsuario/miniconda3/etc/profile.d/conda.sh</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="visual-studio-code" class="level2">
+<h2 class="anchored" data-anchor-id="visual-studio-code">Visual Studio Code</h2>
+<section id="por-qué-usar-vs-code-para-ciencia-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-usar-vs-code-para-ciencia-de-datos">¿Por qué usar VS Code para ciencia de datos?</h3>
+<p>Visual Studio Code es un editor de código ligero pero potente que ofrece: - Soporte excelente para Python y Jupyter notebooks - Integración nativa con conda y entornos virtuales - Extensiones específicas para ciencia de datos - Terminal integrado - Control de versiones Git integrado - IntelliSense y debugging avanzado</p>
+</section>
+<section id="instalación-de-visual-studio-code" class="level3">
+<h3 class="anchored" data-anchor-id="instalación-de-visual-studio-code">Instalación de Visual Studio Code</h3>
+<section id="windows-y-macos" class="level4">
+<h4 class="anchored" data-anchor-id="windows-y-macos">Windows y macOS</h4>
+<ol type="1">
+<li>Descargar desde <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>Ejecutar el instalador siguiendo las instrucciones por defecto</li>
+<li>Reiniciar el sistema si es necesario</li>
+</ol>
+</section>
+</section>
+<section id="extensiones-esenciales-para-ciencia-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="extensiones-esenciales-para-ciencia-de-datos">Extensiones esenciales para ciencia de datos</h3>
+<p>Instala estas extensiones desde el marketplace de VS Code (Ctrl/Cmd + Shift + X):</p>
+<section id="extensiones-obligatorias" class="level4">
+<h4 class="anchored" data-anchor-id="extensiones-obligatorias">Extensiones obligatorias:</h4>
+<pre><code>- Python (Microsoft)
+- Jupyter (Microsoft)
+- Python Debugger (Microsoft)</code></pre>
+</section>
+<section id="extensiones-recomendadas" class="level4">
+<h4 class="anchored" data-anchor-id="extensiones-recomendadas">Extensiones recomendadas:</h4>
+<pre><code>- GitLens — Git supercharged
+- Pylance (análisis avanzado de Python)
+- autoDocstring - Python Docstring Generator
+- Python Indent
+- Bracket Pair Colorizer
+- Data Wrangler (Microsoft)</code></pre>
+</section>
+</section>
+<section id="configuración-de-python-y-conda-en-vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="configuración-de-python-y-conda-en-vs-code">Configuración de Python y Conda en VS Code</h3>
+<section id="seleccionar-el-intérprete-de-python" class="level4">
+<h4 class="anchored" data-anchor-id="seleccionar-el-intérprete-de-python">1. Seleccionar el intérprete de Python</h4>
+<ol type="1">
+<li>Abre VS Code</li>
+<li>Presiona <code>Ctrl+Shift+P</code> (Windows) o <code>Cmd+Shift+P</code> (macOS)</li>
+<li>Escribe “Python: Select Interpreter”</li>
+<li>Selecciona el intérprete del entorno <code>mineria_datos</code></li>
+</ol>
+<p>La ruta debería ser similar a: - <strong>Windows:</strong> <code>C:\Users\TuUsuario\miniconda3\envs\mineria_datos\python.exe</code> - <strong>macOS:</strong> <code>/Users/TuUsuario/miniconda3/envs/mineria_datos/bin/python</code></p>
+</section>
+<section id="verificar-la-configuración-1" class="level4">
+<h4 class="anchored" data-anchor-id="verificar-la-configuración-1">2. Verificar la configuración</h4>
+<p>Crea un archivo de prueba <code>test.py</code>:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Python path: </span><span class="sc">{</span>sys<span class="sc">.</span>executable<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Python version: </span><span class="sc">{</span>sys<span class="sc">.</span>version<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar paquetes</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"¡Todos los paquetes importados correctamente!"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="configurar-terminal-integrado" class="level4">
+<h4 class="anchored" data-anchor-id="configurar-terminal-integrado">3. Configurar terminal integrado</h4>
+<p>En VS Code, abre el terminal integrado (<code>Ctrl+``</code> o <code>View → Terminal</code>) y configura conda:</p>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Si usas Git Bash en VS Code</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="trabajar-con-jupyter-notebooks-en-vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="trabajar-con-jupyter-notebooks-en-vs-code">Trabajar con Jupyter Notebooks en VS Code</h3>
+<section id="crear-un-nuevo-notebook" class="level4">
+<h4 class="anchored" data-anchor-id="crear-un-nuevo-notebook">1. Crear un nuevo notebook</h4>
+<ol type="1">
+<li><code>Ctrl+Shift+P</code> → “Jupyter: Create New Jupyter Notebook”</li>
+<li>O crear un archivo con extensión <code>.ipynb</code></li>
+</ol>
+</section>
+<section id="seleccionar-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="seleccionar-kernel">2. Seleccionar kernel</h4>
+<ol type="1">
+<li>En la esquina superior derecha del notebook, haz clic en “Select Kernel”</li>
+<li>Selecciona “Python Environments”</li>
+<li>Escoge el entorno <code>mineria_datos</code></li>
+</ol>
+</section>
+<section id="verificar-configuración-del-notebook" class="level4">
+<h4 class="anchored" data-anchor-id="verificar-configuración-del-notebook">3. Verificar configuración del notebook</h4>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primera celda del notebook</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Ejecutándose en: </span><span class="sc">{</span>sys<span class="sc">.</span>executable<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Importar bibliotecas del curso</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Notebook configurado correctamente para el curso!"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="configuración-avanzada-de-vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="configuración-avanzada-de-vs-code">Configuración avanzada de VS Code</h3>
+<section id="configuración-del-workspace" class="level4">
+<h4 class="anchored" data-anchor-id="configuración-del-workspace">Configuración del workspace</h4>
+<p>Crea un archivo <code>.vscode/settings.json</code> en tu directorio del proyecto:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.defaultInterpreterPath"</span><span class="fu">:</span> <span class="st">"./mineria_datos/bin/python"</span><span class="fu">,</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.terminal.activateEnvironment"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"jupyter.defaultKernel"</span><span class="fu">:</span> <span class="st">"mineria_datos"</span><span class="fu">,</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"files.associations"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"*.qmd"</span><span class="fu">:</span> <span class="st">"markdown"</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.formatting.provider"</span><span class="fu">:</span> <span class="st">"black"</span><span class="fu">,</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.linting.enabled"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.linting.pylintEnabled"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"editor.formatOnSave"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="atajos-de-teclado-útiles" class="level4">
+<h4 class="anchored" data-anchor-id="atajos-de-teclado-útiles">Atajos de teclado útiles</h4>
+<ul>
+<li><code>Ctrl+Shift+P</code>: Command Palette</li>
+<li><code>Ctrl+``</code>: Toggle Terminal</li>
+<li><code>Shift+Enter</code>: Ejecutar celda de notebook</li>
+<li><code>Ctrl+Enter</code>: Ejecutar celda sin avanzar</li>
+<li><code>F5</code>: Iniciar debugging</li>
+<li><code>Ctrl+Shift+G</code>: Control de versiones Git</li>
+</ul>
+</section>
+</section>
+<section id="integración-con-git-en-vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="integración-con-git-en-vs-code">Integración con Git en VS Code</h3>
+<section id="clonar-repositorio" class="level4">
+<h4 class="anchored" data-anchor-id="clonar-repositorio">1. Clonar repositorio</h4>
+<ol type="1">
+<li><code>Ctrl+Shift+P</code> → “Git: Clone”</li>
+<li>Pega la URL del repositorio</li>
+<li>Selecciona la carpeta destino</li>
+</ol>
+</section>
+<section id="operaciones-git-básicas" class="level4">
+<h4 class="anchored" data-anchor-id="operaciones-git-básicas">2. Operaciones Git básicas</h4>
+<ul>
+<li><strong>Source Control panel</strong> (<code>Ctrl+Shift+G</code>): Ver cambios</li>
+<li><strong>Stage changes</strong>: Hacer clic en el “+” junto a los archivos</li>
+<li><strong>Commit</strong>: Escribir mensaje y presionar <code>Ctrl+Enter</code></li>
+<li><strong>Push/Pull</strong>: Usar los botones en la barra de estado</li>
+</ul>
+</section>
+<section id="crear-branches" class="level4">
+<h4 class="anchored" data-anchor-id="crear-branches">3. Crear branches</h4>
+<ol type="1">
+<li>Clic en el nombre de la branch en la barra de estado</li>
+<li>“Create new branch”</li>
+<li>Escribir el nombre de la nueva branch</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="configuración-completa-del-entorno-para-el-curso" class="level2">
+<h2 class="anchored" data-anchor-id="configuración-completa-del-entorno-para-el-curso">Configuración completa del entorno para el curso</h2>
+<section id="pasos-de-configuración-paso-a-paso" class="level3">
+<h3 class="anchored" data-anchor-id="pasos-de-configuración-paso-a-paso">Pasos de configuración paso a paso</h3>
+<section id="instalar-las-herramientas-base" class="level4">
+<h4 class="anchored" data-anchor-id="instalar-las-herramientas-base">1. Instalar las herramientas base</h4>
+<ul>
+<li><strong>Git</strong> (siguiendo las instrucciones de instalación según tu sistema operativo)</li>
+<li><strong>Conda</strong> (Miniconda recomendado)</li>
+<li><strong>Visual Studio Code</strong> (opcional pero recomendado)</li>
+</ul>
+</section>
+<section id="crear-y-configurar-el-entorno-de-conda" class="level4">
+<h4 class="anchored" data-anchor-id="crear-y-configurar-el-entorno-de-conda">2. Crear y configurar el entorno de conda</h4>
+<p><strong>En cualquier terminal (Command Prompt, Git Bash, Terminal de macOS):</strong></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear el entorno del curso</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> mineria_datos python=3.10</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Activar el entorno</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Si tienes problemas con conda activate en Windows Git Bash:</strong></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternativa para Windows Git Bash</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> activate mineria_datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="instalar-paquetes-necesarios" class="level4">
+<h4 class="anchored" data-anchor-id="instalar-paquetes-necesarios">3. Instalar paquetes necesarios</h4>
+<p><strong>Opción recomendada (con mamba para mayor velocidad):</strong></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar mamba primero</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install mamba <span class="at">-c</span> conda-forge</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar todos los paquetes del curso</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install jupyter numpy pandas matplotlib seaborn scikit-learn nbclient ipykernel pyyaml plotly <span class="at">-y</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Opción alternativa (solo con conda):</strong></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install jupyter numpy pandas matplotlib seaborn scikit-learn nbclient ipykernel pyyaml plotly <span class="at">-y</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="configurar-jupyter-para-el-entorno" class="level4">
+<h4 class="anchored" data-anchor-id="configurar-jupyter-para-el-entorno">4. Configurar Jupyter para el entorno</h4>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Registrar el entorno como kernel de Jupyter</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> mineria_datos <span class="at">--display-name</span> <span class="st">"Python (Minería de Datos)"</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar que el kernel se registró correctamente</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter</span> kernelspec list</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="verificar-la-instalación-1" class="level4">
+<h4 class="anchored" data-anchor-id="verificar-la-instalación-1">5. Verificar la instalación</h4>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probar que todos los paquetes se importan correctamente</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-c</span> <span class="st">"</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="st">import numpy as np</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="st">import matplotlib.pyplot as plt</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="st">import seaborn as sns</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="st">import sklearn</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="st">import plotly</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="st">print('✅ ¡Todos los paquetes instalados correctamente!')</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="st">print(f'Python version: {pd.__version__}')</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="st">print(f'Pandas version: {pd.__version__}')</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="st">print(f'NumPy version: {np.__version__}')</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="st">print(f'Scikit-learn version: {sklearn.__version__}')</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="configuración-específica-por-entorno" class="level3">
+<h3 class="anchored" data-anchor-id="configuración-específica-por-entorno">Configuración específica por entorno</h3>
+<section id="para-usuarios-de-windows-git-bash" class="level4">
+<h4 class="anchored" data-anchor-id="para-usuarios-de-windows-git-bash">Para usuarios de Windows Git Bash</h4>
+<p>Si planeas usar Git Bash como tu terminal principal:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir conda al PATH permanentemente</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'export PATH="/c/Users/TuUsuario/miniconda3/Scripts:$PATH"'</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bashrc</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar configuración</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> info</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="para-usuarios-de-visual-studio-code" class="level4">
+<h4 class="anchored" data-anchor-id="para-usuarios-de-visual-studio-code">Para usuarios de Visual Studio Code</h4>
+<ol type="1">
+<li><strong>Instalar VS Code y extensiones:</strong>
+<ul>
+<li>Python (Microsoft)</li>
+<li>Jupyter (Microsoft)</li>
+<li>Python Debugger (Microsoft)</li>
+</ul></li>
+<li><strong>Configurar el intérprete:</strong>
+<ul>
+<li><code>Ctrl+Shift+P</code> → “Python: Select Interpreter”</li>
+<li>Seleccionar el intérprete del entorno <code>mineria_datos</code></li>
+</ul></li>
+<li><strong>Crear archivo de configuración del workspace:</strong></li>
+</ol>
+<p>Crea <code>.vscode/settings.json</code> en tu directorio de proyecto:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.defaultInterpreterPath"</span><span class="fu">:</span> <span class="st">"~/miniconda3/envs/mineria_datos/bin/python"</span><span class="fu">,</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python.terminal.activateEnvironment"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"jupyter.defaultKernel"</span><span class="fu">:</span> <span class="st">"mineria_datos"</span><span class="fu">,</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"files.associations"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"*.qmd"</span><span class="fu">:</span> <span class="st">"markdown"</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="para-usuarios-de-jupyter-lab-opcional" class="level4">
+<h4 class="anchored" data-anchor-id="para-usuarios-de-jupyter-lab-opcional">Para usuarios de Jupyter Lab (opcional)</h4>
+<p>Si prefieres usar JupyterLab en lugar de notebooks en VS Code:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar JupyterLab</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install jupyterlab</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Iniciar JupyterLab</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter</span> lab</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="clonar-el-repositorio-del-curso" class="level3">
+<h3 class="anchored" data-anchor-id="clonar-el-repositorio-del-curso">Clonar el repositorio del curso</h3>
+<p>Una vez configurado tu entorno, clona el repositorio del curso:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clonar el repositorio (sustituye por la URL real del curso)</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="pp">[</span><span class="ss">URL_DEL_REPOSITORIO_DEL_CURSO</span><span class="pp">]</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Navegar al directorio</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> nombre-del-repositorio</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Activar el entorno</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Si hay un archivo environment.yml, úsalo para instalar dependencias adicionales</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env update <span class="at">-f</span> environment.yml</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="flujo-de-trabajo-recomendado" class="level3">
+<h3 class="anchored" data-anchor-id="flujo-de-trabajo-recomendado">Flujo de trabajo recomendado</h3>
+<ol type="1">
+<li><p><strong>Iniciar sesión de trabajo:</strong></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activar entorno</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate mineria_datos</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Navegar al directorio del proyecto</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ruta/al/proyecto</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Abrir VS Code (si lo usas)</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="ex">code</span> .</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Para cada tarea/proyecto:</strong></p>
+<ul>
+<li>Crear una nueva branch en Git</li>
+<li>Trabajar en tus notebooks/scripts</li>
+<li>Hacer commits regularmente</li>
+<li>Crear Pull Request cuando esté listo</li>
+</ul></li>
+<li><p><strong>Mantener el entorno actualizado:</strong></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Actualizar paquetes periódicamente</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> update <span class="at">--all</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="verificación-final" class="level3">
+<h3 class="anchored" data-anchor-id="verificación-final">Verificación final</h3>
+<p>Ejecuta este script para verificar que todo está configurado correctamente:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test_setup.py</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_environment():</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"🔍 Verificando configuración del entorno..."</span>)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verificar Python</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"✅ Python: </span><span class="sc">{</span>sys<span class="sc">.</span>version<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"✅ Ejecutable: </span><span class="sc">{</span>sys<span class="sc">.</span>executable<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verificar paquetes críticos</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    required_packages <span class="op">=</span> [</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'pandas'</span>, <span class="st">'numpy'</span>, <span class="st">'matplotlib'</span>, <span class="st">'seaborn'</span>, </span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'sklearn'</span>, <span class="st">'jupyter'</span>, <span class="st">'plotly'</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> package <span class="kw">in</span> required_packages:</span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>            <span class="bu">__import__</span>(package)</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"✅ </span><span class="sc">{</span>package<span class="sc">}</span><span class="ss">: disponible"</span>)</span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"❌ </span><span class="sc">{</span>package<span class="sc">}</span><span class="ss">: NO disponible"</span>)</span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verificar conda</span></span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> subprocess.run([<span class="st">'conda'</span>, <span class="st">'--version'</span>], </span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a>                              capture_output<span class="op">=</span><span class="va">True</span>, text<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> result.returncode <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb53-30"><a href="#cb53-30" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"✅ Conda: </span><span class="sc">{</span>result<span class="sc">.</span>stdout<span class="sc">.</span>strip()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb53-31"><a href="#cb53-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb53-32"><a href="#cb53-32" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"❌ Conda: no disponible"</span>)</span>
+<span id="cb53-33"><a href="#cb53-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb53-34"><a href="#cb53-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"❌ Conda: no encontrado en PATH"</span>)</span>
+<span id="cb53-35"><a href="#cb53-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-36"><a href="#cb53-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verificar git</span></span>
+<span id="cb53-37"><a href="#cb53-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb53-38"><a href="#cb53-38" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> subprocess.run([<span class="st">'git'</span>, <span class="st">'--version'</span>], </span>
+<span id="cb53-39"><a href="#cb53-39" aria-hidden="true" tabindex="-1"></a>                              capture_output<span class="op">=</span><span class="va">True</span>, text<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb53-40"><a href="#cb53-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> result.returncode <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb53-41"><a href="#cb53-41" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"✅ Git: </span><span class="sc">{</span>result<span class="sc">.</span>stdout<span class="sc">.</span>strip()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb53-42"><a href="#cb53-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb53-43"><a href="#cb53-43" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"❌ Git: no disponible"</span>)</span>
+<span id="cb53-44"><a href="#cb53-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb53-45"><a href="#cb53-45" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"❌ Git: no encontrado en PATH"</span>)</span>
+<span id="cb53-46"><a href="#cb53-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-47"><a href="#cb53-47" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">🎉 ¡Verificación completa!"</span>)</span>
+<span id="cb53-48"><a href="#cb53-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-49"><a href="#cb53-49" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb53-50"><a href="#cb53-50" aria-hidden="true" tabindex="-1"></a>    test_environment()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Guarda este script como <code>test_setup.py</code> y ejecútalo:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_setup.py</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>¡Con esta configuración completa, estarás listo para trabajar eficientemente en todos los proyectos del curso de Minería de Datos!</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Temario">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Temario</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./01-introduccion.html" class="pagination-link" aria-label="Introducción">
+        <span class="nav-page-text"><span class="chapter-title">Introducción</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

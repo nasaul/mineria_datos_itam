@@ -1,0 +1,1172 @@
+# Clasificación
+
+## Introducción al Problema de Clasificación
+
+En los capítulos anteriores hemos trabajado con problemas de regresión, donde la variable respuesta $Y$ es cuantitativa (continua). En este capítulo estudiaremos los **problemas de clasificación**, donde la variakbble respuesta $Y$ es **cualitativa** (categórica o discreta).
+
+### Definición Formal
+
+Un problema de clasificación consiste en asignar una observación $\mathbf{x} = (x_1, x_2, ..., x_p)$ a una de $K$ clases o categorías posibles. Formalmente:
+
+- **Entrada**: Un vector de características $\mathbf{x} \in \mathbb{R}^p$
+- **Salida**: Una etiqueta de clase $y \in \mathcal{C} = \{C_1, C_2, ..., C_K\}$
+
+Donde $\mathcal{C}$ es el conjunto finito de clases posibles.
+
+### Ejemplos de Problemas de Clasificación
+
+1. **Clasificación binaria** ($K=2$):
+   - Detección de spam en correos electrónicos (spam/no spam)
+   - Diagnóstico médico (enfermo/sano)
+   - Aprobación de crédito (aprobado/rechazado)
+
+2. **Clasificación multiclase** ($K>2$):
+   - Reconocimiento de dígitos escritos a mano (0-9)
+   - Clasificación de tipos de flores (setosa/versicolor/virginica)
+   - Categorización de noticias (deportes/política/tecnología/etc.)
+
+### Objetivo del Aprendizaje
+
+El objetivo es aprender una función de clasificación $f: \mathbb{R}^p \rightarrow \mathcal{C}$ que minimice el error de clasificación esperado:
+
+$$\mathbb{E}[L(Y, f(\mathbf{X}))]$$
+
+Donde $L$ es una función de pérdida. La función de pérdida más común es la **pérdida 0-1**:
+
+$$L_{0-1}(y, \hat{y}) = \begin{cases}
+0 & \text{si } y = \hat{y} \\
+1 & \text{si } y \neq \hat{y}
+\end{cases}$$
+
+## Funciones de Pérdida en Clasificación
+
+Aunque la pérdida 0-1 es intuitiva y directamente relacionada con la tasa de error, presenta limitaciones importantes: no es diferenciable y no proporciona información sobre la **confianza** de las predicciones. Por esto, en la práctica se utilizan funciones de pérdida alternativas que trabajan con probabilidades.
+
+### Clasificación Binaria: Pérdidas Probabilísticas
+
+Para clasificación binaria, donde $y \in \{0, 1\}$, consideramos predicciones probabilísticas $\hat{p} = P(\hat{Y} = 1 | \mathbf{x})$. Las funciones de pérdida más importantes son:
+
+#### Pérdida de Brier (Brier Score)
+
+La **pérdida de Brier** o pérdida cuadrática mide el error cuadrático medio entre las probabilidades predichas y los valores reales:
+
+$$L_{\text{Brier}}(y, \hat{p}) = (y - \hat{p})^2$$
+
+Para un conjunto de $n$ observaciones:
+
+$$\text{Brier Score} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{p}_i)^2$$
+
+**Propiedades:**
+
+- Rango: $[0, 1]$ (menor es mejor)
+- Es una regla de puntuación **propia** (proper scoring rule)
+- Penaliza fuertemente predicciones confiadas pero incorrectas
+- Se puede descomponer en: calibración + refinamiento
+
+#### Pérdida Logarítmica (Log Loss o Entropía Cruzada Binaria)
+
+La **pérdida logarítmica** mide la distancia entre la distribución verdadera y la predicha usando la divergencia de Kullback-Leibler:
+
+$$L_{\text{log}}(y, \hat{p}) = -[y \log(\hat{p}) + (1-y) \log(1-\hat{p})]$$
+
+Equivalentemente:
+$$L_{\text{log}}(y, \hat{p}) = \begin{cases}
+-\log(\hat{p}) & \text{si } y = 1 \\
+-\log(1-\hat{p}) & \text{si } y = 0
+\end{cases}$$
+
+Para un conjunto de observaciones:
+
+$$\text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} [y_i \log(\hat{p}_i) + (1-y_i) \log(1-\hat{p}_i)]$$
+
+**Propiedades:**
+
+- Rango: $[0, \infty)$ (menor es mejor)
+- También es una regla de puntuación propia
+- Penaliza infinitamente predicciones completamente incorrectas ($\hat{p} = 0$ cuando $y = 1$)
+- Es la función objetivo en regresión logística
+
+### Comparación de Funciones de Pérdida
+
+```{python}
+#| label: classification-loss-functions
+#| fig-cap: "Funciones de perdidas para clasificación"
+#| fig-width: 12
+#| fig-height: 6
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Rango de probabilidades predichas
+p_hat = np.linspace(0.001, 0.999, 1000)
+
+# Pérdidas cuando y = 1
+brier_y1 = (1 - p_hat)**2
+log_y1 = -np.log(p_hat)
+zero_one_y1 = (p_hat < 0.5).astype(float)
+
+# Pérdidas cuando y = 0
+brier_y0 = p_hat**2
+log_y0 = -np.log(1 - p_hat)
+zero_one_y0 = (p_hat >= 0.5).astype(float)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Gráfica cuando y = 1
+axes[0].plot(p_hat, brier_y1, label='Brier', linewidth=2)
+axes[0].plot(p_hat, log_y1, label='Log Loss', linewidth=2)
+axes[0].plot(p_hat, zero_one_y1, label='0-1', linewidth=2, linestyle='--')
+axes[0].set_xlabel('Probabilidad predicha $\hat{p}$')
+axes[0].set_ylabel('Pérdida')
+axes[0].set_title('Pérdida cuando $y = 1$')
+axes[0].set_ylim([0, 5])
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Gráfica cuando y = 0
+axes[1].plot(p_hat, brier_y0, label='Brier', linewidth=2)
+axes[1].plot(p_hat, log_y0, label='Log Loss', linewidth=2)
+axes[1].plot(p_hat, zero_one_y0, label='0-1', linewidth=2, linestyle='--')
+axes[1].set_xlabel('Probabilidad predicha $\hat{p}$')
+axes[1].set_ylabel('Pérdida')
+axes[1].set_title('Pérdida cuando $y = 0$')
+axes[1].set_ylim([0, 5])
+axes[1].legend()
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Reglas de Puntuación Propias
+
+Una **regla de puntuación propia** (proper scoring rule) es una función de pérdida que incentiva al modelo a reportar sus verdaderas probabilidades. Formalmente, una función $S(p, y)$ es propia si:
+
+$$\mathbb{E}_{Y \sim p^*}[S(p^*, Y)] \leq \mathbb{E}_{Y \sim p^*}[S(p, Y)]$$
+
+Donde $p^*$ es la distribución verdadera. Tanto la pérdida de Brier como la log loss son propias, mientras que la pérdida 0-1 no lo es.
+
+### Ventajas y Desventajas
+
+**Pérdida de Brier:**
+
+- ✓ Interpretación directa como MSE de probabilidades
+- ✓ Acotada en $[0,1]$
+- ✓ Menos sensible a predicciones extremas incorrectas
+- ✗ Menos utilizada en optimización de modelos
+
+**Pérdida Logarítmica:**
+
+- ✓ Base teórica sólida (teoría de información)
+- ✓ Función objetivo natural para muchos modelos (logística, redes neuronales)
+- ✓ Diferenciable y convexa
+- ✗ No acotada superiormente
+- ✗ Muy sensible a predicciones extremas incorrectas
+
+## Modelos para Clasificación Binaria
+
+### Clasificador de Bayes para el Caso Binario
+
+El **clasificador de Bayes** es el clasificador óptimo teórico que minimiza el error de clasificación. Para el caso binario con clases $\{0, 1\}$, clasifica según:
+
+$$\hat{y}(\mathbf{x}) = \begin{cases}
+1 & \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) > 0.5 \\
+0 & \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) \leq 0.5
+\end{cases}$$
+
+O más generalmente, con un umbral $\tau$:
+
+$$\hat{y}(\mathbf{x}) = \mathbb{1}[P(Y = 1 | \mathbf{X} = \mathbf{x}) > \tau]$$
+
+#### Estimación mediante el Teorema de Bayes
+
+Usando el teorema de Bayes:
+
+$$P(Y = k | \mathbf{X} = \mathbf{x}) = \frac{P(\mathbf{X} = \mathbf{x} | Y = k) \cdot P(Y = k)}{P(\mathbf{X} = \mathbf{x})}$$
+
+Donde:
+
+- $P(Y = k)$ es la **probabilidad a priori** de la clase $k$
+- $P(\mathbf{X} = \mathbf{x} | Y = k)$ es la **verosimilitud** de observar $\mathbf{x}$ dado que pertenece a la clase $k$
+- $P(\mathbf{X} = \mathbf{x})$ es la **evidencia** (constante de normalización)
+
+Como $P(\mathbf{X} = \mathbf{x})$ es igual para todas las clases, la decisión se basa en:
+
+$$\hat{y} = \arg\max_k P(\mathbf{X} = \mathbf{x} | Y = k) \cdot P(Y = k)$$
+
+#### Naive Bayes: Simplificando el Problema
+
+El problema principal del clasificador de Bayes es estimar $P(\mathbf{X} = \mathbf{x} | Y = k)$ en alta dimensión. Con $p$ características, necesitamos estimar la distribución conjunta de todas las variables, lo cual es computacionalmente intratable cuando $p$ es grande.
+
+El clasificador **Naive Bayes** resuelve este problema mediante una **asunción de independencia condicional**: asume que las características son condicionalmente independientes dada la clase:
+
+$$P(\mathbf{X} = \mathbf{x} | Y = k) = P(x_1, x_2, ..., x_p | Y = k) = \prod_{j=1}^{p} P(x_j | Y = k)$$
+
+Esta asunción, aunque "ingenua" (naive), simplifica enormemente el cálculo y funciona sorprendentemente bien en la práctica.
+
+#### Tipos de Naive Bayes
+
+Dependiendo del tipo de características, existen diferentes variantes:
+
+##### 1. **Gaussian Naive Bayes** (características continuas)
+
+Asume que las características siguen una distribución normal dentro de cada clase:
+
+$$P(x_j | Y = k) = \frac{1}{\sqrt{2\pi\sigma_{jk}^2}} \exp\left(-\frac{(x_j - \mu_{jk})^2}{2\sigma_{jk}^2}\right)$$
+
+Donde $\mu_{jk}$ y $\sigma_{jk}^2$ son la media y varianza de la característica $j$ en la clase $k$.
+
+##### 2. **Multinomial Naive Bayes** (características discretas/conteos)
+
+Utilizado para datos de conteo (ej. frecuencia de palabras en clasificación de texto):
+
+$$P(\mathbf{x} | Y = k) = \frac{N_k!}{\prod_j x_j!} \prod_{j=1}^{p} \theta_{jk}^{x_j}$$
+
+Donde $\theta_{jk}$ es la probabilidad de la característica $j$ en la clase $k$.
+
+##### 3. **Bernoulli Naive Bayes** (características binarias)
+
+Para características binarias (presencia/ausencia):
+
+$$P(\mathbf{x} | Y = k) = \prod_{j=1}^{p} \theta_{jk}^{x_j} (1-\theta_{jk})^{1-x_j}$$
+
+#### Ventajas y Desventajas de Naive Bayes
+
+**Ventajas:**
+
+- ✓ Rápido de entrenar y predecir
+- ✓ Funciona bien con pocos datos de entrenamiento
+- ✓ Maneja naturalmente múltiples clases
+- ✓ Robusto ante características irrelevantes
+- ✓ Proporciona estimaciones de probabilidad
+
+**Desventajas:**
+
+- ✗ La asunción de independencia es frecuentemente violada
+- ✗ Puede dar estimaciones de probabilidad sesgadas
+- ✗ Sensible a la maldición de la dimensionalidad con Gaussian NB
+
+#### Ejemplos en Python
+
+##### 1. Ejemplo Básico: Gaussian Naive Bayes
+
+Comenzamos con un ejemplo simple de clasificación binaria usando Gaussian Naive Bayes:
+
+```{python}
+#| label: naive-bayes-basic
+#| echo: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, confusion_matrix
+import pandas as pd
+
+# Generar datos sintéticos para clasificación binaria
+np.random.seed(42)
+X, y = make_classification(
+    n_samples=300,
+    n_features=2,        # 2 características para visualización fácil
+    n_informative=2,     # Ambas características son informativas
+    n_redundant=0,       # Sin características redundantes
+    n_clusters_per_class=2,  # 2 grupos por clase
+    flip_y=0.05,         # 5% de ruido en las etiquetas
+    class_sep=0.8,       # Separación entre clases
+    random_state=42
+)
+
+# Dividir en conjunto de entrenamiento (70%) y prueba (30%)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+print("Dimensiones de los datos:")
+print(f"  Entrenamiento: {X_train.shape}")
+print(f"  Prueba: {X_test.shape}")
+```
+
+```{python}
+#| label: naive-bayes-train
+#| echo: true
+
+# Crear y entrenar el modelo Gaussian Naive Bayes
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+
+# Realizar predicciones
+y_pred = gnb.predict(X_test)
+y_proba = gnb.predict_proba(X_test)
+
+# Evaluar el modelo
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Exactitud (Accuracy): {accuracy:.3f}")
+
+# Matriz de confusión
+cm = confusion_matrix(y_test, y_pred)
+print("\nMatriz de Confusión:")
+print(pd.DataFrame(cm,
+                   columns=['Predicho 0', 'Predicho 1'],
+                   index=['Real 0', 'Real 1']))
+
+# Parámetros aprendidos por el modelo
+print("\n" + "=" * 50)
+print("PARÁMETROS APRENDIDOS")
+print("=" * 50)
+print(f"\nProbabilidades a priori (prior):")
+print(f"  P(Y=0) = {gnb.class_prior_[0]:.3f}")
+print(f"  P(Y=1) = {gnb.class_prior_[1]:.3f}")
+
+print(f"\nMedias de cada característica por clase:")
+for i, clase in enumerate([0, 1]):
+    print(f"  Clase {clase}: μ₁={gnb.theta_[i, 0]:.3f}, μ₂={gnb.theta_[i, 1]:.3f}")
+
+print(f"\nVarianzas de cada característica por clase:")
+for i, clase in enumerate([0, 1]):
+    print(f"  Clase {clase}: σ²₁={gnb.var_[i, 0]:.3f}, σ²₂={gnb.var_[i, 1]:.3f}")
+```
+
+##### 2. Visualización de la Frontera de Decisión
+
+```{python}
+#| label: naive-bayes-visualization
+#| fig-cap: "Frontera de decisión de Gaussian Naive Bayes"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: true
+
+# Función auxiliar para visualizar fronteras de decisión
+def visualizar_clasificador(X, y, classifier, title):
+    """
+    Visualiza la frontera de decisión de un clasificador
+
+    Parámetros:
+    - X: características (n_samples, 2)
+    - y: etiquetas (n_samples,)
+    - classifier: modelo entrenado
+    - title: título del gráfico
+    """
+    h = 0.02  # Tamaño del paso en la malla
+
+    # Crear una malla de puntos para evaluar el clasificador
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    # Predecir probabilidades para cada punto de la malla
+    Z = classifier.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
+    Z = Z.reshape(xx.shape)
+
+    # Crear la visualización
+    plt.figure(figsize=(12, 5))
+
+    # Panel 1: Datos y frontera
+    plt.subplot(1, 2, 1)
+    plt.contourf(xx, yy, Z, alpha=0.4, cmap='RdBu_r', levels=20)
+    plt.contour(xx, yy, Z, levels=[0.5], colors='black', linewidths=2)
+    plt.scatter(X[y==0, 0], X[y==0, 1], c='blue', edgecolors='black',
+                s=50, label='Clase 0', alpha=0.7)
+    plt.scatter(X[y==1, 0], X[y==1, 1], c='red', edgecolors='black',
+                s=50, label='Clase 1', alpha=0.7)
+    plt.xlabel('Característica 1')
+    plt.ylabel('Característica 2')
+    plt.title(f'{title} - Frontera de Decisión')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    # Panel 2: Mapa de probabilidades
+    plt.subplot(1, 2, 2)
+    contour = plt.contourf(xx, yy, Z, levels=20, cmap='RdBu_r', alpha=0.8)
+    plt.colorbar(contour, label='P(Y=1|X)')
+    plt.scatter(X[y==0, 0], X[y==0, 1], c='blue', edgecolors='black',
+                s=30, alpha=0.5)
+    plt.scatter(X[y==1, 0], X[y==1, 1], c='red', edgecolors='black',
+                s=30, alpha=0.5)
+    plt.xlabel('Característica 1')
+    plt.ylabel('Característica 2')
+    plt.title(f'{title} - Probabilidades')
+    plt.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.show()
+
+# Visualizar nuestro modelo entrenado
+visualizar_clasificador(X_train, y_train, gnb, 'Gaussian Naive Bayes')
+```
+
+##### 3. Comparación de Variantes de Naive Bayes
+
+Ahora comparemos las tres variantes principales de Naive Bayes:
+
+```{python}
+#| label: naive-bayes-variants-prep
+#| echo: true
+
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn.preprocessing import MinMaxScaler
+
+# Preparar diferentes versiones de los datos para cada variante
+
+# 1. Gaussian NB: usa los datos originales
+X_gaussian = X_train.copy()
+
+# 2. Multinomial NB: necesita valores no negativos (frecuencias)
+scaler = MinMaxScaler()
+X_multinomial = scaler.fit_transform(X_train) + 0.1  # Asegurar valores positivos
+
+# 3. Bernoulli NB: necesita valores binarios
+X_bernoulli = (X_train > np.median(X_train, axis=0)).astype(float)
+
+print("Forma de los datos para cada variante:")
+print(f"  Gaussian: {X_gaussian.shape} - Valores continuos")
+print(f"  Multinomial: {X_multinomial.shape} - Valores positivos")
+print(f"  Bernoulli: {X_bernoulli.shape} - Valores binarios")
+
+# Mostrar ejemplos de los primeros 3 datos
+print("\nEjemplo de transformación (primeras 3 muestras, primera característica):")
+print(f"  Original: {X_gaussian[:3, 0]}")
+print(f"  Multinomial: {X_multinomial[:3, 0]}")
+print(f"  Bernoulli: {X_bernoulli[:3, 0]}")
+```
+
+```{python}
+#| label: naive-bayes-variants-train
+#| echo: true
+
+# Entrenar las tres variantes
+modelos = {
+    'Gaussian NB': (GaussianNB(), X_gaussian),
+    'Multinomial NB': (MultinomialNB(), X_multinomial),
+    'Bernoulli NB': (BernoulliNB(), X_bernoulli)
+}
+
+resultados = {}
+
+for nombre, (modelo, X_train_variant) in modelos.items():
+    # Entrenar
+    modelo.fit(X_train_variant, y_train)
+
+    # Preparar datos de prueba según la variante
+    if nombre == 'Gaussian NB':
+        X_test_variant = X_test
+    elif nombre == 'Multinomial NB':
+        X_test_variant = scaler.transform(X_test) + 0.1
+    else:  # Bernoulli
+        X_test_variant = (X_test > np.median(X_train, axis=0)).astype(float)
+
+    # Predecir
+    y_pred = modelo.predict(X_test_variant)
+
+    # Guardar resultados
+    resultados[nombre] = {
+        'modelo': modelo,
+        'accuracy': accuracy_score(y_test, y_pred),
+        'y_pred': y_pred
+    }
+
+    print(f"\n{nombre}:")
+    print(f"  Accuracy: {resultados[nombre]['accuracy']:.3f}")
+```
+
+```{python}
+#| label: naive-bayes-comparison-plot
+#| fig-cap: "Comparación de variantes de Naive Bayes"
+#| fig-width: 10
+#| fig-height: 4
+#| echo: true
+
+# Visualizar comparación de resultados
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+# Gráfico de barras de accuracy
+nombres = list(resultados.keys())
+accuracies = [resultados[n]['accuracy'] for n in nombres]
+
+bars = axes[0].bar(nombres, accuracies, color=['blue', 'green', 'red'], alpha=0.7)
+axes[0].set_ylabel('Accuracy')
+axes[0].set_title('Comparación de Exactitud')
+axes[0].set_ylim([0, 1])
+axes[0].grid(True, alpha=0.3, axis='y')
+
+# Añadir valores en las barras
+for bar, acc in zip(bars, accuracies):
+    height = bar.get_height()
+    axes[0].text(bar.get_x() + bar.get_width()/2., height,
+                 f'{acc:.3f}', ha='center', va='bottom')
+
+# Matrices de confusión
+from sklearn.metrics import confusion_matrix
+
+axes[1].axis('off')
+for i, nombre in enumerate(nombres):
+    cm = confusion_matrix(y_test, resultados[nombre]['y_pred'])
+
+    # Crear subtabla
+    ax_sub = plt.subplot2grid((1, 6), (0, 4 + i*2//3), colspan=2//3 + 1)
+    ax_sub.imshow(cm, cmap='Blues', aspect='auto')
+    ax_sub.set_title(f'{nombre.split()[0]} NB', fontsize=9)
+
+    # Añadir texto en cada celda
+    for (i, j), val in np.ndenumerate(cm):
+        ax_sub.text(j, i, str(val), ha='center', va='center')
+
+    if i == 0:
+        ax_sub.set_ylabel('Real', fontsize=8)
+    ax_sub.set_xlabel('Pred', fontsize=8)
+    ax_sub.set_xticks([0, 1])
+    ax_sub.set_yticks([0, 1])
+    ax_sub.tick_params(labelsize=8)
+
+plt.suptitle('Comparación de Variantes de Naive Bayes', y=1.05)
+plt.tight_layout()
+plt.show()
+```
+
+##### 4. Ejemplo Práctico: Clasificación de Texto
+
+```{python}
+#| label: naive-bayes-text-example
+#| echo: true
+
+# Simular un conjunto de datos de texto
+# Imaginemos que tenemos documentos con conteo de palabras
+
+print("=" * 60)
+print("EJEMPLO: CLASIFICACIÓN DE DOCUMENTOS")
+print("=" * 60)
+
+# Crear datos simulados de texto
+np.random.seed(42)
+n_docs = 100
+n_palabras = 10
+
+# Nombres de las "palabras" para mejor interpretación
+palabras = ['tecnología', 'computadora', 'software', 'datos', 'algoritmo',
+            'deporte', 'equipo', 'juego', 'campeonato', 'jugador']
+
+# Crear matriz de frecuencias
+# Clase 0: documentos sobre tecnología (más palabras 0-4)
+# Clase 1: documentos sobre deportes (más palabras 5-9)
+X_text = np.random.poisson(1, (n_docs, n_palabras))
+y_text = np.array([0] * 50 + [1] * 50)  # 50 docs de cada clase
+
+# Sesgar frecuencias según la clase
+X_text[:50, :5] *= 3   # Docs de tecnología: más palabras técnicas
+X_text[50:, 5:] *= 3   # Docs de deportes: más palabras deportivas
+
+# Crear DataFrame para mejor visualización
+df_text = pd.DataFrame(X_text, columns=palabras)
+df_text['clase'] = y_text
+df_text['tipo_documento'] = df_text['clase'].map({0: 'Tecnología', 1: 'Deportes'})
+
+print("\nPrimeros 5 documentos:")
+print(df_text.head())
+
+print("\nEstadísticas por clase:")
+print(df_text.groupby('tipo_documento')[palabras].mean().round(2))
+```
+
+```{python}
+#| label: naive-bayes-text-train
+#| echo: true
+
+# Dividir datos de texto
+X_text_train, X_text_test, y_text_train, y_text_test = train_test_split(
+    X_text, y_text, test_size=0.3, random_state=42, stratify=y_text
+)
+
+# Entrenar Multinomial Naive Bayes (ideal para datos de conteo)
+mnb_text = MultinomialNB(alpha=1.0)  # alpha: parámetro de suavizado Laplace
+mnb_text.fit(X_text_train, y_text_train)
+
+# Predicciones
+y_pred_text = mnb_text.predict(X_text_test)
+y_proba_text = mnb_text.predict_proba(X_text_test)
+
+# Evaluación
+print("Resultados de Clasificación de Texto:")
+print(f"Accuracy: {accuracy_score(y_text_test, y_pred_text):.3f}")
+
+# Matriz de confusión
+cm_text = confusion_matrix(y_text_test, y_pred_text)
+print("\nMatriz de Confusión:")
+print(pd.DataFrame(cm_text,
+                   columns=['Pred Tecnología', 'Pred Deportes'],
+                   index=['Real Tecnología', 'Real Deportes']))
+
+# Importancia de las palabras
+print("\nImportancia de palabras por clase (log-probabilidades):")
+log_probs = mnb_text.feature_log_prob_
+importancia_df = pd.DataFrame(log_probs.T,
+                               columns=['Tecnología', 'Deportes'],
+                               index=palabras)
+print(importancia_df.round(3))
+```
+
+```{python}
+#| label: naive-bayes-text-visualization
+#| fig-cap: "Importancia de palabras en clasificación de texto"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: true
+
+# Visualizar importancia de palabras
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Diferencia en log-probabilidades (palabras más discriminativas)
+diff_log_prob = log_probs[0] - log_probs[1]  # Tecnología - Deportes
+indices_sorted = np.argsort(diff_log_prob)
+
+# Panel 1: Palabras más importantes para cada clase
+y_pos = np.arange(len(palabras))
+axes[0].barh(y_pos, diff_log_prob[indices_sorted],
+             color=['red' if x < 0 else 'blue' for x in diff_log_prob[indices_sorted]],
+             alpha=0.7)
+axes[0].set_yticks(y_pos)
+axes[0].set_yticklabels([palabras[i] for i in indices_sorted])
+axes[0].set_xlabel('Diferencia en log-probabilidad\n(← Deportes | Tecnología →)')
+axes[0].set_title('Palabras Discriminativas')
+axes[0].grid(True, alpha=0.3, axis='x')
+axes[0].axvline(x=0, color='black', linestyle='-', linewidth=0.5)
+
+# Panel 2: Matriz de probabilidades
+im = axes[1].imshow(np.exp(log_probs), cmap='YlOrRd', aspect='auto')
+axes[1].set_xticks(range(len(palabras)))
+axes[1].set_xticklabels(palabras, rotation=45, ha='right')
+axes[1].set_yticks([0, 1])
+axes[1].set_yticklabels(['Tecnología', 'Deportes'])
+axes[1].set_title('Probabilidades de Palabras por Clase')
+plt.colorbar(im, ax=axes[1], label='Probabilidad')
+
+# Añadir valores en la matriz
+for i in range(2):
+    for j in range(len(palabras)):
+        text = axes[1].text(j, i, f'{np.exp(log_probs[i, j]):.2f}',
+                           ha="center", va="center", color="black", fontsize=8)
+
+plt.tight_layout()
+plt.show()
+```
+
+##### 5. Ejemplo con Dataset Real: Iris
+
+```{python}
+#| label: naive-bayes-iris
+#| fig-cap: "Clasificación multiclase con Naive Bayes en dataset Iris"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: true
+
+from sklearn.datasets import load_iris
+
+# Cargar dataset Iris
+iris = load_iris()
+X_iris = iris.data[:, [0, 2]]  # Usar solo 2 características para visualización
+y_iris = iris.target
+nombres_clases = iris.target_names
+nombres_features = [iris.feature_names[0], iris.feature_names[2]]
+
+print("Dataset Iris:")
+print(f"  Número de muestras: {X_iris.shape[0]}")
+print(f"  Número de características: {X_iris.shape[1]}")
+print(f"  Clases: {nombres_clases}")
+print(f"  Características usadas: {nombres_features}")
+
+# Dividir datos
+X_iris_train, X_iris_test, y_iris_train, y_iris_test = train_test_split(
+    X_iris, y_iris, test_size=0.3, random_state=42, stratify=y_iris
+)
+
+# Entrenar Gaussian Naive Bayes
+gnb_iris = GaussianNB()
+gnb_iris.fit(X_iris_train, y_iris_train)
+
+# Predicciones
+y_pred_iris = gnb_iris.predict(X_iris_test)
+accuracy_iris = accuracy_score(y_iris_test, y_pred_iris)
+
+print(f"\nAccuracy en Iris: {accuracy_iris:.3f}")
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Panel 1: Datos y fronteras de decisión
+h = .02
+x_min, x_max = X_iris[:, 0].min() - 1, X_iris[:, 0].max() + 1
+y_min, y_max = X_iris[:, 1].min() - 1, X_iris[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
+
+Z = gnb_iris.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+axes[0].contourf(xx, yy, Z, alpha=0.4, cmap='viridis')
+scatter = axes[0].scatter(X_iris[:, 0], X_iris[:, 1], c=y_iris,
+                          cmap='viridis', edgecolors='black', s=50)
+axes[0].set_xlabel(nombres_features[0])
+axes[0].set_ylabel(nombres_features[1])
+axes[0].set_title('Gaussian NB - Dataset Iris (3 clases)')
+axes[0].grid(True, alpha=0.3)
+
+# Añadir leyenda
+from matplotlib.patches import Patch
+legend_elements = [Patch(facecolor=plt.cm.viridis(i/2), label=nombres_clases[i])
+                   for i in range(3)]
+axes[0].legend(handles=legend_elements, loc='upper right')
+
+# Panel 2: Matriz de confusión
+cm_iris = confusion_matrix(y_iris_test, y_pred_iris)
+im = axes[1].imshow(cm_iris, cmap='Blues', aspect='auto')
+axes[1].set_xticks(range(3))
+axes[1].set_yticks(range(3))
+axes[1].set_xticklabels(nombres_clases)
+axes[1].set_yticklabels(nombres_clases)
+axes[1].set_xlabel('Predicción')
+axes[1].set_ylabel('Valor Real')
+axes[1].set_title(f'Matriz de Confusión (Accuracy: {accuracy_iris:.3f})')
+
+# Añadir valores
+for (i, j), val in np.ndenumerate(cm_iris):
+    axes[1].text(j, i, str(val), ha='center', va='center',
+                 color='white' if val > cm_iris.max()/2 else 'black')
+
+plt.colorbar(im, ax=axes[1])
+plt.tight_layout()
+plt.show()
+```
+
+##### 6. Implementación Desde Cero de Gaussian Naive Bayes
+
+Para comprender mejor el funcionamiento interno del algoritmo, vamos a implementar Gaussian Naive Bayes paso a paso:
+
+```{python}
+#| label: naive-bayes-from-scratch-class
+#| echo: true
+
+class GaussianNBDesdesCero:
+    """
+    Implementación educativa de Gaussian Naive Bayes
+
+    Esta clase implementa el algoritmo paso a paso para
+    fines pedagógicos.
+    """
+
+    def __init__(self):
+        self.clases = None
+        self.priors = {}        # P(Y=k) para cada clase k
+        self.medias = {}        # μ para cada clase y característica
+        self.varianzas = {}     # σ² para cada clase y característica
+
+    def entrenar(self, X, y):
+        """
+        Fase de entrenamiento: calcular estadísticas
+
+        Parámetros:
+        - X: matriz de características (n_muestras, n_características)
+        - y: vector de etiquetas (n_muestras,)
+        """
+        self.clases = np.unique(y)
+        n_muestras = len(y)
+        n_caracteristicas = X.shape[1]
+
+        print(f"Entrenando con {n_muestras} muestras y {n_caracteristicas} características")
+        print(f"Clases encontradas: {self.clases}")
+
+        for clase in self.clases:
+            # Filtrar datos de esta clase
+            X_clase = X[y == clase]
+            n_clase = len(X_clase)
+
+            # Calcular probabilidad a priori P(Y=clase)
+            self.priors[clase] = n_clase / n_muestras
+
+            # Calcular media y varianza para cada característica
+            self.medias[clase] = np.mean(X_clase, axis=0)
+            self.varianzas[clase] = np.var(X_clase, axis=0) + 1e-9  # Evitar división por cero
+
+            print(f"\nClase {clase}: {n_clase} muestras ({self.priors[clase]:.1%})")
+            print(f"  Medias: {self.medias[clase]}")
+            print(f"  Varianzas: {self.varianzas[clase]}")
+
+        return self
+
+    def _calcular_gaussiana(self, x, media, varianza):
+        """
+        Calcula P(x|μ,σ²) usando la distribución gaussiana
+
+        Fórmula: P(x|μ,σ²) = 1/√(2πσ²) * exp(-(x-μ)²/(2σ²))
+        """
+        coeficiente = 1.0 / np.sqrt(2.0 * np.pi * varianza)
+        exponente = -((x - media) ** 2) / (2.0 * varianza)
+        return coeficiente * np.exp(exponente)
+
+    def predecir_probabilidades(self, X):
+        """
+        Calcula P(Y=k|X) para cada clase k
+
+        Usa el teorema de Bayes:
+        P(Y=k|X) ∝ P(X|Y=k) * P(Y=k)
+        """
+        n_muestras = X.shape[0]
+        n_clases = len(self.clases)
+        probabilidades = np.zeros((n_muestras, n_clases))
+
+        for i, x in enumerate(X):
+            for j, clase in enumerate(self.clases):
+                # Calcular P(Y=clase) - prior
+                prob_prior = self.priors[clase]
+
+                # Calcular P(X|Y=clase) - verosimilitud
+                # Producto de probabilidades (asumiendo independencia)
+                verosimilitud = 1.0
+                for k in range(len(x)):
+                    prob_caracteristica = self._calcular_gaussiana(
+                        x[k],
+                        self.medias[clase][k],
+                        self.varianzas[clase][k]
+                    )
+                    verosimilitud *= prob_caracteristica
+
+                # P(Y=clase|X) ∝ P(X|Y=clase) * P(Y=clase)
+                probabilidades[i, j] = verosimilitud * prob_prior
+
+            # Normalizar para que sumen 1
+            probabilidades[i] = probabilidades[i] / np.sum(probabilidades[i])
+
+        return probabilidades
+
+    def predecir(self, X):
+        """
+        Predice la clase con mayor probabilidad posterior
+        """
+        probabilidades = self.predecir_probabilidades(X)
+        indices_maximos = np.argmax(probabilidades, axis=1)
+        return self.clases[indices_maximos]
+```
+
+```{python}
+#| label: naive-bayes-from-scratch-test
+#| echo: true
+
+# Crear y entrenar nuestro modelo
+print("=" * 60)
+print("IMPLEMENTACIÓN DESDE CERO")
+print("=" * 60)
+
+# Usar un conjunto pequeño para demostración
+X_demo = X_train[:20]
+y_demo = y_train[:20]
+X_test_demo = X_test[:10]
+y_test_demo = y_test[:10]
+
+# Entrenar nuestro modelo
+modelo_propio = GaussianNBDesdesCero()
+modelo_propio.entrenar(X_demo, y_demo)
+
+# Hacer predicciones
+print("\n" + "=" * 60)
+print("PREDICCIONES")
+print("=" * 60)
+
+y_pred_propio = modelo_propio.predecir(X_test_demo)
+probabilidades = modelo_propio.predecir_probabilidades(X_test_demo)
+
+# Mostrar resultados detallados
+for i in range(5):  # Mostrar solo las primeras 5
+    print(f"\nMuestra {i+1}:")
+    print(f"  Características: [{X_test_demo[i, 0]:.2f}, {X_test_demo[i, 1]:.2f}]")
+    print(f"  Probabilidades: P(Y=0|X)={probabilidades[i, 0]:.3f}, P(Y=1|X)={probabilidades[i, 1]:.3f}")
+    print(f"  Predicción: {y_pred_propio[i]}")
+    print(f"  Valor real: {y_test_demo[i]}")
+    print(f"  {'✓ Correcto' if y_pred_propio[i] == y_test_demo[i] else '✗ Incorrecto'}")
+```
+
+```{python}
+#| label: naive-bayes-comparison-final
+#| echo: true
+
+# Comparación con scikit-learn
+print("\n" + "=" * 60)
+print("COMPARACIÓN CON SCIKIT-LEARN")
+print("=" * 60)
+
+# Entrenar modelo de scikit-learn con los mismos datos
+gnb_sklearn_demo = GaussianNB()
+gnb_sklearn_demo.fit(X_demo, y_demo)
+y_pred_sklearn_demo = gnb_sklearn_demo.predict(X_test_demo)
+
+# Comparar resultados
+print("\nPredicciones:")
+print(f"  Implementación propia: {y_pred_propio}")
+print(f"  Scikit-learn:         {y_pred_sklearn_demo}")
+print(f"  Valores reales:       {y_test_demo}")
+
+# Calcular accuracy
+acc_propio = np.mean(y_pred_propio == y_test_demo)
+acc_sklearn = np.mean(y_pred_sklearn_demo == y_test_demo)
+
+print(f"\nAccuracy:")
+print(f"  Implementación propia: {acc_propio:.3f}")
+print(f"  Scikit-learn:         {acc_sklearn:.3f}")
+
+# Verificar que los parámetros aprendidos son similares
+print("\n" + "=" * 60)
+print("VERIFICACIÓN DE PARÁMETROS APRENDIDOS")
+print("=" * 60)
+
+for clase in [0, 1]:
+    print(f"\nClase {clase}:")
+    print(f"  Priors:")
+    print(f"    Propio: {modelo_propio.priors[clase]:.3f}")
+    print(f"    Sklearn: {gnb_sklearn_demo.class_prior_[clase]:.3f}")
+    print(f"  Medias (primera característica):")
+    print(f"    Propio: {modelo_propio.medias[clase][0]:.3f}")
+    print(f"    Sklearn: {gnb_sklearn_demo.theta_[clase, 0]:.3f}")
+```
+
+#### Cuándo Usar Naive Bayes
+
+Naive Bayes es particularmente efectivo en:
+
+1. **Clasificación de texto y procesamiento de lenguaje natural**
+
+   - Filtrado de spam
+   - Análisis de sentimientos
+   - Categorización de documentos
+
+2. **Sistemas de recomendación**
+
+   - Predicción de preferencias basada en características
+
+3. **Diagnóstico médico**
+
+   - Cuando las características son síntomas relativamente independientes
+
+4. **Aplicaciones en tiempo real**
+
+   - Cuando se necesitan predicciones muy rápidas
+
+5. **Conjuntos de datos pequeños**
+
+   - Cuando hay pocos ejemplos de entrenamiento por clase
+
+El clasificador Naive Bayes, a pesar de su simplicidad, sigue siendo uno de los algoritmos fundamentales en machine learning, especialmente valioso como baseline y en aplicaciones donde la velocidad y simplicidad son críticas.
+
+### Regresión Logística
+
+La **regresión logística** es uno de los modelos más utilizados para clasificación binaria. Modela directamente la probabilidad posterior usando una transformación logística de una combinación lineal de las características.
+
+#### Modelo
+
+La regresión logística modela la probabilidad de que $Y = 1$ como:
+
+$$P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}} = \frac{1}{1 + e^{-\mathbf{x}^T\boldsymbol{\beta}}}$$
+
+Esta función se conoce como función **sigmoide** o **logística**:
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{e^z}{1 + e^z}$$
+
+#### Transformación Logit
+
+El modelo puede reescribirse usando la transformación **logit** (log-odds):
+
+$$\log\left(\frac{P(Y = 1 | \mathbf{x})}{P(Y = 0 | \mathbf{x})}\right) = \log\left(\frac{p(\mathbf{x})}{1-p(\mathbf{x})}\right) = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p$$
+
+Esto muestra que el log-odds es una función lineal de las características.
+
+#### Estimación de Parámetros
+
+Los parámetros $\boldsymbol{\beta}$ se estiman maximizando la verosimilitud. Para $n$ observaciones:
+
+$$L(\boldsymbol{\beta}) = \prod_{i=1}^{n} p(\mathbf{x}_i)^{y_i} \cdot (1-p(\mathbf{x}_i))^{1-y_i}$$
+
+Tomando el logaritmo:
+
+$$\ell(\boldsymbol{\beta}) = \sum_{i=1}^{n} [y_i \log(p(\mathbf{x}_i)) + (1-y_i) \log(1-p(\mathbf{x}_i))]$$
+
+Esta es exactamente la negativa de la pérdida logarítmica. No existe solución analítica, por lo que se utiliza optimización numérica (típicamente Newton-Raphson o gradiente descendente).
+
+#### Frontera de Decisión
+
+La frontera de decisión en regresión logística es **lineal** en el espacio de características:
+
+$$\{\mathbf{x} : P(Y = 1 | \mathbf{x}) = 0.5\} = \{\mathbf{x} : \mathbf{x}^T\boldsymbol{\beta} = 0\}$$
+
+Esto define un hiperplano que separa las dos clases.
+
+#### Ejemplo en Python
+
+```{python}
+#| label: logistic-regression-example
+#| fig-cap: "Regresión logística: datos, probabilidades y frontera de decisión"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+
+# Generar datos de ejemplo
+np.random.seed(42)
+X, y = make_classification(n_samples=200, n_features=2, n_informative=2,
+                          n_redundant=0, n_clusters_per_class=1,
+                          flip_y=0.1, class_sep=1.5)
+
+# Estandarizar características
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Ajustar regresión logística
+log_reg = LogisticRegression()
+log_reg.fit(X_scaled, y)
+
+# Crear grid para visualización
+xx, yy = np.meshgrid(np.linspace(X_scaled[:, 0].min()-1, X_scaled[:, 0].max()+1, 100),
+                     np.linspace(X_scaled[:, 1].min()-1, X_scaled[:, 1].max()+1, 100))
+Z = log_reg.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
+Z = Z.reshape(xx.shape)
+
+# Visualización
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+
+# Panel 1: Datos
+axes[0].scatter(X_scaled[y==0, 0], X_scaled[y==0, 1], c='blue',
+                alpha=0.6, edgecolors='k', label='Clase 0')
+axes[0].scatter(X_scaled[y==1, 0], X_scaled[y==1, 1], c='red',
+                alpha=0.6, edgecolors='k', label='Clase 1')
+axes[0].set_xlabel('$x_1$')
+axes[0].set_ylabel('$x_2$')
+axes[0].set_title('Datos de Entrenamiento')
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Panel 2: Probabilidades
+contour = axes[1].contourf(xx, yy, Z, levels=20, cmap='RdBu_r', alpha=0.8)
+axes[1].scatter(X_scaled[y==0, 0], X_scaled[y==0, 1], c='blue',
+                alpha=0.6, edgecolors='k', s=20)
+axes[1].scatter(X_scaled[y==1, 0], X_scaled[y==1, 1], c='red',
+                alpha=0.6, edgecolors='k', s=20)
+axes[1].set_xlabel('$x_1$')
+axes[1].set_ylabel('$x_2$')
+axes[1].set_title('Probabilidad $P(Y=1|\\mathbf{x})$')
+plt.colorbar(contour, ax=axes[1])
+
+# Panel 3: Frontera de decisión
+axes[2].contour(xx, yy, Z, levels=[0.5], colors='black', linewidths=2)
+axes[2].contourf(xx, yy, Z, levels=[0, 0.5, 1], colors=['lightblue', 'lightcoral'], alpha=0.4)
+axes[2].scatter(X_scaled[y==0, 0], X_scaled[y==0, 1], c='blue',
+                alpha=0.6, edgecolors='k', s=20, label='Clase 0')
+axes[2].scatter(X_scaled[y==1, 0], X_scaled[y==1, 1], c='red',
+                alpha=0.6, edgecolors='k', s=20, label='Clase 1')
+axes[2].set_xlabel('$x_1$')
+axes[2].set_ylabel('$x_2$')
+axes[2].set_title('Frontera de Decisión')
+axes[2].legend()
+
+plt.tight_layout()
+plt.show()
+
+# Mostrar coeficientes
+print(f"Intercepto (β₀): {log_reg.intercept_[0]:.3f}")
+print(f"Coeficientes: β₁ = {log_reg.coef_[0][0]:.3f}, β₂ = {log_reg.coef_[0][1]:.3f}")
+```
+
+#### Interpretación de Coeficientes
+
+##### Conceptos Fundamentales: Odds y Log-Odds
+
+Antes de interpretar los coeficientes, definamos los conceptos clave:
+
+**Odds (momios o chances)**: La razón entre la probabilidad de éxito y la probabilidad de fracaso:
+
+$$\text{Odds} = \frac{P(Y = 1)}{P(Y = 0)} = \frac{p}{1-p}$$
+
+Si $p = 0.75$, entonces los odds son $\frac{0.75}{0.25} = 3$, es decir, el éxito es 3 veces más probable que el fracaso.
+
+**Log-odds (logit)**: El logaritmo natural de los odds:
+
+$$\text{Log-odds} = \log\left(\frac{p}{1-p}\right) = \text{logit}(p)$$
+
+##### Derivación Matemática
+
+Partiendo del modelo de regresión logística:
+
+$$P(Y = 1 | \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \sum_{j=1}^p \beta_j x_j)}}$$
+
+Calculemos el log-odds:
+
+$$\log\left(\frac{P(Y = 1 | \mathbf{x})}{1 - P(Y = 1 | \mathbf{x})}\right) = \beta_0 + \sum_{j=1}^p \beta_j x_j$$
+
+Ahora, consideremos qué sucede cuando incrementamos $x_k$ en una unidad (de $x_k$ a $x_k + 1$):
+
+**Log-odds original**:
+$$L_0 = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + ... + \beta_p x_p$$
+
+**Log-odds después del incremento**:
+$$L_1 = \beta_0 + \beta_1 x_1 + ... + \beta_k (x_k + 1) + ... + \beta_p x_p$$
+
+**Cambio en log-odds**:
+$$\Delta L = L_1 - L_0 = \beta_k$$
+
+Por lo tanto, **$\beta_k$ representa el cambio en log-odds cuando $x_k$ aumenta en una unidad**.
+
+##### Odds Ratio
+
+El **odds ratio** compara los odds antes y después del cambio:
+
+$$\text{Odds ratio} = \frac{\text{Odds}_{\text{nuevo}}}{\text{Odds}_{\text{original}}} = \frac{e^{L_1}}{e^{L_0}} = e^{L_1 - L_0} = e^{\beta_k}$$
+
+Esto significa que **$e^{\beta_k}$ es el factor por el cual se multiplican los odds cuando $x_k$ aumenta en una unidad**.
+
+##### Ejemplo Práctico: Clicks en Memes y Edad
+
+Imaginemos un estudio sobre la probabilidad de que una persona haga click en un meme según su edad. Nuestro modelo de regresión logística es:
+
+$$\log\left(\frac{P(\text{click} = 1)}{P(\text{click} = 0)}\right) = 2.5 - 0.08 \cdot \text{edad}$$
+
+Donde:
+- $\beta_0 = 2.5$ (intercepto)
+- $\beta_{\text{edad}} = -0.08$ (coeficiente de edad)
+
+**Interpretaciones**:
+
+1. **Coeficiente $\beta_{\text{edad}} = -0.08$**:
+   - Por cada año adicional de edad, el log-odds de hacer click disminuye en 0.08
+   - El signo negativo indica que personas mayores tienen menor probabilidad de hacer click
+
+2. **Odds ratio $e^{-0.08} \approx 0.923$**:
+   - Por cada año adicional de edad, los odds de hacer click se multiplican por 0.923
+   - Equivalentemente: los odds disminuyen un 7.7% por cada año adicional
+
+3. **Ejemplo numérico concreto**:
+
+Para una persona de 20 años:
+$$\text{Log-odds}_{20} = 2.5 - 0.08(20) = 0.9$$
+$$\text{Odds}_{20} = e^{0.9} \approx 2.46$$
+$$P(\text{click})_{20} = \frac{2.46}{1 + 2.46} \approx 0.71$$
+
+Para una persona de 30 años:
+$$\text{Log-odds}_{30} = 2.5 - 0.08(30) = 0.1$$
+$$\text{Odds}_{30} = e^{0.1} \approx 1.11$$
+$$P(\text{click})_{30} = \frac{1.11}{1 + 1.11} \approx 0.53$$
+
+**Verificación del odds ratio**:
+$$\frac{\text{Odds}_{30}}{\text{Odds}_{20}} = \frac{1.11}{2.46} \approx 0.45 = e^{-0.08 \times 10} = (e^{-0.08})^{10}$$
+
+Esto confirma que en 10 años (de 20 a 30), los odds se multiplican por $(0.923)^{10} \approx 0.45$.
+
+##### Resumen de Interpretaciones
+
+| Parámetro | Interpretación | Ejemplo (edad y clicks) |
+|-----------|---------------|-------------------------|
+| $\beta_j > 0$ | Variable aumenta log-odds | Los jóvenes clickean más |
+| $\beta_j < 0$ | Variable disminuye log-odds | Los mayores clickean menos |
+| $\beta_j$ | Cambio en log-odds por unidad | -0.08: cada año reduce log-odds |
+| $e^{\beta_j} > 1$ | Odds aumentan | - |
+| $e^{\beta_j} < 1$ | Odds disminuyen | 0.923: odds bajan 7.7% por año |
+| $e^{\beta_j} = 2$ | Odds se duplican | - |
+| $e^{\beta_j} = 0.5$ | Odds se reducen a la mitad | - |

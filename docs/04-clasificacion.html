@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clasificación – Minería de Datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./ejercicio_wine_quality.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2453fe3dad938b07a2e5eff64ea8abce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c1367505ed6638c8d4e510e1459ae853.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2453fe3dad938b07a2e5eff64ea8abce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Clasificación – Minería de Datos">
+<meta property="og:description" content="">
+<meta property="og:image" content="04-clasificacion_files/figure-html/classification-loss-functions-output-1.png">
+<meta property="og:site_name" content="Minería de Datos">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-clasificacion.html"><span class="chapter-title">Clasificación</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Minería de Datos</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Temario</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-requerimientos-computacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Requerimientos computacionales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-principios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Principios de aprendizaje supervisado</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Regresion lineal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./violaciones_supuestos_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Violaciones de los Supuestos de Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analisis_advertising_dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Análisis de Regresión Lineal con el Dataset Advertising</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ejercicio_wine_quality.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicio: Análisis de Regresión con el Dataset Wine Quality</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-clasificacion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ejemplos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción a Python para Minería de Datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso en gradiente con regresión lineal</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#introducción-al-problema-de-clasificación" id="toc-introducción-al-problema-de-clasificación" class="nav-link active" data-scroll-target="#introducción-al-problema-de-clasificación">Introducción al Problema de Clasificación</a>
+  <ul class="collapse">
+  <li><a href="#definición-formal" id="toc-definición-formal" class="nav-link" data-scroll-target="#definición-formal">Definición Formal</a></li>
+  <li><a href="#ejemplos-de-problemas-de-clasificación" id="toc-ejemplos-de-problemas-de-clasificación" class="nav-link" data-scroll-target="#ejemplos-de-problemas-de-clasificación">Ejemplos de Problemas de Clasificación</a></li>
+  <li><a href="#objetivo-del-aprendizaje" id="toc-objetivo-del-aprendizaje" class="nav-link" data-scroll-target="#objetivo-del-aprendizaje">Objetivo del Aprendizaje</a></li>
+  </ul></li>
+  <li><a href="#funciones-de-pérdida-en-clasificación" id="toc-funciones-de-pérdida-en-clasificación" class="nav-link" data-scroll-target="#funciones-de-pérdida-en-clasificación">Funciones de Pérdida en Clasificación</a>
+  <ul class="collapse">
+  <li><a href="#clasificación-binaria-pérdidas-probabilísticas" id="toc-clasificación-binaria-pérdidas-probabilísticas" class="nav-link" data-scroll-target="#clasificación-binaria-pérdidas-probabilísticas">Clasificación Binaria: Pérdidas Probabilísticas</a></li>
+  <li><a href="#comparación-de-funciones-de-pérdida" id="toc-comparación-de-funciones-de-pérdida" class="nav-link" data-scroll-target="#comparación-de-funciones-de-pérdida">Comparación de Funciones de Pérdida</a></li>
+  <li><a href="#reglas-de-puntuación-propias" id="toc-reglas-de-puntuación-propias" class="nav-link" data-scroll-target="#reglas-de-puntuación-propias">Reglas de Puntuación Propias</a></li>
+  <li><a href="#ventajas-y-desventajas" id="toc-ventajas-y-desventajas" class="nav-link" data-scroll-target="#ventajas-y-desventajas">Ventajas y Desventajas</a></li>
+  </ul></li>
+  <li><a href="#modelos-para-clasificación-binaria" id="toc-modelos-para-clasificación-binaria" class="nav-link" data-scroll-target="#modelos-para-clasificación-binaria">Modelos para Clasificación Binaria</a>
+  <ul class="collapse">
+  <li><a href="#clasificador-de-bayes-para-el-caso-binario" id="toc-clasificador-de-bayes-para-el-caso-binario" class="nav-link" data-scroll-target="#clasificador-de-bayes-para-el-caso-binario">Clasificador de Bayes para el Caso Binario</a></li>
+  <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión Logística</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Clasificación</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción-al-problema-de-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="introducción-al-problema-de-clasificación">Introducción al Problema de Clasificación</h2>
+<p>En los capítulos anteriores hemos trabajado con problemas de regresión, donde la variable respuesta <span class="math inline">\(Y\)</span> es cuantitativa (continua). En este capítulo estudiaremos los <strong>problemas de clasificación</strong>, donde la variakbble respuesta <span class="math inline">\(Y\)</span> es <strong>cualitativa</strong> (categórica o discreta).</p>
+<section id="definición-formal" class="level3">
+<h3 class="anchored" data-anchor-id="definición-formal">Definición Formal</h3>
+<p>Un problema de clasificación consiste en asignar una observación <span class="math inline">\(\mathbf{x} = (x_1, x_2, ..., x_p)\)</span> a una de <span class="math inline">\(K\)</span> clases o categorías posibles. Formalmente:</p>
+<ul>
+<li><strong>Entrada</strong>: Un vector de características <span class="math inline">\(\mathbf{x} \in \mathbb{R}^p\)</span></li>
+<li><strong>Salida</strong>: Una etiqueta de clase <span class="math inline">\(y \in \mathcal{C} = \{C_1, C_2, ..., C_K\}\)</span></li>
+</ul>
+<p>Donde <span class="math inline">\(\mathcal{C}\)</span> es el conjunto finito de clases posibles.</p>
+</section>
+<section id="ejemplos-de-problemas-de-clasificación" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplos-de-problemas-de-clasificación">Ejemplos de Problemas de Clasificación</h3>
+<ol type="1">
+<li><strong>Clasificación binaria</strong> (<span class="math inline">\(K=2\)</span>):
+<ul>
+<li>Detección de spam en correos electrónicos (spam/no spam)</li>
+<li>Diagnóstico médico (enfermo/sano)</li>
+<li>Aprobación de crédito (aprobado/rechazado)</li>
+</ul></li>
+<li><strong>Clasificación multiclase</strong> (<span class="math inline">\(K&gt;2\)</span>):
+<ul>
+<li>Reconocimiento de dígitos escritos a mano (0-9)</li>
+<li>Clasificación de tipos de flores (setosa/versicolor/virginica)</li>
+<li>Categorización de noticias (deportes/política/tecnología/etc.)</li>
+</ul></li>
+</ol>
+</section>
+<section id="objetivo-del-aprendizaje" class="level3">
+<h3 class="anchored" data-anchor-id="objetivo-del-aprendizaje">Objetivo del Aprendizaje</h3>
+<p>El objetivo es aprender una función de clasificación <span class="math inline">\(f: \mathbb{R}^p \rightarrow \mathcal{C}\)</span> que minimice el error de clasificación esperado:</p>
+<p><span class="math display">\[\mathbb{E}[L(Y, f(\mathbf{X}))]\]</span></p>
+<p>Donde <span class="math inline">\(L\)</span> es una función de pérdida. La función de pérdida más común es la <strong>pérdida 0-1</strong>:</p>
+<p><span class="math display">\[L_{0-1}(y, \hat{y}) = \begin{cases}
+0 &amp; \text{si } y = \hat{y} \\
+1 &amp; \text{si } y \neq \hat{y}
+\end{cases}\]</span></p>
+</section>
+</section>
+<section id="funciones-de-pérdida-en-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="funciones-de-pérdida-en-clasificación">Funciones de Pérdida en Clasificación</h2>
+<p>Aunque la pérdida 0-1 es intuitiva y directamente relacionada con la tasa de error, presenta limitaciones importantes: no es diferenciable y no proporciona información sobre la <strong>confianza</strong> de las predicciones. Por esto, en la práctica se utilizan funciones de pérdida alternativas que trabajan con probabilidades.</p>
+<section id="clasificación-binaria-pérdidas-probabilísticas" class="level3">
+<h3 class="anchored" data-anchor-id="clasificación-binaria-pérdidas-probabilísticas">Clasificación Binaria: Pérdidas Probabilísticas</h3>
+<p>Para clasificación binaria, donde <span class="math inline">\(y \in \{0, 1\}\)</span>, consideramos predicciones probabilísticas <span class="math inline">\(\hat{p} = P(\hat{Y} = 1 | \mathbf{x})\)</span>. Las funciones de pérdida más importantes son:</p>
+<section id="pérdida-de-brier-brier-score" class="level4">
+<h4 class="anchored" data-anchor-id="pérdida-de-brier-brier-score">Pérdida de Brier (Brier Score)</h4>
+<p>La <strong>pérdida de Brier</strong> o pérdida cuadrática mide el error cuadrático medio entre las probabilidades predichas y los valores reales:</p>
+<p><span class="math display">\[L_{\text{Brier}}(y, \hat{p}) = (y - \hat{p})^2\]</span></p>
+<p>Para un conjunto de <span class="math inline">\(n\)</span> observaciones:</p>
+<p><span class="math display">\[\text{Brier Score} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{p}_i)^2\]</span></p>
+<p><strong>Propiedades:</strong></p>
+<ul>
+<li>Rango: <span class="math inline">\([0, 1]\)</span> (menor es mejor)</li>
+<li>Es una regla de puntuación <strong>propia</strong> (proper scoring rule)</li>
+<li>Penaliza fuertemente predicciones confiadas pero incorrectas</li>
+<li>Se puede descomponer en: calibración + refinamiento</li>
+</ul>
+</section>
+<section id="pérdida-logarítmica-log-loss-o-entropía-cruzada-binaria" class="level4">
+<h4 class="anchored" data-anchor-id="pérdida-logarítmica-log-loss-o-entropía-cruzada-binaria">Pérdida Logarítmica (Log Loss o Entropía Cruzada Binaria)</h4>
+<p>La <strong>pérdida logarítmica</strong> mide la distancia entre la distribución verdadera y la predicha usando la divergencia de Kullback-Leibler:</p>
+<p><span class="math display">\[L_{\text{log}}(y, \hat{p}) = -[y \log(\hat{p}) + (1-y) \log(1-\hat{p})]\]</span></p>
+<p>Equivalentemente: <span class="math display">\[L_{\text{log}}(y, \hat{p}) = \begin{cases}
+-\log(\hat{p}) &amp; \text{si } y = 1 \\
+-\log(1-\hat{p}) &amp; \text{si } y = 0
+\end{cases}\]</span></p>
+<p>Para un conjunto de observaciones:</p>
+<p><span class="math display">\[\text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} [y_i \log(\hat{p}_i) + (1-y_i) \log(1-\hat{p}_i)]\]</span></p>
+<p><strong>Propiedades:</strong></p>
+<ul>
+<li>Rango: <span class="math inline">\([0, \infty)\)</span> (menor es mejor)</li>
+<li>También es una regla de puntuación propia</li>
+<li>Penaliza infinitamente predicciones completamente incorrectas (<span class="math inline">\(\hat{p} = 0\)</span> cuando <span class="math inline">\(y = 1\)</span>)</li>
+<li>Es la función objetivo en regresión logística</li>
+</ul>
+</section>
+</section>
+<section id="comparación-de-funciones-de-pérdida" class="level3">
+<h3 class="anchored" data-anchor-id="comparación-de-funciones-de-pérdida">Comparación de Funciones de Pérdida</h3>
+<div id="cell-classification-loss-functions" class="cell" data-fig-height="6" data-fig-width="12" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div id="classification-loss-functions" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/classification-loss-functions-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Funciones de perdidas para clasificación</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="reglas-de-puntuación-propias" class="level3">
+<h3 class="anchored" data-anchor-id="reglas-de-puntuación-propias">Reglas de Puntuación Propias</h3>
+<p>Una <strong>regla de puntuación propia</strong> (proper scoring rule) es una función de pérdida que incentiva al modelo a reportar sus verdaderas probabilidades. Formalmente, una función <span class="math inline">\(S(p, y)\)</span> es propia si:</p>
+<p><span class="math display">\[\mathbb{E}_{Y \sim p^*}[S(p^*, Y)] \leq \mathbb{E}_{Y \sim p^*}[S(p, Y)]\]</span></p>
+<p>Donde <span class="math inline">\(p^*\)</span> es la distribución verdadera. Tanto la pérdida de Brier como la log loss son propias, mientras que la pérdida 0-1 no lo es.</p>
+</section>
+<section id="ventajas-y-desventajas" class="level3">
+<h3 class="anchored" data-anchor-id="ventajas-y-desventajas">Ventajas y Desventajas</h3>
+<p><strong>Pérdida de Brier:</strong></p>
+<ul>
+<li>✓ Interpretación directa como MSE de probabilidades</li>
+<li>✓ Acotada en <span class="math inline">\([0,1]\)</span></li>
+<li>✓ Menos sensible a predicciones extremas incorrectas</li>
+<li>✗ Menos utilizada en optimización de modelos</li>
+</ul>
+<p><strong>Pérdida Logarítmica:</strong></p>
+<ul>
+<li>✓ Base teórica sólida (teoría de información)</li>
+<li>✓ Función objetivo natural para muchos modelos (logística, redes neuronales)</li>
+<li>✓ Diferenciable y convexa</li>
+<li>✗ No acotada superiormente</li>
+<li>✗ Muy sensible a predicciones extremas incorrectas</li>
+</ul>
+</section>
+</section>
+<section id="modelos-para-clasificación-binaria" class="level2">
+<h2 class="anchored" data-anchor-id="modelos-para-clasificación-binaria">Modelos para Clasificación Binaria</h2>
+<section id="clasificador-de-bayes-para-el-caso-binario" class="level3">
+<h3 class="anchored" data-anchor-id="clasificador-de-bayes-para-el-caso-binario">Clasificador de Bayes para el Caso Binario</h3>
+<p>El <strong>clasificador de Bayes</strong> es el clasificador óptimo teórico que minimiza el error de clasificación. Para el caso binario con clases <span class="math inline">\(\{0, 1\}\)</span>, clasifica según:</p>
+<p><span class="math display">\[\hat{y}(\mathbf{x}) = \begin{cases}
+1 &amp; \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) &gt; 0.5 \\
+0 &amp; \text{si } P(Y = 1 | \mathbf{X} = \mathbf{x}) \leq 0.5
+\end{cases}\]</span></p>
+<p>O más generalmente, con un umbral <span class="math inline">\(\tau\)</span>:</p>
+<p><span class="math display">\[\hat{y}(\mathbf{x}) = \mathbb{1}[P(Y = 1 | \mathbf{X} = \mathbf{x}) &gt; \tau]\]</span></p>
+<section id="estimación-mediante-el-teorema-de-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="estimación-mediante-el-teorema-de-bayes">Estimación mediante el Teorema de Bayes</h4>
+<p>Usando el teorema de Bayes:</p>
+<p><span class="math display">\[P(Y = k | \mathbf{X} = \mathbf{x}) = \frac{P(\mathbf{X} = \mathbf{x} | Y = k) \cdot P(Y = k)}{P(\mathbf{X} = \mathbf{x})}\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><span class="math inline">\(P(Y = k)\)</span> es la <strong>probabilidad a priori</strong> de la clase <span class="math inline">\(k\)</span></li>
+<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x} | Y = k)\)</span> es la <strong>verosimilitud</strong> de observar <span class="math inline">\(\mathbf{x}\)</span> dado que pertenece a la clase <span class="math inline">\(k\)</span></li>
+<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x})\)</span> es la <strong>evidencia</strong> (constante de normalización)</li>
+</ul>
+<p>Como <span class="math inline">\(P(\mathbf{X} = \mathbf{x})\)</span> es igual para todas las clases, la decisión se basa en:</p>
+<p><span class="math display">\[\hat{y} = \arg\max_k P(\mathbf{X} = \mathbf{x} | Y = k) \cdot P(Y = k)\]</span></p>
+</section>
+<section id="naive-bayes-simplificando-el-problema" class="level4">
+<h4 class="anchored" data-anchor-id="naive-bayes-simplificando-el-problema">Naive Bayes: Simplificando el Problema</h4>
+<p>El problema principal del clasificador de Bayes es estimar <span class="math inline">\(P(\mathbf{X} = \mathbf{x} | Y = k)\)</span> en alta dimensión. Con <span class="math inline">\(p\)</span> características, necesitamos estimar la distribución conjunta de todas las variables, lo cual es computacionalmente intratable cuando <span class="math inline">\(p\)</span> es grande.</p>
+<p>El clasificador <strong>Naive Bayes</strong> resuelve este problema mediante una <strong>asunción de independencia condicional</strong>: asume que las características son condicionalmente independientes dada la clase:</p>
+<p><span class="math display">\[P(\mathbf{X} = \mathbf{x} | Y = k) = P(x_1, x_2, ..., x_p | Y = k) = \prod_{j=1}^{p} P(x_j | Y = k)\]</span></p>
+<p>Esta asunción, aunque “ingenua” (naive), simplifica enormemente el cálculo y funciona sorprendentemente bien en la práctica.</p>
+</section>
+<section id="tipos-de-naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="tipos-de-naive-bayes">Tipos de Naive Bayes</h4>
+<p>Dependiendo del tipo de características, existen diferentes variantes:</p>
+<section id="gaussian-naive-bayes-características-continuas" class="level5">
+<h5 class="anchored" data-anchor-id="gaussian-naive-bayes-características-continuas">1. <strong>Gaussian Naive Bayes</strong> (características continuas)</h5>
+<p>Asume que las características siguen una distribución normal dentro de cada clase:</p>
+<p><span class="math display">\[P(x_j | Y = k) = \frac{1}{\sqrt{2\pi\sigma_{jk}^2}} \exp\left(-\frac{(x_j - \mu_{jk})^2}{2\sigma_{jk}^2}\right)\]</span></p>
+<p>Donde <span class="math inline">\(\mu_{jk}\)</span> y <span class="math inline">\(\sigma_{jk}^2\)</span> son la media y varianza de la característica <span class="math inline">\(j\)</span> en la clase <span class="math inline">\(k\)</span>.</p>
+</section>
+<section id="multinomial-naive-bayes-características-discretasconteos" class="level5">
+<h5 class="anchored" data-anchor-id="multinomial-naive-bayes-características-discretasconteos">2. <strong>Multinomial Naive Bayes</strong> (características discretas/conteos)</h5>
+<p>Utilizado para datos de conteo (ej. frecuencia de palabras en clasificación de texto):</p>
+<p><span class="math display">\[P(\mathbf{x} | Y = k) = \frac{N_k!}{\prod_j x_j!} \prod_{j=1}^{p} \theta_{jk}^{x_j}\]</span></p>
+<p>Donde <span class="math inline">\(\theta_{jk}\)</span> es la probabilidad de la característica <span class="math inline">\(j\)</span> en la clase <span class="math inline">\(k\)</span>.</p>
+</section>
+<section id="bernoulli-naive-bayes-características-binarias" class="level5">
+<h5 class="anchored" data-anchor-id="bernoulli-naive-bayes-características-binarias">3. <strong>Bernoulli Naive Bayes</strong> (características binarias)</h5>
+<p>Para características binarias (presencia/ausencia):</p>
+<p><span class="math display">\[P(\mathbf{x} | Y = k) = \prod_{j=1}^{p} \theta_{jk}^{x_j} (1-\theta_{jk})^{1-x_j}\]</span></p>
+</section>
+</section>
+<section id="ventajas-y-desventajas-de-naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="ventajas-y-desventajas-de-naive-bayes">Ventajas y Desventajas de Naive Bayes</h4>
+<p><strong>Ventajas:</strong></p>
+<ul>
+<li>✓ Rápido de entrenar y predecir</li>
+<li>✓ Funciona bien con pocos datos de entrenamiento</li>
+<li>✓ Maneja naturalmente múltiples clases</li>
+<li>✓ Robusto ante características irrelevantes</li>
+<li>✓ Proporciona estimaciones de probabilidad</li>
+</ul>
+<p><strong>Desventajas:</strong></p>
+<ul>
+<li>✗ La asunción de independencia es frecuentemente violada</li>
+<li>✗ Puede dar estimaciones de probabilidad sesgadas</li>
+<li>✗ Sensible a la maldición de la dimensionalidad con Gaussian NB</li>
+</ul>
+</section>
+<section id="ejemplos-en-python" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplos-en-python">Ejemplos en Python</h4>
+<section id="ejemplo-básico-gaussian-naive-bayes" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-básico-gaussian-naive-bayes">1. Ejemplo Básico: Gaussian Naive Bayes</h5>
+<p>Comenzamos con un ejemplo simple de clasificación binaria usando Gaussian Naive Bayes:</p>
+<div id="naive-bayes-basic" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> GaussianNB</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos sintéticos para clasificación binaria</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">300</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    n_features<span class="op">=</span><span class="dv">2</span>,        <span class="co"># 2 características para visualización fácil</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    n_informative<span class="op">=</span><span class="dv">2</span>,     <span class="co"># Ambas características son informativas</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    n_redundant<span class="op">=</span><span class="dv">0</span>,       <span class="co"># Sin características redundantes</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    n_clusters_per_class<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 2 grupos por clase</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    flip_y<span class="op">=</span><span class="fl">0.05</span>,         <span class="co"># 5% de ruido en las etiquetas</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    class_sep<span class="op">=</span><span class="fl">0.8</span>,       <span class="co"># Separación entre clases</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir en conjunto de entrenamiento (70%) y prueba (30%)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimensiones de los datos:"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Entrenamiento: </span><span class="sc">{</span>X_train<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Prueba: </span><span class="sc">{</span>X_test<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dimensiones de los datos:
+  Entrenamiento: (210, 2)
+  Prueba: (90, 2)</code></pre>
+</div>
+</div>
+<div id="naive-bayes-train" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear y entrenar el modelo Gaussian Naive Bayes</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gnb <span class="op">=</span> GaussianNB()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gnb.fit(X_train, y_train)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Realizar predicciones</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gnb.predict(X_test)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>y_proba <span class="op">=</span> gnb.predict_proba(X_test)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar el modelo</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Exactitud (Accuracy): </span><span class="sc">{</span>accuracy<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matriz de Confusión:"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame(cm,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                   columns<span class="op">=</span>[<span class="st">'Predicho 0'</span>, <span class="st">'Predicho 1'</span>],</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                   index<span class="op">=</span>[<span class="st">'Real 0'</span>, <span class="st">'Real 1'</span>]))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros aprendidos por el modelo</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PARÁMETROS APRENDIDOS"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Probabilidades a priori (prior):"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(Y=0) = </span><span class="sc">{</span>gnb<span class="sc">.</span>class_prior_[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(Y=1) = </span><span class="sc">{</span>gnb<span class="sc">.</span>class_prior_[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Medias de cada característica por clase:"</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, clase <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">0</span>, <span class="dv">1</span>]):</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">: μ₁=</span><span class="sc">{</span>gnb<span class="sc">.</span>theta_[i, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, μ₂=</span><span class="sc">{</span>gnb<span class="sc">.</span>theta_[i, <span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Varianzas de cada característica por clase:"</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, clase <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">0</span>, <span class="dv">1</span>]):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">: σ²₁=</span><span class="sc">{</span>gnb<span class="sc">.</span>var_[i, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, σ²₂=</span><span class="sc">{</span>gnb<span class="sc">.</span>var_[i, <span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Exactitud (Accuracy): 0.844
+
+Matriz de Confusión:
+        Predicho 0  Predicho 1
+Real 0          46           8
+Real 1           6          30
+
+==================================================
+PARÁMETROS APRENDIDOS
+==================================================
+
+Probabilidades a priori (prior):
+  P(Y=0) = 0.481
+  P(Y=1) = 0.519
+
+Medias de cada característica por clase:
+  Clase 0: μ₁=-0.072, μ₂=-0.693
+  Clase 1: μ₁=0.048, μ₂=0.726
+
+Varianzas de cada característica por clase:
+  Clase 0: σ²₁=0.872, σ²₂=0.544
+  Clase 1: σ²₁=1.275, σ²₂=0.654</code></pre>
+</div>
+</div>
+</section>
+<section id="visualización-de-la-frontera-de-decisión" class="level5">
+<h5 class="anchored" data-anchor-id="visualización-de-la-frontera-de-decisión">2. Visualización de la Frontera de Decisión</h5>
+<div id="cell-naive-bayes-visualization" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función auxiliar para visualizar fronteras de decisión</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualizar_clasificador(X, y, classifier, title):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Visualiza la frontera de decisión de un clasificador</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Parámetros:</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    - X: características (n_samples, 2)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    - y: etiquetas (n_samples,)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - classifier: modelo entrenado</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - title: título del gráfico</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">0.02</span>  <span class="co"># Tamaño del paso en la malla</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear una malla de puntos para evaluar el clasificador</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, h),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                         np.arange(y_min, y_max, h))</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predecir probabilidades para cada punto de la malla</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> classifier.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, <span class="dv">1</span>]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear la visualización</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Panel 1: Datos y frontera</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    plt.contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.4</span>, cmap<span class="op">=</span><span class="st">'RdBu_r'</span>, levels<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    plt.contour(xx, yy, Z, levels<span class="op">=</span>[<span class="fl">0.5</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">'Clase 0'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'red'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">'Clase 1'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Característica 1'</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Característica 2'</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss"> - Frontera de Decisión'</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Panel 2: Mapa de probabilidades</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    contour <span class="op">=</span> plt.contourf(xx, yy, Z, levels<span class="op">=</span><span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'RdBu_r'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    plt.colorbar(contour, label<span class="op">=</span><span class="st">'P(Y=1|X)'</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'red'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Característica 1'</span>)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Característica 2'</span>)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss"> - Probabilidades'</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar nuestro modelo entrenado</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>visualizar_clasificador(X_train, y_train, gnb, <span class="st">'Gaussian Naive Bayes'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Frontera de decisión de Gaussian Naive Bayes</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparación-de-variantes-de-naive-bayes" class="level5">
+<h5 class="anchored" data-anchor-id="comparación-de-variantes-de-naive-bayes">3. Comparación de Variantes de Naive Bayes</h5>
+<p>Ahora comparemos las tres variantes principales de Naive Bayes:</p>
+<div id="naive-bayes-variants-prep" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB, BernoulliNB</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparar diferentes versiones de los datos para cada variante</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gaussian NB: usa los datos originales</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>X_gaussian <span class="op">=</span> X_train.copy()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Multinomial NB: necesita valores no negativos (frecuencias)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> MinMaxScaler()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>X_multinomial <span class="op">=</span> scaler.fit_transform(X_train) <span class="op">+</span> <span class="fl">0.1</span>  <span class="co"># Asegurar valores positivos</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Bernoulli NB: necesita valores binarios</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>X_bernoulli <span class="op">=</span> (X_train <span class="op">&gt;</span> np.median(X_train, axis<span class="op">=</span><span class="dv">0</span>)).astype(<span class="bu">float</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Forma de los datos para cada variante:"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Gaussian: </span><span class="sc">{</span>X_gaussian<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> - Valores continuos"</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Multinomial: </span><span class="sc">{</span>X_multinomial<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> - Valores positivos"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Bernoulli: </span><span class="sc">{</span>X_bernoulli<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> - Valores binarios"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar ejemplos de los primeros 3 datos</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ejemplo de transformación (primeras 3 muestras, primera característica):"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Original: </span><span class="sc">{</span>X_gaussian[:<span class="dv">3</span>, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Multinomial: </span><span class="sc">{</span>X_multinomial[:<span class="dv">3</span>, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Bernoulli: </span><span class="sc">{</span>X_bernoulli[:<span class="dv">3</span>, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Forma de los datos para cada variante:
+  Gaussian: (210, 2) - Valores continuos
+  Multinomial: (210, 2) - Valores positivos
+  Bernoulli: (210, 2) - Valores binarios
+
+Ejemplo de transformación (primeras 3 muestras, primera característica):
+  Original: [-0.98221929  1.48740486  0.62625557]
+  Multinomial: [0.37211974 0.9009729  0.71656365]
+  Bernoulli: [0. 1. 1.]</code></pre>
+</div>
+</div>
+<div id="naive-bayes-variants-train" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar las tres variantes</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>modelos <span class="op">=</span> {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Gaussian NB'</span>: (GaussianNB(), X_gaussian),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Multinomial NB'</span>: (MultinomialNB(), X_multinomial),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Bernoulli NB'</span>: (BernoulliNB(), X_bernoulli)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>resultados <span class="op">=</span> {}</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nombre, (modelo, X_train_variant) <span class="kw">in</span> modelos.items():</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Entrenar</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    modelo.fit(X_train_variant, y_train)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Preparar datos de prueba según la variante</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> nombre <span class="op">==</span> <span class="st">'Gaussian NB'</span>:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        X_test_variant <span class="op">=</span> X_test</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> nombre <span class="op">==</span> <span class="st">'Multinomial NB'</span>:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        X_test_variant <span class="op">=</span> scaler.transform(X_test) <span class="op">+</span> <span class="fl">0.1</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># Bernoulli</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        X_test_variant <span class="op">=</span> (X_test <span class="op">&gt;</span> np.median(X_train, axis<span class="op">=</span><span class="dv">0</span>)).astype(<span class="bu">float</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predecir</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> modelo.predict(X_test_variant)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar resultados</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    resultados[nombre] <span class="op">=</span> {</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">'modelo'</span>: modelo,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">'accuracy'</span>: accuracy_score(y_test, y_pred),</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">'y_pred'</span>: y_pred</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span>nombre<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Accuracy: </span><span class="sc">{</span>resultados[nombre][<span class="st">'accuracy'</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Gaussian NB:
+  Accuracy: 0.844
+
+Multinomial NB:
+  Accuracy: 0.544
+
+Bernoulli NB:
+  Accuracy: 0.844</code></pre>
+</div>
+</div>
+<div id="cell-naive-bayes-comparison-plot" class="cell" data-fig-height="4" data-fig-width="10" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar comparación de resultados</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de barras de accuracy</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>nombres <span class="op">=</span> <span class="bu">list</span>(resultados.keys())</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>accuracies <span class="op">=</span> [resultados[n][<span class="st">'accuracy'</span>] <span class="cf">for</span> n <span class="kw">in</span> nombres]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> axes[<span class="dv">0</span>].bar(nombres, accuracies, color<span class="op">=</span>[<span class="st">'blue'</span>, <span class="st">'green'</span>, <span class="st">'red'</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Comparación de Exactitud'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores en las barras</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bar, acc <span class="kw">in</span> <span class="bu">zip</span>(bars, accuracies):</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    height <span class="op">=</span> bar.get_height()</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].text(bar.get_x() <span class="op">+</span> bar.get_width()<span class="op">/</span><span class="fl">2.</span>, height,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                 <span class="ss">f'</span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrices de confusión</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axis(<span class="st">'off'</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, nombre <span class="kw">in</span> <span class="bu">enumerate</span>(nombres):</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(y_test, resultados[nombre][<span class="st">'y_pred'</span>])</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear subtabla</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    ax_sub <span class="op">=</span> plt.subplot2grid((<span class="dv">1</span>, <span class="dv">6</span>), (<span class="dv">0</span>, <span class="dv">4</span> <span class="op">+</span> i<span class="op">*</span><span class="dv">2</span><span class="op">//</span><span class="dv">3</span>), colspan<span class="op">=</span><span class="dv">2</span><span class="op">//</span><span class="dv">3</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    ax_sub.imshow(cm, cmap<span class="op">=</span><span class="st">'Blues'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_title(<span class="ss">f'</span><span class="sc">{</span>nombre<span class="sc">.</span>split()[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> NB'</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Añadir texto en cada celda</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i, j), val <span class="kw">in</span> np.ndenumerate(cm):</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        ax_sub.text(j, i, <span class="bu">str</span>(val), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        ax_sub.set_ylabel(<span class="st">'Real'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_xlabel(<span class="st">'Pred'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_xticks([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_yticks([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    ax_sub.tick_params(labelsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Comparación de Variantes de Naive Bayes'</span>, y<span class="op">=</span><span class="fl">1.05</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-comparison-plot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-comparison-plot-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de variantes de Naive Bayes</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-práctico-clasificación-de-texto" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-práctico-clasificación-de-texto">4. Ejemplo Práctico: Clasificación de Texto</h5>
+<div id="naive-bayes-text-example" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular un conjunto de datos de texto</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Imaginemos que tenemos documentos con conteo de palabras</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EJEMPLO: CLASIFICACIÓN DE DOCUMENTOS"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear datos simulados de texto</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>n_docs <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>n_palabras <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombres de las "palabras" para mejor interpretación</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>palabras <span class="op">=</span> [<span class="st">'tecnología'</span>, <span class="st">'computadora'</span>, <span class="st">'software'</span>, <span class="st">'datos'</span>, <span class="st">'algoritmo'</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">'deporte'</span>, <span class="st">'equipo'</span>, <span class="st">'juego'</span>, <span class="st">'campeonato'</span>, <span class="st">'jugador'</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear matriz de frecuencias</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Clase 0: documentos sobre tecnología (más palabras 0-4)</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Clase 1: documentos sobre deportes (más palabras 5-9)</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>X_text <span class="op">=</span> np.random.poisson(<span class="dv">1</span>, (n_docs, n_palabras))</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>y_text <span class="op">=</span> np.array([<span class="dv">0</span>] <span class="op">*</span> <span class="dv">50</span> <span class="op">+</span> [<span class="dv">1</span>] <span class="op">*</span> <span class="dv">50</span>)  <span class="co"># 50 docs de cada clase</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sesgar frecuencias según la clase</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>X_text[:<span class="dv">50</span>, :<span class="dv">5</span>] <span class="op">*=</span> <span class="dv">3</span>   <span class="co"># Docs de tecnología: más palabras técnicas</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>X_text[<span class="dv">50</span>:, <span class="dv">5</span>:] <span class="op">*=</span> <span class="dv">3</span>   <span class="co"># Docs de deportes: más palabras deportivas</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear DataFrame para mejor visualización</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>df_text <span class="op">=</span> pd.DataFrame(X_text, columns<span class="op">=</span>palabras)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>df_text[<span class="st">'clase'</span>] <span class="op">=</span> y_text</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>df_text[<span class="st">'tipo_documento'</span>] <span class="op">=</span> df_text[<span class="st">'clase'</span>].<span class="bu">map</span>({<span class="dv">0</span>: <span class="st">'Tecnología'</span>, <span class="dv">1</span>: <span class="st">'Deportes'</span>})</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Primeros 5 documentos:"</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_text.head())</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Estadísticas por clase:"</span>)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_text.groupby(<span class="st">'tipo_documento'</span>)[palabras].mean().<span class="bu">round</span>(<span class="dv">2</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>============================================================
+EJEMPLO: CLASIFICACIÓN DE DOCUMENTOS
+============================================================
+
+Primeros 5 documentos:
+   tecnología  computadora  software  datos  algoritmo  deporte  equipo  \
+0           3            6         0      0          9        2       0   
+1           0            3         0      0          3        0       1   
+2           9            0         3      0          3        1       1   
+3           0            0         0      0          3        1       0   
+4           0            9         0      0          0        2       0   
+
+   juego  campeonato  jugador  clase tipo_documento  
+0      0           0        1      0     Tecnología  
+1      0           1        0      0     Tecnología  
+2      1           0        5      0     Tecnología  
+3      1           1        2      0     Tecnología  
+4      0           0        3      0     Tecnología  
+
+Estadísticas por clase:
+                tecnología  computadora  software  datos  algoritmo  deporte  \
+tipo_documento                                                                 
+Deportes              1.16         1.02      1.00   1.12       1.02     3.12   
+Tecnología            2.82         2.94      2.22   2.46       2.28     1.12   
+
+                equipo  juego  campeonato  jugador  
+tipo_documento                                      
+Deportes           3.0   2.76        3.12     3.36  
+Tecnología         0.9   0.68        0.92     1.20  </code></pre>
+</div>
+</div>
+<div id="naive-bayes-text-train" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos de texto</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>X_text_train, X_text_test, y_text_train, y_text_test <span class="op">=</span> train_test_split(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    X_text, y_text, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_text</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar Multinomial Naive Bayes (ideal para datos de conteo)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mnb_text <span class="op">=</span> MultinomialNB(alpha<span class="op">=</span><span class="fl">1.0</span>)  <span class="co"># alpha: parámetro de suavizado Laplace</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>mnb_text.fit(X_text_train, y_text_train)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>y_pred_text <span class="op">=</span> mnb_text.predict(X_text_test)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>y_proba_text <span class="op">=</span> mnb_text.predict_proba(X_text_test)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluación</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Resultados de Clasificación de Texto:"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_text_test, y_pred_text)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>cm_text <span class="op">=</span> confusion_matrix(y_text_test, y_pred_text)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matriz de Confusión:"</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame(cm_text,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                   columns<span class="op">=</span>[<span class="st">'Pred Tecnología'</span>, <span class="st">'Pred Deportes'</span>],</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                   index<span class="op">=</span>[<span class="st">'Real Tecnología'</span>, <span class="st">'Real Deportes'</span>]))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Importancia de las palabras</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Importancia de palabras por clase (log-probabilidades):"</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>log_probs <span class="op">=</span> mnb_text.feature_log_prob_</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>importancia_df <span class="op">=</span> pd.DataFrame(log_probs.T,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                               columns<span class="op">=</span>[<span class="st">'Tecnología'</span>, <span class="st">'Deportes'</span>],</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                               index<span class="op">=</span>palabras)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(importancia_df.<span class="bu">round</span>(<span class="dv">3</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Resultados de Clasificación de Texto:
+Accuracy: 0.833
+
+Matriz de Confusión:
+                 Pred Tecnología  Pred Deportes
+Real Tecnología               14              1
+Real Deportes                  4             11
+
+Importancia de palabras por clase (log-probabilidades):
+             Tecnología  Deportes
+tecnología       -1.924    -2.854
+computadora      -1.703    -3.112
+software         -2.162    -3.028
+datos            -1.960    -2.950
+algoritmo        -1.997    -3.112
+deporte          -2.582    -1.894
+equipo           -3.034    -1.947
+juego            -3.188    -2.064
+campeonato       -3.108    -1.748
+jugador          -2.653    -1.843</code></pre>
+</div>
+</div>
+<div id="cell-naive-bayes-text-visualization" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar importancia de palabras</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Diferencia en log-probabilidades (palabras más discriminativas)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>diff_log_prob <span class="op">=</span> log_probs[<span class="dv">0</span>] <span class="op">-</span> log_probs[<span class="dv">1</span>]  <span class="co"># Tecnología - Deportes</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>indices_sorted <span class="op">=</span> np.argsort(diff_log_prob)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Palabras más importantes para cada clase</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>y_pos <span class="op">=</span> np.arange(<span class="bu">len</span>(palabras))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].barh(y_pos, diff_log_prob[indices_sorted],</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span>[<span class="st">'red'</span> <span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'blue'</span> <span class="cf">for</span> x <span class="kw">in</span> diff_log_prob[indices_sorted]],</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>             alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks(y_pos)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticklabels([palabras[i] <span class="cf">for</span> i <span class="kw">in</span> indices_sorted])</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Diferencia en log-probabilidad</span><span class="ch">\n</span><span class="st">(← Deportes | Tecnología →)'</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Palabras Discriminativas'</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Matriz de probabilidades</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> axes[<span class="dv">1</span>].imshow(np.exp(log_probs), cmap<span class="op">=</span><span class="st">'YlOrRd'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(palabras)))</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(palabras, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels([<span class="st">'Tecnología'</span>, <span class="st">'Deportes'</span>])</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Probabilidades de Palabras por Clase'</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>plt.colorbar(im, ax<span class="op">=</span>axes[<span class="dv">1</span>], label<span class="op">=</span><span class="st">'Probabilidad'</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores en la matriz</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(palabras)):</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> axes[<span class="dv">1</span>].text(j, i, <span class="ss">f'</span><span class="sc">{</span>np<span class="sc">.</span>exp(log_probs[i, j])<span class="sc">:.2f}</span><span class="ss">'</span>,</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>                           ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"center"</span>, color<span class="op">=</span><span class="st">"black"</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-text-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-text-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Importancia de palabras en clasificación de texto</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-con-dataset-real-iris" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-con-dataset-real-iris">5. Ejemplo con Dataset Real: Iris</h5>
+<div id="cell-naive-bayes-iris" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset Iris</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>X_iris <span class="op">=</span> iris.data[:, [<span class="dv">0</span>, <span class="dv">2</span>]]  <span class="co"># Usar solo 2 características para visualización</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>y_iris <span class="op">=</span> iris.target</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>nombres_clases <span class="op">=</span> iris.target_names</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>nombres_features <span class="op">=</span> [iris.feature_names[<span class="dv">0</span>], iris.feature_names[<span class="dv">2</span>]]</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset Iris:"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Número de muestras: </span><span class="sc">{</span>X_iris<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Número de características: </span><span class="sc">{</span>X_iris<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Clases: </span><span class="sc">{</span>nombres_clases<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Características usadas: </span><span class="sc">{</span>nombres_features<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>X_iris_train, X_iris_test, y_iris_train, y_iris_test <span class="op">=</span> train_test_split(</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    X_iris, y_iris, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_iris</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar Gaussian Naive Bayes</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>gnb_iris <span class="op">=</span> GaussianNB()</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>gnb_iris.fit(X_iris_train, y_iris_train)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>y_pred_iris <span class="op">=</span> gnb_iris.predict(X_iris_test)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>accuracy_iris <span class="op">=</span> accuracy_score(y_iris_test, y_pred_iris)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Accuracy en Iris: </span><span class="sc">{</span>accuracy_iris<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Datos y fronteras de decisión</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">.02</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X_iris[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X_iris[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X_iris[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X_iris[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, h),</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                     np.arange(y_min, y_max, h))</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> gnb_iris.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.4</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> axes[<span class="dv">0</span>].scatter(X_iris[:, <span class="dv">0</span>], X_iris[:, <span class="dv">1</span>], c<span class="op">=</span>y_iris,</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                          cmap<span class="op">=</span><span class="st">'viridis'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(nombres_features[<span class="dv">0</span>])</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(nombres_features[<span class="dv">1</span>])</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Gaussian NB - Dataset Iris (3 clases)'</span>)</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir leyenda</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [Patch(facecolor<span class="op">=</span>plt.cm.viridis(i<span class="op">/</span><span class="dv">2</span>), label<span class="op">=</span>nombres_clases[i])</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>                   <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>)]</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Matriz de confusión</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>cm_iris <span class="op">=</span> confusion_matrix(y_iris_test, y_pred_iris)</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> axes[<span class="dv">1</span>].imshow(cm_iris, cmap<span class="op">=</span><span class="st">'Blues'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(<span class="bu">range</span>(<span class="dv">3</span>))</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="dv">3</span>))</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(nombres_clases)</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels(nombres_clases)</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Predicción'</span>)</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Valor Real'</span>)</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f'Matriz de Confusión (Accuracy: </span><span class="sc">{</span>accuracy_iris<span class="sc">:.3f}</span><span class="ss">)'</span>)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores</span></span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, j), val <span class="kw">in</span> np.ndenumerate(cm_iris):</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].text(j, i, <span class="bu">str</span>(val), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>,</span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>                 color<span class="op">=</span><span class="st">'white'</span> <span class="cf">if</span> val <span class="op">&gt;</span> cm_iris.<span class="bu">max</span>()<span class="op">/</span><span class="dv">2</span> <span class="cf">else</span> <span class="st">'black'</span>)</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>plt.colorbar(im, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset Iris:
+  Número de muestras: 150
+  Número de características: 2
+  Clases: ['setosa' 'versicolor' 'virginica']
+  Características usadas: ['sepal length (cm)', 'petal length (cm)']
+
+Accuracy en Iris: 0.911</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-iris" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-iris-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Clasificación multiclase con Naive Bayes en dataset Iris</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="implementación-desde-cero-de-gaussian-naive-bayes" class="level5">
+<h5 class="anchored" data-anchor-id="implementación-desde-cero-de-gaussian-naive-bayes">6. Implementación Desde Cero de Gaussian Naive Bayes</h5>
+<p>Para comprender mejor el funcionamiento interno del algoritmo, vamos a implementar Gaussian Naive Bayes paso a paso:</p>
+<div id="naive-bayes-from-scratch-class" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GaussianNBDesdesCero:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Implementación educativa de Gaussian Naive Bayes</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Esta clase implementa el algoritmo paso a paso para</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">    fines pedagógicos.</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.clases <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.priors <span class="op">=</span> {}        <span class="co"># P(Y=k) para cada clase k</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.medias <span class="op">=</span> {}        <span class="co"># μ para cada clase y característica</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.varianzas <span class="op">=</span> {}     <span class="co"># σ² para cada clase y característica</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> entrenar(<span class="va">self</span>, X, y):</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">        Fase de entrenamiento: calcular estadísticas</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">        Parámetros:</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">        - X: matriz de características (n_muestras, n_características)</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">        - y: vector de etiquetas (n_muestras,)</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.clases <span class="op">=</span> np.unique(y)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        n_muestras <span class="op">=</span> <span class="bu">len</span>(y)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        n_caracteristicas <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Entrenando con </span><span class="sc">{</span>n_muestras<span class="sc">}</span><span class="ss"> muestras y </span><span class="sc">{</span>n_caracteristicas<span class="sc">}</span><span class="ss"> características"</span>)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Clases encontradas: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>clases<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> clase <span class="kw">in</span> <span class="va">self</span>.clases:</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Filtrar datos de esta clase</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>            X_clase <span class="op">=</span> X[y <span class="op">==</span> clase]</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>            n_clase <span class="op">=</span> <span class="bu">len</span>(X_clase)</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calcular probabilidad a priori P(Y=clase)</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.priors[clase] <span class="op">=</span> n_clase <span class="op">/</span> n_muestras</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calcular media y varianza para cada característica</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.medias[clase] <span class="op">=</span> np.mean(X_clase, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.varianzas[clase] <span class="op">=</span> np.var(X_clase, axis<span class="op">=</span><span class="dv">0</span>) <span class="op">+</span> <span class="fl">1e-9</span>  <span class="co"># Evitar división por cero</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>n_clase<span class="sc">}</span><span class="ss"> muestras (</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>priors[clase]<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  Medias: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>medias[clase]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  Varianzas: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>varianzas[clase]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _calcular_gaussiana(<span class="va">self</span>, x, media, varianza):</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">        Calcula P(x|μ,σ²) usando la distribución gaussiana</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co">        Fórmula: P(x|μ,σ²) = 1/√(2πσ²) * exp(-(x-μ)²/(2σ²))</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>        coeficiente <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(<span class="fl">2.0</span> <span class="op">*</span> np.pi <span class="op">*</span> varianza)</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>        exponente <span class="op">=</span> <span class="op">-</span>((x <span class="op">-</span> media) <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (<span class="fl">2.0</span> <span class="op">*</span> varianza)</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> coeficiente <span class="op">*</span> np.exp(exponente)</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predecir_probabilidades(<span class="va">self</span>, X):</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co">        Calcula P(Y=k|X) para cada clase k</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Usa el teorema de Bayes:</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="co">        P(Y=k|X) ∝ P(X|Y=k) * P(Y=k)</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>        n_muestras <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>        n_clases <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.clases)</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>        probabilidades <span class="op">=</span> np.zeros((n_muestras, n_clases))</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X):</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j, clase <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.clases):</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calcular P(Y=clase) - prior</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>                prob_prior <span class="op">=</span> <span class="va">self</span>.priors[clase]</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calcular P(X|Y=clase) - verosimilitud</span></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Producto de probabilidades (asumiendo independencia)</span></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>                verosimilitud <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x)):</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>                    prob_caracteristica <span class="op">=</span> <span class="va">self</span>._calcular_gaussiana(</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>                        x[k],</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>                        <span class="va">self</span>.medias[clase][k],</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>                        <span class="va">self</span>.varianzas[clase][k]</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>                    verosimilitud <span class="op">*=</span> prob_caracteristica</span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>                <span class="co"># P(Y=clase|X) ∝ P(X|Y=clase) * P(Y=clase)</span></span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>                probabilidades[i, j] <span class="op">=</span> verosimilitud <span class="op">*</span> prob_prior</span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Normalizar para que sumen 1</span></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>            probabilidades[i] <span class="op">=</span> probabilidades[i] <span class="op">/</span> np.<span class="bu">sum</span>(probabilidades[i])</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> probabilidades</span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predecir(<span class="va">self</span>, X):</span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a><span class="co">        Predice la clase con mayor probabilidad posterior</span></span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>        probabilidades <span class="op">=</span> <span class="va">self</span>.predecir_probabilidades(X)</span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>        indices_maximos <span class="op">=</span> np.argmax(probabilidades, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.clases[indices_maximos]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="naive-bayes-from-scratch-test" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear y entrenar nuestro modelo</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"IMPLEMENTACIÓN DESDE CERO"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar un conjunto pequeño para demostración</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>X_demo <span class="op">=</span> X_train[:<span class="dv">20</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>y_demo <span class="op">=</span> y_train[:<span class="dv">20</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>X_test_demo <span class="op">=</span> X_test[:<span class="dv">10</span>]</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>y_test_demo <span class="op">=</span> y_test[:<span class="dv">10</span>]</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar nuestro modelo</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>modelo_propio <span class="op">=</span> GaussianNBDesdesCero()</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>modelo_propio.entrenar(X_demo, y_demo)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Hacer predicciones</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PREDICCIONES"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>y_pred_propio <span class="op">=</span> modelo_propio.predecir(X_test_demo)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>probabilidades <span class="op">=</span> modelo_propio.predecir_probabilidades(X_test_demo)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar resultados detallados</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):  <span class="co"># Mostrar solo las primeras 5</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Muestra </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Características: [</span><span class="sc">{</span>X_test_demo[i, <span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>X_test_demo[i, <span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">]"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Probabilidades: P(Y=0|X)=</span><span class="sc">{</span>probabilidades[i, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, P(Y=1|X)=</span><span class="sc">{</span>probabilidades[i, <span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Predicción: </span><span class="sc">{</span>y_pred_propio[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Valor real: </span><span class="sc">{</span>y_test_demo[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span><span class="st">'✓ Correcto'</span> <span class="cf">if</span> y_pred_propio[i] <span class="op">==</span> y_test_demo[i] <span class="cf">else</span> <span class="st">'✗ Incorrecto'</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>============================================================
+IMPLEMENTACIÓN DESDE CERO
+============================================================
+Entrenando con 20 muestras y 2 características
+Clases encontradas: [0 1]
+
+Clase 0: 8 muestras (40.0%)
+  Medias: [ 0.02629741 -1.03784986]
+  Varianzas: [0.69718407 0.29135071]
+
+Clase 1: 12 muestras (60.0%)
+  Medias: [0.35445188 0.56734888]
+  Varianzas: [1.40440918 0.69226573]
+
+============================================================
+PREDICCIONES
+============================================================
+
+Muestra 1:
+  Características: [-0.43, -0.48]
+  Probabilidades: P(Y=0|X)=0.672, P(Y=1|X)=0.328
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto
+
+Muestra 2:
+  Características: [0.85, -0.84]
+  Probabilidades: P(Y=0|X)=0.792, P(Y=1|X)=0.208
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto
+
+Muestra 3:
+  Características: [-0.60, -1.15]
+  Probabilidades: P(Y=0|X)=0.926, P(Y=1|X)=0.074
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto
+
+Muestra 4:
+  Características: [0.96, 1.52]
+  Probabilidades: P(Y=0|X)=0.000, P(Y=1|X)=1.000
+  Predicción: 1
+  Valor real: 0
+  ✗ Incorrecto
+
+Muestra 5:
+  Características: [0.72, -0.68]
+  Probabilidades: P(Y=0|X)=0.727, P(Y=1|X)=0.273
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto</code></pre>
+</div>
+</div>
+<div id="naive-bayes-comparison-final" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparación con scikit-learn</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COMPARACIÓN CON SCIKIT-LEARN"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar modelo de scikit-learn con los mismos datos</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>gnb_sklearn_demo <span class="op">=</span> GaussianNB()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>gnb_sklearn_demo.fit(X_demo, y_demo)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>y_pred_sklearn_demo <span class="op">=</span> gnb_sklearn_demo.predict(X_test_demo)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar resultados</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Predicciones:"</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Implementación propia: </span><span class="sc">{</span>y_pred_propio<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Scikit-learn:         </span><span class="sc">{</span>y_pred_sklearn_demo<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Valores reales:       </span><span class="sc">{</span>y_test_demo<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular accuracy</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>acc_propio <span class="op">=</span> np.mean(y_pred_propio <span class="op">==</span> y_test_demo)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>acc_sklearn <span class="op">=</span> np.mean(y_pred_sklearn_demo <span class="op">==</span> y_test_demo)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Accuracy:"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Implementación propia: </span><span class="sc">{</span>acc_propio<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Scikit-learn:         </span><span class="sc">{</span>acc_sklearn<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar que los parámetros aprendidos son similares</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"VERIFICACIÓN DE PARÁMETROS APRENDIDOS"</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> clase <span class="kw">in</span> [<span class="dv">0</span>, <span class="dv">1</span>]:</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Priors:"</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Propio: </span><span class="sc">{</span>modelo_propio<span class="sc">.</span>priors[clase]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Sklearn: </span><span class="sc">{</span>gnb_sklearn_demo<span class="sc">.</span>class_prior_[clase]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Medias (primera característica):"</span>)</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Propio: </span><span class="sc">{</span>modelo_propio<span class="sc">.</span>medias[clase][<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Sklearn: </span><span class="sc">{</span>gnb_sklearn_demo<span class="sc">.</span>theta_[clase, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+============================================================
+COMPARACIÓN CON SCIKIT-LEARN
+============================================================
+
+Predicciones:
+  Implementación propia: [0 0 0 1 0 0 0 0 1 1]
+  Scikit-learn:         [0 0 0 1 0 0 0 0 1 1]
+  Valores reales:       [0 0 0 0 0 0 0 0 0 1]
+
+Accuracy:
+  Implementación propia: 0.800
+  Scikit-learn:         0.800
+
+============================================================
+VERIFICACIÓN DE PARÁMETROS APRENDIDOS
+============================================================
+
+Clase 0:
+  Priors:
+    Propio: 0.400
+    Sklearn: 0.400
+  Medias (primera característica):
+    Propio: 0.026
+    Sklearn: 0.026
+
+Clase 1:
+  Priors:
+    Propio: 0.600
+    Sklearn: 0.600
+  Medias (primera característica):
+    Propio: 0.354
+    Sklearn: 0.354</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="cuándo-usar-naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="cuándo-usar-naive-bayes">Cuándo Usar Naive Bayes</h4>
+<p>Naive Bayes es particularmente efectivo en:</p>
+<ol type="1">
+<li><p><strong>Clasificación de texto y procesamiento de lenguaje natural</strong></p>
+<ul>
+<li>Filtrado de spam</li>
+<li>Análisis de sentimientos</li>
+<li>Categorización de documentos</li>
+</ul></li>
+<li><p><strong>Sistemas de recomendación</strong></p>
+<ul>
+<li>Predicción de preferencias basada en características</li>
+</ul></li>
+<li><p><strong>Diagnóstico médico</strong></p>
+<ul>
+<li>Cuando las características son síntomas relativamente independientes</li>
+</ul></li>
+<li><p><strong>Aplicaciones en tiempo real</strong></p>
+<ul>
+<li>Cuando se necesitan predicciones muy rápidas</li>
+</ul></li>
+<li><p><strong>Conjuntos de datos pequeños</strong></p>
+<ul>
+<li>Cuando hay pocos ejemplos de entrenamiento por clase</li>
+</ul></li>
+</ol>
+<p>El clasificador Naive Bayes, a pesar de su simplicidad, sigue siendo uno de los algoritmos fundamentales en machine learning, especialmente valioso como baseline y en aplicaciones donde la velocidad y simplicidad son críticas.</p>
+</section>
+</section>
+<section id="regresión-logística" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-logística">Regresión Logística</h3>
+<p>La <strong>regresión logística</strong> es uno de los modelos más utilizados para clasificación binaria. Modela directamente la probabilidad posterior usando una transformación logística de una combinación lineal de las características.</p>
+<section id="modelo" class="level4">
+<h4 class="anchored" data-anchor-id="modelo">Modelo</h4>
+<p>La regresión logística modela la probabilidad de que <span class="math inline">\(Y = 1\)</span> como:</p>
+<p><span class="math display">\[P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + ... + \beta_p x_p)}} = \frac{1}{1 + e^{-\mathbf{x}^T\boldsymbol{\beta}}}\]</span></p>
+<p>Esta función se conoce como función <strong>sigmoide</strong> o <strong>logística</strong>:</p>
+<p><span class="math display">\[\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{e^z}{1 + e^z}\]</span></p>
+</section>
+<section id="transformación-logit" class="level4">
+<h4 class="anchored" data-anchor-id="transformación-logit">Transformación Logit</h4>
+<p>El modelo puede reescribirse usando la transformación <strong>logit</strong> (log-odds):</p>
+<p><span class="math display">\[\log\left(\frac{P(Y = 1 | \mathbf{x})}{P(Y = 0 | \mathbf{x})}\right) = \log\left(\frac{p(\mathbf{x})}{1-p(\mathbf{x})}\right) = \beta_0 + \beta_1 x_1 + ... + \beta_p x_p\]</span></p>
+<p>Esto muestra que el log-odds es una función lineal de las características.</p>
+</section>
+<section id="estimación-de-parámetros" class="level4">
+<h4 class="anchored" data-anchor-id="estimación-de-parámetros">Estimación de Parámetros</h4>
+<p>Los parámetros <span class="math inline">\(\boldsymbol{\beta}\)</span> se estiman maximizando la verosimilitud. Para <span class="math inline">\(n\)</span> observaciones:</p>
+<p><span class="math display">\[L(\boldsymbol{\beta}) = \prod_{i=1}^{n} p(\mathbf{x}_i)^{y_i} \cdot (1-p(\mathbf{x}_i))^{1-y_i}\]</span></p>
+<p>Tomando el logaritmo:</p>
+<p><span class="math display">\[\ell(\boldsymbol{\beta}) = \sum_{i=1}^{n} [y_i \log(p(\mathbf{x}_i)) + (1-y_i) \log(1-p(\mathbf{x}_i))]\]</span></p>
+<p>Esta es exactamente la negativa de la pérdida logarítmica. No existe solución analítica, por lo que se utiliza optimización numérica (típicamente Newton-Raphson o gradiente descendente).</p>
+</section>
+<section id="frontera-de-decisión" class="level4">
+<h4 class="anchored" data-anchor-id="frontera-de-decisión">Frontera de Decisión</h4>
+<p>La frontera de decisión en regresión logística es <strong>lineal</strong> en el espacio de características:</p>
+<p><span class="math display">\[\{\mathbf{x} : P(Y = 1 | \mathbf{x}) = 0.5\} = \{\mathbf{x} : \mathbf{x}^T\boldsymbol{\beta} = 0\}\]</span></p>
+<p>Esto define un hiperplano que separa las dos clases.</p>
+</section>
+<section id="ejemplo-en-python" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplo-en-python">Ejemplo en Python</h4>
+<div id="cell-logistic-regression-example" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div id="logistic-regression-example" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/logistic-regression-example-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Regresión logística: datos, probabilidades y frontera de decisión</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Intercepto (β₀): 0.057
+Coeficientes: β₁ = -0.273, β₂ = 2.214</code></pre>
+</div>
+</div>
+</section>
+<section id="interpretación-de-coeficientes" class="level4">
+<h4 class="anchored" data-anchor-id="interpretación-de-coeficientes">Interpretación de Coeficientes</h4>
+<section id="conceptos-fundamentales-odds-y-log-odds" class="level5">
+<h5 class="anchored" data-anchor-id="conceptos-fundamentales-odds-y-log-odds">Conceptos Fundamentales: Odds y Log-Odds</h5>
+<p>Antes de interpretar los coeficientes, definamos los conceptos clave:</p>
+<p><strong>Odds (momios o chances)</strong>: La razón entre la probabilidad de éxito y la probabilidad de fracaso:</p>
+<p><span class="math display">\[\text{Odds} = \frac{P(Y = 1)}{P(Y = 0)} = \frac{p}{1-p}\]</span></p>
+<p>Si <span class="math inline">\(p = 0.75\)</span>, entonces los odds son <span class="math inline">\(\frac{0.75}{0.25} = 3\)</span>, es decir, el éxito es 3 veces más probable que el fracaso.</p>
+<p><strong>Log-odds (logit)</strong>: El logaritmo natural de los odds:</p>
+<p><span class="math display">\[\text{Log-odds} = \log\left(\frac{p}{1-p}\right) = \text{logit}(p)\]</span></p>
+</section>
+<section id="derivación-matemática" class="level5">
+<h5 class="anchored" data-anchor-id="derivación-matemática">Derivación Matemática</h5>
+<p>Partiendo del modelo de regresión logística:</p>
+<p><span class="math display">\[P(Y = 1 | \mathbf{x}) = \frac{1}{1 + e^{-(\beta_0 + \sum_{j=1}^p \beta_j x_j)}}\]</span></p>
+<p>Calculemos el log-odds:</p>
+<p><span class="math display">\[\log\left(\frac{P(Y = 1 | \mathbf{x})}{1 - P(Y = 1 | \mathbf{x})}\right) = \beta_0 + \sum_{j=1}^p \beta_j x_j\]</span></p>
+<p>Ahora, consideremos qué sucede cuando incrementamos <span class="math inline">\(x_k\)</span> en una unidad (de <span class="math inline">\(x_k\)</span> a <span class="math inline">\(x_k + 1\)</span>):</p>
+<p><strong>Log-odds original</strong>: <span class="math display">\[L_0 = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + ... + \beta_p x_p\]</span></p>
+<p><strong>Log-odds después del incremento</strong>: <span class="math display">\[L_1 = \beta_0 + \beta_1 x_1 + ... + \beta_k (x_k + 1) + ... + \beta_p x_p\]</span></p>
+<p><strong>Cambio en log-odds</strong>: <span class="math display">\[\Delta L = L_1 - L_0 = \beta_k\]</span></p>
+<p>Por lo tanto, <strong><span class="math inline">\(\beta_k\)</span> representa el cambio en log-odds cuando <span class="math inline">\(x_k\)</span> aumenta en una unidad</strong>.</p>
+</section>
+<section id="odds-ratio" class="level5">
+<h5 class="anchored" data-anchor-id="odds-ratio">Odds Ratio</h5>
+<p>El <strong>odds ratio</strong> compara los odds antes y después del cambio:</p>
+<p><span class="math display">\[\text{Odds ratio} = \frac{\text{Odds}_{\text{nuevo}}}{\text{Odds}_{\text{original}}} = \frac{e^{L_1}}{e^{L_0}} = e^{L_1 - L_0} = e^{\beta_k}\]</span></p>
+<p>Esto significa que <strong><span class="math inline">\(e^{\beta_k}\)</span> es el factor por el cual se multiplican los odds cuando <span class="math inline">\(x_k\)</span> aumenta en una unidad</strong>.</p>
+</section>
+<section id="ejemplo-práctico-clicks-en-memes-y-edad" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-práctico-clicks-en-memes-y-edad">Ejemplo Práctico: Clicks en Memes y Edad</h5>
+<p>Imaginemos un estudio sobre la probabilidad de que una persona haga click en un meme según su edad. Nuestro modelo de regresión logística es:</p>
+<p><span class="math display">\[\log\left(\frac{P(\text{click} = 1)}{P(\text{click} = 0)}\right) = 2.5 - 0.08 \cdot \text{edad}\]</span></p>
+<p>Donde: - <span class="math inline">\(\beta_0 = 2.5\)</span> (intercepto) - <span class="math inline">\(\beta_{\text{edad}} = -0.08\)</span> (coeficiente de edad)</p>
+<p><strong>Interpretaciones</strong>:</p>
+<ol type="1">
+<li><strong>Coeficiente <span class="math inline">\(\beta_{\text{edad}} = -0.08\)</span></strong>:
+<ul>
+<li>Por cada año adicional de edad, el log-odds de hacer click disminuye en 0.08</li>
+<li>El signo negativo indica que personas mayores tienen menor probabilidad de hacer click</li>
+</ul></li>
+<li><strong>Odds ratio <span class="math inline">\(e^{-0.08} \approx 0.923\)</span></strong>:
+<ul>
+<li>Por cada año adicional de edad, los odds de hacer click se multiplican por 0.923</li>
+<li>Equivalentemente: los odds disminuyen un 7.7% por cada año adicional</li>
+</ul></li>
+<li><strong>Ejemplo numérico concreto</strong>:</li>
+</ol>
+<p>Para una persona de 20 años: <span class="math display">\[\text{Log-odds}_{20} = 2.5 - 0.08(20) = 0.9\]</span> <span class="math display">\[\text{Odds}_{20} = e^{0.9} \approx 2.46\]</span> <span class="math display">\[P(\text{click})_{20} = \frac{2.46}{1 + 2.46} \approx 0.71\]</span></p>
+<p>Para una persona de 30 años: <span class="math display">\[\text{Log-odds}_{30} = 2.5 - 0.08(30) = 0.1\]</span> <span class="math display">\[\text{Odds}_{30} = e^{0.1} \approx 1.11\]</span> <span class="math display">\[P(\text{click})_{30} = \frac{1.11}{1 + 1.11} \approx 0.53\]</span></p>
+<p><strong>Verificación del odds ratio</strong>: <span class="math display">\[\frac{\text{Odds}_{30}}{\text{Odds}_{20}} = \frac{1.11}{2.46} \approx 0.45 = e^{-0.08 \times 10} = (e^{-0.08})^{10}\]</span></p>
+<p>Esto confirma que en 10 años (de 20 a 30), los odds se multiplican por <span class="math inline">\((0.923)^{10} \approx 0.45\)</span>.</p>
+</section>
+<section id="resumen-de-interpretaciones" class="level5">
+<h5 class="anchored" data-anchor-id="resumen-de-interpretaciones">Resumen de Interpretaciones</h5>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 29%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th>Interpretación</th>
+<th>Ejemplo (edad y clicks)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\beta_j &gt; 0\)</span></td>
+<td>Variable aumenta log-odds</td>
+<td>Los jóvenes clickean más</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_j &lt; 0\)</span></td>
+<td>Variable disminuye log-odds</td>
+<td>Los mayores clickean menos</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta_j\)</span></td>
+<td>Cambio en log-odds por unidad</td>
+<td>-0.08: cada año reduce log-odds</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(e^{\beta_j} &gt; 1\)</span></td>
+<td>Odds aumentan</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e^{\beta_j} &lt; 1\)</span></td>
+<td>Odds disminuyen</td>
+<td>0.923: odds bajan 7.7% por año</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(e^{\beta_j} = 2\)</span></td>
+<td>Odds se duplican</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e^{\beta_j} = 0.5\)</span></td>
+<td>Odds se reducen a la mitad</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ejercicio_wine_quality.html" class="pagination-link" aria-label="Ejercicio: Análisis de Regresión con el Dataset Wine Quality">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Ejercicio: Análisis de Regresión con el Dataset Wine Quality</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Referencias">
+        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
