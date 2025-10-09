@@ -456,6 +456,18 @@ window.Quarto = {
   <li><a href="#clasificador-de-bayes-para-el-caso-binario" id="toc-clasificador-de-bayes-para-el-caso-binario" class="nav-link" data-scroll-target="#clasificador-de-bayes-para-el-caso-binario">Clasificador de Bayes para el Caso Binario</a></li>
   <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión Logística</a></li>
   </ul></li>
+  <li><a href="#métricas-de-evaluación-de-modelos-de-clasificación" id="toc-métricas-de-evaluación-de-modelos-de-clasificación" class="nav-link" data-scroll-target="#métricas-de-evaluación-de-modelos-de-clasificación">Métricas de Evaluación de Modelos de Clasificación</a>
+  <ul class="collapse">
+  <li><a href="#la-matriz-de-confusión-fundamento-de-las-métricas" id="toc-la-matriz-de-confusión-fundamento-de-las-métricas" class="nav-link" data-scroll-target="#la-matriz-de-confusión-fundamento-de-las-métricas">La Matriz de Confusión: Fundamento de las Métricas</a></li>
+  <li><a href="#métricas-derivadas-de-la-matriz-de-confusión" id="toc-métricas-derivadas-de-la-matriz-de-confusión" class="nav-link" data-scroll-target="#métricas-derivadas-de-la-matriz-de-confusión">Métricas Derivadas de la Matriz de Confusión</a></li>
+  <li><a href="#umbral-de-decisión" id="toc-umbral-de-decisión" class="nav-link" data-scroll-target="#umbral-de-decisión">Umbral de Decisión</a></li>
+  <li><a href="#trade-off-entre-precisión-y-recall" id="toc-trade-off-entre-precisión-y-recall" class="nav-link" data-scroll-target="#trade-off-entre-precisión-y-recall">Trade-off entre Precisión y Recall</a></li>
+  <li><a href="#curva-roc-y-auc" id="toc-curva-roc-y-auc" class="nav-link" data-scroll-target="#curva-roc-y-auc">Curva ROC y AUC</a></li>
+  <li><a href="#ejemplo-completo-evaluación-de-un-modelo" id="toc-ejemplo-completo-evaluación-de-un-modelo" class="nav-link" data-scroll-target="#ejemplo-completo-evaluación-de-un-modelo">Ejemplo Completo: Evaluación de un Modelo</a></li>
+  <li><a href="#selección-de-métricas-según-el-contexto" id="toc-selección-de-métricas-según-el-contexto" class="nav-link" data-scroll-target="#selección-de-métricas-según-el-contexto">Selección de Métricas según el Contexto</a></li>
+  <li><a href="#métricas-para-clasificación-multiclase" id="toc-métricas-para-clasificación-multiclase" class="nav-link" data-scroll-target="#métricas-para-clasificación-multiclase">Métricas para Clasificación Multiclase</a></li>
+  <li><a href="#consideraciones-finales" id="toc-consideraciones-finales" class="nav-link" data-scroll-target="#consideraciones-finales">Consideraciones Finales</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1705,10 +1717,712 @@ Coeficientes: β₁ = -0.273, β₂ = 2.214</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 </section>
 </section>
+</section>
+</section>
+<section id="métricas-de-evaluación-de-modelos-de-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="métricas-de-evaluación-de-modelos-de-clasificación">Métricas de Evaluación de Modelos de Clasificación</h2>
+<p>Una vez entrenado un modelo de clasificación, necesitamos evaluar su desempeño de manera rigurosa. Mientras que las funciones de pérdida (como Brier Score y Log Loss) son útiles durante el entrenamiento, las <strong>métricas de evaluación</strong> nos permiten interpretar el rendimiento del modelo desde diferentes perspectivas y tomar decisiones informadas sobre su uso en producción.</p>
+<section id="la-matriz-de-confusión-fundamento-de-las-métricas" class="level3">
+<h3 class="anchored" data-anchor-id="la-matriz-de-confusión-fundamento-de-las-métricas">La Matriz de Confusión: Fundamento de las Métricas</h3>
+<p>La <strong>matriz de confusión</strong> es la herramienta fundamental para entender el comportamiento de un clasificador binario. Para clasificación binaria (clase positiva = 1, clase negativa = 0), la matriz tiene la siguiente estructura:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción Positiva (1)</th>
+<th>Predicción Negativa (0)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Clase Real Positiva (1)</strong></td>
+<td>Verdaderos Positivos (VP)</td>
+<td>Falsos Negativos (FN)</td>
+</tr>
+<tr class="even">
+<td><strong>Clase Real Negativa (0)</strong></td>
+<td>Falsos Positivos (FP)</td>
+<td>Verdaderos Negativos (VN)</td>
+</tr>
+</tbody>
+</table>
+<p>Donde:</p>
+<ul>
+<li><strong>Verdaderos Positivos (VP)</strong>: Casos positivos correctamente identificados</li>
+<li><strong>Verdaderos Negativos (VN)</strong>: Casos negativos correctamente identificados</li>
+<li><strong>Falsos Positivos (FP)</strong>: Casos negativos incorrectamente clasificados como positivos (Error Tipo I)</li>
+<li><strong>Falsos Negativos (FN)</strong>: Casos positivos incorrectamente clasificados como negativos (Error Tipo II)</li>
+</ul>
+<section id="interpretación-en-contexto" class="level4">
+<h4 class="anchored" data-anchor-id="interpretación-en-contexto">Interpretación en Contexto</h4>
+<p>La importancia relativa de cada tipo de error depende del contexto de aplicación:</p>
+<p><strong>Ejemplo 1: Detección de Spam</strong></p>
+<ul>
+<li><strong>FP (Error Tipo I)</strong>: Email legítimo marcado como spam → Usuario pierde email importante</li>
+<li><strong>FN (Error Tipo II)</strong>: Spam no detectado → Usuario recibe spam (menor consecuencia)</li>
+<li><strong>Prioridad</strong>: Minimizar FP (alta precisión)</li>
+</ul>
+<p><strong>Ejemplo 2: Diagnóstico de Cáncer</strong></p>
+<ul>
+<li><strong>FP (Error Tipo I)</strong>: Falso positivo → Paciente sano sometido a pruebas adicionales</li>
+<li><strong>FN (Error Tipo II)</strong>: Falso negativo → Paciente enfermo no recibe tratamiento</li>
+<li><strong>Prioridad</strong>: Minimizar FN (alta sensibilidad/recall)</li>
+</ul>
+<p><strong>Ejemplo 3: Detección de Fraude Bancario</strong></p>
+<ul>
+<li><strong>FP (Error Tipo I)</strong>: Transacción legítima bloqueada → Cliente molesto</li>
+<li><strong>FN (Error Tipo II)</strong>: Fraude no detectado → Pérdida económica</li>
+<li><strong>Prioridad</strong>: Balance entre ambos (F1-score)</li>
+</ul>
+</section>
+</section>
+<section id="métricas-derivadas-de-la-matriz-de-confusión" class="level3">
+<h3 class="anchored" data-anchor-id="métricas-derivadas-de-la-matriz-de-confusión">Métricas Derivadas de la Matriz de Confusión</h3>
+<section id="exactitud-accuracy" class="level4">
+<h4 class="anchored" data-anchor-id="exactitud-accuracy">1. Exactitud (Accuracy)</h4>
+<p>La <strong>exactitud</strong> es la proporción de predicciones correctas sobre el total:</p>
+<p><span class="math display">\[\text{Accuracy} = \frac{VP + VN}{VP + VN + FP + FN}\]</span></p>
+<p><strong>Ventajas:</strong></p>
+<ul>
+<li>✓ Interpretación intuitiva</li>
+<li>✓ Métrica general del desempeño</li>
+</ul>
+<p><strong>Desventajas:</strong></p>
+<ul>
+<li>✗ Engañosa con <strong>clases desbalanceadas</strong></li>
+<li>✗ No distingue entre tipos de errores</li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Limitación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Si el 95% de los emails son legítimos, un clasificador que siempre predice “no spam” tendrá 95% de accuracy, pero es completamente inútil.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="precisión-precision" class="level4">
+<h4 class="anchored" data-anchor-id="precisión-precision">2. Precisión (Precision)</h4>
+<p>La <strong>precisión</strong> mide la proporción de predicciones positivas que son realmente positivas:</p>
+<p><span class="math display">\[\text{Precision} = \frac{VP}{VP + FP} = \frac{VP}{\text{Total Predicciones Positivas}}\]</span></p>
+<p><strong>Interpretación</strong>: “De todos los casos que el modelo predijo como positivos, ¿qué proporción es realmente positiva?”</p>
+<p><strong>Cuándo usar:</strong></p>
+<ul>
+<li>Cuando los <strong>falsos positivos son costosos</strong></li>
+<li>Ejemplo: Recomendación de productos (no queremos recomendar productos irrelevantes)</li>
+</ul>
+</section>
+<section id="sensibilidad-recall-sensitivity-true-positive-rate" class="level4">
+<h4 class="anchored" data-anchor-id="sensibilidad-recall-sensitivity-true-positive-rate">3. Sensibilidad (Recall, Sensitivity, True Positive Rate)</h4>
+<p>La <strong>sensibilidad</strong> o <strong>recall</strong> mide la proporción de casos positivos que fueron correctamente identificados:</p>
+<p><span class="math display">\[\text{Recall} = \frac{VP}{VP + FN} = \frac{VP}{\text{Total Casos Positivos Reales}}\]</span></p>
+<p><strong>Interpretación</strong>: “De todos los casos que son realmente positivos, ¿qué proporción detectó el modelo?”</p>
+<p><strong>Cuándo usar:</strong></p>
+<ul>
+<li>Cuando los <strong>falsos negativos son críticos</strong></li>
+<li>Ejemplo: Detección de enfermedades graves (no queremos dejar casos sin diagnosticar)</li>
+</ul>
+</section>
+<section id="especificidad-specificity-true-negative-rate" class="level4">
+<h4 class="anchored" data-anchor-id="especificidad-specificity-true-negative-rate">4. Especificidad (Specificity, True Negative Rate)</h4>
+<p>La <strong>especificidad</strong> mide la proporción de casos negativos correctamente identificados:</p>
+<p><span class="math display">\[\text{Specificity} = \frac{VN}{VN + FP} = \frac{VN}{\text{Total Casos Negativos Reales}}\]</span></p>
+<p><strong>Interpretación</strong>: “De todos los casos que son realmente negativos, ¿qué proporción identificó correctamente el modelo?”</p>
+</section>
+<section id="f1-score" class="level4">
+<h4 class="anchored" data-anchor-id="f1-score">5. F1-Score</h4>
+<p>El <strong>F1-Score</strong> es la media armónica de precisión y recall:</p>
+<p><span class="math display">\[F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2 \cdot VP}{2 \cdot VP + FP + FN}\]</span></p>
+<p><strong>Propiedades:</strong></p>
+<ul>
+<li>Rango: <span class="math inline">\([0, 1]\)</span> (mayor es mejor)</li>
+<li>Penaliza desbalances entre precision y recall</li>
+<li>Si precision = recall, entonces <span class="math inline">\(F_1 = \text{precision} = \text{recall}\)</span></li>
+</ul>
+<p><strong>Cuándo usar:</strong></p>
+<ul>
+<li>Cuando se necesita un <strong>balance</strong> entre precision y recall</li>
+<li>Con <strong>clases desbalanceadas</strong></li>
+<li>Como métrica única de comparación entre modelos</li>
+</ul>
+</section>
+<section id="f-beta-score" class="level4">
+<h4 class="anchored" data-anchor-id="f-beta-score">6. F-Beta Score</h4>
+<p>Generalización del F1-Score que permite ponderar la importancia relativa de precision y recall:</p>
+<p><span class="math display">\[F_\beta = (1 + \beta^2) \cdot \frac{\text{Precision} \cdot \text{Recall}}{\beta^2 \cdot \text{Precision} + \text{Recall}}\]</span></p>
+<p>Donde <span class="math inline">\(\beta\)</span> controla el peso relativo:</p>
+<ul>
+<li><span class="math inline">\(\beta &lt; 1\)</span>: Más peso a la precisión (ej: <span class="math inline">\(F_{0.5}\)</span>)</li>
+<li><span class="math inline">\(\beta = 1\)</span>: Peso igual (F1-Score)</li>
+<li><span class="math inline">\(\beta &gt; 1\)</span>: Más peso al recall (ej: <span class="math inline">\(F_2\)</span>)</li>
+</ul>
+</section>
+</section>
+<section id="umbral-de-decisión" class="level3">
+<h3 class="anchored" data-anchor-id="umbral-de-decisión">Umbral de Decisión</h3>
+<p>Hasta ahora hemos hablado de “predicciones” como si fueran categóricas (clase 0 o clase 1), pero es importante entender que la mayoría de los modelos de clasificación en realidad producen <strong>probabilidades</strong> que luego se convierten en predicciones discretas mediante un <strong>umbral de decisión</strong> (decision threshold).</p>
+<section id="de-probabilidades-a-predicciones" class="level4">
+<h4 class="anchored" data-anchor-id="de-probabilidades-a-predicciones">De Probabilidades a Predicciones</h4>
+<p>Los modelos probabilísticos (como regresión logística, Naive Bayes, redes neuronales) no predicen directamente una clase, sino que estiman:</p>
+<p><span class="math display">\[\hat{p} = P(Y = 1 | \mathbf{x})\]</span></p>
+<p>Para convertir esta probabilidad en una predicción categórica, se utiliza un <strong>umbral de decisión</strong> <span class="math inline">\(\tau\)</span>:</p>
+<p><span class="math display">\[\hat{y} = \begin{cases}
+1 &amp; \text{si } \hat{p} \geq \tau \\
+0 &amp; \text{si } \hat{p} &lt; \tau
+\end{cases}\]</span></p>
+</section>
+<section id="el-umbral-estándar-0.5" class="level4">
+<h4 class="anchored" data-anchor-id="el-umbral-estándar-0.5">El Umbral Estándar: 0.5</h4>
+<p>Por defecto, la mayoría de las implementaciones usan <span class="math inline">\(\tau = 0.5\)</span>:</p>
+<ul>
+<li>Si <span class="math inline">\(P(Y = 1 | \mathbf{x}) \geq 0.5\)</span> → Predecir clase positiva (1)</li>
+<li>Si <span class="math inline">\(P(Y = 1 | \mathbf{x}) &lt; 0.5\)</span> → Predecir clase negativa (0)</li>
+</ul>
+<p>Esta elección parece natural desde una perspectiva bayesiana (seleccionar la clase más probable), pero <strong>no siempre es óptima</strong> en la práctica.</p>
+</section>
+<section id="por-qué-cambiar-el-umbral" class="level4">
+<h4 class="anchored" data-anchor-id="por-qué-cambiar-el-umbral">¿Por Qué Cambiar el Umbral?</h4>
+<p>El umbral de decisión debe ajustarse según el <strong>contexto y los costos relativos de los errores</strong>:</p>
+<p><strong>Ejemplo 1: Detección de Cáncer</strong></p>
+<ul>
+<li><strong>Costo de FN (no detectar cáncer)</strong>: Muy alto (riesgo de vida)</li>
+<li><strong>Costo de FP (falsa alarma)</strong>: Moderado (pruebas adicionales, ansiedad)</li>
+<li><strong>Solución</strong>: Usar <span class="math inline">\(\tau = 0.3\)</span> o menor → Más sensible, captura más casos positivos</li>
+</ul>
+<p><strong>Ejemplo 2: Recomendación de Productos Premium</strong></p>
+<ul>
+<li><strong>Costo de FP (recomendar a quien no comprará)</strong>: Alto (recursos desperdiciados)</li>
+<li><strong>Costo de FN (no recomendar a comprador potencial)</strong>: Moderado</li>
+<li><strong>Solución</strong>: Usar <span class="math inline">\(\tau = 0.7\)</span> o mayor → Más preciso, solo casos muy probables</li>
+</ul>
+<p><strong>Ejemplo 3: Filtro de Spam</strong></p>
+<ul>
+<li><strong>Costo de FP (email legítimo marcado como spam)</strong>: Alto (pérdida de información importante)</li>
+<li><strong>Costo de FN (spam no detectado)</strong>: Bajo (molestia menor)</li>
+<li><strong>Solución</strong>: Usar <span class="math inline">\(\tau = 0.6\)</span> → Balance hacia alta precisión</li>
+</ul>
+</section>
+<section id="impacto-del-umbral-en-las-métricas" class="level4">
+<h4 class="anchored" data-anchor-id="impacto-del-umbral-en-las-métricas">Impacto del Umbral en las Métricas</h4>
+<p>Veamos con un ejemplo concreto cómo el umbral afecta las predicciones:</p>
+<div id="threshold-example" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, precision_score, recall_score, f1_score</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: 10 casos con sus probabilidades predichas y etiquetas reales</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>n_ejemplos <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular probabilidades y etiquetas reales</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>data_ejemplo <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ID'</span>: <span class="bu">range</span>(<span class="dv">1</span>, n_ejemplos <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Probabilidad'</span>: [<span class="fl">0.15</span>, <span class="fl">0.32</span>, <span class="fl">0.48</span>, <span class="fl">0.55</span>, <span class="fl">0.62</span>, <span class="fl">0.71</span>, <span class="fl">0.78</span>, <span class="fl">0.85</span>, <span class="fl">0.91</span>, <span class="fl">0.95</span>],</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Clase_Real'</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"DATOS DE EJEMPLO"</span>)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data_ejemplo.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Probar diferentes umbrales</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>umbrales <span class="op">=</span> [<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>]</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"IMPACTO DEL UMBRAL EN LAS PREDICCIONES"</span>)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tau <span class="kw">in</span> umbrales:</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aplicar umbral</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    predicciones <span class="op">=</span> (data_ejemplo[<span class="st">'Probabilidad'</span>] <span class="op">&gt;=</span> tau).astype(<span class="bu">int</span>)</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular métricas</span></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    precision <span class="op">=</span> precision_score(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones, zero_division<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> recall_score(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones)</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    f1 <span class="op">=</span> f1_score(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones, zero_division<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">60</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Umbral τ = </span><span class="sc">{</span>tau<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">60</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Predicciones: </span><span class="sc">{</span>predicciones<span class="sc">.</span>tolist()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"VP=</span><span class="sc">{</span>cm[<span class="dv">1</span>,<span class="dv">1</span>]<span class="sc">}</span><span class="ss">, VN=</span><span class="sc">{</span>cm[<span class="dv">0</span>,<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, FP=</span><span class="sc">{</span>cm[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">}</span><span class="ss">, FN=</span><span class="sc">{</span>cm[<span class="dv">1</span>,<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Recall:    </span><span class="sc">{</span>recall<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"F1-Score:  </span><span class="sc">{</span>f1<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DATOS DE EJEMPLO
+============================================================
+ ID  Probabilidad  Clase_Real
+  1          0.15           0
+  2          0.32           0
+  3          0.48           0
+  4          0.55           1
+  5          0.62           1
+  6          0.71           0
+  7          0.78           1
+  8          0.85           1
+  9          0.91           1
+ 10          0.95           1
+
+============================================================
+IMPACTO DEL UMBRAL EN LAS PREDICCIONES
+============================================================
+
+============================================================
+Umbral τ = 0.3
+============================================================
+Predicciones: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+VP=6, VN=1, FP=3, FN=0
+Precision: 0.667
+Recall:    1.000
+F1-Score:  0.800
+
+============================================================
+Umbral τ = 0.5
+============================================================
+Predicciones: [0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
+VP=6, VN=3, FP=1, FN=0
+Precision: 0.857
+Recall:    1.000
+F1-Score:  0.923
+
+============================================================
+Umbral τ = 0.7
+============================================================
+Predicciones: [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+VP=4, VN=3, FP=1, FN=2
+Precision: 0.800
+Recall:    0.667
+F1-Score:  0.727</code></pre>
+</div>
+</div>
+<p>Como podemos observar:</p>
+<ul>
+<li><strong>Umbral bajo (τ = 0.3)</strong>: Más predicciones positivas → Mayor recall, menor precision</li>
+<li><strong>Umbral medio (τ = 0.5)</strong>: Caso estándar (balance)</li>
+<li><strong>Umbral alto (τ = 0.7)</strong>: Menos predicciones positivas → Mayor precision, menor recall</li>
+</ul>
+</section>
+<section id="selección-del-umbral-óptimo" class="level4">
+<h4 class="anchored" data-anchor-id="selección-del-umbral-óptimo">Selección del Umbral Óptimo</h4>
+<p>La selección del umbral óptimo depende de:</p>
+<ol type="1">
+<li><strong>Costos de negocio</strong>: Cuantificar el costo relativo de FP vs FN</li>
+<li><strong>Métricas objetivo</strong>: Optimizar para la métrica más relevante (precision, recall, F1, etc.)</li>
+<li><strong>Restricciones operacionales</strong>: Capacidad para manejar volumen de casos positivos</li>
+<li><strong>Validación empírica</strong>: Usar curvas Precision-Recall o ROC para explorar opciones</li>
+</ol>
+</section>
+</section>
+<section id="trade-off-entre-precisión-y-recall" class="level3">
+<h3 class="anchored" data-anchor-id="trade-off-entre-precisión-y-recall">Trade-off entre Precisión y Recall</h3>
+<p>Ahora que comprendemos el concepto de umbral de decisión, podemos analizar el <strong>trade-off fundamental</strong> entre precision y recall:</p>
+<ul>
+<li><strong>Aumentar el umbral</strong> (<span class="math inline">\(\tau \uparrow\)</span>) → Más conservador → ↑ Precision, ↓ Recall</li>
+<li><strong>Disminuir el umbral</strong> (<span class="math inline">\(\tau \downarrow\)</span>) → Más liberal → ↓ Precision, ↑ Recall</li>
+</ul>
+<p>Este trade-off es inherente a cualquier clasificador probabilístico y no puede eliminarse, solo puede balancearse según las necesidades del problema.</p>
+<div id="cell-precision-recall-tradeoff" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div id="precision-recall-tradeoff" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/precision-recall-tradeoff-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Trade-off entre Precisión y Recall según el umbral de decisión</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Métricas con umbral = 0.5:
+  Precision: 0.789
+  Recall:    0.602
+  F1-Score:  0.683</code></pre>
+</div>
+</div>
+</section>
+<section id="curva-roc-y-auc" class="level3">
+<h3 class="anchored" data-anchor-id="curva-roc-y-auc">Curva ROC y AUC</h3>
+<section id="curva-roc-receiver-operating-characteristic" class="level4">
+<h4 class="anchored" data-anchor-id="curva-roc-receiver-operating-characteristic">Curva ROC (Receiver Operating Characteristic)</h4>
+<p>La <strong>curva ROC</strong> visualiza el desempeño del clasificador en todos los posibles umbrales de decisión, graficando:</p>
+<ul>
+<li><strong>Eje Y</strong>: Tasa de Verdaderos Positivos (TPR = Recall = Sensibilidad)</li>
+<li><strong>Eje X</strong>: Tasa de Falsos Positivos (FPR = 1 - Especificidad)</li>
+</ul>
+<p><span class="math display">\[\text{TPR} = \frac{VP}{VP + FN}, \quad \text{FPR} = \frac{FP}{FP + VN}\]</span></p>
+<p><strong>Puntos de referencia:</strong></p>
+<ul>
+<li>Clasificador perfecto: TPR = 1, FPR = 0 (esquina superior izquierda)</li>
+<li>Clasificador aleatorio: Línea diagonal (TPR = FPR)</li>
+<li>Peor clasificador: TPR = 0, FPR = 1</li>
+</ul>
+</section>
+<section id="auc-area-under-the-curve" class="level4">
+<h4 class="anchored" data-anchor-id="auc-area-under-the-curve">AUC (Area Under the Curve)</h4>
+<p>El <strong>AUC</strong> es el área bajo la curva ROC:</p>
+<p><span class="math display">\[\text{AUC} \in [0, 1]\]</span></p>
+<p><strong>Interpretación:</strong></p>
+<ul>
+<li>AUC = 1.0: Clasificador perfecto</li>
+<li>AUC = 0.9-1.0: Excelente</li>
+<li>AUC = 0.8-0.9: Muy bueno</li>
+<li>AUC = 0.7-0.8: Bueno</li>
+<li>AUC = 0.6-0.7: Regular</li>
+<li>AUC = 0.5: No mejor que azar</li>
+<li>AUC &lt; 0.5: Peor que azar (predicciones invertidas)</li>
+</ul>
+<p><strong>Interpretación probabilística</strong></p>
+<p>El AUC representa la probabilidad de que el modelo asigne una mayor probabilidad a un ejemplo positivo aleatorio que a un ejemplo negativo aleatorio.</p>
+<div id="cell-roc-curve-comparison" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div id="roc-curve-comparison" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/roc-curve-comparison-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Curvas ROC y AUC para comparación de modelos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ejemplo-completo-evaluación-de-un-modelo" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-completo-evaluación-de-un-modelo">Ejemplo Completo: Evaluación de un Modelo</h3>
+<div id="complete-evaluation-example" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (classification_report, confusion_matrix,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                            accuracy_score, precision_score, recall_score,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                            f1_score, roc_auc_score)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar el modelo de Regresión Logística entrenado anteriormente</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>y_proba <span class="op">=</span> model.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EVALUACIÓN COMPLETA DEL MODELO DE CLASIFICACIÓN"</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Matriz de Confusión</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">1. MATRIZ DE CONFUSIÓN"</span>)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>cm_df <span class="op">=</span> pd.DataFrame(cm,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                     columns<span class="op">=</span>[<span class="st">'Predicho Negativo (0)'</span>, <span class="st">'Predicho Positivo (1)'</span>],</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                     index<span class="op">=</span>[<span class="st">'Real Negativo (0)'</span>, <span class="st">'Real Positivo (1)'</span>])</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cm_df)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer valores</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>VP <span class="op">=</span> cm[<span class="dv">1</span>, <span class="dv">1</span>]  <span class="co"># Verdaderos Positivos</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>VN <span class="op">=</span> cm[<span class="dv">0</span>, <span class="dv">0</span>]  <span class="co"># Verdaderos Negativos</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>FP <span class="op">=</span> cm[<span class="dv">0</span>, <span class="dv">1</span>]  <span class="co"># Falsos Positivos</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>FN <span class="op">=</span> cm[<span class="dv">1</span>, <span class="dv">0</span>]  <span class="co"># Falsos Negativos</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">  VP (Verdaderos Positivos): </span><span class="sc">{</span>VP<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  VN (Verdaderos Negativos): </span><span class="sc">{</span>VN<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  FP (Falsos Positivos):     </span><span class="sc">{</span>FP<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  FN (Falsos Negativos):     </span><span class="sc">{</span>FN<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Métricas principales</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">2. MÉTRICAS DE DESEMPEÑO"</span>)</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>precision <span class="op">=</span> precision_score(y_test, y_pred)</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>recall <span class="op">=</span> recall_score(y_test, y_pred)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> f1_score(y_test, y_pred)</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>specificity <span class="op">=</span> VN <span class="op">/</span> (VN <span class="op">+</span> FP)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>auc_score <span class="op">=</span> roc_auc_score(y_test, y_proba)</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>metricas <span class="op">=</span> {</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Métrica'</span>: [<span class="st">'Accuracy'</span>, <span class="st">'Precision'</span>, <span class="st">'Recall (Sensibilidad)'</span>,</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Specificity'</span>, <span class="st">'F1-Score'</span>, <span class="st">'AUC-ROC'</span>],</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Valor'</span>: [accuracy, precision, recall, specificity, f1, auc_score],</span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Interpretación'</span>: [</span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Proporción de predicciones correctas'</span>,</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">'De las predicciones positivas, proporción correcta'</span>,</span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">'De los casos positivos reales, proporción detectada'</span>,</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">'De los casos negativos reales, proporción correcta'</span>,</span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Media armónica de Precision y Recall'</span>,</span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Área bajo la curva ROC'</span></span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a>metricas_df <span class="op">=</span> pd.DataFrame(metricas)</span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a>metricas_df[<span class="st">'Valor'</span>] <span class="op">=</span> metricas_df[<span class="st">'Valor'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f'</span><span class="sc">{</span>x<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metricas_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Reporte de clasificación completo</span></span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">3. REPORTE DE CLASIFICACIÓN DETALLADO"</span>)</span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred, target_names<span class="op">=</span>[<span class="st">'Clase 0'</span>, <span class="st">'Clase 1'</span>]))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+EVALUACIÓN COMPLETA DEL MODELO DE CLASIFICACIÓN
+======================================================================
+
+1. MATRIZ DE CONFUSIÓN
+----------------------------------------------------------------------
+                   Predicho Negativo (0)  Predicho Positivo (1)
+Real Negativo (0)                    192                     15
+Real Positivo (1)                     37                     56
+
+  VP (Verdaderos Positivos): 56
+  VN (Verdaderos Negativos): 192
+  FP (Falsos Positivos):     15
+  FN (Falsos Negativos):     37
+
+2. MÉTRICAS DE DESEMPEÑO
+----------------------------------------------------------------------
+              Métrica Valor                                      Interpretación
+             Accuracy 0.827                Proporción de predicciones correctas
+            Precision 0.789  De las predicciones positivas, proporción correcta
+Recall (Sensibilidad) 0.602 De los casos positivos reales, proporción detectada
+          Specificity 0.928  De los casos negativos reales, proporción correcta
+             F1-Score 0.683                Media armónica de Precision y Recall
+              AUC-ROC 0.872                              Área bajo la curva ROC
+
+3. REPORTE DE CLASIFICACIÓN DETALLADO
+----------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+     Clase 0       0.84      0.93      0.88       207
+     Clase 1       0.79      0.60      0.68        93
+
+    accuracy                           0.83       300
+   macro avg       0.81      0.76      0.78       300
+weighted avg       0.82      0.83      0.82       300
+</code></pre>
+</div>
+</div>
+<div id="cell-confusion-matrix-visualization" class="cell" data-fig-height="6" data-fig-width="8" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización mejorada de la matriz de confusión</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear matriz de confusión normalizada</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>cm_normalized <span class="op">=</span> cm.astype(<span class="st">'float'</span>) <span class="op">/</span> cm.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)[:, np.newaxis]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear anotaciones personalizadas con conteos y porcentajes</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>annot <span class="op">=</span> np.empty_like(cm, dtype<span class="op">=</span><span class="bu">object</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(cm.shape[<span class="dv">0</span>]):</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(cm.shape[<span class="dv">1</span>]):</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        annot[i, j] <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>cm[i, j]<span class="sc">}</span><span class="ch">\n</span><span class="ss">(</span><span class="sc">{</span>cm_normalized[i, j]<span class="sc">:.1%}</span><span class="ss">)'</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear heatmap</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cm_normalized, annot<span class="op">=</span>annot, fmt<span class="op">=</span><span class="st">''</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>            xticklabels<span class="op">=</span>[<span class="st">'Predicho: 0'</span>, <span class="st">'Predicho: 1'</span>],</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>            yticklabels<span class="op">=</span>[<span class="st">'Real: 0'</span>, <span class="st">'Real: 1'</span>],</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>            cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Proporción'</span>},</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>            vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">1</span>, linewidths<span class="op">=</span><span class="dv">2</span>, linecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Matriz de Confusión (Accuracy = </span><span class="sc">{</span>accuracy<span class="sc">:.3f}</span><span class="ss">)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Clase Real'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Clase Predicha'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir etiquetas descriptivas</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="ss">f'VN</span><span class="ch">\n</span><span class="sc">{</span>VN<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightgreen'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="ss">f'FP</span><span class="ch">\n</span><span class="sc">{</span>FP<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightcoral'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="ss">f'FN</span><span class="ch">\n</span><span class="sc">{</span>FN<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightcoral'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="ss">f'VP</span><span class="ch">\n</span><span class="sc">{</span>VP<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightgreen'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="confusion-matrix-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/confusion-matrix-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Visualización de la Matriz de Confusión</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="selección-de-métricas-según-el-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="selección-de-métricas-según-el-contexto">Selección de Métricas según el Contexto</h3>
+<p>La elección de la métrica apropiada depende del problema específico:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 52%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Contexto</th>
+<th>Métrica Recomendada</th>
+<th>Razón</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Clases balanceadas</strong></td>
+<td>Accuracy</td>
+<td>Proporción general de aciertos es suficiente</td>
+</tr>
+<tr class="even">
+<td><strong>Clases desbalanceadas</strong></td>
+<td>F1-Score, AUC-ROC</td>
+<td>Accuracy puede ser engañosa</td>
+</tr>
+<tr class="odd">
+<td><strong>Costo alto de FP</strong></td>
+<td>Precision</td>
+<td>Minimizar falsos positivos</td>
+</tr>
+<tr class="even">
+<td><strong>Costo alto de FN</strong></td>
+<td>Recall</td>
+<td>Minimizar falsos negativos</td>
+</tr>
+<tr class="odd">
+<td><strong>Balance entre FP y FN</strong></td>
+<td>F1-Score</td>
+<td>Considera ambos errores</td>
+</tr>
+<tr class="even">
+<td><strong>Comparación de modelos</strong></td>
+<td>AUC-ROC</td>
+<td>Independiente del umbral</td>
+</tr>
+<tr class="odd">
+<td><strong>Diagnóstico médico</strong></td>
+<td>Recall, AUC-ROC</td>
+<td>No perder casos positivos</td>
+</tr>
+<tr class="even">
+<td><strong>Filtro de spam</strong></td>
+<td>Precision, F1-Score</td>
+<td>No bloquear emails legítimos</td>
+</tr>
+<tr class="odd">
+<td><strong>Detección de fraude</strong></td>
+<td>F1-Score, Recall</td>
+<td>Balance según costo relativo</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="métricas-para-clasificación-multiclase" class="level3">
+<h3 class="anchored" data-anchor-id="métricas-para-clasificación-multiclase">Métricas para Clasificación Multiclase</h3>
+<p>Para problemas con <span class="math inline">\(K &gt; 2\)</span> clases, las métricas se generalizan de dos formas:</p>
+<section id="macro-averaging" class="level4">
+<h4 class="anchored" data-anchor-id="macro-averaging">1. Macro-averaging</h4>
+<p>Calcula la métrica para cada clase por separado y promedia:</p>
+<p><span class="math display">\[\text{Precision}_{\text{macro}} = \frac{1}{K} \sum_{k=1}^{K} \text{Precision}_k\]</span></p>
+<p><strong>Ventaja</strong>: Trata todas las clases por igual (útil si todas las clases son igualmente importantes)</p>
+</section>
+<section id="weighted-averaging" class="level4">
+<h4 class="anchored" data-anchor-id="weighted-averaging">2. Weighted-averaging</h4>
+<p>Promedio ponderado por el número de muestras reales de cada clase:</p>
+<p><span class="math display">\[\text{Precision}_{\text{weighted}} = \sum_{k=1}^{K} w_k \cdot \text{Precision}_k\]</span></p>
+<p>Donde <span class="math inline">\(w_k = \frac{n_k}{n}\)</span> (proporción de muestras de la clase <span class="math inline">\(k\)</span>)</p>
+<p><strong>Ventaja</strong>: Tiene en cuenta el desbalance de clases</p>
+<div id="multiclass-metrics-example" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo con dataset Iris (3 clases)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris()</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>X_iris_full <span class="op">=</span> iris.data</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>y_iris_full <span class="op">=</span> iris.target</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>X_train_iris, X_test_iris, y_train_iris, y_test_iris <span class="op">=</span> train_test_split(</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    X_iris_full, y_iris_full, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_iris_full</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar modelo</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>model_iris <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>model_iris.fit(X_train_iris, y_train_iris)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>y_pred_iris <span class="op">=</span> model_iris.predict(X_test_iris)</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EVALUACIÓN MULTICLASE (Dataset Iris - 3 clases)"</span>)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Reporte de clasificación con macro y weighted averaging</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Reporte de Clasificación:"</span>)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_iris, y_pred_iris,</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>                          target_names<span class="op">=</span>iris.target_names,</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>                          digits<span class="op">=</span><span class="dv">3</span>))</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión multiclase</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matriz de Confusión:"</span>)</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>cm_iris <span class="op">=</span> confusion_matrix(y_test_iris, y_pred_iris)</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>cm_iris_df <span class="op">=</span> pd.DataFrame(cm_iris,</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>                          columns<span class="op">=</span>[<span class="ss">f'Pred: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> name <span class="kw">in</span> iris.target_names],</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>                          index<span class="op">=</span>[<span class="ss">f'Real: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> name <span class="kw">in</span> iris.target_names])</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cm_iris_df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+EVALUACIÓN MULTICLASE (Dataset Iris - 3 clases)
+======================================================================
+
+Reporte de Clasificación:
+              precision    recall  f1-score   support
+
+      setosa      1.000     1.000     1.000        15
+  versicolor      0.875     0.933     0.903        15
+   virginica      0.929     0.867     0.897        15
+
+    accuracy                          0.933        45
+   macro avg      0.935     0.933     0.933        45
+weighted avg      0.935     0.933     0.933        45
+
+
+Matriz de Confusión:
+                  Pred: setosa  Pred: versicolor  Pred: virginica
+Real: setosa                15                 0                0
+Real: versicolor             0                14                1
+Real: virginica              0                 2               13</code></pre>
+</div>
+</div>
+<div id="cell-multiclass-confusion-matrix" class="cell" data-fig-height="6" data-fig-width="8" data-execution_count="22">
+<div class="cell-output cell-output-display">
+<div id="multiclass-confusion-matrix" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/multiclass-confusion-matrix-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Matriz de Confusión para Clasificación Multiclase</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="consideraciones-finales" class="level3">
+<h3 class="anchored" data-anchor-id="consideraciones-finales">Consideraciones Finales</h3>
+<p><strong>Principios clave para la evaluación de modelos de clasificación:</strong></p>
+<ol type="1">
+<li><strong>Nunca confíes solo en accuracy</strong> - Especialmente con clases desbalanceadas</li>
+<li><strong>Analiza la matriz de confusión</strong> - Comprende qué tipos de errores comete tu modelo</li>
+<li><strong>Selecciona métricas según el contexto</strong> - Considera el costo relativo de FP vs FN</li>
+<li><strong>Usa múltiples métricas</strong> - Una sola métrica raramente cuenta toda la historia</li>
+<li><strong>Evalúa en datos independientes</strong> - Usa conjuntos de validación/prueba no vistos</li>
+<li><strong>Considera el umbral de decisión</strong> - El umbral 0.5 no siempre es óptimo</li>
+<li><strong>Visualiza el desempeño</strong> - Curvas ROC y Precision-Recall proveen información valiosa</li>
+</ol>
+<p>La evaluación rigurosa del desempeño es fundamental para construir modelos de clasificación confiables y tomar decisiones informadas sobre su uso en aplicaciones del mundo real.</p>
+
+
 </section>
 </section>
 

@@ -1170,3 +1170,688 @@ Esto confirma que en 10 años (de 20 a 30), los odds se multiplican por $(0.923)
 | $e^{\beta_j} < 1$ | Odds disminuyen | 0.923: odds bajan 7.7% por año |
 | $e^{\beta_j} = 2$ | Odds se duplican | - |
 | $e^{\beta_j} = 0.5$ | Odds se reducen a la mitad | - |
+
+## Métricas de Evaluación de Modelos de Clasificación
+
+Una vez entrenado un modelo de clasificación, necesitamos evaluar su desempeño de manera rigurosa. Mientras que las funciones de pérdida (como Brier Score y Log Loss) son útiles durante el entrenamiento, las **métricas de evaluación** nos permiten interpretar el rendimiento del modelo desde diferentes perspectivas y tomar decisiones informadas sobre su uso en producción.
+
+### La Matriz de Confusión: Fundamento de las Métricas
+
+La **matriz de confusión** es la herramienta fundamental para entender el comportamiento de un clasificador binario. Para clasificación binaria (clase positiva = 1, clase negativa = 0), la matriz tiene la siguiente estructura:
+
+|                    | Predicción Positiva (1) | Predicción Negativa (0) |
+|-------------------|------------------------|------------------------|
+| **Clase Real Positiva (1)** | Verdaderos Positivos (VP) | Falsos Negativos (FN) |
+| **Clase Real Negativa (0)** | Falsos Positivos (FP) | Verdaderos Negativos (VN) |
+
+Donde:
+
+- **Verdaderos Positivos (VP)**: Casos positivos correctamente identificados
+- **Verdaderos Negativos (VN)**: Casos negativos correctamente identificados
+- **Falsos Positivos (FP)**: Casos negativos incorrectamente clasificados como positivos (Error Tipo I)
+- **Falsos Negativos (FN)**: Casos positivos incorrectamente clasificados como negativos (Error Tipo II)
+
+#### Interpretación en Contexto
+
+La importancia relativa de cada tipo de error depende del contexto de aplicación:
+
+**Ejemplo 1: Detección de Spam**
+
+- **FP (Error Tipo I)**: Email legítimo marcado como spam → Usuario pierde email importante
+- **FN (Error Tipo II)**: Spam no detectado → Usuario recibe spam (menor consecuencia)
+- **Prioridad**: Minimizar FP (alta precisión)
+
+**Ejemplo 2: Diagnóstico de Cáncer**
+
+- **FP (Error Tipo I)**: Falso positivo → Paciente sano sometido a pruebas adicionales
+- **FN (Error Tipo II)**: Falso negativo → Paciente enfermo no recibe tratamiento
+- **Prioridad**: Minimizar FN (alta sensibilidad/recall)
+
+**Ejemplo 3: Detección de Fraude Bancario**
+
+- **FP (Error Tipo I)**: Transacción legítima bloqueada → Cliente molesto
+- **FN (Error Tipo II)**: Fraude no detectado → Pérdida económica
+- **Prioridad**: Balance entre ambos (F1-score)
+
+### Métricas Derivadas de la Matriz de Confusión
+
+#### 1. Exactitud (Accuracy)
+
+La **exactitud** es la proporción de predicciones correctas sobre el total:
+
+$$\text{Accuracy} = \frac{VP + VN}{VP + VN + FP + FN}$$
+
+**Ventajas:**
+
+- ✓ Interpretación intuitiva
+- ✓ Métrica general del desempeño
+
+**Desventajas:**
+
+- ✗ Engañosa con **clases desbalanceadas**
+- ✗ No distingue entre tipos de errores
+
+::: {.callout-caution collapse="true"}
+## Limitación
+
+Si el 95% de los emails son legítimos, un clasificador que siempre predice "no spam" tendrá 95% de accuracy, pero es completamente inútil.
+
+:::
+
+#### 2. Precisión (Precision)
+
+La **precisión** mide la proporción de predicciones positivas que son realmente positivas:
+
+$$\text{Precision} = \frac{VP}{VP + FP} = \frac{VP}{\text{Total Predicciones Positivas}}$$
+
+**Interpretación**: "De todos los casos que el modelo predijo como positivos, ¿qué proporción es realmente positiva?"
+
+**Cuándo usar:**
+
+- Cuando los **falsos positivos son costosos**
+- Ejemplo: Recomendación de productos (no queremos recomendar productos irrelevantes)
+
+#### 3. Sensibilidad (Recall, Sensitivity, True Positive Rate)
+
+La **sensibilidad** o **recall** mide la proporción de casos positivos que fueron correctamente identificados:
+
+$$\text{Recall} = \frac{VP}{VP + FN} = \frac{VP}{\text{Total Casos Positivos Reales}}$$
+
+**Interpretación**: "De todos los casos que son realmente positivos, ¿qué proporción detectó el modelo?"
+
+**Cuándo usar:**
+
+- Cuando los **falsos negativos son críticos**
+- Ejemplo: Detección de enfermedades graves (no queremos dejar casos sin diagnosticar)
+
+#### 4. Especificidad (Specificity, True Negative Rate)
+
+La **especificidad** mide la proporción de casos negativos correctamente identificados:
+
+$$\text{Specificity} = \frac{VN}{VN + FP} = \frac{VN}{\text{Total Casos Negativos Reales}}$$
+
+**Interpretación**: "De todos los casos que son realmente negativos, ¿qué proporción identificó correctamente el modelo?"
+
+#### 5. F1-Score
+
+El **F1-Score** es la media armónica de precisión y recall:
+
+$$F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2 \cdot VP}{2 \cdot VP + FP + FN}$$
+
+**Propiedades:**
+
+- Rango: $[0, 1]$ (mayor es mejor)
+- Penaliza desbalances entre precision y recall
+- Si precision = recall, entonces $F_1 = \text{precision} = \text{recall}$
+
+**Cuándo usar:**
+
+- Cuando se necesita un **balance** entre precision y recall
+- Con **clases desbalanceadas**
+- Como métrica única de comparación entre modelos
+
+#### 6. F-Beta Score
+
+Generalización del F1-Score que permite ponderar la importancia relativa de precision y recall:
+
+$$F_\beta = (1 + \beta^2) \cdot \frac{\text{Precision} \cdot \text{Recall}}{\beta^2 \cdot \text{Precision} + \text{Recall}}$$
+
+Donde $\beta$ controla el peso relativo:
+
+- $\beta < 1$: Más peso a la precisión (ej: $F_{0.5}$)
+- $\beta = 1$: Peso igual (F1-Score)
+- $\beta > 1$: Más peso al recall (ej: $F_2$)
+
+### Umbral de Decisión
+
+Hasta ahora hemos hablado de "predicciones" como si fueran categóricas (clase 0 o clase 1), pero es importante entender que la mayoría de los modelos de clasificación en realidad producen **probabilidades** que luego se convierten en predicciones discretas mediante un **umbral de decisión** (decision threshold).
+
+#### De Probabilidades a Predicciones
+
+Los modelos probabilísticos (como regresión logística, Naive Bayes, redes neuronales) no predicen directamente una clase, sino que estiman:
+
+$$\hat{p} = P(Y = 1 | \mathbf{x})$$
+
+Para convertir esta probabilidad en una predicción categórica, se utiliza un **umbral de decisión** $\tau$:
+
+$$\hat{y} = \begin{cases}
+1 & \text{si } \hat{p} \geq \tau \\
+0 & \text{si } \hat{p} < \tau
+\end{cases}$$
+
+#### El Umbral Estándar: 0.5
+
+Por defecto, la mayoría de las implementaciones usan $\tau = 0.5$:
+
+- Si $P(Y = 1 | \mathbf{x}) \geq 0.5$ → Predecir clase positiva (1)
+- Si $P(Y = 1 | \mathbf{x}) < 0.5$ → Predecir clase negativa (0)
+
+Esta elección parece natural desde una perspectiva bayesiana (seleccionar la clase más probable), pero **no siempre es óptima** en la práctica.
+
+#### ¿Por Qué Cambiar el Umbral?
+
+El umbral de decisión debe ajustarse según el **contexto y los costos relativos de los errores**:
+
+**Ejemplo 1: Detección de Cáncer**
+
+- **Costo de FN (no detectar cáncer)**: Muy alto (riesgo de vida)
+- **Costo de FP (falsa alarma)**: Moderado (pruebas adicionales, ansiedad)
+- **Solución**: Usar $\tau = 0.3$ o menor → Más sensible, captura más casos positivos
+
+**Ejemplo 2: Recomendación de Productos Premium**
+
+- **Costo de FP (recomendar a quien no comprará)**: Alto (recursos desperdiciados)
+- **Costo de FN (no recomendar a comprador potencial)**: Moderado
+- **Solución**: Usar $\tau = 0.7$ o mayor → Más preciso, solo casos muy probables
+
+**Ejemplo 3: Filtro de Spam**
+
+- **Costo de FP (email legítimo marcado como spam)**: Alto (pérdida de información importante)
+- **Costo de FN (spam no detectado)**: Bajo (molestia menor)
+- **Solución**: Usar $\tau = 0.6$ → Balance hacia alta precisión
+
+#### Impacto del Umbral en las Métricas
+
+Veamos con un ejemplo concreto cómo el umbral afecta las predicciones:
+
+```{python}
+#| label: threshold-example
+#| echo: true
+
+import numpy as np
+import pandas as pd
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
+
+# Ejemplo: 10 casos con sus probabilidades predichas y etiquetas reales
+np.random.seed(42)
+n_ejemplos = 10
+
+# Simular probabilidades y etiquetas reales
+data_ejemplo = pd.DataFrame({
+    'ID': range(1, n_ejemplos + 1),
+    'Probabilidad': [0.15, 0.32, 0.48, 0.55, 0.62, 0.71, 0.78, 0.85, 0.91, 0.95],
+    'Clase_Real': [0, 0, 0, 1, 1, 0, 1, 1, 1, 1]
+})
+
+print("DATOS DE EJEMPLO")
+print("=" * 60)
+print(data_ejemplo.to_string(index=False))
+
+# Probar diferentes umbrales
+umbrales = [0.3, 0.5, 0.7]
+
+print("\n" + "=" * 60)
+print("IMPACTO DEL UMBRAL EN LAS PREDICCIONES")
+print("=" * 60)
+
+for tau in umbrales:
+    # Aplicar umbral
+    predicciones = (data_ejemplo['Probabilidad'] >= tau).astype(int)
+
+    # Calcular métricas
+    cm = confusion_matrix(data_ejemplo['Clase_Real'], predicciones)
+    precision = precision_score(data_ejemplo['Clase_Real'], predicciones, zero_division=0)
+    recall = recall_score(data_ejemplo['Clase_Real'], predicciones)
+    f1 = f1_score(data_ejemplo['Clase_Real'], predicciones, zero_division=0)
+
+    print(f"\n{'='*60}")
+    print(f"Umbral τ = {tau}")
+    print(f"{'='*60}")
+    print(f"Predicciones: {predicciones.tolist()}")
+    print(f"VP={cm[1,1]}, VN={cm[0,0]}, FP={cm[0,1]}, FN={cm[1,0]}")
+    print(f"Precision: {precision:.3f}")
+    print(f"Recall:    {recall:.3f}")
+    print(f"F1-Score:  {f1:.3f}")
+```
+
+Como podemos observar:
+
+- **Umbral bajo (τ = 0.3)**: Más predicciones positivas → Mayor recall, menor precision
+- **Umbral medio (τ = 0.5)**: Caso estándar (balance)
+- **Umbral alto (τ = 0.7)**: Menos predicciones positivas → Mayor precision, menor recall
+
+#### Selección del Umbral Óptimo
+
+La selección del umbral óptimo depende de:
+
+1. **Costos de negocio**: Cuantificar el costo relativo de FP vs FN
+2. **Métricas objetivo**: Optimizar para la métrica más relevante (precision, recall, F1, etc.)
+3. **Restricciones operacionales**: Capacidad para manejar volumen de casos positivos
+4. **Validación empírica**: Usar curvas Precision-Recall o ROC para explorar opciones
+
+### Trade-off entre Precisión y Recall
+
+Ahora que comprendemos el concepto de umbral de decisión, podemos analizar el **trade-off fundamental** entre precision y recall:
+
+- **Aumentar el umbral** ($\tau \uparrow$) → Más conservador → ↑ Precision, ↓ Recall
+- **Disminuir el umbral** ($\tau \downarrow$) → Más liberal → ↓ Precision, ↑ Recall
+
+Este trade-off es inherente a cualquier clasificador probabilístico y no puede eliminarse, solo puede balancearse según las necesidades del problema.
+
+```{python}
+#| label: precision-recall-tradeoff
+#| fig-cap: "Trade-off entre Precisión y Recall según el umbral de decisión"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import precision_recall_curve, roc_curve, auc
+
+# Generar datos
+np.random.seed(42)
+X, y = make_classification(n_samples=1000, n_features=20, n_informative=15,
+                          n_redundant=5, weights=[0.7, 0.3], flip_y=0.05)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Entrenar modelo
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+# Obtener probabilidades
+y_proba = model.predict_proba(X_test)[:, 1]
+
+# Calcular precision-recall para diferentes umbrales
+precision, recall, thresholds_pr = precision_recall_curve(y_test, y_proba)
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Panel 1: Precision vs Recall
+axes[0].plot(recall, precision, linewidth=2, color='blue')
+axes[0].fill_between(recall, precision, alpha=0.2)
+axes[0].set_xlabel('Recall (Sensibilidad)', fontsize=12)
+axes[0].set_ylabel('Precision', fontsize=12)
+axes[0].set_title('Curva Precision-Recall', fontsize=13)
+axes[0].grid(True, alpha=0.3)
+axes[0].set_xlim([0, 1])
+axes[0].set_ylim([0, 1])
+
+# Marcar algunos puntos importantes
+f1_scores = 2 * (precision * recall) / (precision + recall + 1e-10)
+best_f1_idx = np.argmax(f1_scores)
+axes[0].scatter(recall[best_f1_idx], precision[best_f1_idx],
+               color='red', s=100, zorder=5, label=f'Mejor F1={f1_scores[best_f1_idx]:.2f}')
+axes[0].legend()
+
+# Panel 2: Precision y Recall vs Umbral
+# Ajustar longitud de thresholds_pr para que coincida
+thresholds_plot = np.append(thresholds_pr, 1)  # Agregar umbral máximo
+
+axes[1].plot(thresholds_plot, precision, label='Precision', linewidth=2)
+axes[1].plot(thresholds_plot, recall, label='Recall', linewidth=2)
+axes[1].plot(thresholds_plot, f1_scores, label='F1-Score', linewidth=2, linestyle='--')
+axes[1].axvline(x=0.5, color='black', linestyle=':', linewidth=1, label='Umbral=0.5')
+axes[1].set_xlabel('Umbral de Decisión', fontsize=12)
+axes[1].set_ylabel('Valor de Métrica', fontsize=12)
+axes[1].set_title('Métricas vs Umbral de Decisión', fontsize=13)
+axes[1].legend(loc='best')
+axes[1].grid(True, alpha=0.3)
+axes[1].set_xlim([0, 1])
+axes[1].set_ylim([0, 1])
+
+plt.tight_layout()
+plt.show()
+
+# Imprimir estadísticas para umbral estándar (0.5)
+y_pred_05 = (y_proba >= 0.5).astype(int)
+from sklearn.metrics import precision_score, recall_score, f1_score
+print(f"Métricas con umbral = 0.5:")
+print(f"  Precision: {precision_score(y_test, y_pred_05):.3f}")
+print(f"  Recall:    {recall_score(y_test, y_pred_05):.3f}")
+print(f"  F1-Score:  {f1_score(y_test, y_pred_05):.3f}")
+```
+
+### Curva ROC y AUC
+
+#### Curva ROC (Receiver Operating Characteristic)
+
+La **curva ROC** visualiza el desempeño del clasificador en todos los posibles umbrales de decisión, graficando:
+
+- **Eje Y**: Tasa de Verdaderos Positivos (TPR = Recall = Sensibilidad)
+- **Eje X**: Tasa de Falsos Positivos (FPR = 1 - Especificidad)
+
+$$\text{TPR} = \frac{VP}{VP + FN}, \quad \text{FPR} = \frac{FP}{FP + VN}$$
+
+**Puntos de referencia:**
+
+- Clasificador perfecto: TPR = 1, FPR = 0 (esquina superior izquierda)
+- Clasificador aleatorio: Línea diagonal (TPR = FPR)
+- Peor clasificador: TPR = 0, FPR = 1
+
+#### AUC (Area Under the Curve)
+
+El **AUC** es el área bajo la curva ROC:
+
+$$\text{AUC} \in [0, 1]$$
+
+**Interpretación:**
+
+- AUC = 1.0: Clasificador perfecto
+- AUC = 0.9-1.0: Excelente
+- AUC = 0.8-0.9: Muy bueno
+- AUC = 0.7-0.8: Bueno
+- AUC = 0.6-0.7: Regular
+- AUC = 0.5: No mejor que azar
+- AUC < 0.5: Peor que azar (predicciones invertidas)
+
+**Interpretación probabilística**
+
+El AUC representa la probabilidad de que el modelo asigne una mayor probabilidad a un ejemplo positivo aleatorio que a un ejemplo negativo aleatorio.
+
+```{python}
+#| label: roc-curve-comparison
+#| fig-cap: "Curvas ROC y AUC para comparación de modelos"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: false
+
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+
+# Entrenar múltiples modelos
+modelos = {
+    'Regresión Logística': LogisticRegression(max_iter=1000),
+    'Naive Bayes': GaussianNB(),
+    'Árbol de Decisión': DecisionTreeClassifier(max_depth=5, random_state=42),
+    'Random Forest': RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
+}
+
+resultados_roc = {}
+
+for nombre, modelo in modelos.items():
+    modelo.fit(X_train, y_train)
+    y_proba = modelo.predict_proba(X_test)[:, 1]
+    fpr, tpr, _ = roc_curve(y_test, y_proba)
+    roc_auc = auc(fpr, tpr)
+    resultados_roc[nombre] = {'fpr': fpr, 'tpr': tpr, 'auc': roc_auc}
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Panel 1: Todas las curvas ROC
+colors = ['blue', 'green', 'red', 'purple']
+for (nombre, datos), color in zip(resultados_roc.items(), colors):
+    axes[0].plot(datos['fpr'], datos['tpr'], linewidth=2, color=color,
+                label=f"{nombre} (AUC={datos['auc']:.3f})")
+
+axes[0].plot([0, 1], [0, 1], 'k--', linewidth=1, label='Clasificador Aleatorio (AUC=0.5)')
+axes[0].set_xlabel('Tasa de Falsos Positivos (FPR)', fontsize=12)
+axes[0].set_ylabel('Tasa de Verdaderos Positivos (TPR)', fontsize=12)
+axes[0].set_title('Curvas ROC - Comparación de Modelos', fontsize=13)
+axes[0].legend(loc='lower right')
+axes[0].grid(True, alpha=0.3)
+axes[0].set_xlim([0, 1])
+axes[0].set_ylim([0, 1])
+
+# Panel 2: Comparación de AUC
+nombres_modelos = list(resultados_roc.keys())
+auc_values = [resultados_roc[n]['auc'] for n in nombres_modelos]
+
+bars = axes[1].barh(nombres_modelos, auc_values, color=colors, alpha=0.7)
+axes[1].axvline(x=0.5, color='black', linestyle='--', linewidth=1, label='Azar')
+axes[1].set_xlabel('AUC', fontsize=12)
+axes[1].set_title('Comparación de AUC por Modelo', fontsize=13)
+axes[1].set_xlim([0, 1])
+axes[1].grid(True, alpha=0.3, axis='x')
+
+# Añadir valores en las barras
+for bar, auc_val in zip(bars, auc_values):
+    width = bar.get_width()
+    axes[1].text(width + 0.02, bar.get_y() + bar.get_height()/2,
+                f'{auc_val:.3f}', va='center', fontsize=11)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Ejemplo Completo: Evaluación de un Modelo
+
+```{python}
+#| label: complete-evaluation-example
+#| echo: true
+
+from sklearn.metrics import (classification_report, confusion_matrix,
+                            accuracy_score, precision_score, recall_score,
+                            f1_score, roc_auc_score)
+import pandas as pd
+import seaborn as sns
+
+# Usar el modelo de Regresión Logística entrenado anteriormente
+y_pred = model.predict(X_test)
+y_proba = model.predict_proba(X_test)[:, 1]
+
+print("=" * 70)
+print("EVALUACIÓN COMPLETA DEL MODELO DE CLASIFICACIÓN")
+print("=" * 70)
+
+# 1. Matriz de Confusión
+print("\n1. MATRIZ DE CONFUSIÓN")
+print("-" * 70)
+cm = confusion_matrix(y_test, y_pred)
+cm_df = pd.DataFrame(cm,
+                     columns=['Predicho Negativo (0)', 'Predicho Positivo (1)'],
+                     index=['Real Negativo (0)', 'Real Positivo (1)'])
+print(cm_df)
+
+# Extraer valores
+VP = cm[1, 1]  # Verdaderos Positivos
+VN = cm[0, 0]  # Verdaderos Negativos
+FP = cm[0, 1]  # Falsos Positivos
+FN = cm[1, 0]  # Falsos Negativos
+
+print(f"\n  VP (Verdaderos Positivos): {VP}")
+print(f"  VN (Verdaderos Negativos): {VN}")
+print(f"  FP (Falsos Positivos):     {FP}")
+print(f"  FN (Falsos Negativos):     {FN}")
+
+# 2. Métricas principales
+print("\n2. MÉTRICAS DE DESEMPEÑO")
+print("-" * 70)
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+specificity = VN / (VN + FP)
+auc_score = roc_auc_score(y_test, y_proba)
+
+metricas = {
+    'Métrica': ['Accuracy', 'Precision', 'Recall (Sensibilidad)',
+                'Specificity', 'F1-Score', 'AUC-ROC'],
+    'Valor': [accuracy, precision, recall, specificity, f1, auc_score],
+    'Interpretación': [
+        'Proporción de predicciones correctas',
+        'De las predicciones positivas, proporción correcta',
+        'De los casos positivos reales, proporción detectada',
+        'De los casos negativos reales, proporción correcta',
+        'Media armónica de Precision y Recall',
+        'Área bajo la curva ROC'
+    ]
+}
+
+metricas_df = pd.DataFrame(metricas)
+metricas_df['Valor'] = metricas_df['Valor'].apply(lambda x: f'{x:.3f}')
+print(metricas_df.to_string(index=False))
+
+# 3. Reporte de clasificación completo
+print("\n3. REPORTE DE CLASIFICACIÓN DETALLADO")
+print("-" * 70)
+print(classification_report(y_test, y_pred, target_names=['Clase 0', 'Clase 1']))
+```
+
+```{python}
+#| label: confusion-matrix-visualization
+#| fig-cap: "Visualización de la Matriz de Confusión"
+#| fig-width: 8
+#| fig-height: 6
+#| echo: true
+
+# Visualización mejorada de la matriz de confusión
+plt.figure(figsize=(8, 6))
+
+# Crear matriz de confusión normalizada
+cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+# Crear anotaciones personalizadas con conteos y porcentajes
+annot = np.empty_like(cm, dtype=object)
+for i in range(cm.shape[0]):
+    for j in range(cm.shape[1]):
+        annot[i, j] = f'{cm[i, j]}\n({cm_normalized[i, j]:.1%})'
+
+# Crear heatmap
+sns.heatmap(cm_normalized, annot=annot, fmt='', cmap='Blues',
+            xticklabels=['Predicho: 0', 'Predicho: 1'],
+            yticklabels=['Real: 0', 'Real: 1'],
+            cbar_kws={'label': 'Proporción'},
+            vmin=0, vmax=1, linewidths=2, linecolor='white')
+
+plt.title(f'Matriz de Confusión (Accuracy = {accuracy:.3f})', fontsize=14, pad=15)
+plt.ylabel('Clase Real', fontsize=12)
+plt.xlabel('Clase Predicha', fontsize=12)
+
+# Añadir etiquetas descriptivas
+plt.text(-0.5, 0.5, f'VN\n{VN}', ha='center', va='center', fontsize=10,
+         bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.5))
+plt.text(1.5, 0.5, f'FP\n{FP}', ha='center', va='center', fontsize=10,
+         bbox=dict(boxstyle='round', facecolor='lightcoral', alpha=0.5))
+plt.text(-0.5, 1.5, f'FN\n{FN}', ha='center', va='center', fontsize=10,
+         bbox=dict(boxstyle='round', facecolor='lightcoral', alpha=0.5))
+plt.text(1.5, 1.5, f'VP\n{VP}', ha='center', va='center', fontsize=10,
+         bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.5))
+
+plt.tight_layout()
+plt.show()
+```
+
+### Selección de Métricas según el Contexto
+
+La elección de la métrica apropiada depende del problema específico:
+
+| Contexto | Métrica Recomendada | Razón |
+|----------|-------------------|-------|
+| **Clases balanceadas** | Accuracy | Proporción general de aciertos es suficiente |
+| **Clases desbalanceadas** | F1-Score, AUC-ROC | Accuracy puede ser engañosa |
+| **Costo alto de FP** | Precision | Minimizar falsos positivos |
+| **Costo alto de FN** | Recall | Minimizar falsos negativos |
+| **Balance entre FP y FN** | F1-Score | Considera ambos errores |
+| **Comparación de modelos** | AUC-ROC | Independiente del umbral |
+| **Diagnóstico médico** | Recall, AUC-ROC | No perder casos positivos |
+| **Filtro de spam** | Precision, F1-Score | No bloquear emails legítimos |
+| **Detección de fraude** | F1-Score, Recall | Balance según costo relativo |
+
+### Métricas para Clasificación Multiclase
+
+Para problemas con $K > 2$ clases, las métricas se generalizan de dos formas:
+
+#### 1. Macro-averaging
+
+Calcula la métrica para cada clase por separado y promedia:
+
+$$\text{Precision}_{\text{macro}} = \frac{1}{K} \sum_{k=1}^{K} \text{Precision}_k$$
+
+**Ventaja**: Trata todas las clases por igual (útil si todas las clases son igualmente importantes)
+
+#### 2. Weighted-averaging
+
+Promedio ponderado por el número de muestras reales de cada clase:
+
+$$\text{Precision}_{\text{weighted}} = \sum_{k=1}^{K} w_k \cdot \text{Precision}_k$$
+
+Donde $w_k = \frac{n_k}{n}$ (proporción de muestras de la clase $k$)
+
+**Ventaja**: Tiene en cuenta el desbalance de clases
+
+```{python}
+#| label: multiclass-metrics-example
+#| echo: true
+
+# Ejemplo con dataset Iris (3 clases)
+from sklearn.datasets import load_iris
+
+# Cargar datos
+iris = load_iris()
+X_iris_full = iris.data
+y_iris_full = iris.target
+
+# Dividir datos
+X_train_iris, X_test_iris, y_train_iris, y_test_iris = train_test_split(
+    X_iris_full, y_iris_full, test_size=0.3, random_state=42, stratify=y_iris_full
+)
+
+# Entrenar modelo
+model_iris = LogisticRegression(max_iter=1000)
+model_iris.fit(X_train_iris, y_train_iris)
+
+# Predicciones
+y_pred_iris = model_iris.predict(X_test_iris)
+
+print("=" * 70)
+print("EVALUACIÓN MULTICLASE (Dataset Iris - 3 clases)")
+print("=" * 70)
+
+# Reporte de clasificación con macro y weighted averaging
+print("\nReporte de Clasificación:")
+print(classification_report(y_test_iris, y_pred_iris,
+                          target_names=iris.target_names,
+                          digits=3))
+
+# Matriz de confusión multiclase
+print("\nMatriz de Confusión:")
+cm_iris = confusion_matrix(y_test_iris, y_pred_iris)
+cm_iris_df = pd.DataFrame(cm_iris,
+                          columns=[f'Pred: {name}' for name in iris.target_names],
+                          index=[f'Real: {name}' for name in iris.target_names])
+print(cm_iris_df)
+```
+
+```{python}
+#| label: multiclass-confusion-matrix
+#| fig-cap: "Matriz de Confusión para Clasificación Multiclase"
+#| fig-width: 8
+#| fig-height: 6
+#| echo: false
+
+# Visualización de matriz de confusión multiclase
+plt.figure(figsize=(8, 6))
+
+# Normalizar por filas
+cm_iris_norm = cm_iris.astype('float') / cm_iris.sum(axis=1)[:, np.newaxis]
+
+# Crear anotaciones con conteos y porcentajes
+annot_iris = np.empty_like(cm_iris, dtype=object)
+for i in range(cm_iris.shape[0]):
+    for j in range(cm_iris.shape[1]):
+        annot_iris[i, j] = f'{cm_iris[i, j]}\n({cm_iris_norm[i, j]:.1%})'
+
+sns.heatmap(cm_iris_norm, annot=annot_iris, fmt='', cmap='YlOrRd',
+            xticklabels=iris.target_names,
+            yticklabels=iris.target_names,
+            cbar_kws={'label': 'Proporción'},
+            vmin=0, vmax=1, linewidths=2, linecolor='white')
+
+plt.title('Matriz de Confusión - Clasificación Multiclase (Iris)', fontsize=14, pad=15)
+plt.ylabel('Clase Real', fontsize=12)
+plt.xlabel('Clase Predicha', fontsize=12)
+plt.tight_layout()
+plt.show()
+```
+
+### Consideraciones Finales
+
+**Principios clave para la evaluación de modelos de clasificación:**
+
+1. **Nunca confíes solo en accuracy** - Especialmente con clases desbalanceadas
+2. **Analiza la matriz de confusión** - Comprende qué tipos de errores comete tu modelo
+3. **Selecciona métricas según el contexto** - Considera el costo relativo de FP vs FN
+4. **Usa múltiples métricas** - Una sola métrica raramente cuenta toda la historia
+5. **Evalúa en datos independientes** - Usa conjuntos de validación/prueba no vistos
+6. **Considera el umbral de decisión** - El umbral 0.5 no siempre es óptimo
+7. **Visualiza el desempeño** - Curvas ROC y Precision-Recall proveen información valiosa
+
+La evaluación rigurosa del desempeño es fundamental para construir modelos de clasificación confiables y tomar decisiones informadas sobre su uso en aplicaciones del mundo real.
