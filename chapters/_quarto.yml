@@ -6,6 +6,8 @@ book:
   title: "Minería de Datos"
   subtitle: "ITAM 2025"
   author: "Saúl Caballero"
+  sidebar:
+    collapse-level: 1
   chapters:
     - index.qmd
     - 00-requerimientos-computacion.qmd
