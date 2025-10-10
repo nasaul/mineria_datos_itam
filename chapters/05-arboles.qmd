@@ -1,0 +1,979 @@
+# Árboles de Decisión
+
+## Introducción
+
+Los **árboles de decisión** son uno de los métodos más intuitivos y ampliamente utilizados en el aprendizaje supervisado. A diferencia de los métodos lineales como la regresión logística, los árboles pueden capturar relaciones no lineales complejas e interacciones entre variables de forma natural, produciendo modelos que son fáciles de interpretar y visualizar.
+
+### Motivación: Limitaciones de los Métodos Lineales
+
+Consideremos un problema donde queremos predecir si un cliente comprará un producto basándonos en su edad y su ingreso. Los métodos lineales (como regresión logística) asumirían que existe una **frontera de decisión lineal**:
+
+$$\beta_0 + \beta_1 \cdot \text{edad} + \beta_2 \cdot \text{ingreso} = 0$$
+
+Sin embargo, la realidad puede ser más compleja: tal vez los clientes jóvenes con ingresos altos compran, los clientes mayores con cualquier ingreso compran, pero los clientes jóvenes con ingresos bajos no compran. Esta regla no es lineal y involucra **interacciones** entre variables.
+
+Los árboles de decisión resuelven este problema al **particionar el espacio de características** en regiones rectangulares, donde cada región tiene su propia predicción.
+
+### Estructura de un Árbol de Decisión
+
+Un árbol de decisión es una estructura jerárquica compuesta por:
+
+1. **Nodo raíz (root node)**: Contiene todos los datos de entrenamiento
+2. **Nodos internos (internal nodes)**: Representan decisiones basadas en características
+3. **Ramas (branches)**: Representan el resultado de una decisión
+4. **Nodos hoja o terminales (leaf nodes)**: Contienen las predicciones finales
+
+Cada nodo interno realiza una **pregunta binaria** sobre una característica:
+
+- "¿Edad ≤ 30?"
+- "¿Ingreso > $50,000?"
+- "¿Categoría = A o B?"
+
+### Ejemplo Visual Simple
+
+```
+                    [Edad ≤ 30?]
+                    /           \
+                  Sí             No
+                 /                 \
+        [Ingreso ≤ 40K?]        Compra = Sí
+           /         \
+         Sí          No
+        /             \
+   Compra = No    Compra = Sí
+```
+
+Este árbol representa las siguientes reglas:
+
+- Si edad > 30 → Compra = Sí
+- Si edad ≤ 30 y ingreso > 40K → Compra = Sí
+- Si edad ≤ 30 y ingreso ≤ 40K → Compra = No
+
+## Construcción de Árboles de Decisión
+
+### Particionamiento Recursivo del Espacio
+
+Los árboles de decisión construyen su estructura mediante **particionamiento recursivo binario** (recursive binary splitting). Este proceso:
+
+1. Comienza con todos los datos en el nodo raíz
+2. Encuentra la mejor división (variable y punto de corte)
+3. Divide los datos en dos nodos hijos
+4. Repite el proceso recursivamente para cada nodo hijo
+5. Se detiene cuando se cumple un criterio de parada
+
+Matemáticamente, el espacio de características $\mathbb{R}^p$ se divide en $M$ regiones disjuntas $R_1, R_2, ..., R_M$ tales que:
+
+$$\bigcup_{m=1}^{M} R_m = \mathbb{R}^p, \quad R_i \cap R_j = \emptyset \text{ para } i \neq j$$
+
+Cada región $R_m$ es un **hiperrectángulo** paralelo a los ejes de coordenadas.
+
+### Criterios de Impureza
+
+Para decidir cómo dividir un nodo, necesitamos medir la **impureza** o **heterogeneidad** de un nodo. Un nodo es "puro" si contiene mayormente ejemplos de una sola clase.
+
+#### 1. Índice de Gini
+
+El **índice de Gini** mide la probabilidad de clasificar incorrectamente un elemento elegido aleatoriamente si se etiqueta aleatoriamente según la distribución de clases del nodo:
+
+$$I_G(t) = \sum_{k=1}^{K} p_k(t) \cdot (1 - p_k(t)) = \sum_{k=1}^{K} p_k(t) - \sum_{k=1}^{K} p_k(t)^2 = 1 - \sum_{k=1}^{K} p_k(t)^2$$
+
+Donde:
+
+- $K$ es el número de clases
+- $p_k(t)$ es la proporción de ejemplos de la clase $k$ en el nodo $t$
+
+**Propiedades del índice de Gini:**
+
+- **Mínimo** ($I_G = 0$): Nodo puro (una sola clase)
+  - Ejemplo: Si $p_1 = 1, p_2 = 0$ → $I_G = 1 - (1^2 + 0^2) = 0$
+
+- **Máximo** (cuando las clases están balanceadas):
+  - Para 2 clases con $p_1 = p_2 = 0.5$ → $I_G = 1 - (0.5^2 + 0.5^2) = 0.5$
+  - Para $K$ clases con $p_k = 1/K$ → $I_G = 1 - K(1/K)^2 = (K-1)/K$
+
+#### 2. Entropía
+
+La **entropía** mide el desorden o incertidumbre en un nodo, basada en la teoría de la información:
+
+$$H(t) = -\sum_{k=1}^{K} p_k(t) \log_2(p_k(t))$$
+
+Por convención, $0 \log(0) = 0$.
+
+**Propiedades de la entropía:**
+
+- **Mínimo** ($H = 0$): Nodo puro (certidumbre completa)
+- **Máximo** ($H = \log_2(K)$): Clases uniformemente distribuidas (máxima incertidumbre)
+  - Para 2 clases: $H_{\max} = 1$ bit
+  - Para 4 clases: $H_{\max} = 2$ bits
+
+**Ganancia de Información (Information Gain):**
+
+La ganancia de información mide la reducción en entropía al realizar una división:
+
+$$IG = H(t_{\text{padre}}) - \sum_{i \in \{\text{izq, der}\}} \frac{n_i}{n} H(t_i)$$
+
+Donde $n_i$ es el número de ejemplos en el nodo hijo $i$ y $n$ es el total en el nodo padre.
+
+#### 3. Error de Clasificación
+
+El **error de clasificación** es la tasa de ejemplos que no pertenecen a la clase mayoritaria:
+
+$$E(t) = 1 - \max_k p_k(t)$$
+
+Este criterio es menos sensible a cambios en la distribución de clases y se usa menos en la práctica.
+
+### Comparación Visual de Criterios de Impureza
+
+```{python}
+#| label: impurity-comparison
+#| fig-cap: "Comparación de criterios de impureza para clasificación binaria"
+#| fig-width: 10
+#| fig-height: 6
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Proporción de la clase 1 (p)
+p = np.linspace(0.001, 0.999, 1000)
+
+# Calcular diferentes medidas de impureza
+gini = 2 * p * (1 - p)  # Para clasificación binaria: 2p(1-p)
+entropy = -p * np.log2(p) - (1 - p) * np.log2(1 - p)
+classification_error = 1 - np.maximum(p, 1 - p)
+
+# Normalizar entropía para comparación visual
+entropy_norm = entropy / entropy.max()
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Panel 1: Las tres medidas
+axes[0].plot(p, gini, label='Índice de Gini', linewidth=2.5, color='blue')
+axes[0].plot(p, entropy_norm, label='Entropía (normalizada)', linewidth=2.5, color='red')
+axes[0].plot(p, classification_error, label='Error de Clasificación',
+             linewidth=2.5, color='green', linestyle='--')
+axes[0].set_xlabel('Proporción de clase 1 ($p$)', fontsize=12)
+axes[0].set_ylabel('Impureza (normalizada)', fontsize=12)
+axes[0].set_title('Criterios de Impureza para Clasificación Binaria', fontsize=13)
+axes[0].legend(fontsize=10)
+axes[0].grid(True, alpha=0.3)
+axes[0].axvline(x=0.5, color='black', linestyle=':', linewidth=1, alpha=0.5)
+axes[0].text(0.5, 0.05, 'Máxima\nImpureza', ha='center', fontsize=9,
+             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+
+# Panel 2: Gini vs Entropía (sin normalizar)
+ax2 = axes[1]
+ax2.plot(p, gini, label='Índice de Gini', linewidth=2.5, color='blue')
+ax2.set_xlabel('Proporción de clase 1 ($p$)', fontsize=12)
+ax2.set_ylabel('Índice de Gini', fontsize=12, color='blue')
+ax2.tick_params(axis='y', labelcolor='blue')
+ax2.grid(True, alpha=0.3)
+
+# Eje secundario para entropía
+ax2_twin = ax2.twinx()
+ax2_twin.plot(p, entropy, label='Entropía', linewidth=2.5, color='red')
+ax2_twin.set_ylabel('Entropía (bits)', fontsize=12, color='red')
+ax2_twin.tick_params(axis='y', labelcolor='red')
+
+axes[1].set_title('Gini vs Entropía (escalas reales)', fontsize=13)
+
+# Leyenda combinada
+lines1, labels1 = ax2.get_legend_handles_labels()
+lines2, labels2 = ax2_twin.get_legend_handles_labels()
+ax2.legend(lines1 + lines2, labels1 + labels2, loc='upper center', fontsize=10)
+
+plt.tight_layout()
+plt.show()
+
+# Imprimir valores en puntos clave
+print("Valores de impureza en puntos clave:")
+print("=" * 60)
+print(f"{'Proporción p':<15} {'Gini':<12} {'Entropía':<12} {'Error':<12}")
+print("-" * 60)
+for p_val in [0.0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]:
+    gini_val = 2 * p_val * (1 - p_val)
+    if p_val == 0.0 or p_val == 1.0:
+        entropy_val = 0.0
+    else:
+        entropy_val = -p_val * np.log2(p_val) - (1 - p_val) * np.log2(1 - p_val)
+    error_val = 1 - max(p_val, 1 - p_val)
+    print(f"{p_val:<15.1f} {gini_val:<12.4f} {entropy_val:<12.4f} {error_val:<12.4f}")
+```
+
+**Observaciones:**
+
+1. **Gini y Entropía** son muy similares en comportamiento y suelen dar resultados comparables
+2. **Error de clasificación** es menos sensible a cambios en las probabilidades
+3. En la práctica, Gini es más común por ser más eficiente computacionalmente
+4. Todas alcanzan su máximo cuando las clases están balanceadas ($p = 0.5$)
+
+### Algoritmo de Construcción CART
+
+El algoritmo **CART** (Classification And Regression Trees) es el método más común para construir árboles de decisión:
+
+**Algoritmo: Construcción Greedy de Árbol de Decisión**
+
+```
+función CONSTRUIR_ARBOL(datos, profundidad_actual, max_profundidad):
+    // Criterios de parada
+    si profundidad_actual >= max_profundidad O
+       nodo es puro O
+       número de muestras < min_muestras:
+        crear nodo hoja con predicción mayoritaria
+        retornar
+
+    // Encontrar mejor división
+    mejor_ganancia = -infinito
+
+    para cada característica j en {1, ..., p}:
+        para cada posible punto de corte c:
+            dividir datos en: {x_j ≤ c} y {x_j > c}
+            calcular impureza ponderada de los nodos hijos
+            calcular ganancia = impureza_padre - impureza_hijos
+
+            si ganancia > mejor_ganancia:
+                mejor_ganancia = ganancia
+                mejor_característica = j
+                mejor_corte = c
+
+    // Crear división
+    crear nodo interno con pregunta: "x[mejor_característica] ≤ mejor_corte?"
+    datos_izq = datos donde x[mejor_característica] ≤ mejor_corte
+    datos_der = datos donde x[mejor_característica] > mejor_corte
+
+    // Recursión
+    hijo_izquierdo = CONSTRUIR_ARBOL(datos_izq, profundidad_actual + 1, max_profundidad)
+    hijo_derecho = CONSTRUIR_ARBOL(datos_der, profundidad_actual + 1, max_profundidad)
+
+    retornar nodo_actual
+```
+
+**Características clave del algoritmo:**
+
+1. **Greedy (Voraz)**: En cada paso, elige la mejor división local sin considerar divisiones futuras
+2. **Top-down**: Construye desde la raíz hacia las hojas
+3. **Recursivo**: Aplica el mismo proceso a cada subárbol
+4. **Binario**: Cada división genera exactamente dos nodos hijos
+
+### Ejemplo: Construcción Paso a Paso
+
+```{python}
+#| label: tree-construction-example
+#| echo: true
+
+import numpy as np
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import make_classification
+import matplotlib.pyplot as plt
+
+# Generar datos sintéticos simples (2D para visualización)
+np.random.seed(42)
+X, y = make_classification(
+    n_samples=200,
+    n_features=2,
+    n_informative=2,
+    n_redundant=0,
+    n_clusters_per_class=1,
+    flip_y=0.1,
+    class_sep=1.5,
+    random_state=42
+)
+
+# Crear DataFrame para mejor visualización
+df = pd.DataFrame(X, columns=['X1', 'X2'])
+df['Clase'] = y
+
+print("Datos de ejemplo:")
+print("=" * 60)
+print(df.head(10))
+print(f"\nTotal de muestras: {len(df)}")
+print(f"Clases: {df['Clase'].value_counts().to_dict()}")
+```
+
+```{python}
+#| label: tree-depths-comparison
+#| fig-cap: "Comparación de árboles con diferentes profundidades"
+#| fig-width: 14
+#| fig-height: 10
+#| echo: true
+
+from sklearn.tree import plot_tree
+
+# Entrenar árboles con diferentes profundidades
+profundidades = [1, 2, 3, 5]
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+axes = axes.ravel()
+
+for idx, depth in enumerate(profundidades):
+    # Entrenar árbol
+    tree = DecisionTreeClassifier(
+        max_depth=depth,
+        criterion='gini',
+        random_state=42
+    )
+    tree.fit(X, y)
+
+    # Visualizar árbol
+    plot_tree(
+        tree,
+        ax=axes[idx],
+        feature_names=['X1', 'X2'],
+        class_names=['Clase 0', 'Clase 1'],
+        filled=True,
+        rounded=True,
+        fontsize=9
+    )
+
+    # Calcular accuracy en entrenamiento
+    train_accuracy = tree.score(X, y)
+    axes[idx].set_title(
+        f'Profundidad = {depth} | Accuracy = {train_accuracy:.3f}',
+        fontsize=12,
+        pad=10
+    )
+
+plt.tight_layout()
+plt.show()
+
+# Mostrar información detallada del árbol más complejo
+print("\n" + "=" * 60)
+print("INFORMACIÓN DEL ÁRBOL (Profundidad = 5)")
+print("=" * 60)
+tree_detailed = DecisionTreeClassifier(max_depth=5, random_state=42)
+tree_detailed.fit(X, y)
+print(f"Número de nodos: {tree_detailed.tree_.node_count}")
+print(f"Número de hojas: {tree_detailed.get_n_leaves()}")
+print(f"Profundidad real: {tree_detailed.get_depth()}")
+print(f"Accuracy en entrenamiento: {tree_detailed.score(X, y):.3f}")
+```
+
+```{python}
+#| label: decision-boundaries
+#| fig-cap: "Fronteras de decisión para diferentes profundidades de árbol"
+#| fig-width: 14
+#| fig-height: 10
+#| echo: false
+
+# Función para visualizar fronteras de decisión
+def plot_decision_boundary(clf, X, y, ax, title):
+    """Grafica la frontera de decisión de un clasificador"""
+    h = 0.02  # Tamaño del paso en la malla
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+
+    ax.contourf(xx, yy, Z, alpha=0.4, cmap='RdBu_r')
+    ax.scatter(X[y == 0, 0], X[y == 0, 1], c='blue', label='Clase 0',
+               edgecolors='black', s=50, alpha=0.7)
+    ax.scatter(X[y == 1, 0], X[y == 1, 1], c='red', label='Clase 1',
+               edgecolors='black', s=50, alpha=0.7)
+    ax.set_xlabel('X1', fontsize=11)
+    ax.set_ylabel('X2', fontsize=11)
+    ax.set_title(title, fontsize=12)
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+
+# Crear visualizaciones
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+axes = axes.ravel()
+
+for idx, depth in enumerate(profundidades):
+    tree = DecisionTreeClassifier(max_depth=depth, criterion='gini', random_state=42)
+    tree.fit(X, y)
+    train_acc = tree.score(X, y)
+
+    plot_decision_boundary(
+        tree, X, y, axes[idx],
+        f'Profundidad = {depth} | Accuracy = {train_acc:.3f}'
+    )
+
+plt.tight_layout()
+plt.show()
+```
+
+**Observaciones importantes:**
+
+1. **Profundidad = 1** (stump): Una sola división, frontera muy simple
+2. **Profundidad = 2-3**: Capturas las principales regiones de decisión
+3. **Profundidad = 5**: Frontera muy compleja, posible sobreajuste
+4. Las fronteras son siempre **paralelas a los ejes** (particiones rectangulares)
+
+## Sobreajuste y Control de Complejidad
+
+### El Problema del Sobreajuste
+
+Los árboles de decisión tienen una tendencia natural al **sobreajuste** (overfitting). Sin restricciones, un árbol puede crecer hasta que cada nodo hoja contenga un solo ejemplo, logrando 100% de accuracy en entrenamiento pero generalizando muy mal.
+
+**Causas del sobreajuste:**
+
+1. **Alta varianza**: Pequeños cambios en los datos pueden producir árboles muy diferentes
+2. **Falta de regularización inherente**: Sin restricciones, el árbol memoriza los datos
+3. **Captura de ruido**: El árbol aprende patrones específicos del conjunto de entrenamiento
+
+### Estrategias de Control de Complejidad
+
+#### 1. Pre-Poda (Pre-Pruning)
+
+La **pre-poda** detiene el crecimiento del árbol durante su construcción mediante criterios:
+
+**Hiperparámetros comunes:**
+
+- `max_depth`: Profundidad máxima del árbol
+  - Valores típicos: 3-10
+  - Menor → Más sesgo, menos varianza
+
+- `min_samples_split`: Mínimo de muestras para dividir un nodo
+  - Valores típicos: 2-20
+  - Mayor → Árbol más pequeño
+
+- `min_samples_leaf`: Mínimo de muestras en una hoja
+  - Valores típicos: 1-10
+  - Mayor → Hojas más confiables
+
+- `max_features`: Número máximo de características a considerar por división
+  - `'sqrt'`: √p características (usado en Random Forest)
+  - `'log2'`: log₂(p) características
+  - `None`: Todas las características
+
+- `max_leaf_nodes`: Número máximo de nodos hoja
+  - Controla directamente el tamaño del árbol
+
+#### 2. Post-Poda (Post-Pruning)
+
+La **post-poda** construye un árbol completo y luego lo reduce eliminando nodos que no aportan suficiente mejora.
+
+**Cost-Complexity Pruning (Poda por Costo-Complejidad):**
+
+Define una función de costo que balancea error y complejidad:
+
+$$C_\alpha(T) = \sum_{m=1}^{|T|} \sum_{i: x_i \in R_m} L(y_i, \hat{y}_m) + \alpha |T|$$
+
+Donde:
+
+- $|T|$ es el número de nodos hoja
+- $\alpha \geq 0$ es el parámetro de complejidad
+- $L$ es la función de pérdida
+- $\hat{y}_m$ es la predicción en el nodo hoja $m$
+
+**Efecto de $\alpha$:**
+
+- $\alpha = 0$: Árbol completo (sin poda)
+- $\alpha$ grande: Árbol muy pequeño (mayor regularización)
+
+```{python}
+#| label: pruning-demonstration
+#| fig-cap: "Efecto de la poda en el desempeño del árbol"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: true
+
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+# Dividir datos
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# Entrenar árbol completo
+tree_full = DecisionTreeClassifier(random_state=42)
+tree_full.fit(X_train, y_train)
+
+# Obtener camino de cost-complexity pruning
+path = tree_full.cost_complexity_pruning_path(X_train, y_train)
+ccp_alphas = path.ccp_alphas
+impurities = path.impurities
+
+print("Cost-Complexity Pruning Path:")
+print("=" * 60)
+print(f"Número de valores de alpha: {len(ccp_alphas)}")
+print(f"Rango de alpha: [{ccp_alphas[0]:.6f}, {ccp_alphas[-1]:.6f}]")
+
+# Entrenar árboles para diferentes valores de alpha
+train_scores = []
+test_scores = []
+n_leaves = []
+depths = []
+
+for alpha in ccp_alphas:
+    tree = DecisionTreeClassifier(random_state=42, ccp_alpha=alpha)
+    tree.fit(X_train, y_train)
+    train_scores.append(tree.score(X_train, y_train))
+    test_scores.append(tree.score(X_test, y_test))
+    n_leaves.append(tree.get_n_leaves())
+    depths.append(tree.get_depth())
+
+# Visualización
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+
+# Panel 1: Accuracy vs Alpha
+axes[0].plot(ccp_alphas, train_scores, label='Entrenamiento',
+             marker='o', linewidth=2)
+axes[0].plot(ccp_alphas, test_scores, label='Prueba',
+             marker='s', linewidth=2)
+axes[0].set_xlabel('Alpha (ccp_alpha)', fontsize=11)
+axes[0].set_ylabel('Accuracy', fontsize=11)
+axes[0].set_title('Accuracy vs Alpha', fontsize=12)
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Encontrar mejor alpha
+best_idx = np.argmax(test_scores)
+best_alpha = ccp_alphas[best_idx]
+axes[0].axvline(x=best_alpha, color='red', linestyle='--',
+                label=f'Mejor α = {best_alpha:.4f}')
+
+# Panel 2: Número de hojas vs Alpha
+axes[1].plot(ccp_alphas, n_leaves, marker='o', linewidth=2, color='green')
+axes[1].set_xlabel('Alpha (ccp_alpha)', fontsize=11)
+axes[1].set_ylabel('Número de Hojas', fontsize=11)
+axes[1].set_title('Complejidad del Árbol vs Alpha', fontsize=12)
+axes[1].grid(True, alpha=0.3)
+axes[1].axvline(x=best_alpha, color='red', linestyle='--')
+
+# Panel 3: Profundidad vs Alpha
+axes[2].plot(ccp_alphas, depths, marker='o', linewidth=2, color='purple')
+axes[2].set_xlabel('Alpha (ccp_alpha)', fontsize=11)
+axes[2].set_ylabel('Profundidad del Árbol', fontsize=11)
+axes[2].set_title('Profundidad vs Alpha', fontsize=12)
+axes[2].grid(True, alpha=0.3)
+axes[2].axvline(x=best_alpha, color='red', linestyle='--')
+
+plt.tight_layout()
+plt.show()
+
+print(f"\n{'='*60}")
+print("COMPARACIÓN: Árbol sin poda vs Árbol podado")
+print("="*60)
+print(f"\nÁrbol sin poda (α = 0):")
+print(f"  Hojas: {n_leaves[0]}")
+print(f"  Profundidad: {depths[0]}")
+print(f"  Accuracy entrenamiento: {train_scores[0]:.3f}")
+print(f"  Accuracy prueba: {test_scores[0]:.3f}")
+
+print(f"\nÁrbol podado óptimo (α = {best_alpha:.4f}):")
+print(f"  Hojas: {n_leaves[best_idx]}")
+print(f"  Profundidad: {depths[best_idx]}")
+print(f"  Accuracy entrenamiento: {train_scores[best_idx]:.3f}")
+print(f"  Accuracy prueba: {test_scores[best_idx]:.3f}")
+```
+
+## Interpretabilidad y Análisis
+
+### Importancia de Variables
+
+Una de las grandes ventajas de los árboles es que podemos medir la **importancia** de cada variable basándonos en cuánto reduce la impureza:
+
+$$\text{Importancia}(X_j) = \sum_{t: \text{usa } X_j} \frac{n_t}{n} \cdot \Delta I(t)$$
+
+Donde:
+- $n_t$ es el número de muestras en el nodo $t$
+- $n$ es el número total de muestras
+- $\Delta I(t)$ es la reducción en impureza por la división en el nodo $t$
+
+```{python}
+#| label: feature-importance
+#| fig-cap: "Importancia de variables en árbol de decisión"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: true
+
+# Entrenar árbol en dataset con más características
+from sklearn.datasets import make_classification
+
+# Generar datos con 10 características
+X_multi, y_multi = make_classification(
+    n_samples=500,
+    n_features=10,
+    n_informative=6,
+    n_redundant=2,
+    n_repeated=0,
+    random_state=42
+)
+
+# Nombres de características
+feature_names = [f'X{i+1}' for i in range(10)]
+
+# Entrenar árbol
+tree_multi = DecisionTreeClassifier(max_depth=5, random_state=42)
+tree_multi.fit(X_multi, y_multi)
+
+# Obtener importancias
+importances = tree_multi.feature_importances_
+indices = np.argsort(importances)[::-1]
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Panel 1: Gráfico de barras
+axes[0].barh(range(10), importances[indices], color='steelblue', alpha=0.7)
+axes[0].set_yticks(range(10))
+axes[0].set_yticklabels([feature_names[i] for i in indices])
+axes[0].set_xlabel('Importancia', fontsize=11)
+axes[0].set_title('Importancia de Variables (Reducción de Impureza)', fontsize=12)
+axes[0].grid(True, alpha=0.3, axis='x')
+
+# Añadir valores
+for i, (idx, imp) in enumerate(zip(indices, importances[indices])):
+    axes[0].text(imp + 0.005, i, f'{imp:.3f}', va='center', fontsize=9)
+
+# Panel 2: Importancia acumulada
+cumsum_importance = np.cumsum(importances[indices])
+axes[1].plot(range(1, 11), cumsum_importance, marker='o', linewidth=2.5,
+             markersize=8, color='darkgreen')
+axes[1].fill_between(range(1, 11), cumsum_importance, alpha=0.3, color='green')
+axes[1].axhline(y=0.8, color='red', linestyle='--', linewidth=1.5,
+                label='80% de importancia')
+axes[1].axhline(y=0.95, color='orange', linestyle='--', linewidth=1.5,
+                label='95% de importancia')
+axes[1].set_xlabel('Número de Variables', fontsize=11)
+axes[1].set_ylabel('Importancia Acumulada', fontsize=11)
+axes[1].set_title('Importancia Acumulada de Variables', fontsize=12)
+axes[1].set_xticks(range(1, 11))
+axes[1].legend()
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Imprimir tabla de importancias
+print("\nTabla de Importancias:")
+print("=" * 60)
+print(f"{'Variable':<12} {'Importancia':<15} {'Importancia Acum.':<20}")
+print("-" * 60)
+cumsum = 0
+for idx in indices:
+    cumsum += importances[idx]
+    print(f"{feature_names[idx]:<12} {importances[idx]:<15.4f} {cumsum:<20.4f}")
+```
+
+### Extracción de Reglas
+
+Los árboles pueden convertirse en reglas IF-THEN interpretables:
+
+```{python}
+#| label: tree-rules
+#| echo: true
+
+from sklearn.tree import export_text
+
+# Entrenar árbol simple para mejor interpretabilidad
+tree_simple = DecisionTreeClassifier(max_depth=3, min_samples_leaf=10, random_state=42)
+tree_simple.fit(X[:, :2], y)
+
+# Exportar reglas como texto
+tree_rules = export_text(tree_simple, feature_names=['X1', 'X2'])
+
+print("REGLAS DE DECISIÓN DEL ÁRBOL:")
+print("=" * 60)
+print(tree_rules)
+
+# Función para extraer rutas de decisión
+def get_decision_path(tree, feature_names, sample):
+    """Extrae la ruta de decisión para una muestra"""
+    node = 0
+    path = []
+
+    while tree.tree_.feature[node] != -2:  # -2 indica nodo hoja
+        feature_idx = tree.tree_.feature[node]
+        threshold = tree.tree_.threshold[node]
+
+        if sample[feature_idx] <= threshold:
+            direction = "<="
+            node = tree.tree_.children_left[node]
+        else:
+            direction = ">"
+            node = tree.tree_.children_right[node]
+
+        path.append(f"{feature_names[feature_idx]} {direction} {threshold:.3f}")
+
+    # Obtener predicción
+    class_probs = tree.tree_.value[node][0]
+    predicted_class = np.argmax(class_probs)
+
+    return path, predicted_class, class_probs
+
+# Ejemplo: explicar predicción para algunas muestras
+print("\n" + "=" * 60)
+print("EXPLICACIÓN DE PREDICCIONES")
+print("=" * 60)
+
+for i in range(3):
+    sample = X[i, :2]
+    path, pred_class, probs = get_decision_path(tree_simple, ['X1', 'X2'], sample)
+
+    print(f"\nMuestra {i+1}: X1={sample[0]:.3f}, X2={sample[1]:.3f}")
+    print(f"Clase real: {y[i]}")
+    print(f"Predicción: {pred_class}")
+    print(f"Probabilidades: Clase 0 = {probs[0]:.3f}, Clase 1 = {probs[1]:.3f}")
+    print("Ruta de decisión:")
+    for step in path:
+        print(f"  → {step}")
+```
+
+## Ventajas y Desventajas
+
+### Ventajas de los Árboles de Decisión
+
+1. **Interpretabilidad**: Fáciles de entender y explicar, incluso para no expertos
+   - Se pueden visualizar completamente
+   - Generan reglas IF-THEN interpretables
+
+2. **Manejo de variables mixtas**: Pueden manejar características numéricas y categóricas sin preprocesamiento
+
+3. **No requieren normalización**: Las decisiones son invariantes a transformaciones monótonas
+
+4. **Capturan interacciones automáticamente**: Detectan interacciones sin especificarlas explícitamente
+
+5. **Robustos a outliers**: Las divisiones son basadas en rankings, no en valores absolutos
+
+6. **Selección implícita de características**: Variables irrelevantes no se usan en las divisiones
+
+### Desventajas de los Árboles de Decisión
+
+1. **Alta varianza**: Pequeños cambios en datos → árboles muy diferentes
+   - Solución: Métodos ensemble (Random Forest, Gradient Boosting)
+
+2. **Dificultad con relaciones lineales**: Necesitan muchas divisiones para aproximar funciones lineales
+
+3. **Fronteras de decisión restrictivas**: Solo particiones rectangulares paralelas a los ejes
+
+4. **Sesgo hacia variables con muchos valores**: Tienden a seleccionar variables con más opciones de corte
+
+5. **Inestabilidad**: Pequeñas variaciones pueden cambiar completamente la estructura
+
+6. **Sobreajuste natural**: Sin restricciones, memorizan los datos de entrenamiento
+
+### Comparación Visual: Árbol vs Regresión Logística
+
+```{python}
+#| label: tree-vs-logistic
+#| fig-cap: "Comparación de fronteras de decisión: Árbol vs Regresión Logística"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: false
+
+from sklearn.linear_model import LogisticRegression
+
+# Generar datos con relación más lineal
+np.random.seed(123)
+X_linear = np.random.randn(200, 2)
+y_linear = (X_linear[:, 0] + X_linear[:, 1] > 0).astype(int)
+
+# Añadir algo de ruido
+noise_idx = np.random.choice(200, 20, replace=False)
+y_linear[noise_idx] = 1 - y_linear[noise_idx]
+
+# Entrenar modelos
+tree_model = DecisionTreeClassifier(max_depth=5, random_state=42)
+logistic_model = LogisticRegression()
+
+tree_model.fit(X_linear, y_linear)
+logistic_model.fit(X_linear, y_linear)
+
+# Función auxiliar para graficar
+def plot_comparison(X, y, model1, model2, name1, name2):
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+    for ax, model, name in zip(axes, [model1, model2], [name1, name2]):
+        h = 0.02
+        x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+        y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+        xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                             np.arange(y_min, y_max, h))
+
+        Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+        Z = Z.reshape(xx.shape)
+
+        ax.contourf(xx, yy, Z, alpha=0.4, cmap='RdBu_r')
+        ax.scatter(X[y == 0, 0], X[y == 0, 1], c='blue', label='Clase 0',
+                   edgecolors='black', s=50, alpha=0.7)
+        ax.scatter(X[y == 1, 0], X[y == 1, 1], c='red', label='Clase 1',
+                   edgecolors='black', s=50, alpha=0.7)
+
+        acc = model.score(X, y)
+        ax.set_xlabel('X1', fontsize=11)
+        ax.set_ylabel('X2', fontsize=11)
+        ax.set_title(f'{name} | Accuracy = {acc:.3f}', fontsize=12)
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    return fig
+
+fig = plot_comparison(X_linear, y_linear, tree_model, logistic_model,
+                      'Árbol de Decisión', 'Regresión Logística')
+plt.show()
+
+print("Observaciones:")
+print("=" * 60)
+print("- Regresión logística captura mejor la relación lineal subyacente")
+print("- Árbol de decisión crea fronteras rectangulares que aproximan la línea")
+print("- Para relaciones lineales, la regresión logística es más eficiente")
+print("- Para relaciones no lineales, los árboles son más flexibles")
+```
+
+## Aplicación Práctica: Dataset Real
+
+```{python}
+#| label: real-dataset-application
+#| echo: true
+
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import cross_val_score, GridSearchCV
+import pandas as pd
+
+# Cargar dataset
+cancer = load_breast_cancer()
+X_cancer = cancer.data
+y_cancer = cancer.target
+
+print("DATASET: Wisconsin Breast Cancer")
+print("=" * 60)
+print(f"Número de muestras: {X_cancer.shape[0]}")
+print(f"Número de características: {X_cancer.shape[1]}")
+print(f"Clases: {cancer.target_names}")
+print(f"Distribución: {np.bincount(y_cancer)}")
+
+# Dividir datos
+X_train_c, X_test_c, y_train_c, y_test_c = train_test_split(
+    X_cancer, y_cancer, test_size=0.3, random_state=42, stratify=y_cancer
+)
+
+# 1. Árbol sin regularización
+tree_unreg = DecisionTreeClassifier(random_state=42)
+tree_unreg.fit(X_train_c, y_train_c)
+
+print("\n1. ÁRBOL SIN REGULARIZACIÓN")
+print("-" * 60)
+print(f"Profundidad: {tree_unreg.get_depth()}")
+print(f"Número de hojas: {tree_unreg.get_n_leaves()}")
+print(f"Accuracy entrenamiento: {tree_unreg.score(X_train_c, y_train_c):.3f}")
+print(f"Accuracy prueba: {tree_unreg.score(X_test_c, y_test_c):.3f}")
+
+# 2. Búsqueda de hiperparámetros óptimos
+param_grid = {
+    'max_depth': [3, 5, 7, 10, None],
+    'min_samples_split': [2, 5, 10, 20],
+    'min_samples_leaf': [1, 2, 5, 10],
+    'criterion': ['gini', 'entropy']
+}
+
+print("\n2. BÚSQUEDA DE HIPERPARÁMETROS (Grid Search)")
+print("-" * 60)
+print("Evaluando combinaciones de hiperparámetros con CV...")
+
+grid_search = GridSearchCV(
+    DecisionTreeClassifier(random_state=42),
+    param_grid,
+    cv=5,
+    scoring='accuracy',
+    n_jobs=-1
+)
+grid_search.fit(X_train_c, y_train_c)
+
+print(f"Mejor combinación de parámetros:")
+for param, value in grid_search.best_params_.items():
+    print(f"  {param}: {value}")
+
+# 3. Evaluar mejor modelo
+best_tree = grid_search.best_estimator_
+
+print("\n3. MEJOR ÁRBOL (después de optimización)")
+print("-" * 60)
+print(f"Profundidad: {best_tree.get_depth()}")
+print(f"Número de hojas: {best_tree.get_n_leaves()}")
+print(f"Accuracy entrenamiento: {best_tree.score(X_train_c, y_train_c):.3f}")
+print(f"Accuracy prueba: {best_tree.score(X_test_c, y_test_c):.3f}")
+
+# 4. Validación cruzada
+cv_scores = cross_val_score(best_tree, X_train_c, y_train_c, cv=5)
+print(f"\nValidación cruzada (5-fold):")
+print(f"  Scores: {cv_scores}")
+print(f"  Media: {cv_scores.mean():.3f} (+/- {cv_scores.std():.3f})")
+```
+
+```{python}
+#| label: cancer-feature-importance
+#| fig-cap: "Top 10 características más importantes para clasificar cáncer de mama"
+#| fig-width: 10
+#| fig-height: 6
+#| echo: true
+
+# Importancia de características
+importances_cancer = best_tree.feature_importances_
+indices_cancer = np.argsort(importances_cancer)[::-1][:10]  # Top 10
+
+plt.figure(figsize=(10, 6))
+plt.barh(range(10), importances_cancer[indices_cancer], color='coral', alpha=0.7)
+plt.yticks(range(10), [cancer.feature_names[i] for i in indices_cancer])
+plt.xlabel('Importancia (Reducción de Impureza)', fontsize=12)
+plt.title('Top 10 Características Más Importantes', fontsize=13)
+plt.gca().invert_yaxis()
+plt.grid(True, alpha=0.3, axis='x')
+
+# Añadir valores
+for i, imp in enumerate(importances_cancer[indices_cancer]):
+    plt.text(imp + 0.005, i, f'{imp:.3f}', va='center', fontsize=10)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Conclusiones y Mejores Prácticas
+
+### Recomendaciones para Usar Árboles de Decisión
+
+1. **Comienza simple**: Empieza con árboles poco profundos (max_depth=3-5)
+
+2. **Usa validación cruzada**: Para seleccionar hiperparámetros óptimos
+
+3. **Considera la interpretabilidad**: Si necesitas explicar decisiones, mantén árboles pequeños
+
+4. **Combina con ensemble**: Para producción, considera Random Forest o Gradient Boosting
+
+5. **Analiza importancia de variables**: Para entender qué características son relevantes
+
+6. **Visualiza el árbol**: Ayuda a detectar problemas y entender el modelo
+
+7. **Compara con baselines**: Árbol vs regresión logística en datos lineales
+
+### Cuándo Usar Árboles de Decisión
+
+**Usar árboles cuando:**
+- Necesitas interpretabilidad
+- Tienes interacciones complejas entre variables
+- Variables numéricas y categóricas mezcladas
+- Outliers en los datos
+- Recursos computacionales limitados (árboles son rápidos)
+
+**Evitar árboles individuales cuando:**
+- Datos con relaciones predominantemente lineales
+- Necesitas el mejor desempeño predictivo (usar ensemble)
+- Tienes muy pocos datos (alta varianza)
+- Variables con muchas categorías (sesgo en selección)
+
+### Próximos Pasos: Métodos Ensemble
+
+Los árboles individuales tienen limitaciones, pero combinándolos podemos crear modelos extremadamente poderosos:
+
+1. **Bagging**: Reduce varianza promediando múltiples árboles
+2. **Random Forest**: Bagging + aleatorización de características
+3. **Gradient Boosting**: Construye árboles secuencialmente para corregir errores
+4. **XGBoost, LightGBM, CatBoost**: Implementaciones optimizadas de boosting
+
+Estos métodos ensemble están entre los algoritmos más efectivos en machine learning y serán tema de capítulos futuros.
+
+---
+
+**Referencias clave:**
+
+- Breiman, L., Friedman, J., Stone, C. J., & Olshen, R. A. (1984). *Classification and regression trees*. CRC press.
+- Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The elements of statistical learning* (2nd ed.). Springer.
+- James, G., Witten, D., Hastie, T., & Tibshirani, R. (2013). *An introduction to statistical learning*. Springer.

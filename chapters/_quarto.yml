@@ -18,6 +18,7 @@ book:
         - analisis_advertising_dataset.ipynb
         - ejercicio_wine_quality.ipynb
     - 04-clasificacion.qmd
+    - 05-arboles.qmd
     - references.qmd
     - part: "Ejemplos"
       chapters:
