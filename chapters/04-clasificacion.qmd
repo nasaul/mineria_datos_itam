@@ -1855,3 +1855,67 @@ plt.show()
 7. **Visualiza el desempeño** - Curvas ROC y Precision-Recall proveen información valiosa
 
 La evaluación rigurosa del desempeño es fundamental para construir modelos de clasificación confiables y tomar decisiones informadas sobre su uso en aplicaciones del mundo real.
+
+::: {.callout-note icon=false}
+## 💬 Discusión en Parejas (15 minutos)
+
+**Escenario de Análisis:**
+
+Tu equipo ha desarrollado un modelo de clasificación para una aplicación real. Ahora deben presentar los resultados al equipo de negocio y justificar la elección de métricas.
+
+**Instrucciones:**
+
+1. **Formen parejas** y lean el siguiente escenario asignado por el instructor (o elijan uno):
+
+   **Escenario A: Sistema de Detección de Fraude con Tarjetas de Crédito**
+
+   - El modelo predice si una transacción es fraudulenta (clase positiva) o legítima (clase negativa)
+   - Solo el 0.5% de las transacciones son fraudulentas (alta desbalance)
+   - Costos: Bloquear una transacción legítima = $5 de molestia al cliente; No detectar un fraude = $150 de pérdida
+
+   **Escenario B: Sistema de Recomendación de Contenido Premium**
+
+   - El modelo predice si un usuario comprará contenido premium (clase positiva) o no (clase negativa)
+   - 20% de los usuarios compran contenido premium
+   - Costos: Mostrar anuncio a usuario no interesado = $0.50 de recursos desperdiciados; No mostrar anuncio a comprador potencial = $15 de venta perdida
+
+   **Escenario C: Sistema de Diagnóstico Médico de Enfermedad Rara**
+
+   - El modelo predice si un paciente tiene una enfermedad rara (clase positiva) o está sano (clase negativa)
+   - Solo el 2% de los pacientes tienen la enfermedad
+   - Costos: Falso positivo = $500 en pruebas adicionales + ansiedad; Falso negativo = enfermedad no tratada (alto riesgo)
+
+2. **Discutan en pareja (10 minutos):**
+
+   a) **Análisis de costos:**
+
+      - ¿Qué tipo de error es más costoso: FP o FN?
+      - ¿Por qué el accuracy no es una buena métrica para este problema?
+
+   b) **Selección de métricas:**
+
+      - ¿Qué métrica(s) deberían reportar al equipo de negocio?
+      - ¿Usarían el umbral estándar de 0.5 o lo ajustarían? ¿Hacia dónde y por qué?
+
+   c) **Interpretación de resultados:**
+
+      - Si el modelo tiene Precision = 0.85 y Recall = 0.60, ¿es aceptable para este caso?
+      - ¿Qué cambios harían para mejorar el modelo según las prioridades del negocio?
+
+3. **Preparen** (2 minutos):
+   
+   - Una conclusión de 1-2 frases sobre la métrica más importante para su escenario
+   - Un argumento breve de por qué eligieron esa métrica
+
+4. **Compartan** con otra pareja o con la clase (3 minutos):
+
+   - Presenten su razonamiento
+   - Escuchen el análisis de otro escenario
+
+**Preguntas guía para profundizar:**
+
+- ¿Cómo cambiaría su respuesta si los costos fueran diferentes?
+- ¿Qué información adicional necesitarían del negocio para tomar una mejor decisión?
+- ¿Cómo comunicarían las limitaciones del modelo a stakeholders no técnicos?
+
+:::

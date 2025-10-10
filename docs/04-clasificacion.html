@@ -2426,6 +2426,76 @@ Real: virginica              0                 2               13</code></pre>
 <li><strong>Visualiza el desempeño</strong> - Curvas ROC y Precision-Recall proveen información valiosa</li>
 </ol>
 <p>La evaluación rigurosa del desempeño es fundamental para construir modelos de clasificación confiables y tomar decisiones informadas sobre su uso en aplicaciones del mundo real.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💬 Discusión en Parejas (15 minutos)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario de Análisis:</strong></p>
+<p>Tu equipo ha desarrollado un modelo de clasificación para una aplicación real. Ahora deben presentar los resultados al equipo de negocio y justificar la elección de métricas.</p>
+<p><strong>Instrucciones:</strong></p>
+<ol type="1">
+<li><p><strong>Formen parejas</strong> y lean el siguiente escenario asignado por el instructor (o elijan uno):</p>
+<p><strong>Escenario A: Sistema de Detección de Fraude con Tarjetas de Crédito</strong></p>
+<ul>
+<li>El modelo predice si una transacción es fraudulenta (clase positiva) o legítima (clase negativa)</li>
+<li>Solo el 0.5% de las transacciones son fraudulentas (alta desbalance)</li>
+<li>Costos: Bloquear una transacción legítima = $5 de molestia al cliente; No detectar un fraude = $150 de pérdida</li>
+</ul>
+<p><strong>Escenario B: Sistema de Recomendación de Contenido Premium</strong></p>
+<ul>
+<li>El modelo predice si un usuario comprará contenido premium (clase positiva) o no (clase negativa)</li>
+<li>20% de los usuarios compran contenido premium</li>
+<li>Costos: Mostrar anuncio a usuario no interesado = $0.50 de recursos desperdiciados; No mostrar anuncio a comprador potencial = $15 de venta perdida</li>
+</ul>
+<p><strong>Escenario C: Sistema de Diagnóstico Médico de Enfermedad Rara</strong></p>
+<ul>
+<li>El modelo predice si un paciente tiene una enfermedad rara (clase positiva) o está sano (clase negativa)</li>
+<li>Solo el 2% de los pacientes tienen la enfermedad</li>
+<li>Costos: Falso positivo = $500 en pruebas adicionales + ansiedad; Falso negativo = enfermedad no tratada (alto riesgo)</li>
+</ul></li>
+<li><p><strong>Discutan en pareja (10 minutos):</strong></p>
+<ol type="a">
+<li><p><strong>Análisis de costos:</strong></p>
+<ul>
+<li>¿Qué tipo de error es más costoso: FP o FN?</li>
+<li>¿Por qué el accuracy no es una buena métrica para este problema?</li>
+</ul></li>
+<li><p><strong>Selección de métricas:</strong></p>
+<ul>
+<li>¿Qué métrica(s) deberían reportar al equipo de negocio?</li>
+<li>¿Usarían el umbral estándar de 0.5 o lo ajustarían? ¿Hacia dónde y por qué?</li>
+</ul></li>
+<li><p><strong>Interpretación de resultados:</strong></p>
+<ul>
+<li>Si el modelo tiene Precision = 0.85 y Recall = 0.60, ¿es aceptable para este caso?</li>
+<li>¿Qué cambios harían para mejorar el modelo según las prioridades del negocio?</li>
+</ul></li>
+</ol></li>
+<li><p><strong>Preparen</strong> (2 minutos):</p>
+<ul>
+<li>Una conclusión de 1-2 frases sobre la métrica más importante para su escenario</li>
+<li>Un argumento breve de por qué eligieron esa métrica</li>
+</ul></li>
+<li><p><strong>Compartan</strong> con otra pareja o con la clase (3 minutos):</p>
+<ul>
+<li>Presenten su razonamiento</li>
+<li>Escuchen el análisis de otro escenario</li>
+</ul></li>
+</ol>
+<p><strong>Preguntas guía para profundizar:</strong></p>
+<ul>
+<li>¿Cómo cambiaría su respuesta si los costos fueran diferentes?</li>
+<li>¿Qué información adicional necesitarían del negocio para tomar una mejor decisión?</li>
+<li>¿Cómo comunicarían las limitaciones del modelo a stakeholders no técnicos?</li>
+</ul>
+</div>
+</div>
 
 
 </section>
