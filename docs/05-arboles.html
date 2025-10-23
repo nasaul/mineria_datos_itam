@@ -474,6 +474,34 @@ window.Quarto = {
   <li><a href="#comparación-visual-árbol-vs-regresión-logística" id="toc-comparación-visual-árbol-vs-regresión-logística" class="nav-link" data-scroll-target="#comparación-visual-árbol-vs-regresión-logística">Comparación Visual: Árbol vs Regresión Logística</a></li>
   </ul></li>
   <li><a href="#aplicación-práctica-dataset-real" id="toc-aplicación-práctica-dataset-real" class="nav-link" data-scroll-target="#aplicación-práctica-dataset-real">Aplicación Práctica: Dataset Real</a></li>
+  <li><a href="#bagging-de-árboles" id="toc-bagging-de-árboles" class="nav-link" data-scroll-target="#bagging-de-árboles">Bagging de Árboles</a>
+  <ul class="collapse">
+  <li><a href="#motivación-el-problema-de-la-alta-varianza" id="toc-motivación-el-problema-de-la-alta-varianza" class="nav-link" data-scroll-target="#motivación-el-problema-de-la-alta-varianza">Motivación: El Problema de la Alta Varianza</a></li>
+  <li><a href="#qué-es-bagging" id="toc-qué-es-bagging" class="nav-link" data-scroll-target="#qué-es-bagging">¿Qué es Bagging?</a></li>
+  <li><a href="#el-algoritmo-de-bagging" id="toc-el-algoritmo-de-bagging" class="nav-link" data-scroll-target="#el-algoritmo-de-bagging">El Algoritmo de Bagging</a></li>
+  <li><a href="#implementación-en-python" id="toc-implementación-en-python" class="nav-link" data-scroll-target="#implementación-en-python">Implementación en Python</a></li>
+  <li><a href="#análisis-de-bias-variance-con-bagging" id="toc-análisis-de-bias-variance-con-bagging" class="nav-link" data-scroll-target="#análisis-de-bias-variance-con-bagging">Análisis de Bias-Variance con Bagging</a></li>
+  <li><a href="#error-out-of-bag-oob" id="toc-error-out-of-bag-oob" class="nav-link" data-scroll-target="#error-out-of-bag-oob">Error Out-of-Bag (OOB)</a></li>
+  <li><a href="#importancia-de-variables-en-bagging" id="toc-importancia-de-variables-en-bagging" class="nav-link" data-scroll-target="#importancia-de-variables-en-bagging">Importancia de Variables en Bagging</a></li>
+  <li><a href="#fronteras-de-decisión-árbol-individual-vs-bagging" id="toc-fronteras-de-decisión-árbol-individual-vs-bagging" class="nav-link" data-scroll-target="#fronteras-de-decisión-árbol-individual-vs-bagging">Fronteras de Decisión: Árbol Individual vs Bagging</a></li>
+  <li><a href="#ventajas-y-desventajas-de-bagging" id="toc-ventajas-y-desventajas-de-bagging" class="nav-link" data-scroll-target="#ventajas-y-desventajas-de-bagging">Ventajas y Desventajas de Bagging</a></li>
+  <li><a href="#cuántos-árboles-usar" id="toc-cuántos-árboles-usar" class="nav-link" data-scroll-target="#cuántos-árboles-usar">¿Cuántos Árboles Usar?</a></li>
+  <li><a href="#bagging-vs-random-forest" id="toc-bagging-vs-random-forest" class="nav-link" data-scroll-target="#bagging-vs-random-forest">Bagging vs Random Forest</a></li>
+  </ul></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest">Random Forest</a>
+  <ul class="collapse">
+  <li><a href="#motivación-decorrelación-de-árboles" id="toc-motivación-decorrelación-de-árboles" class="nav-link" data-scroll-target="#motivación-decorrelación-de-árboles">Motivación: Decorrelación de Árboles</a></li>
+  <li><a href="#el-algoritmo-de-random-forest" id="toc-el-algoritmo-de-random-forest" class="nav-link" data-scroll-target="#el-algoritmo-de-random-forest">El Algoritmo de Random Forest</a></li>
+  <li><a href="#hiperparámetros-clave" id="toc-hiperparámetros-clave" class="nav-link" data-scroll-target="#hiperparámetros-clave">Hiperparámetros Clave</a></li>
+  <li><a href="#implementación-y-comparación" id="toc-implementación-y-comparación" class="nav-link" data-scroll-target="#implementación-y-comparación">Implementación y Comparación</a></li>
+  <li><a href="#análisis-del-efecto-de-max_features" id="toc-análisis-del-efecto-de-max_features" class="nav-link" data-scroll-target="#análisis-del-efecto-de-max_features">Análisis del Efecto de max_features</a></li>
+  <li><a href="#curva-de-aprendizaje-número-de-árboles" id="toc-curva-de-aprendizaje-número-de-árboles" class="nav-link" data-scroll-target="#curva-de-aprendizaje-número-de-árboles">Curva de Aprendizaje: Número de Árboles</a></li>
+  <li><a href="#importancia-de-variables-en-random-forest" id="toc-importancia-de-variables-en-random-forest" class="nav-link" data-scroll-target="#importancia-de-variables-en-random-forest">Importancia de Variables en Random Forest</a></li>
+  <li><a href="#fronteras-de-decisión-visualización-2d" id="toc-fronteras-de-decisión-visualización-2d" class="nav-link" data-scroll-target="#fronteras-de-decisión-visualización-2d">Fronteras de Decisión: Visualización 2D</a></li>
+  <li><a href="#análisis-de-sesgo-varianza" id="toc-análisis-de-sesgo-varianza" class="nav-link" data-scroll-target="#análisis-de-sesgo-varianza">Análisis de Sesgo-Varianza</a></li>
+  <li><a href="#ventajas-y-desventajas-de-random-forest" id="toc-ventajas-y-desventajas-de-random-forest" class="nav-link" data-scroll-target="#ventajas-y-desventajas-de-random-forest">Ventajas y Desventajas de Random Forest</a></li>
+  <li><a href="#aplicación-práctica-dataset-real-1" id="toc-aplicación-práctica-dataset-real-1" class="nav-link" data-scroll-target="#aplicación-práctica-dataset-real-1">Aplicación Práctica: Dataset Real</a></li>
+  </ul></li>
   <li><a href="#conclusiones-y-mejores-prácticas" id="toc-conclusiones-y-mejores-prácticas" class="nav-link" data-scroll-target="#conclusiones-y-mejores-prácticas">Conclusiones y Mejores Prácticas</a>
   <ul class="collapse">
   <li><a href="#recomendaciones-para-usar-árboles-de-decisión" id="toc-recomendaciones-para-usar-árboles-de-decisión" class="nav-link" data-scroll-target="#recomendaciones-para-usar-árboles-de-decisión">Recomendaciones para Usar Árboles de Decisión</a></li>
@@ -1435,6 +1463,1382 @@ Validación cruzada (5-fold):
 </div>
 </div>
 </div>
+</section>
+<section id="bagging-de-árboles" class="level2">
+<h2 class="anchored" data-anchor-id="bagging-de-árboles">Bagging de Árboles</h2>
+<section id="motivación-el-problema-de-la-alta-varianza" class="level3">
+<h3 class="anchored" data-anchor-id="motivación-el-problema-de-la-alta-varianza">Motivación: El Problema de la Alta Varianza</h3>
+<p>Como hemos visto, los árboles de decisión individuales sufren de <strong>alta varianza</strong>: pequeños cambios en los datos de entrenamiento pueden producir árboles completamente diferentes. Esta inestabilidad limita su capacidad de generalización.</p>
+<p>Recordemos la descomposición bias-variance del error esperado:</p>
+<p><span class="math display">\[\text{Error esperado} = \text{Bias}^2 + \text{Varianza} + \text{Ruido irreducible}\]</span></p>
+<p>Los árboles grandes (sin poda) tienen:</p>
+<ul>
+<li><strong>Bajo sesgo</strong>: Pueden aproximar relaciones complejas</li>
+<li><strong>Alta varianza</strong>: Son muy sensibles a los datos específicos de entrenamiento</li>
+</ul>
+<p><strong>Bagging</strong> (Bootstrap Aggregating) es una técnica que reduce la varianza sin aumentar significativamente el sesgo, mejorando así el desempeño general del modelo.</p>
+</section>
+<section id="qué-es-bagging" class="level3">
+<h3 class="anchored" data-anchor-id="qué-es-bagging">¿Qué es Bagging?</h3>
+<p><strong>Bagging</strong> combina las predicciones de múltiples modelos entrenados en diferentes submuestras de los datos. La idea fundamental es:</p>
+<blockquote class="blockquote">
+<p>“Si tenemos múltiples estimadores independientes con la misma distribución, el promedio de sus predicciones tiene la misma media (sesgo) pero menor varianza.”</p>
+</blockquote>
+<p>Matemáticamente, si tenemos <span class="math inline">\(B\)</span> modelos independientes <span class="math inline">\(\hat{f}_1(x), \hat{f}_2(x), ..., \hat{f}_B(x)\)</span> con:</p>
+<p><span class="math display">\[\mathbb{E}[\hat{f}_b(x)] = \mu(x), \quad \text{Var}[\hat{f}_b(x)] = \sigma^2(x)\]</span></p>
+<p>Entonces el promedio tiene:</p>
+<p><span class="math display">\[\mathbb{E}\left[\frac{1}{B}\sum_{b=1}^B \hat{f}_b(x)\right] = \mu(x) \quad \text{(mismo sesgo)}\]</span></p>
+<p><span class="math display">\[\text{Var}\left[\frac{1}{B}\sum_{b=1}^B \hat{f}_b(x)\right] = \frac{\sigma^2(x)}{B} \quad \text{(varianza reducida)}\]</span></p>
+<p>El problema es que en la práctica <strong>no tenemos múltiples conjuntos de entrenamiento independientes</strong>. Bagging resuelve esto usando <strong>bootstrap</strong>.</p>
+</section>
+<section id="el-algoritmo-de-bagging" class="level3">
+<h3 class="anchored" data-anchor-id="el-algoritmo-de-bagging">El Algoritmo de Bagging</h3>
+<p><strong>Algoritmo: Bagging para Árboles de Decisión</strong></p>
+<pre><code>Entrada:
+  - Conjunto de entrenamiento D = {(x₁, y₁), ..., (xₙ, yₙ)}
+  - Número de árboles B
+
+Para b = 1 hasta B:
+  1. Generar muestra bootstrap D*ᵦ:
+     - Muestrear n observaciones de D con reemplazo
+     - Aproximadamente 63% de las observaciones originales aparecerán al menos una vez
+
+  2. Entrenar árbol completo T*ᵦ en D*ᵦ:
+     - Sin poda (dejar crecer hasta profundidad máxima)
+     - min_samples_leaf puede ser mayor (ej: 5-10) para árboles más estables
+
+Para predecir y = f(x) para nueva observación x:
+  - Regresión: ŷ(x) = (1/B) ∑ᵇ₌₁ᴮ T*ᵦ(x)
+  - Clasificación: ŷ(x) = mayoría de votos o promedio de probabilidades</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Muestreo Bootstrap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En cada muestra bootstrap de tamaño <span class="math inline">\(n\)</span>:</p>
+<ul>
+<li><strong>≈ 63.2%</strong> de las observaciones originales aparecen al menos una vez</li>
+<li><strong>≈ 36.8%</strong> de las observaciones nunca son seleccionadas (llamadas <strong>out-of-bag</strong> o OOB)</li>
+</ul>
+<p>Esto ocurre porque la probabilidad de que una observación NO sea seleccionada en <span class="math inline">\(n\)</span> extracciones es:</p>
+<p><span class="math display">\[\left(1 - \frac{1}{n}\right)^n \to \frac{1}{e} \approx 0.368 \quad \text{cuando } n \to \infty\]</span></p>
+</div>
+</div>
+</section>
+<section id="implementación-en-python" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-en-python">Implementación en Python</h3>
+<div id="bagging-implementation" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> BaggingClassifier</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos sintéticos</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">400</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    n_features<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    n_informative<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    n_redundant<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    n_clusters_per_class<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    flip_y<span class="op">=</span><span class="fl">0.15</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Árbol individual (sin bagging)</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>single_tree <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>single_tree.fit(X_train, y_train)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Bagging con diferentes números de árboles</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>n_trees_list <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>]</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>bagging_models <span class="op">=</span> []</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_trees <span class="kw">in</span> n_trees_list:</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    bagging <span class="op">=</span> BaggingClassifier(</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>DecisionTreeClassifier(),</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span>n_trees,</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>        max_samples<span class="op">=</span><span class="fl">1.0</span>,  <span class="co"># Usar 100% de los datos en cada bootstrap</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>        max_features<span class="op">=</span><span class="fl">1.0</span>,  <span class="co"># Usar todas las características</span></span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>        bootstrap<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>    bagging.fit(X_train, y_train)</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>    bagging_models.append(bagging)</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar accuracy</span></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COMPARACIÓN: Árbol Individual vs Bagging"</span>)</span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Modelo'</span><span class="sc">:&lt;30}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Train Acc'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Test Acc'</span><span class="sc">:&lt;12}</span><span class="ss">"</span>)</span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>train_acc_single <span class="op">=</span> single_tree.score(X_train, y_train)</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>test_acc_single <span class="op">=</span> single_tree.score(X_test, y_test)</span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Árbol individual'</span><span class="sc">:&lt;30}</span><span class="ss"> </span><span class="sc">{</span>train_acc_single<span class="sc">:&lt;12.3f}</span><span class="ss"> </span><span class="sc">{</span>test_acc_single<span class="sc">:&lt;12.3f}</span><span class="ss">"</span>)</span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_trees, model <span class="kw">in</span> <span class="bu">zip</span>(n_trees_list, bagging_models):</span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>    train_acc <span class="op">=</span> model.score(X_train, y_train)</span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a>    test_acc <span class="op">=</span> model.score(X_test, y_test)</span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Bagging (B='</span> <span class="op">+</span> <span class="bu">str</span>(n_trees) <span class="op">+</span> <span class="st">')'</span><span class="sc">:&lt;30}</span><span class="ss"> </span><span class="sc">{</span>train_acc<span class="sc">:&lt;12.3f}</span><span class="ss"> </span><span class="sc">{</span>test_acc<span class="sc">:&lt;12.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>COMPARACIÓN: Árbol Individual vs Bagging
+============================================================
+Modelo                         Train Acc    Test Acc    
+------------------------------------------------------------
+Árbol individual               1.000        0.675       
+Bagging (B=1)                  0.918        0.733       
+Bagging (B=10)                 0.971        0.783       
+Bagging (B=50)                 1.000        0.758       
+Bagging (B=100)                1.000        0.758       
+Bagging (B=200)                1.000        0.750       </code></pre>
+</div>
+</div>
+</section>
+<section id="análisis-de-bias-variance-con-bagging" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-de-bias-variance-con-bagging">Análisis de Bias-Variance con Bagging</h3>
+<p>La reducción de varianza en bagging depende de la <strong>correlación entre los árboles</strong>. La varianza real del ensemble es:</p>
+<p><span class="math display">\[\text{Var}[\bar{T}(x)] = \sigma^2(x) \left[\frac{1}{B} + \left(1 - \frac{1}{B}\right)\rho(x)\right]\]</span></p>
+<p>Donde:</p>
+<ul>
+<li><span class="math inline">\(\sigma^2(x)\)</span> es la varianza de un árbol individual</li>
+<li><span class="math inline">\(\rho(x)\)</span> es la correlación promedio entre pares de árboles</li>
+<li><span class="math inline">\(B\)</span> es el número de árboles en el ensemble</li>
+</ul>
+<p><strong>Análisis del límite cuando <span class="math inline">\(B \to \infty\)</span>:</strong></p>
+<p><span class="math display">\[\lim_{B \to \infty} \text{Var}[\bar{T}(x)] = \sigma^2(x) \cdot \rho(x)\]</span></p>
+<p><strong>Implicaciones:</strong></p>
+<ol type="1">
+<li><strong>Si <span class="math inline">\(\rho(x) = 0\)</span></strong> (árboles independientes): Varianza → 0 cuando <span class="math inline">\(B \to \infty\)</span> ✓</li>
+<li><strong>Si <span class="math inline">\(\rho(x) = 1\)</span></strong> (árboles idénticos): Varianza = <span class="math inline">\(\sigma^2(x)\)</span> (sin mejora) ✗</li>
+<li><strong>En la práctica</strong>: <span class="math inline">\(0 &lt; \rho(x) &lt; 1\)</span>, mejora limitada pero significativa</li>
+</ol>
+<p>Como las muestras bootstrap <strong>no son independientes</strong> (se extraen del mismo conjunto de datos), existe correlación positiva entre los árboles, lo que limita la reducción de varianza.</p>
+<div id="cell-bagging-variance-analysis" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div id="bagging-variance-analysis" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/bagging-variance-analysis-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Análisis de la reducción de varianza con Bagging</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Varianza de predicciones por número de árboles:
+============================================================
+B (árboles)     Varianza        Reducción %    
+------------------------------------------------------------
+1               0.0124          0.0            
+5               0.0183          -47.3          
+10              0.0095          23.3           
+25              0.0038          69.4           
+50              0.0018          85.8           
+100             0.0009          92.8           </code></pre>
+</div>
+</div>
+</section>
+<section id="error-out-of-bag-oob" class="level3">
+<h3 class="anchored" data-anchor-id="error-out-of-bag-oob">Error Out-of-Bag (OOB)</h3>
+<p>Una ventaja única de bagging es que podemos estimar el <strong>error de test</strong> sin necesidad de un conjunto de validación separado, usando las observaciones <strong>out-of-bag</strong>.</p>
+<p><strong>Algoritmo para calcular OOB Error:</strong></p>
+<pre><code>Para cada observación i en el conjunto de entrenamiento:
+  1. Identificar qué árboles NO usaron la observación i (≈ 36.8% de los árboles)
+  2. Obtener predicción promediando solo esos árboles: ŷᵢ^OOB
+  3. Comparar ŷᵢ^OOB con yᵢ
+
+OOB Error = (1/n) ∑ᵢ₌₁ⁿ L(yᵢ, ŷᵢ^OOB)</code></pre>
+<p>El error OOB es una estimación <strong>casi insesgada</strong> del error de test, similar a validación cruzada leave-one-out pero mucho más eficiente computacionalmente.</p>
+<div id="cell-oob-error-demonstration" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar bagging con OOB habilitado</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>n_trees_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">101</span>, <span class="dv">5</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>oob_errors <span class="op">=</span> []</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>test_errors <span class="op">=</span> []</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_trees <span class="kw">in</span> n_trees_range:</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    bagging_oob <span class="op">=</span> BaggingClassifier(</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>DecisionTreeClassifier(),</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span>n_trees,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        bootstrap<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        oob_score<span class="op">=</span><span class="va">True</span>,  <span class="co"># Calcular OOB score</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    bagging_oob.fit(X_train, y_train)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OOB error</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    oob_accuracy <span class="op">=</span> bagging_oob.oob_score_</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    oob_errors.append(<span class="dv">1</span> <span class="op">-</span> oob_accuracy)</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Test error</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    test_accuracy <span class="op">=</span> bagging_oob.score(X_test, y_test)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    test_errors.append(<span class="dv">1</span> <span class="op">-</span> test_accuracy)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Curvas de error</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(n_trees_range, oob_errors, <span class="st">'o-'</span>, label<span class="op">=</span><span class="st">'OOB Error'</span>,</span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>            linewidth<span class="op">=</span><span class="dv">2</span>, markersize<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(n_trees_range, test_errors, <span class="st">'s-'</span>, label<span class="op">=</span><span class="st">'Test Error'</span>,</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>            linewidth<span class="op">=</span><span class="dv">2</span>, markersize<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Número de Árboles'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Tasa de Error'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'OOB Error vs Test Error'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Diferencia entre OOB y Test</span></span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>difference <span class="op">=</span> np.array(oob_errors) <span class="op">-</span> np.array(test_errors)</span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(n_trees_range, difference, <span class="st">'o-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, markersize<span class="op">=</span><span class="dv">4</span>, color<span class="op">=</span><span class="st">'green'</span>)</span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-45"><a href="#cb24-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].fill_between(n_trees_range, <span class="dv">0</span>, difference, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">'green'</span>)</span>
+<span id="cb24-46"><a href="#cb24-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Número de Árboles'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb24-47"><a href="#cb24-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'OOB Error - Test Error'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb24-48"><a href="#cb24-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Diferencia entre OOB y Test Error'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb24-49"><a href="#cb24-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb24-50"><a href="#cb24-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb24-53"><a href="#cb24-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-54"><a href="#cb24-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Comparación OOB vs Test Error:"</span>)</span>
+<span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlación entre OOB y Test Error: </span><span class="sc">{</span>np<span class="sc">.</span>corrcoef(oob_errors, test_errors)[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Diferencia promedio: </span><span class="sc">{</span>np<span class="sc">.</span>mean(difference)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Desviación estándar de la diferencia: </span><span class="sc">{</span>np<span class="sc">.</span>std(difference)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/xwing/miniforge3/envs/mineria_datos/lib/python3.11/site-packages/sklearn/ensemble/_bagging.py:917: UserWarning: Some inputs do not have OOB scores. This probably means too few estimators were used to compute any reliable oob estimates.
+  warn(
+/Users/xwing/miniforge3/envs/mineria_datos/lib/python3.11/site-packages/sklearn/ensemble/_bagging.py:923: RuntimeWarning: invalid value encountered in divide
+  oob_decision_function = predictions / predictions.sum(axis=1)[:, np.newaxis]
+/Users/xwing/miniforge3/envs/mineria_datos/lib/python3.11/site-packages/sklearn/ensemble/_bagging.py:917: UserWarning: Some inputs do not have OOB scores. This probably means too few estimators were used to compute any reliable oob estimates.
+  warn(
+/Users/xwing/miniforge3/envs/mineria_datos/lib/python3.11/site-packages/sklearn/ensemble/_bagging.py:923: RuntimeWarning: invalid value encountered in divide
+  oob_decision_function = predictions / predictions.sum(axis=1)[:, np.newaxis]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="oob-error-demonstration" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/oob-error-demonstration-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación entre OOB Error y Test Error</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Comparación OOB vs Test Error:
+============================================================
+Correlación entre OOB y Test Error: 0.345
+Diferencia promedio: -0.0104
+Desviación estándar de la diferencia: 0.0371</code></pre>
+</div>
+</div>
+</section>
+<section id="importancia-de-variables-en-bagging" class="level3">
+<h3 class="anchored" data-anchor-id="importancia-de-variables-en-bagging">Importancia de Variables en Bagging</h3>
+<p>Bagging permite calcular la <strong>importancia de variables</strong> de manera más robusta que un árbol individual, usando el <strong>método de permutación</strong> propuesto por Breiman.</p>
+<p><strong>Algoritmo: Importancia por Permutación con OOB</strong></p>
+<pre><code>Para cada variable k:
+  1. Para cada árbol T*ᵦ en el ensemble:
+     a. Calcular error OOB normal: Error_OOBᵦ
+     b. Permutar aleatoriamente los valores de variable k en datos OOB
+     c. Calcular error OOB con permutación: Error_OOB_permᵦ(k)
+     d. Degradación: Dₖ(T*ᵦ) = Error_OOB_permᵦ(k) - Error_OOBᵦ
+
+  2. Importancia(k) = (1/B) ∑ᵇ₌₁ᴮ Dₖ(T*ᵦ)
+
+Variables importantes → Mayor degradación al permutar
+Variables irrelevantes → Poca o ninguna degradación</code></pre>
+<p><strong>Intuición:</strong> Si una variable es importante, romper su relación con la variable respuesta (mediante permutación) degrada significativamente las predicciones.</p>
+<div id="cell-bagging-feature-importance" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos con más características</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>X_multi, y_multi <span class="op">=</span> make_classification(</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">500</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    n_features<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    n_informative<span class="op">=</span><span class="dv">6</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    n_redundant<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    n_repeated<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>X_train_m, X_test_m, y_train_m, y_test_m <span class="op">=</span> train_test_split(</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    X_multi, y_multi, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>feature_names_m <span class="op">=</span> [<span class="ss">f'X</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)]</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Árbol individual</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>tree_single <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>tree_single.fit(X_train_m, y_train_m)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>importance_tree <span class="op">=</span> tree_single.feature_importances_</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Bagging</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>bagging_multi <span class="op">=</span> BaggingClassifier(</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>DecisionTreeClassifier(),</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    bootstrap<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    oob_score<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>bagging_multi.fit(X_train_m, y_train_m)</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular importancia promediando importancias de árboles individuales</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>importance_bagging <span class="op">=</span> np.mean([</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>    tree.feature_importances_ <span class="cf">for</span> tree <span class="kw">in</span> bagging_multi.estimators_</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización comparativa</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Árbol individual</span></span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>indices_tree <span class="op">=</span> np.argsort(importance_tree)[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].barh(<span class="bu">range</span>(<span class="dv">10</span>), importance_tree[indices_tree], color<span class="op">=</span><span class="st">'steelblue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(<span class="dv">10</span>))</span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticklabels([feature_names_m[i] <span class="cf">for</span> i <span class="kw">in</span> indices_tree])</span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Importancia'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Árbol Individual'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Bagging</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>indices_bag <span class="op">=</span> np.argsort(importance_bagging)[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].barh(<span class="bu">range</span>(<span class="dv">10</span>), importance_bagging[indices_bag], color<span class="op">=</span><span class="st">'coral'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="dv">10</span>))</span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels([feature_names_m[i] <span class="cf">for</span> i <span class="kw">in</span> indices_bag])</span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Importancia'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Bagging (100 árboles)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Comparación de Accuracy:"</span>)</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Árbol individual: </span><span class="sc">{</span>tree_single<span class="sc">.</span>score(X_test_m, y_test_m)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bagging (OOB):    </span><span class="sc">{</span>bagging_multi<span class="sc">.</span>oob_score_<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bagging (Test):   </span><span class="sc">{</span>bagging_multi<span class="sc">.</span>score(X_test_m, y_test_m)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="bagging-feature-importance" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/bagging-feature-importance-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Importancia de variables en Bagging vs Árbol Individual</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Comparación de Accuracy:
+============================================================
+Árbol individual: 0.853
+Bagging (OOB):    0.866
+Bagging (Test):   0.887</code></pre>
+</div>
+</div>
+</section>
+<section id="fronteras-de-decisión-árbol-individual-vs-bagging" class="level3">
+<h3 class="anchored" data-anchor-id="fronteras-de-decisión-árbol-individual-vs-bagging">Fronteras de Decisión: Árbol Individual vs Bagging</h3>
+<div id="cell-bagging-decision-boundaries" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div id="bagging-decision-boundaries" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/bagging-decision-boundaries-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de fronteras de decisión: Árbol Individual vs Bagging</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Observaciones:</strong></p>
+<ul>
+<li>El árbol individual crea fronteras muy complejas y <strong>sobreajustadas</strong></li>
+<li>Bagging suaviza las fronteras al promediar múltiples árboles, reduciendo <strong>overfitting</strong></li>
+<li>Las regiones de decisión en bagging son más <strong>estables</strong> y <strong>generalizables</strong></li>
+</ul>
+</section>
+<section id="ventajas-y-desventajas-de-bagging" class="level3">
+<h3 class="anchored" data-anchor-id="ventajas-y-desventajas-de-bagging">Ventajas y Desventajas de Bagging</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ventajas de Bagging
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Reducción de varianza</strong>: Mejora significativa sobre árboles individuales</li>
+<li><strong>Mantiene bajo sesgo</strong>: Usa árboles grandes sin poda</li>
+<li><strong>OOB error</strong>: Estimación de test error sin conjunto de validación adicional</li>
+<li><strong>Fácil paralelización</strong>: Árboles se entrenan independientemente</li>
+<li><strong>Importancia de variables robusta</strong>: Menos sensible a variabilidad en datos</li>
+<li><strong>Raramente sobreajusta</strong>: Aumentar <span class="math inline">\(B\)</span> no degrada desempeño en test</li>
+<li><strong>Hereda ventajas de árboles</strong>: Robusto a outliers, maneja datos mixtos</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Desventajas de Bagging
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Correlación entre árboles</strong>: Limita reducción de varianza (todos usan mismos datos)</li>
+<li><strong>Pérdida de interpretabilidad</strong>: Ya no tenemos un árbol simple de visualizar</li>
+<li><strong>Costo computacional</strong>: Entrenar y almacenar múltiples árboles</li>
+<li><strong>Predicción más lenta</strong>: Debe consultar todos los árboles para una predicción</li>
+<li><strong>Mejora modesta</strong>: Random Forest supera a bagging al decorrelacionar más los árboles</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="cuántos-árboles-usar" class="level3">
+<h3 class="anchored" data-anchor-id="cuántos-árboles-usar">¿Cuántos Árboles Usar?</h3>
+<div id="cell-bagging-convergence" class="cell" data-fig-height="6" data-fig-width="10" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar convergencia</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>n_trees_conv <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">201</span>, <span class="dv">5</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>train_scores_conv <span class="op">=</span> []</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>test_scores_conv <span class="op">=</span> []</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_trees <span class="kw">in</span> n_trees_conv:</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    bagging_conv <span class="op">=</span> BaggingClassifier(</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>DecisionTreeClassifier(),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span>n_trees,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        bootstrap<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    bagging_conv.fit(X_train, y_train)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    train_scores_conv.append(bagging_conv.score(X_train, y_train))</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    test_scores_conv.append(bagging_conv.score(X_test, y_test))</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>plt.plot(n_trees_conv, train_scores_conv, label<span class="op">=</span><span class="st">'Entrenamiento'</span>,</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>plt.plot(n_trees_conv, test_scores_conv, label<span class="op">=</span><span class="st">'Prueba'</span>,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="fl">2.5</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Número de Árboles (B)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Convergencia de Bagging con Número de Árboles'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>plt.legend(fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Marcar punto de convergencia (cambio &lt; 0.001)</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> np.<span class="bu">abs</span>(np.diff(test_scores_conv))</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>convergence_idx <span class="op">=</span> np.where(diffs <span class="op">&lt;</span> <span class="fl">0.001</span>)[<span class="dv">0</span>][<span class="dv">0</span>] <span class="cf">if</span> <span class="bu">any</span>(diffs <span class="op">&lt;</span> <span class="fl">0.001</span>) <span class="cf">else</span> <span class="bu">len</span>(n_trees_conv)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>convergence_B <span class="op">=</span> n_trees_conv[convergence_idx]</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span>convergence_B, color<span class="op">=</span><span class="st">'green'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="ss">f'Convergencia ≈ B=</span><span class="sc">{</span>convergence_B<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>plt.legend(fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Recomendación sobre número de árboles:"</span>)</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Convergencia aproximada en: B = </span><span class="sc">{</span>convergence_B<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test accuracy en B=</span><span class="sc">{</span>convergence_B<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>test_scores_conv[convergence_idx]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test accuracy en B=</span><span class="sc">{</span>n_trees_conv[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>test_scores_conv[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">En la práctica:"</span>)</span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  - B = 50-100: Generalmente suficiente"</span>)</span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  - B = 500-1000: Común en producción para máxima estabilidad"</span>)</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"  - Más árboles → Más computación pero nunca daña (no overfitting)"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="bagging-convergence" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/bagging-convergence-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Convergencia del accuracy con el número de árboles en Bagging</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Recomendación sobre número de árboles:
+============================================================
+Convergencia aproximada en: B = 11
+Test accuracy en B=11: 0.7750
+Test accuracy en B=196: 0.7500
+
+En la práctica:
+  - B = 50-100: Generalmente suficiente
+  - B = 500-1000: Común en producción para máxima estabilidad
+  - Más árboles → Más computación pero nunca daña (no overfitting)</code></pre>
+</div>
+</div>
+</section>
+<section id="bagging-vs-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="bagging-vs-random-forest">Bagging vs Random Forest</h3>
+<p>Aunque bagging es efectivo, en la práctica <strong>Random Forest</strong> es mucho más popular. La principal diferencia es:</p>
+<p><strong>Bagging</strong>:</p>
+<ul>
+<li>Cada árbol usa <strong>todas</strong> las características en cada división</li>
+<li>Árboles están correlacionados porque usan las mismas variables</li>
+</ul>
+<p><strong>Random Forest</strong>:</p>
+<ul>
+<li>Cada división considera solo una <strong>muestra aleatoria</strong> de características (típicamente <span class="math inline">\(\sqrt{p}\)</span> o <span class="math inline">\(p/3\)</span>)</li>
+<li>Mayor <strong>decorrelación</strong> entre árboles → Mayor reducción de varianza</li>
+</ul>
+<p>Veamos ahora en detalle cómo funciona Random Forest.</p>
+</section>
+</section>
+<section id="random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest">Random Forest</h2>
+<section id="motivación-decorrelación-de-árboles" class="level3">
+<h3 class="anchored" data-anchor-id="motivación-decorrelación-de-árboles">Motivación: Decorrelación de Árboles</h3>
+<p>Como vimos, bagging reduce la varianza promediando múltiples árboles entrenados en muestras bootstrap. Sin embargo, la reducción está limitada por la <strong>correlación entre árboles</strong>:</p>
+<p><span class="math display">\[\text{Var}[\bar{T}(x)] = \sigma^2(x) \cdot \rho(x) + \frac{\sigma^2(x)(1-\rho(x))}{B}\]</span></p>
+<p>Cuando <span class="math inline">\(B \to \infty\)</span>, la varianza converge a <span class="math inline">\(\sigma^2(x) \cdot \rho(x)\)</span>, no a cero.</p>
+<p><strong>Problema en bagging</strong>: Si existe una característica muy predictiva, <strong>todos los árboles</strong> la usarán en las primeras divisiones, haciendo que los árboles se parezcan mucho entre sí.</p>
+<p><strong>Solución de Random Forest</strong>: Forzar <strong>decorrelación</strong> restringiendo las características disponibles en cada división.</p>
+</section>
+<section id="el-algoritmo-de-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="el-algoritmo-de-random-forest">El Algoritmo de Random Forest</h3>
+<p><strong>Random Forest</strong> extiende bagging añadiendo <strong>aleatorización en la selección de características</strong>:</p>
+<p><strong>Algoritmo: Random Forest</strong></p>
+<pre><code>Entrada:
+  - Conjunto de entrenamiento D = {(x₁, y₁), ..., (xₙ, yₙ)}
+  - Número de árboles B
+  - Número de características por división m (típicamente √p para clasificación, p/3 para regresión)
+
+Para b = 1 hasta B:
+  1. Generar muestra bootstrap D*ᵦ de tamaño n
+
+  2. Construir árbol T*ᵦ en D*ᵦ con modificación:
+     En cada división del árbol:
+       a) Seleccionar m características aleatorias del total p
+       b) Encontrar mejor división usando SOLO esas m características
+       c) Realizar la división
+
+  3. Guardar árbol completo T*ᵦ (sin poda)
+
+Predicción para nueva observación x:
+  - Clasificación: ŷ(x) = voto mayoritario de {T*₁(x), ..., T*ᵦ(x)}
+  - Regresión: ŷ(x) = (1/B) ∑ᵇ₌₁ᴮ T*ᵦ(x)</code></pre>
+<p><strong>Diferencia clave con bagging</strong>: En cada nodo, solo se consideran <span class="math inline">\(m &lt; p\)</span> características aleatorias para la división.</p>
+</section>
+<section id="hiperparámetros-clave" class="level3">
+<h3 class="anchored" data-anchor-id="hiperparámetros-clave">Hiperparámetros Clave</h3>
+<p><strong>1. Número de árboles (B o n_estimators)</strong></p>
+<ul>
+<li>Valores típicos: 100-500</li>
+<li>Más árboles → Mejor (no hay overfitting), pero mayor costo computacional</li>
+<li>Recomendación: Empezar con 100-200</li>
+</ul>
+<p><strong>2. Número de características por división (m o max_features)</strong></p>
+<ul>
+<li><strong>Clasificación</strong>: <span class="math inline">\(m = \sqrt{p}\)</span> (default en scikit-learn)</li>
+<li><strong>Regresión</strong>: <span class="math inline">\(m = p/3\)</span> (default en scikit-learn)</li>
+<li>Valores más pequeños → Mayor decorrelación pero mayor sesgo</li>
+<li>Valores más grandes → Menor decorrelación pero menor sesgo</li>
+</ul>
+<p><strong>3. Profundidad del árbol (max_depth)</strong></p>
+<ul>
+<li>Default: <code>None</code> (árboles completos)</li>
+<li>Random Forest usa árboles muy profundos, la regularización viene del ensemble</li>
+<li>Limitar solo si hay problemas de memoria o tiempo de entrenamiento</li>
+</ul>
+<p><strong>4. Tamaño mínimo de hoja (min_samples_leaf)</strong></p>
+<ul>
+<li>Valores típicos: 1 (clasificación), 5 (regresión)</li>
+<li>Mayor → Árboles más suaves, menor varianza</li>
+</ul>
+<p><strong>5. Número de muestras para dividir (min_samples_split)</strong></p>
+<ul>
+<li>Default: 2</li>
+<li>Mayor → Regularización más fuerte</li>
+</ul>
+</section>
+<section id="implementación-y-comparación" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-y-comparación">Implementación y Comparación</h3>
+<div id="random-forest-implementation" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier, BaggingClassifier</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">500</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    n_features<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    n_informative<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    n_redundant<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COMPARACIÓN: Árbol → Bagging → Random Forest"</span>)</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Árbol individual</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>tree_single <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>tree_single.fit(X_train, y_train)</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>train_acc_tree <span class="op">=</span> tree_single.score(X_train, y_train)</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>test_acc_tree <span class="op">=</span> tree_single.score(X_test, y_test)</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">1. Árbol Individual"</span>)</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Train Accuracy: </span><span class="sc">{</span>train_acc_tree<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Test Accuracy:  </span><span class="sc">{</span>test_acc_tree<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Overfitting:    </span><span class="sc">{</span>train_acc_tree <span class="op">-</span> test_acc_tree<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Bagging</span></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>bagging_model <span class="op">=</span> BaggingClassifier(</span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>DecisionTreeClassifier(),</span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>    bootstrap<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>    oob_score<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>bagging_model.fit(X_train, y_train)</span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>train_acc_bag <span class="op">=</span> bagging_model.score(X_train, y_train)</span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>test_acc_bag <span class="op">=</span> bagging_model.score(X_test, y_test)</span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>oob_acc_bag <span class="op">=</span> bagging_model.oob_score_</span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">2. Bagging (100 árboles)"</span>)</span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Train Accuracy: </span><span class="sc">{</span>train_acc_bag<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   OOB Accuracy:   </span><span class="sc">{</span>oob_acc_bag<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Test Accuracy:  </span><span class="sc">{</span>test_acc_bag<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Overfitting:    </span><span class="sc">{</span>train_acc_bag <span class="op">-</span> test_acc_bag<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Random Forest</span></span>
+<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a>rf_model <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a>    max_features<span class="op">=</span><span class="st">'sqrt'</span>,  <span class="co"># √p características</span></span>
+<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a>    bootstrap<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>    oob_score<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>rf_model.fit(X_train, y_train)</span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>train_acc_rf <span class="op">=</span> rf_model.score(X_train, y_train)</span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a>test_acc_rf <span class="op">=</span> rf_model.score(X_test, y_test)</span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a>oob_acc_rf <span class="op">=</span> rf_model.oob_score_</span>
+<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">3. Random Forest (100 árboles, max_features='sqrt')"</span>)</span>
+<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Train Accuracy: </span><span class="sc">{</span>train_acc_rf<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   OOB Accuracy:   </span><span class="sc">{</span>oob_acc_rf<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Test Accuracy:  </span><span class="sc">{</span>test_acc_rf<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Overfitting:    </span><span class="sc">{</span>train_acc_rf <span class="op">-</span> test_acc_rf<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">70</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RESUMEN DE MEJORAS"</span>)</span>
+<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test Accuracy improvement (Árbol → Bagging):      </span><span class="sc">{</span>test_acc_bag <span class="op">-</span> test_acc_tree<span class="sc">:+.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test Accuracy improvement (Bagging → RF):         </span><span class="sc">{</span>test_acc_rf <span class="op">-</span> test_acc_bag<span class="sc">:+.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test Accuracy improvement (Árbol → RF):           </span><span class="sc">{</span>test_acc_rf <span class="op">-</span> test_acc_tree<span class="sc">:+.4f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>COMPARACIÓN: Árbol → Bagging → Random Forest
+======================================================================
+
+1. Árbol Individual
+----------------------------------------------------------------------
+   Train Accuracy: 1.0000
+   Test Accuracy:  0.7667
+   Overfitting:    0.2333
+
+2. Bagging (100 árboles)
+----------------------------------------------------------------------
+   Train Accuracy: 1.0000
+   OOB Accuracy:   0.8629
+   Test Accuracy:  0.8400
+   Overfitting:    0.1600
+
+3. Random Forest (100 árboles, max_features='sqrt')
+----------------------------------------------------------------------
+   Train Accuracy: 1.0000
+   OOB Accuracy:   0.8743
+   Test Accuracy:  0.8800
+   Overfitting:    0.1200
+
+======================================================================
+RESUMEN DE MEJORAS
+======================================================================
+Test Accuracy improvement (Árbol → Bagging):      +0.0733
+Test Accuracy improvement (Bagging → RF):         +0.0400
+Test Accuracy improvement (Árbol → RF):           +0.1133</code></pre>
+</div>
+</div>
+</section>
+<section id="análisis-del-efecto-de-max_features" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-del-efecto-de-max_features">Análisis del Efecto de max_features</h3>
+<div id="cell-rf-max-features-analysis" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Probar diferentes valores de max_features</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>max_features_values <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="st">'sqrt'</span>, <span class="st">'log2'</span>, <span class="va">None</span>]</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>max_features_labels <span class="op">=</span> []</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>train_scores_mf <span class="op">=</span> []</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>test_scores_mf <span class="op">=</span> []</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>cv_scores_mf <span class="op">=</span> []</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> mf <span class="kw">in</span> max_features_values:</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    rf <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>        max_features<span class="op">=</span>mf,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    rf.fit(X_train, y_train)</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    train_scores_mf.append(rf.score(X_train, y_train))</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>    test_scores_mf.append(rf.score(X_test, y_test))</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cross-validation</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    cv_scores <span class="op">=</span> cross_val_score(rf, X_train, y_train, cv<span class="op">=</span><span class="dv">5</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>    cv_scores_mf.append(cv_scores.mean())</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Etiqueta para el gráfico</span></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mf <span class="op">==</span> <span class="st">'sqrt'</span>:</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="ss">f'sqrt (</span><span class="sc">{</span><span class="bu">int</span>(np.sqrt(X.shape[<span class="dv">1</span>]))<span class="sc">}</span><span class="ss">)'</span></span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> mf <span class="op">==</span> <span class="st">'log2'</span>:</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="ss">f'log2 (</span><span class="sc">{</span><span class="bu">int</span>(np.log2(X.shape[<span class="dv">1</span>]))<span class="sc">}</span><span class="ss">)'</span></span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> mf <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="ss">f'All (</span><span class="sc">{</span>X<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">)'</span></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="bu">str</span>(mf)</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>    max_features_labels.append(label)</span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Accuracy por max_features</span></span>
+<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a>x_pos <span class="op">=</span> np.arange(<span class="bu">len</span>(max_features_labels))</span>
+<span id="cb35-42"><a href="#cb35-42" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> <span class="fl">0.25</span></span>
+<span id="cb35-43"><a href="#cb35-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].bar(x_pos <span class="op">-</span> width, train_scores_mf, width, label<span class="op">=</span><span class="st">'Train'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].bar(x_pos, cv_scores_mf, width, label<span class="op">=</span><span class="st">'CV (5-fold)'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, color<span class="op">=</span><span class="st">'green'</span>)</span>
+<span id="cb35-46"><a href="#cb35-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].bar(x_pos <span class="op">+</span> width, test_scores_mf, width, label<span class="op">=</span><span class="st">'Test'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb35-47"><a href="#cb35-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-48"><a href="#cb35-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'max_features'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb35-49"><a href="#cb35-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Accuracy'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb35-50"><a href="#cb35-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Impacto de max_features en Random Forest'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb35-51"><a href="#cb35-51" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(x_pos)</span>
+<span id="cb35-52"><a href="#cb35-52" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticklabels(max_features_labels, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb35-53"><a href="#cb35-53" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
+<span id="cb35-54"><a href="#cb35-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb35-55"><a href="#cb35-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-56"><a href="#cb35-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Overfitting (Train - Test gap)</span></span>
+<span id="cb35-57"><a href="#cb35-57" aria-hidden="true" tabindex="-1"></a>overfitting_gap <span class="op">=</span> np.array(train_scores_mf) <span class="op">-</span> np.array(test_scores_mf)</span>
+<span id="cb35-58"><a href="#cb35-58" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'red'</span> <span class="cf">if</span> gap <span class="op">&gt;</span> <span class="fl">0.1</span> <span class="cf">else</span> <span class="st">'orange'</span> <span class="cf">if</span> gap <span class="op">&gt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">'green'</span> <span class="cf">for</span> gap <span class="kw">in</span> overfitting_gap]</span>
+<span id="cb35-59"><a href="#cb35-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-60"><a href="#cb35-60" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].bar(x_pos, overfitting_gap, color<span class="op">=</span>colors, alpha<span class="op">=</span><span class="fl">0.7</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb35-61"><a href="#cb35-61" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb35-62"><a href="#cb35-62" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'max_features'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb35-63"><a href="#cb35-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Train Accuracy - Test Accuracy'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb35-64"><a href="#cb35-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Gap de Overfitting por max_features'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb35-65"><a href="#cb35-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(x_pos)</span>
+<span id="cb35-66"><a href="#cb35-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(max_features_labels, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb35-67"><a href="#cb35-67" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb35-68"><a href="#cb35-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-69"><a href="#cb35-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir leyenda de colores</span></span>
+<span id="cb35-70"><a href="#cb35-70" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb35-71"><a href="#cb35-71" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [</span>
+<span id="cb35-72"><a href="#cb35-72" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">'green'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">'Bajo (&lt;0.05)'</span>),</span>
+<span id="cb35-73"><a href="#cb35-73" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">'orange'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">'Moderado (0.05-0.10)'</span>),</span>
+<span id="cb35-74"><a href="#cb35-74" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">'Alto (&gt;0.10)'</span>)</span>
+<span id="cb35-75"><a href="#cb35-75" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb35-76"><a href="#cb35-76" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(handles<span class="op">=</span>legend_elements, title<span class="op">=</span><span class="st">'Overfitting'</span>, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb35-77"><a href="#cb35-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-78"><a href="#cb35-78" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb35-79"><a href="#cb35-79" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb35-80"><a href="#cb35-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-81"><a href="#cb35-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Encontrar mejor max_features</span></span>
+<span id="cb35-82"><a href="#cb35-82" aria-hidden="true" tabindex="-1"></a>best_idx <span class="op">=</span> np.argmax(test_scores_mf)</span>
+<span id="cb35-83"><a href="#cb35-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Mejor max_features: </span><span class="sc">{</span>max_features_labels[best_idx]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-84"><a href="#cb35-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test Accuracy: </span><span class="sc">{</span>test_scores_mf[best_idx]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="rf-max-features-analysis" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/rf-max-features-analysis-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Impacto del número de características (max_features) en Random Forest</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Mejor max_features: 1
+Test Accuracy: 0.9133</code></pre>
+</div>
+</div>
+</section>
+<section id="curva-de-aprendizaje-número-de-árboles" class="level3">
+<h3 class="anchored" data-anchor-id="curva-de-aprendizaje-número-de-árboles">Curva de Aprendizaje: Número de Árboles</h3>
+<div id="cell-rf-learning-curve-trees" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar convergencia con número de árboles</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>n_trees_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">201</span>, <span class="dv">5</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>train_scores_conv <span class="op">=</span> []</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>oob_scores_conv <span class="op">=</span> []</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>test_scores_conv <span class="op">=</span> []</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n_trees <span class="kw">in</span> n_trees_range:</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    rf_conv <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span>n_trees,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>        max_features<span class="op">=</span><span class="st">'sqrt'</span>,</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>        oob_score<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    rf_conv.fit(X_train, y_train)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    train_scores_conv.append(rf_conv.score(X_train, y_train))</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    oob_scores_conv.append(rf_conv.oob_score_)</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    test_scores_conv.append(rf_conv.score(X_test, y_test))</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Accuracy vs Número de Árboles</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(n_trees_range, train_scores_conv, label<span class="op">=</span><span class="st">'Train'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(n_trees_range, oob_scores_conv, label<span class="op">=</span><span class="st">'OOB'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(n_trees_range, test_scores_conv, label<span class="op">=</span><span class="st">'Test'</span>, linewidth<span class="op">=</span><span class="fl">2.5</span>)</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Número de Árboles'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Accuracy'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Convergencia de Random Forest'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Marcar punto de convergencia</span></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>diffs <span class="op">=</span> np.<span class="bu">abs</span>(np.diff(test_scores_conv))</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">any</span>(diffs <span class="op">&lt;</span> <span class="fl">0.001</span>):</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    conv_idx <span class="op">=</span> np.where(diffs <span class="op">&lt;</span> <span class="fl">0.001</span>)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>    conv_trees <span class="op">=</span> n_trees_range[conv_idx]</span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].axvline(x<span class="op">=</span>conv_trees, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a>                   label<span class="op">=</span><span class="ss">f'Convergencia ≈ </span><span class="sc">{</span>conv_trees<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].legend()</span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Variabilidad de Test Accuracy</span></span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a>window_size <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a>rolling_std <span class="op">=</span> pd.Series(test_scores_conv).rolling(window<span class="op">=</span>window_size).std()</span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(n_trees_range, test_scores_conv, <span class="st">'o-'</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Test Accuracy'</span>)</span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(n_trees_range, rolling_std, linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'red'</span>,</span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a>            label<span class="op">=</span><span class="ss">f'Desv. Std. (ventana=</span><span class="sc">{</span>window_size<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Número de Árboles'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Valor'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Estabilización del Test Accuracy'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend()</span>
+<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Recomendación:"</span>)</span>
+<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  - Accuracy estabiliza alrededor de </span><span class="sc">{</span>conv_trees <span class="cf">if</span> <span class="bu">any</span>(diffs <span class="op">&lt;</span> <span class="fl">0.001</span>) <span class="cf">else</span> <span class="st">'N/A'</span><span class="sc">}</span><span class="ss"> árboles"</span>)</span>
+<span id="cb37-61"><a href="#cb37-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  - Test accuracy final (200 árboles): </span><span class="sc">{</span>test_scores_conv[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb37-62"><a href="#cb37-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  - Variabilidad final: </span><span class="sc">{</span>rolling_std<span class="sc">.</span>iloc[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.5f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/xwing/miniforge3/envs/mineria_datos/lib/python3.11/site-packages/sklearn/ensemble/_forest.py:611: UserWarning: Some inputs do not have OOB scores. This probably means too few trees were used to compute any reliable OOB estimates.
+  warn(
+/Users/xwing/miniforge3/envs/mineria_datos/lib/python3.11/site-packages/sklearn/ensemble/_forest.py:611: UserWarning: Some inputs do not have OOB scores. This probably means too few trees were used to compute any reliable OOB estimates.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="rf-learning-curve-trees" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/rf-learning-curve-trees-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Convergencia de Random Forest con el número de árboles</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Recomendación:
+  - Accuracy estabiliza alrededor de 21 árboles
+  - Test accuracy final (200 árboles): 0.8867
+  - Variabilidad final: 0.00984</code></pre>
+</div>
+</div>
+</section>
+<section id="importancia-de-variables-en-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="importancia-de-variables-en-random-forest">Importancia de Variables en Random Forest</h3>
+<p>Random Forest proporciona dos medidas de importancia:</p>
+<p><strong>1. Mean Decrease in Impurity (MDI)</strong> - Default en scikit-learn</p>
+<p><span class="math display">\[\text{Importancia}(X_j) = \frac{1}{B} \sum_{b=1}^{B} \sum_{t \in T_b : \text{usa } X_j} \frac{n_t}{n} \Delta I(t)\]</span></p>
+<p><strong>2. Permutation Importance</strong> - Más robusta</p>
+<p>Mide la degradación en accuracy al permutar aleatoriamente una característica.</p>
+<div id="cell-rf-feature-importance" class="cell" data-fig-height="6" data-fig-width="14" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> permutation_importance</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar Random Forest</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>rf_imp <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    max_features<span class="op">=</span><span class="st">'sqrt'</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>rf_imp.fit(X_train, y_train)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Mean Decrease in Impurity (MDI)</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>mdi_importance <span class="op">=</span> rf_imp.feature_importances_</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Permutation Importance</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>perm_importance <span class="op">=</span> permutation_importance(</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    rf_imp, X_test, y_test, n_repeats<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>, n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización comparativa</span></span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>))</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: MDI Importance (Top 10)</span></span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>top_n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>mdi_indices <span class="op">=</span> np.argsort(mdi_importance)[::<span class="op">-</span><span class="dv">1</span>][:top_n]</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].barh(<span class="bu">range</span>(top_n), mdi_importance[mdi_indices], color<span class="op">=</span><span class="st">'steelblue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(top_n))</span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticklabels([<span class="ss">f'X</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> mdi_indices])</span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].invert_yaxis()</span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Mean Decrease in Impurity'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Importancia MDI (Top 10)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores</span></span>
+<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, imp <span class="kw">in</span> <span class="bu">enumerate</span>(mdi_importance[mdi_indices]):</span>
+<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].text(imp <span class="op">+</span> <span class="fl">0.002</span>, i, <span class="ss">f'</span><span class="sc">{</span>imp<span class="sc">:.3f}</span><span class="ss">'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-38"><a href="#cb40-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Permutation Importance (Top 10)</span></span>
+<span id="cb40-39"><a href="#cb40-39" aria-hidden="true" tabindex="-1"></a>perm_means <span class="op">=</span> perm_importance.importances_mean</span>
+<span id="cb40-40"><a href="#cb40-40" aria-hidden="true" tabindex="-1"></a>perm_std <span class="op">=</span> perm_importance.importances_std</span>
+<span id="cb40-41"><a href="#cb40-41" aria-hidden="true" tabindex="-1"></a>perm_indices <span class="op">=</span> np.argsort(perm_means)[::<span class="op">-</span><span class="dv">1</span>][:top_n]</span>
+<span id="cb40-42"><a href="#cb40-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-43"><a href="#cb40-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].barh(<span class="bu">range</span>(top_n), perm_means[perm_indices],</span>
+<span id="cb40-44"><a href="#cb40-44" aria-hidden="true" tabindex="-1"></a>            xerr<span class="op">=</span>perm_std[perm_indices], color<span class="op">=</span><span class="st">'coral'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, capsize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb40-45"><a href="#cb40-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks(<span class="bu">range</span>(top_n))</span>
+<span id="cb40-46"><a href="#cb40-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels([<span class="ss">f'X</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> perm_indices])</span>
+<span id="cb40-47"><a href="#cb40-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].invert_yaxis()</span>
+<span id="cb40-48"><a href="#cb40-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Permutation Importance'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb40-49"><a href="#cb40-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Importancia por Permutación (Top 10)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb40-50"><a href="#cb40-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb40-51"><a href="#cb40-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-52"><a href="#cb40-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores</span></span>
+<span id="cb40-53"><a href="#cb40-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (mean, std) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(perm_means[perm_indices], perm_std[perm_indices])):</span>
+<span id="cb40-54"><a href="#cb40-54" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].text(mean <span class="op">+</span> <span class="fl">0.002</span>, i, <span class="ss">f'</span><span class="sc">{</span>mean<span class="sc">:.3f}</span><span class="ss">±</span><span class="sc">{</span>std<span class="sc">:.3f}</span><span class="ss">'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb40-55"><a href="#cb40-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-56"><a href="#cb40-56" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb40-57"><a href="#cb40-57" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb40-58"><a href="#cb40-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-59"><a href="#cb40-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla comparativa</span></span>
+<span id="cb40-60"><a href="#cb40-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Comparación de Rankings (Top 10):"</span>)</span>
+<span id="cb40-61"><a href="#cb40-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb40-62"><a href="#cb40-62" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Rank'</span><span class="sc">:&lt;6}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'MDI'</span><span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'MDI Value'</span><span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Permutation'</span><span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Perm Value'</span><span class="sc">:&lt;15}</span><span class="ss">"</span>)</span>
+<span id="cb40-63"><a href="#cb40-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb40-64"><a href="#cb40-64" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rank <span class="kw">in</span> <span class="bu">range</span>(top_n):</span>
+<span id="cb40-65"><a href="#cb40-65" aria-hidden="true" tabindex="-1"></a>    mdi_feat <span class="op">=</span> <span class="ss">f"X</span><span class="sc">{</span>mdi_indices[rank]<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb40-66"><a href="#cb40-66" aria-hidden="true" tabindex="-1"></a>    mdi_val <span class="op">=</span> mdi_importance[mdi_indices[rank]]</span>
+<span id="cb40-67"><a href="#cb40-67" aria-hidden="true" tabindex="-1"></a>    perm_feat <span class="op">=</span> <span class="ss">f"X</span><span class="sc">{</span>perm_indices[rank]<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb40-68"><a href="#cb40-68" aria-hidden="true" tabindex="-1"></a>    perm_val <span class="op">=</span> perm_means[perm_indices[rank]]</span>
+<span id="cb40-69"><a href="#cb40-69" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>rank<span class="op">+</span><span class="dv">1</span><span class="sc">:&lt;6}</span><span class="ss"> </span><span class="sc">{</span>mdi_feat<span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span>mdi_val<span class="sc">:&lt;15.4f}</span><span class="ss"> </span><span class="sc">{</span>perm_feat<span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span>perm_val<span class="sc">:&lt;15.4f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="rf-feature-importance" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/rf-feature-importance-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Importancia de variables en Random Forest (MDI vs Permutation)</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Comparación de Rankings (Top 10):
+======================================================================
+Rank   MDI             MDI Value       Permutation     Perm Value     
+----------------------------------------------------------------------
+1      X9              0.1788          X9              0.1560         
+2      X8              0.0653          X8              0.0193         
+3      X1              0.0634          X12             0.0153         
+4      X2              0.0559          X11             0.0147         
+5      X10             0.0536          X10             0.0107         
+6      X11             0.0480          X3              0.0107         
+7      X6              0.0478          X1              0.0087         
+8      X4              0.0477          X14             0.0067         
+9      X5              0.0467          X15             0.0067         
+10     X17             0.0447          X19             0.0067         </code></pre>
+</div>
+</div>
+</section>
+<section id="fronteras-de-decisión-visualización-2d" class="level3">
+<h3 class="anchored" data-anchor-id="fronteras-de-decisión-visualización-2d">Fronteras de Decisión: Visualización 2D</h3>
+<div id="cell-rf-decision-boundaries-2d" class="cell" data-fig-height="5" data-fig-width="15" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<div id="rf-decision-boundaries-2d" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/rf-decision-boundaries-2d-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de fronteras de decisión con diferentes métodos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Observaciones:</strong></p>
+<ol type="1">
+<li><strong>Árbol individual</strong>: Fronteras muy irregulares, sobreajuste evidente</li>
+<li><strong>Bagging</strong>: Fronteras más suaves pero aún correlacionadas</li>
+<li><strong>Random Forest</strong>: Fronteras más suaves y generalizables</li>
+</ol>
+</section>
+<section id="análisis-de-sesgo-varianza" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-de-sesgo-varianza">Análisis de Sesgo-Varianza</h3>
+<div id="cell-rf-bias-variance-analysis" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Experimento: entrenar múltiples modelos en diferentes muestras bootstrap</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>n_experiments <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>n_test_points <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>X_test_sample <span class="op">=</span> X_test[:n_test_points]</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>y_test_sample <span class="op">=</span> y_test[:n_test_points]</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Almacenar predicciones</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>predictions_bagging <span class="op">=</span> []</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>predictions_rf <span class="op">=</span> []</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> exp <span class="kw">in</span> <span class="bu">range</span>(n_experiments):</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generar muestra bootstrap del training set</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    indices <span class="op">=</span> np.random.choice(<span class="bu">len</span>(X_train), size<span class="op">=</span><span class="bu">len</span>(X_train), replace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    X_boot <span class="op">=</span> X_train[indices]</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    y_boot <span class="op">=</span> y_train[indices]</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Bagging</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    bag <span class="op">=</span> BaggingClassifier(</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>DecisionTreeClassifier(),</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>exp,</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>    bag.fit(X_boot, y_boot)</span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>    pred_bag <span class="op">=</span> bag.predict_proba(X_test_sample)[:, <span class="dv">1</span>]</span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>    predictions_bagging.append(pred_bag)</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Random Forest</span></span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>    rf <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>        n_estimators<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>        max_features<span class="op">=</span><span class="st">'sqrt'</span>,</span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>exp,</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a>    rf.fit(X_boot, y_boot)</span>
+<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a>    pred_rf <span class="op">=</span> rf.predict_proba(X_test_sample)[:, <span class="dv">1</span>]</span>
+<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a>    predictions_rf.append(pred_rf)</span>
+<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-40"><a href="#cb42-40" aria-hidden="true" tabindex="-1"></a>predictions_bagging <span class="op">=</span> np.array(predictions_bagging)</span>
+<span id="cb42-41"><a href="#cb42-41" aria-hidden="true" tabindex="-1"></a>predictions_rf <span class="op">=</span> np.array(predictions_rf)</span>
+<span id="cb42-42"><a href="#cb42-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-43"><a href="#cb42-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular varianza por punto de test</span></span>
+<span id="cb42-44"><a href="#cb42-44" aria-hidden="true" tabindex="-1"></a>variance_bagging <span class="op">=</span> np.var(predictions_bagging, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb42-45"><a href="#cb42-45" aria-hidden="true" tabindex="-1"></a>variance_rf <span class="op">=</span> np.var(predictions_rf, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb42-46"><a href="#cb42-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-47"><a href="#cb42-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb42-48"><a href="#cb42-48" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb42-49"><a href="#cb42-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-50"><a href="#cb42-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Comparación de varianzas</span></span>
+<span id="cb42-51"><a href="#cb42-51" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].scatter(<span class="bu">range</span>(n_test_points), variance_bagging,</span>
+<span id="cb42-52"><a href="#cb42-52" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="st">'Bagging'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">60</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb42-53"><a href="#cb42-53" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].scatter(<span class="bu">range</span>(n_test_points), variance_rf,</span>
+<span id="cb42-54"><a href="#cb42-54" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="st">'Random Forest'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">60</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb42-55"><a href="#cb42-55" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(y<span class="op">=</span>np.mean(variance_bagging), color<span class="op">=</span><span class="st">'blue'</span>,</span>
+<span id="cb42-56"><a href="#cb42-56" aria-hidden="true" tabindex="-1"></a>               linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Media Bagging'</span>)</span>
+<span id="cb42-57"><a href="#cb42-57" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(y<span class="op">=</span>np.mean(variance_rf), color<span class="op">=</span><span class="st">'red'</span>,</span>
+<span id="cb42-58"><a href="#cb42-58" aria-hidden="true" tabindex="-1"></a>               linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Media RF'</span>)</span>
+<span id="cb42-59"><a href="#cb42-59" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Punto de Test'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb42-60"><a href="#cb42-60" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Varianza de Predicciones'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb42-61"><a href="#cb42-61" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Varianza por Punto de Test'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb42-62"><a href="#cb42-62" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
+<span id="cb42-63"><a href="#cb42-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb42-64"><a href="#cb42-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-65"><a href="#cb42-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Distribución de varianzas</span></span>
+<span id="cb42-66"><a href="#cb42-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(variance_bagging, bins<span class="op">=</span><span class="dv">15</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">'Bagging'</span>, color<span class="op">=</span><span class="st">'blue'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb42-67"><a href="#cb42-67" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(variance_rf, bins<span class="op">=</span><span class="dv">15</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">'Random Forest'</span>, color<span class="op">=</span><span class="st">'red'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb42-68"><a href="#cb42-68" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axvline(x<span class="op">=</span>np.mean(variance_bagging), color<span class="op">=</span><span class="st">'blue'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb42-69"><a href="#cb42-69" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axvline(x<span class="op">=</span>np.mean(variance_rf), color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb42-70"><a href="#cb42-70" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Varianza'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb42-71"><a href="#cb42-71" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Frecuencia'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb42-72"><a href="#cb42-72" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Distribución de Varianzas'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb42-73"><a href="#cb42-73" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend()</span>
+<span id="cb42-74"><a href="#cb42-74" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb42-75"><a href="#cb42-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-76"><a href="#cb42-76" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb42-77"><a href="#cb42-77" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb42-78"><a href="#cb42-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-79"><a href="#cb42-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Estadísticas</span></span>
+<span id="cb42-80"><a href="#cb42-80" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Estadísticas de Varianza:"</span>)</span>
+<span id="cb42-81"><a href="#cb42-81" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb42-82"><a href="#cb42-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Método'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Media'</span><span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Std'</span><span class="sc">:&lt;15}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Reducción vs Bagging'</span><span class="sc">:&lt;20}</span><span class="ss">"</span>)</span>
+<span id="cb42-83"><a href="#cb42-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb42-84"><a href="#cb42-84" aria-hidden="true" tabindex="-1"></a>mean_var_bag <span class="op">=</span> np.mean(variance_bagging)</span>
+<span id="cb42-85"><a href="#cb42-85" aria-hidden="true" tabindex="-1"></a>mean_var_rf <span class="op">=</span> np.mean(variance_rf)</span>
+<span id="cb42-86"><a href="#cb42-86" aria-hidden="true" tabindex="-1"></a>reduction <span class="op">=</span> (mean_var_bag <span class="op">-</span> mean_var_rf) <span class="op">/</span> mean_var_bag <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb42-87"><a href="#cb42-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-88"><a href="#cb42-88" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Bagging'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>mean_var_bag<span class="sc">:&lt;15.6f}</span><span class="ss"> </span><span class="sc">{</span>np<span class="sc">.</span>std(variance_bagging)<span class="sc">:&lt;15.6f}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'-'</span><span class="sc">:&lt;20}</span><span class="ss">"</span>)</span>
+<span id="cb42-89"><a href="#cb42-89" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Random Forest'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>mean_var_rf<span class="sc">:&lt;15.6f}</span><span class="ss"> </span><span class="sc">{</span>np<span class="sc">.</span>std(variance_rf)<span class="sc">:&lt;15.6f}</span><span class="ss"> </span><span class="sc">{</span>reduction<span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="rf-bias-variance-analysis" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/rf-bias-variance-analysis-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Análisis de Sesgo-Varianza: Bagging vs Random Forest</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estadísticas de Varianza:
+======================================================================
+Método               Media           Std             Reducción vs Bagging
+----------------------------------------------------------------------
+Bagging              0.015281        0.013155        -                   
+Random Forest        0.007110        0.003668        53.47%</code></pre>
+</div>
+</div>
+</section>
+<section id="ventajas-y-desventajas-de-random-forest" class="level3">
+<h3 class="anchored" data-anchor-id="ventajas-y-desventajas-de-random-forest">Ventajas y Desventajas de Random Forest</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ventajas de Random Forest
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Excelente desempeño out-of-the-box</strong>: Pocos hiperparámetros que ajustar</li>
+<li><strong>Reducción de varianza superior a bagging</strong>: Gracias a la decorrelación</li>
+<li><strong>Robusto al sobreajuste</strong>: Aumentar árboles no degrada test performance</li>
+<li><strong>OOB error</strong>: Estimación gratuita de error de test</li>
+<li><strong>Importancia de variables</strong>: Dos métodos complementarios (MDI y permutación)</li>
+<li><strong>Paralelizable</strong>: Árboles se entrenan independientemente</li>
+<li><strong>Maneja datos mixtos</strong>: Numéricas y categóricas sin preprocesamiento</li>
+<li><strong>Robusto a outliers y ruido</strong>: Hereda esta propiedad de los árboles</li>
+<li><strong>Pocas suposiciones</strong>: No asume distribuciones específicas de los datos</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Desventajas de Random Forest
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Pérdida de interpretabilidad</strong>: No es un modelo simple de visualizar</li>
+<li><strong>Costo computacional</strong>: Mayor que árboles individuales</li>
+<li><strong>Predicción lenta</strong>: Debe consultar todos los árboles (puede optimizarse)</li>
+<li><strong>Uso de memoria</strong>: Debe almacenar todos los árboles</li>
+<li><strong>No extrapola</strong>: Solo interpola dentro del rango de los datos de entrenamiento</li>
+<li><strong>Menos efectivo en datos muy de alta dimensión</strong>: Cuando p &gt;&gt; n</li>
+<li><strong>Sesgo hacia variables con muchos valores</strong>: En importancia MDI</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="aplicación-práctica-dataset-real-1" class="level3">
+<h3 class="anchored" data-anchor-id="aplicación-práctica-dataset-real-1">Aplicación Práctica: Dataset Real</h3>
+<div id="rf-real-dataset" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, cross_val_score</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, confusion_matrix</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>cancer <span class="op">=</span> load_breast_cancer()</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>X_cancer <span class="op">=</span> cancer.data</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>y_cancer <span class="op">=</span> cancer.target</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>X_train_c, X_test_c, y_train_c, y_test_c <span class="op">=</span> train_test_split(</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    X_cancer, y_cancer, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_cancer</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"APLICACIÓN: Wisconsin Breast Cancer Dataset"</span>)</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Muestras: </span><span class="sc">{</span>X_cancer<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> | Características: </span><span class="sc">{</span>X_cancer<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Clases: </span><span class="sc">{</span>cancer<span class="sc">.</span>target_names<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Distribución: </span><span class="sc">{</span><span class="bu">dict</span>(<span class="bu">zip</span>(<span class="op">*</span>np.unique(y_cancer, return_counts<span class="op">=</span><span class="va">True</span>)))<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Random Forest con parámetros default</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">1. RANDOM FOREST (parámetros default)"</span>)</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>rf_default <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>rf_default.fit(X_train_c, y_train_c)</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>train_acc_default <span class="op">=</span> rf_default.score(X_train_c, y_train_c)</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>test_acc_default <span class="op">=</span> rf_default.score(X_test_c, y_test_c)</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Train Accuracy: </span><span class="sc">{</span>train_acc_default<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test Accuracy:  </span><span class="sc">{</span>test_acc_default<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Optimización de hiperparámetros</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">2. OPTIMIZACIÓN DE HIPERPARÁMETROS (Grid Search)"</span>)</span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: [<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>],</span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_features'</span>: [<span class="st">'sqrt'</span>, <span class="st">'log2'</span>],</span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: [<span class="va">None</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>],</span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>]</span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a>    RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>),</span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a>    param_grid,</span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">'accuracy'</span>,</span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Buscando mejores hiperparámetros (esto puede tomar un momento)..."</span>)</span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train_c, y_train_c)</span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Mejores hiperparámetros encontrados:"</span>)</span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> param, value <span class="kw">in</span> grid_search.best_params_.items():</span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>param<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Evaluar mejor modelo</span></span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">3. EVALUACIÓN DEL MEJOR MODELO"</span>)</span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a>best_rf <span class="op">=</span> grid_search.best_estimator_</span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a>train_acc_best <span class="op">=</span> best_rf.score(X_train_c, y_train_c)</span>
+<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a>test_acc_best <span class="op">=</span> best_rf.score(X_test_c, y_test_c)</span>
+<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Train Accuracy: </span><span class="sc">{</span>train_acc_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test Accuracy:  </span><span class="sc">{</span>test_acc_best<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Validación cruzada</span></span>
+<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a>cv_scores <span class="op">=</span> cross_val_score(best_rf, X_train_c, y_train_c, cv<span class="op">=</span><span class="dv">5</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CV Accuracy:    </span><span class="sc">{</span>cv_scores<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss"> (±</span><span class="sc">{</span>cv_scores<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
+<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Reporte de clasificación</span></span>
+<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> best_rf.predict(X_test_c)</span>
+<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Reporte de Clasificación:"</span>)</span>
+<span id="cb44-81"><a href="#cb44-81" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_c, y_pred, target_names<span class="op">=</span>cancer.target_names))</span>
+<span id="cb44-82"><a href="#cb44-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión</span></span>
+<span id="cb44-84"><a href="#cb44-84" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Matriz de Confusión:"</span>)</span>
+<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test_c, y_pred)</span>
+<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cm)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>APLICACIÓN: Wisconsin Breast Cancer Dataset
+======================================================================
+Muestras: 569 | Características: 30
+Clases: ['malignant' 'benign']
+Distribución: {np.int64(0): np.int64(212), np.int64(1): np.int64(357)}
+
+1. RANDOM FOREST (parámetros default)
+----------------------------------------------------------------------
+Train Accuracy: 1.0000
+Test Accuracy:  0.9357
+
+2. OPTIMIZACIÓN DE HIPERPARÁMETROS (Grid Search)
+----------------------------------------------------------------------
+Buscando mejores hiperparámetros (esto puede tomar un momento)...
+
+Mejores hiperparámetros encontrados:
+  max_depth: None
+  max_features: sqrt
+  min_samples_leaf: 1
+  min_samples_split: 2
+  n_estimators: 100
+
+3. EVALUACIÓN DEL MEJOR MODELO
+----------------------------------------------------------------------
+Train Accuracy: 1.0000
+Test Accuracy:  0.9357
+CV Accuracy:    0.9725 (±0.0330)
+
+Reporte de Clasificación:
+              precision    recall  f1-score   support
+
+   malignant       0.92      0.91      0.91        64
+      benign       0.94      0.95      0.95       107
+
+    accuracy                           0.94       171
+   macro avg       0.93      0.93      0.93       171
+weighted avg       0.94      0.94      0.94       171
+
+Matriz de Confusión:
+[[ 58   6]
+ [  5 102]]</code></pre>
+</div>
+</div>
+<div id="cell-rf-cancer-feature-importance" class="cell" data-fig-height="6" data-fig-width="12" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importancia de variables</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>importances <span class="op">=</span> best_rf.feature_importances_</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>indices <span class="op">=</span> np.argsort(importances)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">10</span>]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Importancia MDI</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].barh(<span class="bu">range</span>(<span class="dv">10</span>), importances[indices], color<span class="op">=</span><span class="st">'steelblue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(<span class="dv">10</span>))</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticklabels([cancer.feature_names[i] <span class="cf">for</span> i <span class="kw">in</span> indices])</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].invert_yaxis()</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Importancia (MDI)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Top 10 Características (MDI)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, imp <span class="kw">in</span> <span class="bu">enumerate</span>(importances[indices]):</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].text(imp <span class="op">+</span> <span class="fl">0.002</span>, i, <span class="ss">f'</span><span class="sc">{</span>imp<span class="sc">:.3f}</span><span class="ss">'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Permutation Importance</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>perm_imp <span class="op">=</span> permutation_importance(</span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>    best_rf, X_test_c, y_test_c, n_repeats<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>, n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>perm_indices <span class="op">=</span> np.argsort(perm_imp.importances_mean)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">10</span>]</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].barh(<span class="bu">range</span>(<span class="dv">10</span>), perm_imp.importances_mean[perm_indices],</span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>            xerr<span class="op">=</span>perm_imp.importances_std[perm_indices],</span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">'coral'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, capsize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="dv">10</span>))</span>
+<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels([cancer.feature_names[i] <span class="cf">for</span> i <span class="kw">in</span> perm_indices])</span>
+<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].invert_yaxis()</span>
+<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Importancia (Permutación)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Top 10 Características (Permutación)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb46-34"><a href="#cb46-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-35"><a href="#cb46-35" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb46-36"><a href="#cb46-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="rf-cancer-feature-importance" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="05-arboles_files/figure-html/rf-cancer-feature-importance-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Top 10 características más importantes para diagnóstico de cáncer (Random Forest)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="conclusiones-y-mejores-prácticas" class="level2">
 <h2 class="anchored" data-anchor-id="conclusiones-y-mejores-prácticas">Conclusiones y Mejores Prácticas</h2>

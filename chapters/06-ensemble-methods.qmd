@@ -1,0 +1,685 @@
+# Métodos Ensemble: Random Forest y Boosting
+
+## Introducción a Métodos Ensemble
+
+En el capítulo anterior estudiamos los árboles de decisión individuales y el método de **bagging**, que combina múltiples árboles entrenados en muestras bootstrap. Vimos que bagging reduce significativamente la varianza de los árboles individuales sin aumentar el sesgo. Sin embargo, la correlación entre los árboles limita esta reducción de varianza.
+
+Los **métodos ensemble** (ensemble methods o métodos de ensamble) son técnicas que combinan múltiples modelos base para crear un predictor más robusto y preciso. La idea fundamental es:
+
+> "Muchos modelos débiles combinados de manera inteligente pueden superar a un solo modelo fuerte."
+
+### Tipos Principales de Ensemble
+
+Existen tres familias principales de métodos ensemble:
+
+1. **Bagging** (Bootstrap Aggregating):
+
+   - Entrenar modelos independientes en muestras bootstrap
+   - Combinar mediante promedio (regresión) o votación (clasificación)
+   - Reduce **varianza** manteniendo el sesgo
+   - Ejemplo: Random Forest
+
+2. **Boosting**:
+
+   - Entrenar modelos secuencialmente
+   - Cada modelo se enfoca en corregir errores del anterior
+   - Reduce **sesgo** principalmente (también puede reducir varianza)
+   - Ejemplos: AdaBoost, Gradient Boosting, XGBoost
+
+3. **Stacking**:
+
+   - Entrenar múltiples modelos diversos
+   - Usar un meta-modelo para combinar predicciones
+   - Aprovecha fortalezas complementarias
+   - Más complejo, menos común en práctica
+
+En este capítulo nos enfocaremos en **Random Forest** (una mejora sobre bagging) y **Gradient Boosting** (la familia de boosting más popular).
+
+### El Principio de "Wisdom of Crowds"
+
+La efectividad de los métodos ensemble se basa en un principio estadístico fundamental: si tenemos múltiples predictores **independientes** y **razonablemente buenos**, su agregación será mejor que cualquiera individual.
+
+Supongamos que tenemos $B$ clasificadores binarios independientes, cada uno con probabilidad $p > 0.5$ de clasificar correctamente. La probabilidad de que la mayoría vote correctamente es:
+
+$$P(\text{mayoría correcta}) = \sum_{k > B/2} \binom{B}{k} p^k (1-p)^{B-k}$$
+
+Por ejemplo, con $B=11$ clasificadores y $p=0.6$:
+
+- Un clasificador individual: 60% de accuracy
+- Votación mayoritaria: ~75% de accuracy
+- Con $B \to \infty$: accuracy → 100%
+
+**La clave está en la independencia**: si los clasificadores cometen los mismos errores, no hay mejora por agregarlos.
+
+## Random Forest: Decorrelación de Árboles
+
+### Motivación: Limitación de Bagging
+
+Recordemos del capítulo anterior que en bagging, la varianza del ensemble está dada por:
+
+$$\text{Var}[\bar{T}(x)] = \sigma^2(x) \left[\frac{1}{B} + \left(1 - \frac{1}{B}\right)\rho(x)\right]$$
+
+Donde:
+
+- $\sigma^2(x)$ es la varianza de un árbol individual
+- $\rho(x)$ es la correlación promedio entre árboles
+- $B$ es el número de árboles
+
+Cuando $B \to \infty$:
+
+$$\lim_{B \to \infty} \text{Var}[\bar{T}(x)] = \sigma^2(x) \cdot \rho(x)$$
+
+**El problema**: La correlación $\rho(x)$ pone un límite a la reducción de varianza. En bagging, todos los árboles usan las **mismas variables** y datos similares (muestras bootstrap del mismo conjunto), lo que genera correlación.
+
+**La solución**: Random Forest reduce esta correlación introduciendo **aleatoriedad en la selección de variables** durante la construcción de cada árbol.
+
+### ¿Qué es Random Forest?
+
+**Random Forest** (Bosque Aleatorio) es una extensión de bagging que añade un paso adicional de aleatorización:
+
+**En Bagging**:
+
+1. Generar muestra bootstrap
+2. En cada división, considerar **todas** las $p$ variables
+3. Elegir la mejor división entre todas las variables
+
+**En Random Forest**:
+
+1. Generar muestra bootstrap
+2. En cada división, seleccionar aleatoriamente $m$ variables de las $p$ disponibles
+3. Elegir la mejor división **solo entre esas $m$ variables**
+4. Repetir selección aleatoria en cada nodo (no se fija por árbol)
+
+Esta restricción de variables **decorrelaciona los árboles** sin aumentar significativamente el sesgo.
+
+### El Algoritmo de Random Forest
+
+**Algoritmo: Random Forest**
+
+```
+Entrada:
+  - Conjunto de entrenamiento D = {(x₁, y₁), ..., (xₙ, yₙ)}
+  - Número de árboles B
+  - Número de variables candidatas m (hiperparámetro mtry)
+
+Para b = 1 hasta B:
+  1. Generar muestra bootstrap D*ᵦ de tamaño n
+
+  2. Construir árbol T*ᵦ:
+     a. Iniciar en nodo raíz con D*ᵦ
+     b. Para cada nodo interno (hasta criterio de parada):
+        - Seleccionar aleatoriamente m variables de las p disponibles
+        - Entre esas m variables, encontrar la mejor división
+        - Crear nodos hijos con la división elegida
+        - Aplicar recursivamente
+
+  3. Dejar crecer el árbol sin poda (o con poda mínima)
+
+Para predecir ŷ en nueva observación x:
+  - Regresión: ŷ(x) = (1/B) Σᵇ₌₁ᴮ T*ᵦ(x)
+  - Clasificación: ŷ(x) = argmax_g {# árboles que votan por clase g}
+                   o promedio de probabilidades
+```
+
+::: {.callout-important}
+## Parámetro Clave: mtry (m)
+
+El parámetro **mtry** controla cuántas variables se consideran en cada división. Su elección balancea sesgo y decorrelación:
+
+- **m pequeño** (ej: m=1):
+  - ↑ Decorrelación entre árboles (menor $\rho(x)$)
+  - ↑ Varianza individual de cada árbol
+  - ↑ Sesgo (menos opciones para encontrar buenas divisiones)
+
+- **m grande** (ej: m=p):
+  - ↓ Decorrelación (se aproxima a bagging puro)
+  - ↓ Varianza individual de cada árbol
+  - ↓ Sesgo
+
+**Valores típicos recomendados**:
+
+- **Clasificación**: $m = \sqrt{p}$
+- **Regresión**: $m = p/3$
+
+Estos valores balancean empíricamente el tradeoff sesgo-varianza-correlación.
+:::
+
+### Implementación en Python
+
+```{python}
+#| label: rf-basic-implementation
+#| echo: true
+
+from sklearn.ensemble import RandomForestClassifier, BaggingClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Generar datos sintéticos
+np.random.seed(42)
+X, y = make_classification(
+    n_samples=500,
+    n_features=10,
+    n_informative=8,
+    n_redundant=2,
+    n_clusters_per_class=2,
+    flip_y=0.1,
+    random_state=42
+)
+
+# Dividir datos
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+print("Configuración del experimento:")
+print("=" * 60)
+print(f"Características (p): {X_train.shape[1]}")
+print(f"Muestras entrenamiento: {X_train.shape[0]}")
+print(f"Muestras prueba: {X_test.shape[0]}")
+
+# 1. Árbol individual
+tree_single = DecisionTreeClassifier(random_state=42)
+tree_single.fit(X_train, y_train)
+
+# 2. Bagging (m = p, todas las características)
+bagging = BaggingClassifier(
+    estimator=DecisionTreeClassifier(),
+    n_estimators=100,
+    max_samples=1.0,
+    max_features=1.0,  # Todas las características
+    bootstrap=True,
+    oob_score=True,
+    random_state=42,
+    n_jobs=-1
+)
+bagging.fit(X_train, y_train)
+
+# 3. Random Forest con m = sqrt(p)
+rf_sqrt = RandomForestClassifier(
+    n_estimators=100,
+    max_features='sqrt',  # sqrt(p) ≈ 3
+    bootstrap=True,
+    oob_score=True,
+    random_state=42,
+    n_jobs=-1
+)
+rf_sqrt.fit(X_train, y_train)
+
+# 4. Random Forest con m = p/3
+max_features_third = max(1, X_train.shape[1] // 3)
+rf_third = RandomForestClassifier(
+    n_estimators=100,
+    max_features=max_features_third,  # p/3 ≈ 3
+    bootstrap=True,
+    oob_score=True,
+    random_state=42,
+    n_jobs=-1
+)
+rf_third.fit(X_train, y_train)
+
+# Comparación de resultados
+print("\n" + "=" * 60)
+print("COMPARACIÓN DE MÉTODOS")
+print("=" * 60)
+print(f"{'Método':<30} {'Train Acc':<12} {'OOB Acc':<12} {'Test Acc':<12}")
+print("-" * 60)
+
+models = [
+    ("Árbol individual", tree_single, None),
+    ("Bagging (m=p)", bagging, bagging.oob_score_),
+    ("Random Forest (m=√p)", rf_sqrt, rf_sqrt.oob_score_),
+    ("Random Forest (m=p/3)", rf_third, rf_third.oob_score_)
+]
+
+for name, model, oob in models:
+    train_acc = model.score(X_train, y_train)
+    test_acc = model.score(X_test, y_test)
+    oob_str = f"{oob:.4f}" if oob is not None else "N/A"
+    print(f"{name:<30} {train_acc:<12.4f} {oob_str:<12} {test_acc:<12.4f}")
+
+print("\nObservaciones:")
+print("- Árbol individual sobreajusta (train >> test)")
+print("- Bagging mejora pero con correlación alta entre árboles")
+print("- Random Forest decorrelaciona árboles → mejor generalización")
+print(f"- mtry óptimo depende del problema (probar √p y p/3)")
+```
+
+### Análisis de Decorrelación
+
+Veamos experimentalmente cómo diferentes valores de `mtry` afectan la correlación entre árboles y el desempeño:
+
+```{python}
+#| label: rf-mtry-analysis
+#| fig-cap: "Efecto del parámetro mtry en Random Forest"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: true
+
+# Evaluar diferentes valores de mtry
+mtry_values = range(1, X_train.shape[1] + 1)
+train_scores = []
+oob_scores = []
+test_scores = []
+
+for mtry in mtry_values:
+    rf = RandomForestClassifier(
+        n_estimators=100,
+        max_features=mtry,
+        bootstrap=True,
+        oob_score=True,
+        random_state=42,
+        n_jobs=-1
+    )
+    rf.fit(X_train, y_train)
+
+    train_scores.append(rf.score(X_train, y_train))
+    oob_scores.append(rf.oob_score_)
+    test_scores.append(rf.score(X_test, y_test))
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Panel 1: Accuracy vs mtry
+axes[0].plot(mtry_values, train_scores, 'o-', label='Entrenamiento',
+            linewidth=2, markersize=6, alpha=0.7)
+axes[0].plot(mtry_values, oob_scores, 's-', label='OOB',
+            linewidth=2, markersize=6)
+axes[0].plot(mtry_values, test_scores, '^-', label='Prueba',
+            linewidth=2.5, markersize=6)
+
+# Marcar valores típicos
+p = X_train.shape[1]
+sqrt_p = int(np.sqrt(p))
+third_p = p // 3
+
+axes[0].axvline(x=sqrt_p, color='green', linestyle='--', alpha=0.7,
+               label=f'√p = {sqrt_p}')
+axes[0].axvline(x=third_p, color='orange', linestyle='--', alpha=0.7,
+               label=f'p/3 = {third_p}')
+
+axes[0].set_xlabel('mtry (número de variables candidatas)', fontsize=11)
+axes[0].set_ylabel('Accuracy', fontsize=11)
+axes[0].set_title('Accuracy vs mtry', fontsize=12, fontweight='bold')
+axes[0].legend(fontsize=9)
+axes[0].grid(True, alpha=0.3)
+axes[0].set_xticks(mtry_values)
+
+# Panel 2: Gap entre train y test
+gap = np.array(train_scores) - np.array(test_scores)
+axes[1].plot(mtry_values, gap, 'o-', linewidth=2.5, markersize=6, color='red')
+axes[1].axhline(y=0, color='black', linestyle='-', linewidth=1, alpha=0.3)
+axes[1].fill_between(mtry_values, 0, gap, alpha=0.3, color='red')
+
+axes[1].axvline(x=sqrt_p, color='green', linestyle='--', alpha=0.7)
+axes[1].axvline(x=third_p, color='orange', linestyle='--', alpha=0.7)
+
+axes[1].set_xlabel('mtry (número de variables candidatas)', fontsize=11)
+axes[1].set_ylabel('Train Acc - Test Acc (Overfitting)', fontsize=11)
+axes[1].set_title('Overfitting vs mtry', fontsize=12, fontweight='bold')
+axes[1].grid(True, alpha=0.3)
+axes[1].set_xticks(mtry_values)
+
+plt.tight_layout()
+plt.show()
+
+# Encontrar mejor mtry
+best_idx = np.argmax(test_scores)
+best_mtry = mtry_values[best_idx]
+
+print(f"\nMejor mtry para este dataset: {best_mtry}")
+print(f"Test accuracy con mtry={best_mtry}: {test_scores[best_idx]:.4f}")
+print(f"\nComparación con valores típicos:")
+print(f"  mtry = √p = {sqrt_p}: Test Acc = {test_scores[sqrt_p-1]:.4f}")
+print(f"  mtry = p/3 = {third_p}: Test Acc = {test_scores[third_p-1]:.4f}")
+```
+
+::: {.callout-note}
+## Interpretación
+
+**mtry bajo (1-2)**:
+
+- Árboles muy decorrelacionados
+- Mayor varianza individual y sesgo
+- Útil cuando hay muchas variables ruidosas
+
+**mtry medio (√p, p/3)**:
+
+- Balance óptimo en la mayoría de casos
+- Recomendaciones empíricas funcionan bien
+- Punto de partida para tuning
+
+**mtry alto (cercano a p)**:
+
+- Se aproxima a bagging puro
+- Menor decorrelación
+- Útil cuando todas las variables son informativas
+:::
+
+## Importancia de Variables en Random Forest
+
+Una de las grandes ventajas de Random Forest es que proporciona medidas robustas de **importancia de variables** (feature importance). Hay dos métodos principales:
+
+### 1. Importancia por Reducción de Impureza (Gini/MSE)
+
+Para cada variable $X_j$, sumamos la reducción total de impureza cada vez que $X_j$ se usa en una división, promediada sobre todos los árboles:
+
+$$\text{Importancia}_{\text{Gini}}(X_j) = \frac{1}{B} \sum_{b=1}^B \sum_{t \in T_b: \text{usa } X_j} \frac{n_t}{n} \Delta I(t)$$
+
+Donde:
+
+- $T_b$ es el árbol $b$
+- $n_t$ es el número de muestras en el nodo $t$
+- $\Delta I(t)$ es la reducción de impureza en el nodo $t$
+
+**Ventajas**: Rápida de calcular, disponible automáticamente
+
+**Desventajas**:
+
+- Sesgada hacia variables con muchas categorías o valores
+- No considera correlaciones entre variables
+- Puede ser engañosa con variables correlacionadas
+
+### 2. Importancia por Permutación (Breiman)
+
+Método más robusto propuesto por Breiman:
+
+**Algoritmo**:
+
+```
+Para cada variable Xⱼ:
+  Para cada árbol Tᵦ:
+    1. Calcular error OOB: E_OOB(Tᵦ)
+    2. Permutar aleatoriamente valores de Xⱼ en datos OOB
+    3. Calcular error OOB con permutación: E_OOB_perm(Tᵦ, Xⱼ)
+    4. Degradación: D(Tᵦ, Xⱼ) = E_OOB_perm(Tᵦ, Xⱼ) - E_OOB(Tᵦ)
+
+  Importancia(Xⱼ) = (1/B) Σᵇ Desviación estándar de D(Tᵦ, Xⱼ)
+```
+
+**Interpretación**: Si una variable es importante, romper su relación con $Y$ (mediante permutación) degrada significativamente las predicciones.
+
+### Implementación y Comparación
+
+```{python}
+#| label: rf-feature-importance
+#| fig-cap: "Comparación de métodos de importancia de variables"
+#| fig-width: 14
+#| fig-height: 10
+#| echo: true
+
+from sklearn.inspection import permutation_importance
+
+# Generar datos con variables de diferente importancia
+np.random.seed(42)
+n_samples = 600
+n_features = 12
+
+# Variables informativas con diferentes niveles de importancia
+X1 = np.random.randn(n_samples, 1)  # Muy importante
+X2 = np.random.randn(n_samples, 1)  # Importante
+X3 = np.random.randn(n_samples, 1)  # Moderadamente importante
+X4 = np.random.randn(n_samples, 1)  # Poco importante
+
+# Variables ruidosas (no informativas)
+X_noise = np.random.randn(n_samples, n_features - 4)
+
+# Combinar
+X_imp = np.hstack([X1, X2, X3, X4, X_noise])
+
+# Generar Y con relación no lineal
+y_imp = (
+    3 * X1.ravel() ** 2 +  # X1 es muy importante
+    2 * X2.ravel() +        # X2 es importante
+    1 * np.sin(X3.ravel()) +  # X3 moderadamente importante
+    0.3 * X4.ravel() +      # X4 poco importante
+    np.random.randn(n_samples) * 0.5
+)
+
+# Convertir a clasificación
+y_imp = (y_imp > np.median(y_imp)).astype(int)
+
+# Dividir datos
+X_train_imp, X_test_imp, y_train_imp, y_test_imp = train_test_split(
+    X_imp, y_imp, test_size=0.3, random_state=42
+)
+
+feature_names = [f'X{i+1}' for i in range(n_features)]
+
+# Entrenar Random Forest
+rf_imp = RandomForestClassifier(
+    n_estimators=200,
+    max_features='sqrt',
+    max_depth=10,
+    random_state=42,
+    n_jobs=-1
+)
+rf_imp.fit(X_train_imp, y_train_imp)
+
+# 1. Importancia por Gini (impureza)
+importance_gini = rf_imp.feature_importances_
+
+# 2. Importancia por permutación
+perm_importance = permutation_importance(
+    rf_imp, X_test_imp, y_test_imp,
+    n_repeats=30,
+    random_state=42,
+    n_jobs=-1
+)
+importance_perm = perm_importance.importances_mean
+importance_perm_std = perm_importance.importances_std
+
+# Visualización comparativa
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# Panel 1: Importancia por Gini
+indices_gini = np.argsort(importance_gini)[::-1]
+axes[0, 0].barh(range(n_features), importance_gini[indices_gini],
+               color='steelblue', alpha=0.7)
+axes[0, 0].set_yticks(range(n_features))
+axes[0, 0].set_yticklabels([feature_names[i] for i in indices_gini])
+axes[0, 0].set_xlabel('Importancia (Reducción de Gini)', fontsize=11)
+axes[0, 0].set_title('Método 1: Importancia por Reducción de Impureza',
+                     fontsize=12, fontweight='bold')
+axes[0, 0].grid(True, alpha=0.3, axis='x')
+axes[0, 0].invert_yaxis()
+
+# Panel 2: Importancia por Permutación
+indices_perm = np.argsort(importance_perm)[::-1]
+axes[0, 1].barh(range(n_features), importance_perm[indices_perm],
+               xerr=importance_perm_std[indices_perm],
+               color='coral', alpha=0.7)
+axes[0, 1].set_yticks(range(n_features))
+axes[0, 1].set_yticklabels([feature_names[i] for i in indices_perm])
+axes[0, 1].set_xlabel('Importancia (Degradación por Permutación)', fontsize=11)
+axes[0, 1].set_title('Método 2: Importancia por Permutación',
+                     fontsize=12, fontweight='bold')
+axes[0, 1].grid(True, alpha=0.3, axis='x')
+axes[0, 1].invert_yaxis()
+
+# Panel 3: Comparación directa (top 8)
+n_top = 8
+top_features_gini = indices_gini[:n_top]
+x_pos = np.arange(n_top)
+width = 0.35
+
+axes[1, 0].bar(x_pos - width/2, importance_gini[top_features_gini],
+              width, label='Gini', color='steelblue', alpha=0.7)
+axes[1, 0].bar(x_pos + width/2,
+              importance_perm[top_features_gini] / importance_perm.max() *
+              importance_gini.max(),  # Escalar para comparación visual
+              width, label='Permutación (escalada)', color='coral', alpha=0.7)
+axes[1, 0].set_xticks(x_pos)
+axes[1, 0].set_xticklabels([feature_names[i] for i in top_features_gini],
+                           rotation=45, ha='right')
+axes[1, 0].set_ylabel('Importancia Relativa', fontsize=11)
+axes[1, 0].set_title('Comparación: Top 8 Variables', fontsize=12, fontweight='bold')
+axes[1, 0].legend()
+axes[1, 0].grid(True, alpha=0.3, axis='y')
+
+# Panel 4: Importancia acumulada
+cumsum_gini = np.cumsum(np.sort(importance_gini)[::-1])
+cumsum_perm = np.cumsum(np.sort(importance_perm)[::-1])
+cumsum_perm_norm = cumsum_perm / cumsum_perm[-1]  # Normalizar a [0, 1]
+
+axes[1, 1].plot(range(1, n_features + 1), cumsum_gini,
+               'o-', linewidth=2, label='Gini', color='steelblue')
+axes[1, 1].plot(range(1, n_features + 1), cumsum_perm_norm,
+               's-', linewidth=2, label='Permutación (norm)', color='coral')
+axes[1, 1].axhline(y=0.8, color='green', linestyle='--',
+                  label='80% importancia')
+axes[1, 1].axhline(y=0.95, color='orange', linestyle='--',
+                  label='95% importancia')
+axes[1, 1].set_xlabel('Número de Variables', fontsize=11)
+axes[1, 1].set_ylabel('Importancia Acumulada', fontsize=11)
+axes[1, 1].set_title('Importancia Acumulada', fontsize=12, fontweight='bold')
+axes[1, 1].legend()
+axes[1, 1].grid(True, alpha=0.3)
+axes[1, 1].set_xticks(range(1, n_features + 1))
+
+plt.tight_layout()
+plt.show()
+
+# Imprimir resumen
+print("RESUMEN DE IMPORTANCIA DE VARIABLES")
+print("=" * 70)
+print(f"{'Variable':<10} {'Imp. Gini':<15} {'Rank Gini':<12} "
+      f"{'Imp. Perm':<15} {'Rank Perm':<12}")
+print("-" * 70)
+
+ranks_gini = np.argsort(np.argsort(importance_gini)[::-1]) + 1
+ranks_perm = np.argsort(np.argsort(importance_perm)[::-1]) + 1
+
+for i in range(n_features):
+    print(f"{feature_names[i]:<10} {importance_gini[i]:<15.4f} {ranks_gini[i]:<12} "
+          f"{importance_perm[i]:<15.4f} {ranks_perm[i]:<12}")
+
+print("\nVariables realmente importantes (por construcción): X1, X2, X3, X4")
+print("Variables ruidosas (por construcción): X5-X12")
+```
+
+::: {.callout-warning}
+## Precauciones con Importancia de Variables
+
+1. **Variables correlacionadas**: La importancia se distribuye entre ellas. Si X1 y X2 están altamente correlacionadas y son importantes, ambas mostrarán importancia moderada en vez de una sola mostrar importancia alta.
+
+2. **Variables con muchas categorías**: Las variables categóricas con muchos niveles tienden a mostrar importancia artificialmente alta en el método Gini.
+
+3. **Interacciones**: Las importancias no capturan claramente efectos de interacción entre variables.
+
+4. **Interpretación relativa**: Las importancias son relativas al conjunto de datos y modelo específico. No se pueden comparar entre diferentes modelos o datasets.
+
+**Recomendación**: Usar importancia por permutación para decisiones importantes (selección de características, interpretación de negocio).
+:::
+
+## Error Out-of-Bag en Random Forest
+
+Como vimos en bagging, el **error out-of-bag (OOB)** proporciona una estimación del error de test sin necesidad de un conjunto de validación separado. En Random Forest, aproximadamente 36.8% de las observaciones quedan fuera de cada muestra bootstrap.
+
+### Ventajas del OOB Error
+
+1. **Estimación honesta**: Similar a validación cruzada leave-one-out
+2. **Eficiencia computacional**: No requiere conjunto de validación adicional
+3. **Uso de todos los datos**: Podemos usar todos los datos para entrenamiento y aún obtener estimación de test error
+4. **Monitoreo durante entrenamiento**: Podemos ver cómo evoluciona el error OOB con el número de árboles
+
+```{python}
+#| label: rf-oob-analysis
+#| fig-cap: "Evolución del error OOB con número de árboles"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: true
+
+# Entrenar RF con diferentes números de árboles y registrar OOB
+n_trees_range = range(1, 201, 5)
+oob_errors_rf = []
+test_errors_rf = []
+
+for n_trees in n_trees_range:
+    rf_oob = RandomForestClassifier(
+        n_estimators=n_trees,
+        max_features='sqrt',
+        bootstrap=True,
+        oob_score=True,
+        random_state=42,
+        n_jobs=-1
+    )
+    rf_oob.fit(X_train, y_train)
+
+    oob_errors_rf.append(1 - rf_oob.oob_score_)
+    test_errors_rf.append(1 - rf_oob.score(X_test, y_test))
+
+# Visualización
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Panel 1: OOB vs Test Error
+axes[0].plot(n_trees_range, oob_errors_rf, 'o-', label='OOB Error',
+            linewidth=2, markersize=4, alpha=0.7)
+axes[0].plot(n_trees_range, test_errors_rf, 's-', label='Test Error',
+            linewidth=2, markersize=4)
+axes[0].set_xlabel('Número de Árboles', fontsize=11)
+axes[0].set_ylabel('Tasa de Error', fontsize=11)
+axes[0].set_title('Convergencia del Error con Número de Árboles',
+                 fontsize=12, fontweight='bold')
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+# Panel 2: Diferencia OOB - Test
+difference_rf = np.array(oob_errors_rf) - np.array(test_errors_rf)
+axes[1].plot(n_trees_range, difference_rf, 'o-', linewidth=2,
+            markersize=4, color='purple')
+axes[1].axhline(y=0, color='black', linestyle='--', linewidth=1)
+axes[1].fill_between(n_trees_range, 0, difference_rf,
+                     alpha=0.3, color='purple')
+axes[1].set_xlabel('Número de Árboles', fontsize=11)
+axes[1].set_ylabel('OOB Error - Test Error', fontsize=11)
+axes[1].set_title('Calibración del OOB Error', fontsize=12, fontweight='bold')
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+print("Estadísticas de Convergencia:")
+print("=" * 60)
+print(f"Correlación OOB-Test: {np.corrcoef(oob_errors_rf, test_errors_rf)[0,1]:.3f}")
+print(f"Diferencia media (OOB - Test): {np.mean(difference_rf):.4f}")
+print(f"Desviación estándar diferencia: {np.std(difference_rf):.4f}")
+print(f"\nError final (200 árboles):")
+print(f"  OOB Error:  {oob_errors_rf[-1]:.4f}")
+print(f"  Test Error: {test_errors_rf[-1]:.4f}")
+```
+
+## Ventajas y Desventajas de Random Forest
+
+::: {.callout-tip}
+## Ventajas de Random Forest
+
+1. **Excelente desempeño predictivo**: Competitivo con los mejores algoritmos en la mayoría de problemas
+2. **Mínimo tuning requerido**: Funciona bien con parámetros por defecto
+3. **Robusto**: Hereda ventajas de árboles (outliers, datos mixtos, missing values)
+4. **No sobreajusta fácilmente**: Aumentar número de árboles raramente degrada desempeño
+5. **Paralelizable**: Árboles se entrenan independientemente
+6. **Importancia de variables**: Medidas robustas de relevancia de características
+7. **OOB error**: Estimación de test error sin validación adicional
+8. **Detecta interacciones**: Captura automáticamente interacciones entre variables
+9. **Predicciones calibradas**: Con suficientes árboles, las probabilidades son razonablemente calibradas
+
+:::
+
+::: {.callout-warning}
+## Desventajas de Random Forest
+
+1. **Caja negra**: Menos interpretable que un árbol individual
+2. **Costo computacional**: Entrenamiento y predicción pueden ser lentos con muchos árboles
+3. **Memoria**: Almacenar muchos árboles grandes requiere memoria significativa
+4. **Sin extrapolación**: Predicciones limitadas al rango de datos de entrenamiento
+5. **Variables correlacionadas**: Puede subestimar importancia de grupos correlacionados
+6. **Datos desbalanceados**: Puede sesgar hacia clase mayoritaria (mitigable con class_weight)
+7. **Alta dimensionalidad**: Desempeño puede degradarse con p >> n sin selección de características
+8. **Menos efectivo en relaciones lineales**: Métodos lineales pueden ser mejores si la relación es predominantemente lineal
+
+:::
+
