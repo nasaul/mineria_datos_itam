@@ -490,7 +490,12 @@ window.Quarto = {
 &amp;= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \text{Var}(\epsilon)\\
 &amp;= \underset{\text{Error Reducible}}{\underbrace{\mathbb{E}[(f(X) - \hat{f}(X))^2]}} + \underset{\text{Error Irreducible}}{\underbrace{\text{Var}(\epsilon)}}
 \end{align*}\]</span></p>
-<p>Donde usamos los siguientes hechos: - <span class="math inline">\(\mathbb{E}[\epsilon] = 0\)</span> (el error tiene media cero por definición) - <span class="math inline">\(\epsilon\)</span> es independiente de <span class="math inline">\(X\)</span> (asumimos que el ruido no depende de las características) - <span class="math inline">\(\text{Var}(\epsilon) = \mathbb{E}[\epsilon^2] - (\mathbb{E}[\epsilon])^2 = \mathbb{E}[\epsilon^2]\)</span></p>
+<p>Donde usamos los siguientes hechos:</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[\epsilon] = 0\)</span> (el error tiene media cero por definición)</li>
+<li><span class="math inline">\(\epsilon\)</span> es independiente de <span class="math inline">\(X\)</span> (asumimos que el ruido no depende de las características)</li>
+<li><span class="math inline">\(\text{Var}(\epsilon) = \mathbb{E}[\epsilon^2] - (\mathbb{E}[\epsilon])^2 = \mathbb{E}[\epsilon^2]\)</span></li>
+</ul>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -501,8 +506,29 @@ Implicaciones Prácticas
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Error Reducible</strong> <span class="math inline">\(\mathbb{E}[(f(X) - \hat{f}(X))^2]\)</span>: - Depende de qué tan bien nuestra estimación <span class="math inline">\(\hat{f}\)</span> aproxima la verdadera función <span class="math inline">\(f\)</span> - Puede minimizarse usando mejores algoritmos, más datos, mejores características - Ejemplos de fuentes: - Usar regresión lineal cuando la verdadera relación es no lineal - Falta de variables explicativas importantes - Exceso de variables que añaden ruido sin información</p>
-<p><strong>Error Irreducible</strong> <span class="math inline">\(\text{Var}(\epsilon)\)</span>: - Representa la variabilidad intrínseca en <span class="math inline">\(Y\)</span> que no puede ser explicada por <span class="math inline">\(X\)</span> - No importa qué tan bien estimemos <span class="math inline">\(f\)</span>, este error siempre permanecerá - Ejemplos de fuentes: - Variables no medidas que afectan <span class="math inline">\(Y\)</span> - Aleatoriedad inherente en el proceso generador de datos - Error de medición en la variable respuesta - Factores estocásticos genuinos (ej: movimiento browniano en precios de acciones)</p>
+<p><strong>Error Reducible</strong> <span class="math inline">\(\mathbb{E}[(f(X) - \hat{f}(X))^2]\)</span>:</p>
+<ul>
+<li>Depende de qué tan bien nuestra estimación <span class="math inline">\(\hat{f}\)</span> aproxima la verdadera función <span class="math inline">\(f\)</span></li>
+<li>Puede minimizarse usando mejores algoritmos, más datos, mejores características</li>
+<li>Ejemplos de fuentes:
+<ul>
+<li>Usar regresión lineal cuando la verdadera relación es no lineal</li>
+<li>Falta de variables explicativas importantes</li>
+<li>Exceso de variables que añaden ruido sin información</li>
+</ul></li>
+</ul>
+<p><strong>Error Irreducible</strong> <span class="math inline">\(\text{Var}(\epsilon)\)</span>:</p>
+<ul>
+<li>Representa la variabilidad intrínseca en <span class="math inline">\(Y\)</span> que no puede ser explicada por <span class="math inline">\(X\)</span></li>
+<li>No importa qué tan bien estimemos <span class="math inline">\(f\)</span>, este error siempre permanecerá</li>
+<li>Ejemplos de fuentes:
+<ul>
+<li>Variables no medidas que afectan <span class="math inline">\(Y\)</span></li>
+<li>Aleatoriedad inherente en el proceso generador de datos</li>
+<li>Error de medición en la variable respuesta</li>
+<li>Factores estocásticos genuinos (ej: movimiento browniano en precios de acciones)</li>
+</ul></li>
+</ul>
 </div>
 </div>
 </section>
@@ -549,9 +575,24 @@ Interpretación de las Gráficas
 <li><strong>Línea azul continua</strong>: La función verdadera <span class="math inline">\(f(X)\)</span> (desconocida en la práctica)</li>
 <li><strong>Línea discontinua de color</strong>: Nuestra estimación <span class="math inline">\(\hat{f}(X)\)</span></li>
 </ul>
-<p><strong>Panel izquierdo (Modelo Subajustado)</strong>: - El modelo lineal no captura la curvatura de la función verdadera - Error reducible ALTO: la diferencia entre <span class="math inline">\(f(X)\)</span> y <span class="math inline">\(\hat{f}(X)\)</span> es grande - Este modelo tiene alto <strong>sesgo</strong> (bias)</p>
-<p><strong>Panel central (Modelo Apropiado)</strong>: - El modelo cuadrático captura bien la forma de la función verdadera - Error reducible BAJO: <span class="math inline">\(\hat{f}(X)\)</span> está cerca de <span class="math inline">\(f(X)\)</span> - Balance óptimo entre complejidad y ajuste</p>
-<p><strong>Panel derecho (Modelo Sobreajustado)</strong>: - El modelo de grado 10 intenta capturar también el ruido - Error reducible artificialmente bajo en estos datos específicos - Pero tendría alto error en datos nuevos (alta <strong>varianza</strong>)</p>
+<p><strong>Panel izquierdo (Modelo Subajustado)</strong>:</p>
+<ul>
+<li>El modelo lineal no captura la curvatura de la función verdadera</li>
+<li>Error reducible ALTO: la diferencia entre <span class="math inline">\(f(X)\)</span> y <span class="math inline">\(\hat{f}(X)\)</span> es grande</li>
+<li>Este modelo tiene alto <strong>sesgo</strong> (bias)</li>
+</ul>
+<p><strong>Panel central (Modelo Apropiado)</strong>:</p>
+<ul>
+<li>El modelo cuadrático captura bien la forma de la función verdadera</li>
+<li>Error reducible BAJO: <span class="math inline">\(\hat{f}(X)\)</span> está cerca de <span class="math inline">\(f(X)\)</span></li>
+<li>Balance óptimo entre complejidad y ajuste</li>
+</ul>
+<p><strong>Panel derecho (Modelo Sobreajustado)</strong>:</p>
+<ul>
+<li>El modelo de grado 10 intenta capturar también el ruido</li>
+<li>Error reducible artificialmente bajo en estos datos específicos</li>
+<li>Pero tendría alto error en datos nuevos (alta <strong>varianza</strong>)</li>
+</ul>
 </div>
 </div>
 </section>
@@ -618,13 +659,27 @@ Interpretación de las Gráficas
 <section id="ejemplos-de-métodos-no-paramétricos" class="level4">
 <h4 class="anchored" data-anchor-id="ejemplos-de-métodos-no-paramétricos">Ejemplos de métodos no paramétricos</h4>
 <p><strong>1. K-Nearest Neighbors (KNN)</strong></p>
-<p>Para predecir <span class="math inline">\(Y\)</span> en un punto <span class="math inline">\(x_0\)</span>, KNN: - Identifica las <span class="math inline">\(K\)</span> observaciones en el conjunto de entrenamiento más cercanas a <span class="math inline">\(x_0\)</span> - Promedia los valores de <span class="math inline">\(Y\)</span> de esos <span class="math inline">\(K\)</span> vecinos más cercanos</p>
+<p>Para predecir <span class="math inline">\(Y\)</span> en un punto <span class="math inline">\(x_0\)</span>, KNN:</p>
+<ul>
+<li>Identifica las <span class="math inline">\(K\)</span> observaciones en el conjunto de entrenamiento más cercanas a <span class="math inline">\(x_0\)</span></li>
+<li>Promedia los valores de <span class="math inline">\(Y\)</span> de esos <span class="math inline">\(K\)</span> vecinos más cercanos</li>
+</ul>
 <p><span class="math display">\[\hat{f}(x_0) = \frac{1}{K} \sum_{x_i \in \mathcal{N}_K(x_0)} y_i\]</span></p>
 <p>donde <span class="math inline">\(\mathcal{N}_K(x_0)\)</span> es el conjunto de los <span class="math inline">\(K\)</span> vecinos más cercanos a <span class="math inline">\(x_0\)</span>.</p>
 <p><strong>2. Splines</strong></p>
-<p>Los splines son funciones polinomiales por partes que: - Dividen el rango de <span class="math inline">\(X\)</span> en regiones - Ajustan diferentes polinomios de bajo grado en cada región - Garantizan suavidad en los puntos de unión</p>
+<p>Los splines son funciones polinomiales por partes que:</p>
+<ul>
+<li>Dividen el rango de <span class="math inline">\(X\)</span> en regiones</li>
+<li>Ajustan diferentes polinomios de bajo grado en cada región</li>
+<li>Garantizan suavidad en los puntos de unión</li>
+</ul>
 <p><strong>3. Árboles de Decisión</strong></p>
-<p>Los árboles: - Dividen el espacio de predictores en regiones rectangulares - Asignan una predicción constante a cada región - Son interpretables pero pueden sobreajustar fácilmente</p>
+<p>Los árboles:</p>
+<ul>
+<li>Dividen el espacio de predictores en regiones rectangulares</li>
+<li>Asignan una predicción constante a cada región</li>
+<li>Son interpretables pero pueden sobreajustar fácilmente</li>
+</ul>
 <p><strong>4. Métodos de Kernel</strong></p>
 <p>Similar a KNN pero usando pesos que decaen suavemente con la distancia:</p>
 <p><span class="math display">\[\hat{f}(x_0) = \frac{\sum_{i=1}^n K_h(x_0, x_i) y_i}{\sum_{i=1}^n K_h(x_0, x_i)}\]</span></p>
@@ -652,9 +707,25 @@ Observaciones Clave
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Métodos Paramétricos (fila superior)</strong>: - Asumen una forma funcional específica (lineal, cuadrática, etc.) - Son más rígidos pero requieren menos datos - Más fáciles de interpretar - Pueden tener sesgo si la forma asumida es incorrecta</p>
-<p><strong>Métodos No Paramétricos (fila inferior)</strong>: - No asumen forma funcional específica - Más flexibles, pueden capturar patrones complejos - Requieren más datos para estimar bien - El parámetro de suavizamiento (como <span class="math inline">\(k\)</span> en KNN) controla el tradeoff entre flexibilidad y suavidad</p>
-<p><strong>¿Cuándo usar cada uno?</strong> - <strong>Paramétrico</strong>: Cuando tienes pocos datos, necesitas interpretabilidad, o conoces aproximadamente la forma de la relación - <strong>No paramétrico</strong>: Cuando tienes muchos datos, la relación es compleja, o la predicción es más importante que la interpretación</p>
+<p><strong>Métodos Paramétricos (fila superior)</strong>:</p>
+<ul>
+<li>Asumen una forma funcional específica (lineal, cuadrática, etc.)</li>
+<li>Son más rígidos pero requieren menos datos</li>
+<li>Más fáciles de interpretar</li>
+<li>Pueden tener sesgo si la forma asumida es incorrecta</li>
+</ul>
+<p><strong>Métodos No Paramétricos (fila inferior)</strong>:</p>
+<ul>
+<li>No asumen forma funcional específica</li>
+<li>Más flexibles, pueden capturar patrones complejos</li>
+<li>Requieren más datos para estimar bien</li>
+<li>El parámetro de suavizamiento (como <span class="math inline">\(k\)</span> en KNN) controla el tradeoff entre flexibilidad y suavidad</li>
+</ul>
+<p><strong>¿Cuándo usar cada uno?</strong></p>
+<ul>
+<li><strong>Paramétrico</strong>: Cuando tienes pocos datos, necesitas interpretabilidad, o conoces aproximadamente la forma de la relación</li>
+<li><strong>No paramétrico</strong>: Cuando tienes muchos datos, la relación es compleja, o la predicción es más importante que la interpretación</li>
+</ul>
 </div>
 </div>
 </section>
@@ -787,9 +858,29 @@ Los Tres Componentes del Error
 <section id="conexión-con-overfitting-y-underfitting" class="level3">
 <h3 class="anchored" data-anchor-id="conexión-con-overfitting-y-underfitting">Conexión con Overfitting y Underfitting</h3>
 <p>El bias-variance tradeoff explica directamente los fenómenos de overfitting y underfitting:</p>
-<p><strong>Underfitting (Subajuste)</strong> - Ocurre cuando el modelo es demasiado simple - Caracterizado por <strong>alto sesgo</strong> - El modelo no captura los patrones reales en los datos - Error alto tanto en entrenamiento como en prueba - Ejemplo: Usar regresión lineal para datos con relación cuadrática clara</p>
-<p><strong>Overfitting (Sobreajuste)</strong> - Ocurre cuando el modelo es demasiado complejo - Caracterizado por <strong>alta varianza</strong> - El modelo memoriza el ruido en vez de aprender patrones generales - Error bajo en entrenamiento pero alto en prueba - Ejemplo: Polinomio de grado 20 con solo 30 observaciones</p>
-<p><strong>Modelo Óptimo</strong> - Balance entre sesgo y varianza - Minimiza el error esperado total - Captura los patrones verdaderos sin memorizar el ruido - Generaliza bien a datos nuevos</p>
+<p><strong>Underfitting (Subajuste)</strong></p>
+<ul>
+<li>Ocurre cuando el modelo es demasiado simple</li>
+<li>Caracterizado por <strong>alto sesgo</strong></li>
+<li>El modelo no captura los patrones reales en los datos</li>
+<li>Error alto tanto en entrenamiento como en prueba</li>
+<li>Ejemplo: Usar regresión lineal para datos con relación cuadrática clara</li>
+</ul>
+<p><strong>Overfitting (Sobreajuste)</strong></p>
+<ul>
+<li>Ocurre cuando el modelo es demasiado complejo</li>
+<li>Caracterizado por <strong>alta varianza</strong></li>
+<li>El modelo memoriza el ruido en vez de aprender patrones generales</li>
+<li>Error bajo en entrenamiento pero alto en prueba</li>
+<li>Ejemplo: Polinomio de grado 20 con solo 30 observaciones</li>
+</ul>
+<p><strong>Modelo Óptimo</strong></p>
+<ul>
+<li>Balance entre sesgo y varianza</li>
+<li>Minimiza el error esperado total</li>
+<li>Captura los patrones verdaderos sin memorizar el ruido</li>
+<li>Generaliza bien a datos nuevos</li>
+</ul>
 </section>
 <section id="relación-con-parámetros-de-los-modelos" class="level3">
 <h3 class="anchored" data-anchor-id="relación-con-parámetros-de-los-modelos">Relación con Parámetros de los Modelos</h3>
@@ -882,8 +973,20 @@ Interpretación de las Curvas
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Panel Izquierdo - Descomposición del Error</strong>: - <strong>Sesgo² (azul)</strong>: Disminuye cuando aumenta la complejidad del modelo - <strong>Varianza (roja)</strong>: Aumenta cuando aumenta la complejidad del modelo - <strong>Ruido Irreducible (gris)</strong>: Constante, no depende del modelo - <strong>Error Total (morado)</strong>: Suma de los tres componentes, tiene forma de U - <strong>Punto óptimo (verde)</strong>: Minimiza el error total, balancea sesgo y varianza</p>
-<p><strong>Panel Derecho - Entrenamiento vs Prueba</strong>: - <strong>Error de Entrenamiento (azul)</strong>: Siempre disminuye con más complejidad - <strong>Error de Prueba (rojo)</strong>: Disminuye inicialmente, luego aumenta (overfitting) - El <strong>gap</strong> entre ambos aumenta con la complejidad → indica overfitting</p>
+<p><strong>Panel Izquierdo - Descomposición del Error</strong>:</p>
+<ul>
+<li><strong>Sesgo² (azul)</strong>: Disminuye cuando aumenta la complejidad del modelo</li>
+<li><strong>Varianza (roja)</strong>: Aumenta cuando aumenta la complejidad del modelo</li>
+<li><strong>Ruido Irreducible (gris)</strong>: Constante, no depende del modelo</li>
+<li><strong>Error Total (morado)</strong>: Suma de los tres componentes, tiene forma de U</li>
+<li><strong>Punto óptimo (verde)</strong>: Minimiza el error total, balancea sesgo y varianza</li>
+</ul>
+<p><strong>Panel Derecho - Entrenamiento vs Prueba</strong>:</p>
+<ul>
+<li><strong>Error de Entrenamiento (azul)</strong>: Siempre disminuye con más complejidad</li>
+<li><strong>Error de Prueba (rojo)</strong>: Disminuye inicialmente, luego aumenta (overfitting)</li>
+<li>El <strong>gap</strong> entre ambos aumenta con la complejidad → indica overfitting</li>
+</ul>
 </div>
 </div>
 </section>
@@ -910,11 +1013,37 @@ Observaciones Clave del Experimento KNN
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>k=1 (Alta Complejidad)</strong>: - Las líneas grises individuales son muy diferentes entre sí → <strong>Alta varianza</strong> - La predicción promedio (roja) se acerca bastante a la función verdadera (azul) → <strong>Bajo sesgo</strong> - Problema: Cada modelo individual es muy inestable y sensible al ruido - <strong>Resultado</strong>: Overfitting - el modelo memoriza los datos específicos</p>
-<p><strong>k=5 (Complejidad Media-Alta)</strong>: - Las líneas grises son más similares entre sí → <strong>Varianza moderada</strong> - La predicción promedio aún sigue bien la función verdadera → <strong>Sesgo bajo a moderado</strong> - <strong>Balance razonable</strong> para este problema</p>
-<p><strong>k=20 (Complejidad Media-Baja)</strong>: - Las líneas grises son muy similares → <strong>Baja varianza</strong> - La predicción promedio pierde algo de la estructura verdadera → <strong>Sesgo moderado</strong> - Más estable pero menos preciso en capturar detalles</p>
-<p><strong>k=50 (Baja Complejidad)</strong>: - Las líneas grises son casi idénticas → <strong>Muy baja varianza</strong> - La predicción promedio es demasiado suave, pierde oscilaciones → <strong>Alto sesgo</strong> - Problema: Modelo demasiado simple que no captura la estructura real - <strong>Resultado</strong>: Underfitting - el modelo es demasiado rígido</p>
-<p><strong>Lección Principal</strong>: A medida que <span class="math inline">\(k\)</span> aumenta (complejidad disminuye): - ✓ Ganamos estabilidad (menor varianza) - ✗ Perdemos capacidad de ajuste (mayor sesgo)</p>
+<p><strong>k=1 (Alta Complejidad)</strong>:</p>
+<ul>
+<li>Las líneas grises individuales son muy diferentes entre sí → <strong>Alta varianza</strong></li>
+<li>La predicción promedio (roja) se acerca bastante a la función verdadera (azul) → <strong>Bajo sesgo</strong></li>
+<li>Problema: Cada modelo individual es muy inestable y sensible al ruido</li>
+<li><strong>Resultado</strong>: Overfitting - el modelo memoriza los datos específicos</li>
+</ul>
+<p><strong>k=5 (Complejidad Media-Alta)</strong>:</p>
+<ul>
+<li>Las líneas grises son más similares entre sí → <strong>Varianza moderada</strong></li>
+<li>La predicción promedio aún sigue bien la función verdadera → <strong>Sesgo bajo a moderado</strong></li>
+<li><strong>Balance razonable</strong> para este problema</li>
+</ul>
+<p><strong>k=20 (Complejidad Media-Baja)</strong>:</p>
+<ul>
+<li>Las líneas grises son muy similares → <strong>Baja varianza</strong></li>
+<li>La predicción promedio pierde algo de la estructura verdadera → <strong>Sesgo moderado</strong></li>
+<li>Más estable pero menos preciso en capturar detalles</li>
+</ul>
+<p><strong>k=50 (Baja Complejidad)</strong>:</p>
+<ul>
+<li>Las líneas grises son casi idénticas → <strong>Muy baja varianza</strong></li>
+<li>La predicción promedio es demasiado suave, pierde oscilaciones → <strong>Alto sesgo</strong></li>
+<li>Problema: Modelo demasiado simple que no captura la estructura real</li>
+<li><strong>Resultado</strong>: Underfitting - el modelo es demasiado rígido</li>
+</ul>
+<p><strong>Lección Principal</strong>: A medida que <span class="math inline">\(k\)</span> aumenta (complejidad disminuye):</p>
+<ul>
+<li>✓ Ganamos estabilidad (menor varianza)</li>
+<li>✗ Perdemos capacidad de ajuste (mayor sesgo)</li>
+</ul>
 </div>
 </div>
 </section>
@@ -941,10 +1070,35 @@ Resumen: Cómo Identificar y Corregir Problemas
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>¿Cómo saber si tienes alto sesgo (underfitting)?</strong> - ✓ Error de entrenamiento alto - ✓ Error de prueba alto - ✓ Poca diferencia entre error de entrenamiento y prueba - ✓ El modelo es demasiado simple para capturar los patrones</p>
-<p><strong>Soluciones para alto sesgo</strong>: 1. Aumentar la complejidad del modelo (más características, mayor grado, menor k en KNN) 2. Reducir la regularización 3. Agregar características polinomiales o de interacción 4. Probar un algoritmo más flexible</p>
-<p><strong>¿Cómo saber si tienes alta varianza (overfitting)?</strong> - ✓ Error de entrenamiento bajo - ✓ Error de prueba alto - ✓ Gran diferencia (gap) entre error de entrenamiento y prueba - ✓ El modelo es muy sensible a pequeños cambios en los datos</p>
-<p><strong>Soluciones para alta varianza</strong>: 1. Reducir la complejidad del modelo (menos características, menor grado, mayor k en KNN) 2. Aumentar la regularización (Ridge, Lasso, dropout) 3. Obtener más datos de entrenamiento 4. Usar ensemble methods (bagging, random forests) 5. Aplicar validación cruzada para seleccionar hiperparámetros</p>
+<p><strong>¿Cómo saber si tienes alto sesgo (underfitting)?</strong></p>
+<ul>
+<li>✓ Error de entrenamiento alto</li>
+<li>✓ Error de prueba alto</li>
+<li>✓ Poca diferencia entre error de entrenamiento y prueba</li>
+<li>✓ El modelo es demasiado simple para capturar los patrones</li>
+</ul>
+<p><strong>Soluciones para alto sesgo</strong>:</p>
+<ol type="1">
+<li>Aumentar la complejidad del modelo (más características, mayor grado, menor k en KNN)</li>
+<li>Reducir la regularización</li>
+<li>Agregar características polinomiales o de interacción</li>
+<li>Probar un algoritmo más flexible</li>
+</ol>
+<p><strong>¿Cómo saber si tienes alta varianza (overfitting)?</strong></p>
+<ul>
+<li>✓ Error de entrenamiento bajo</li>
+<li>✓ Error de prueba alto</li>
+<li>✓ Gran diferencia (gap) entre error de entrenamiento y prueba</li>
+<li>✓ El modelo es muy sensible a pequeños cambios en los datos</li>
+</ul>
+<p><strong>Soluciones para alta varianza</strong>:</p>
+<ol type="1">
+<li>Reducir la complejidad del modelo (menos características, menor grado, mayor k en KNN)</li>
+<li>Aumentar la regularización (Ridge, Lasso, dropout)</li>
+<li>Obtener más datos de entrenamiento</li>
+<li>Usar ensemble methods (bagging, random forests)</li>
+<li>Aplicar validación cruzada para seleccionar hiperparámetros</li>
+</ol>
 </div>
 </div>
 

@@ -45,6 +45,7 @@ $$ \begin{align*}
 \end{align*}$$
 
 Donde usamos los siguientes hechos:
+
 - $\mathbb{E}[\epsilon] = 0$ (el error tiene media cero por definición)
 - $\epsilon$ es independiente de $X$ (asumimos que el ruido no depende de las características)
 - $\text{Var}(\epsilon) = \mathbb{E}[\epsilon^2] - (\mathbb{E}[\epsilon])^2 = \mathbb{E}[\epsilon^2]$
@@ -53,6 +54,7 @@ Donde usamos los siguientes hechos:
 ## Implicaciones Prácticas
 
 **Error Reducible** $\mathbb{E}[(f(X) - \hat{f}(X))^2]$:
+
 - Depende de qué tan bien nuestra estimación $\hat{f}$ aproxima la verdadera función $f$
 - Puede minimizarse usando mejores algoritmos, más datos, mejores características
 - Ejemplos de fuentes:
@@ -61,6 +63,7 @@ Donde usamos los siguientes hechos:
   - Exceso de variables que añaden ruido sin información
 
 **Error Irreducible** $\text{Var}(\epsilon)$:
+
 - Representa la variabilidad intrínseca en $Y$ que no puede ser explicada por $X$
 - No importa qué tan bien estimemos $f$, este error siempre permanecerá
 - Ejemplos de fuentes:
@@ -183,16 +186,19 @@ plt.show()
 - **Línea discontinua de color**: Nuestra estimación $\hat{f}(X)$
 
 **Panel izquierdo (Modelo Subajustado)**:
+
 - El modelo lineal no captura la curvatura de la función verdadera
 - Error reducible ALTO: la diferencia entre $f(X)$ y $\hat{f}(X)$ es grande
 - Este modelo tiene alto **sesgo** (bias)
 
 **Panel central (Modelo Apropiado)**:
+
 - El modelo cuadrático captura bien la forma de la función verdadera
 - Error reducible BAJO: $\hat{f}(X)$ está cerca de $f(X)$
 - Balance óptimo entre complejidad y ajuste
 
 **Panel derecho (Modelo Sobreajustado)**:
+
 - El modelo de grado 10 intenta capturar también el ruido
 - Error reducible artificialmente bajo en estos datos específicos
 - Pero tendría alto error en datos nuevos (alta **varianza**)
@@ -262,6 +268,7 @@ La principal ventaja de no asumir una forma funcional es la **flexibilidad**:
 **1. K-Nearest Neighbors (KNN)**
 
 Para predecir $Y$ en un punto $x_0$, KNN:
+
 - Identifica las $K$ observaciones en el conjunto de entrenamiento más cercanas a $x_0$
 - Promedia los valores de $Y$ de esos $K$ vecinos más cercanos
 
@@ -272,6 +279,7 @@ donde $\mathcal{N}_K(x_0)$ es el conjunto de los $K$ vecinos más cercanos a $x_
 **2. Splines**
 
 Los splines son funciones polinomiales por partes que:
+
 - Dividen el rango de $X$ en regiones
 - Ajustan diferentes polinomios de bajo grado en cada región
 - Garantizan suavidad en los puntos de unión
@@ -279,6 +287,7 @@ Los splines son funciones polinomiales por partes que:
 **3. Árboles de Decisión**
 
 Los árboles:
+
 - Dividen el espacio de predictores en regiones rectangulares
 - Asignan una predicción constante a cada región
 - Son interpretables pero pueden sobreajustar fácilmente
@@ -443,18 +452,21 @@ plt.show()
 ## Observaciones Clave
 
 **Métodos Paramétricos (fila superior)**:
+
 - Asumen una forma funcional específica (lineal, cuadrática, etc.)
 - Son más rígidos pero requieren menos datos
 - Más fáciles de interpretar
 - Pueden tener sesgo si la forma asumida es incorrecta
 
 **Métodos No Paramétricos (fila inferior)**:
+
 - No asumen forma funcional específica
 - Más flexibles, pueden capturar patrones complejos
 - Requieren más datos para estimar bien
 - El parámetro de suavizamiento (como $k$ en KNN) controla el tradeoff entre flexibilidad y suavidad
 
 **¿Cuándo usar cada uno?**
+
 - **Paramétrico**: Cuando tienes pocos datos, necesitas interpretabilidad, o conoces aproximadamente la forma de la relación
 - **No paramétrico**: Cuando tienes muchos datos, la relación es compleja, o la predicción es más importante que la interpretación
 :::
@@ -541,6 +553,7 @@ Esta relación se puede visualizar como:
 El bias-variance tradeoff explica directamente los fenómenos de overfitting y underfitting:
 
 **Underfitting (Subajuste)**
+
 - Ocurre cuando el modelo es demasiado simple
 - Caracterizado por **alto sesgo**
 - El modelo no captura los patrones reales en los datos
@@ -548,6 +561,7 @@ El bias-variance tradeoff explica directamente los fenómenos de overfitting y u
 - Ejemplo: Usar regresión lineal para datos con relación cuadrática clara
 
 **Overfitting (Sobreajuste)**
+
 - Ocurre cuando el modelo es demasiado complejo
 - Caracterizado por **alta varianza**
 - El modelo memoriza el ruido en vez de aprender patrones generales
@@ -555,6 +569,7 @@ El bias-variance tradeoff explica directamente los fenómenos de overfitting y u
 - Ejemplo: Polinomio de grado 20 con solo 30 observaciones
 
 **Modelo Óptimo**
+
 - Balance entre sesgo y varianza
 - Minimiza el error esperado total
 - Captura los patrones verdaderos sin memorizar el ruido
@@ -685,6 +700,7 @@ plt.show()
 ## Interpretación de las Curvas
 
 **Panel Izquierdo - Descomposición del Error**:
+
 - **Sesgo² (azul)**: Disminuye cuando aumenta la complejidad del modelo
 - **Varianza (roja)**: Aumenta cuando aumenta la complejidad del modelo
 - **Ruido Irreducible (gris)**: Constante, no depende del modelo
@@ -692,6 +708,7 @@ plt.show()
 - **Punto óptimo (verde)**: Minimiza el error total, balancea sesgo y varianza
 
 **Panel Derecho - Entrenamiento vs Prueba**:
+
 - **Error de Entrenamiento (azul)**: Siempre disminuye con más complejidad
 - **Error de Prueba (rojo)**: Disminuye inicialmente, luego aumenta (overfitting)
 - El **gap** entre ambos aumenta con la complejidad → indica overfitting
@@ -822,28 +839,33 @@ plt.show()
 ## Observaciones Clave del Experimento KNN
 
 **k=1 (Alta Complejidad)**:
+
 - Las líneas grises individuales son muy diferentes entre sí → **Alta varianza**
 - La predicción promedio (roja) se acerca bastante a la función verdadera (azul) → **Bajo sesgo**
 - Problema: Cada modelo individual es muy inestable y sensible al ruido
 - **Resultado**: Overfitting - el modelo memoriza los datos específicos
 
 **k=5 (Complejidad Media-Alta)**:
+
 - Las líneas grises son más similares entre sí → **Varianza moderada**
 - La predicción promedio aún sigue bien la función verdadera → **Sesgo bajo a moderado**
 - **Balance razonable** para este problema
 
 **k=20 (Complejidad Media-Baja)**:
+
 - Las líneas grises son muy similares → **Baja varianza**
 - La predicción promedio pierde algo de la estructura verdadera → **Sesgo moderado**
 - Más estable pero menos preciso en capturar detalles
 
 **k=50 (Baja Complejidad)**:
+
 - Las líneas grises son casi idénticas → **Muy baja varianza**
 - La predicción promedio es demasiado suave, pierde oscilaciones → **Alto sesgo**
 - Problema: Modelo demasiado simple que no captura la estructura real
 - **Resultado**: Underfitting - el modelo es demasiado rígido
 
 **Lección Principal**: A medida que $k$ aumenta (complejidad disminuye):
+
 - ✓ Ganamos estabilidad (menor varianza)
 - ✗ Perdemos capacidad de ajuste (mayor sesgo)
 :::
@@ -942,24 +964,28 @@ plt.show()
 ## Resumen: Cómo Identificar y Corregir Problemas
 
 **¿Cómo saber si tienes alto sesgo (underfitting)?**
+
 - ✓ Error de entrenamiento alto
 - ✓ Error de prueba alto
 - ✓ Poca diferencia entre error de entrenamiento y prueba
 - ✓ El modelo es demasiado simple para capturar los patrones
 
 **Soluciones para alto sesgo**:
+
 1. Aumentar la complejidad del modelo (más características, mayor grado, menor k en KNN)
 2. Reducir la regularización
 3. Agregar características polinomiales o de interacción
 4. Probar un algoritmo más flexible
 
 **¿Cómo saber si tienes alta varianza (overfitting)?**
+
 - ✓ Error de entrenamiento bajo
 - ✓ Error de prueba alto
 - ✓ Gran diferencia (gap) entre error de entrenamiento y prueba
 - ✓ El modelo es muy sensible a pequeños cambios en los datos
 
 **Soluciones para alta varianza**:
+
 1. Reducir la complejidad del modelo (menos características, menor grado, mayor k en KNN)
 2. Aumentar la regularización (Ridge, Lasso, dropout)
 3. Obtener más datos de entrenamiento
