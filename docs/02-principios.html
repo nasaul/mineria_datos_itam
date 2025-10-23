@@ -106,6 +106,7 @@ window.Quarto = {
 
 <meta property="og:title" content="Principios de aprendizaje supervisado – Minería de Datos">
 <meta property="og:description" content="">
+<meta property="og:image" content="02-principios_files/figure-html/error-decomposition-visualization-output-1.png">
 <meta property="og:site_name" content="Minería de Datos">
 </head>
 
@@ -417,6 +418,17 @@ window.Quarto = {
   <li><a href="#métodos-paramétricos" id="toc-métodos-paramétricos" class="nav-link" data-scroll-target="#métodos-paramétricos">Métodos paramétricos</a></li>
   <li><a href="#métodos-no-paramétricos" id="toc-métodos-no-paramétricos" class="nav-link" data-scroll-target="#métodos-no-paramétricos">Métodos no paramétricos</a></li>
   </ul></li>
+  <li><a href="#bias-variance-tradeoff" id="toc-bias-variance-tradeoff" class="nav-link" data-scroll-target="#bias-variance-tradeoff">Bias-Variance Tradeoff</a>
+  <ul class="collapse">
+  <li><a href="#descomposición-matemática-del-error-esperado" id="toc-descomposición-matemática-del-error-esperado" class="nav-link" data-scroll-target="#descomposición-matemática-del-error-esperado">Descomposición Matemática del Error Esperado</a></li>
+  <li><a href="#interpretación-de-los-componentes" id="toc-interpretación-de-los-componentes" class="nav-link" data-scroll-target="#interpretación-de-los-componentes">Interpretación de los Componentes</a></li>
+  <li><a href="#el-tradeoff-fundamental" id="toc-el-tradeoff-fundamental" class="nav-link" data-scroll-target="#el-tradeoff-fundamental">El Tradeoff Fundamental</a></li>
+  <li><a href="#conexión-con-overfitting-y-underfitting" id="toc-conexión-con-overfitting-y-underfitting" class="nav-link" data-scroll-target="#conexión-con-overfitting-y-underfitting">Conexión con Overfitting y Underfitting</a></li>
+  <li><a href="#relación-con-parámetros-de-los-modelos" id="toc-relación-con-parámetros-de-los-modelos" class="nav-link" data-scroll-target="#relación-con-parámetros-de-los-modelos">Relación con Parámetros de los Modelos</a></li>
+  <li><a href="#visualización-del-bias-variance-tradeoff" id="toc-visualización-del-bias-variance-tradeoff" class="nav-link" data-scroll-target="#visualización-del-bias-variance-tradeoff">Visualización del Bias-Variance Tradeoff</a></li>
+  <li><a href="#ejemplo-práctico-knn-con-diferentes-valores-de-k" id="toc-ejemplo-práctico-knn-con-diferentes-valores-de-k" class="nav-link" data-scroll-target="#ejemplo-práctico-knn-con-diferentes-valores-de-k">Ejemplo Práctico: KNN con Diferentes Valores de k</a></li>
+  <li><a href="#bias-variance-con-regresiones-polinomiales" id="toc-bias-variance-con-regresiones-polinomiales" class="nav-link" data-scroll-target="#bias-variance-con-regresiones-polinomiales">Bias-Variance con Regresiones Polinomiales</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -467,6 +479,82 @@ window.Quarto = {
 &amp;= \underset{Reducible}{\underbrace{\mathbb{E}[(f(X) - \hat{f}(x))^2]}} + \underset{Irreducible}{\underbrace{\text{Var}(\epsilon)}}
 \end{align*}\]</span></p>
 <p>El objetivo del curso se enfoca en técnicas para estimar <span class="math inline">\(f\)</span> con el objectivo de minimizar el error reducible. Es importante tener en cuenta que el error irreducible siempre nos pondrá una cota en la predicción de <span class="math inline">\(Y\)</span>.</p>
+<section id="entendiendo-la-descomposición-del-error" class="level4">
+<h4 class="anchored" data-anchor-id="entendiendo-la-descomposición-del-error">Entendiendo la descomposición del error</h4>
+<p>Analicemos con más detalle la descomposición del error esperado. Partiendo del error cuadrático medio esperado (Expected Mean Squared Error, MSE):</p>
+<p><span class="math display">\[ \begin{align*}
+\mathbb{E}[(Y-\hat{Y})^2] &amp;= \mathbb{E}[(f(X) + \epsilon - \hat{f}(X))^2]\\
+&amp;= \mathbb{E}[(f(X) - \hat{f}(X) + \epsilon)^2]\\
+&amp;= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \mathbb{E}[\epsilon^2] + 2\mathbb{E}[(f(X) - \hat{f}(X))\epsilon]\\
+&amp;= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \mathbb{E}[\epsilon^2] + 2\mathbb{E}[(f(X) - \hat{f}(X))]\mathbb{E}[\epsilon]\\
+&amp;= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \text{Var}(\epsilon)\\
+&amp;= \underset{\text{Error Reducible}}{\underbrace{\mathbb{E}[(f(X) - \hat{f}(X))^2]}} + \underset{\text{Error Irreducible}}{\underbrace{\text{Var}(\epsilon)}}
+\end{align*}\]</span></p>
+<p>Donde usamos los siguientes hechos: - <span class="math inline">\(\mathbb{E}[\epsilon] = 0\)</span> (el error tiene media cero por definición) - <span class="math inline">\(\epsilon\)</span> es independiente de <span class="math inline">\(X\)</span> (asumimos que el ruido no depende de las características) - <span class="math inline">\(\text{Var}(\epsilon) = \mathbb{E}[\epsilon^2] - (\mathbb{E}[\epsilon])^2 = \mathbb{E}[\epsilon^2]\)</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implicaciones Prácticas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Error Reducible</strong> <span class="math inline">\(\mathbb{E}[(f(X) - \hat{f}(X))^2]\)</span>: - Depende de qué tan bien nuestra estimación <span class="math inline">\(\hat{f}\)</span> aproxima la verdadera función <span class="math inline">\(f\)</span> - Puede minimizarse usando mejores algoritmos, más datos, mejores características - Ejemplos de fuentes: - Usar regresión lineal cuando la verdadera relación es no lineal - Falta de variables explicativas importantes - Exceso de variables que añaden ruido sin información</p>
+<p><strong>Error Irreducible</strong> <span class="math inline">\(\text{Var}(\epsilon)\)</span>: - Representa la variabilidad intrínseca en <span class="math inline">\(Y\)</span> que no puede ser explicada por <span class="math inline">\(X\)</span> - No importa qué tan bien estimemos <span class="math inline">\(f\)</span>, este error siempre permanecerá - Ejemplos de fuentes: - Variables no medidas que afectan <span class="math inline">\(Y\)</span> - Aleatoriedad inherente en el proceso generador de datos - Error de medición en la variable respuesta - Factores estocásticos genuinos (ej: movimiento browniano en precios de acciones)</p>
+</div>
+</div>
+</section>
+<section id="ejemplos-concretos-de-error-reducible-e-irreducible" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplos-concretos-de-error-reducible-e-irreducible">Ejemplos concretos de error reducible e irreducible</h4>
+<p><strong>Ejemplo 1: Predicción de ventas de helados</strong></p>
+<p>Supongamos que queremos predecir las ventas diarias de helados (<span class="math inline">\(Y\)</span>) usando la temperatura (<span class="math inline">\(X\)</span>).</p>
+<ul>
+<li><p><strong>Error reducible</strong>: Si usamos un modelo lineal pero la relación verdadera es cuadrática (a temperaturas muy altas la gente prefiere quedarse en casa), nuestro modelo será sistemáticamente incorrecto. Este error puede reducirse usando un modelo más flexible.</p></li>
+<li><p><strong>Error irreducible</strong>: Hay factores aleatorios que afectan las ventas (eventos inesperados, decisiones individuales caprichosas, disponibilidad de competidores ese día específico) que no podemos predecir sin importar qué tan sofisticado sea nuestro modelo.</p></li>
+</ul>
+<p><strong>Ejemplo 2: Diagnóstico médico</strong></p>
+<p>Predecir si un paciente tiene cierta enfermedad (<span class="math inline">\(Y\)</span>) basándose en exámenes de laboratorio (<span class="math inline">\(X\)</span>).</p>
+<ul>
+<li><p><strong>Error reducible</strong>: Si solo usamos un análisis de sangre cuando deberíamos considerar también presión arterial, historial familiar, y síntomas, estamos omitiendo información útil que podría mejorar nuestras predicciones.</p></li>
+<li><p><strong>Error irreducible</strong>: Incluso con todas las pruebas posibles, hay variabilidad biológica natural e interacciones complejas no observables que hacen imposible predecir con 100% de certeza.</p></li>
+</ul>
+</section>
+<section id="visualización-de-la-descomposición-del-error" class="level4">
+<h4 class="anchored" data-anchor-id="visualización-de-la-descomposición-del-error">Visualización de la descomposición del error</h4>
+<p>Veamos gráficamente cómo se descompone el error en una situación concreta:</p>
+<div id="cell-error-decomposition-visualization" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div id="error-decomposition-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="02-principios_files/figure-html/error-decomposition-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Descomposición del error: Error reducible vs irreducible</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretación de las Gráficas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Datos observados (puntos grises)</strong>: <span class="math inline">\(Y = f(X) + \epsilon\)</span>, muestran dispersión debido al error irreducible</li>
+<li><strong>Línea azul continua</strong>: La función verdadera <span class="math inline">\(f(X)\)</span> (desconocida en la práctica)</li>
+<li><strong>Línea discontinua de color</strong>: Nuestra estimación <span class="math inline">\(\hat{f}(X)\)</span></li>
+</ul>
+<p><strong>Panel izquierdo (Modelo Subajustado)</strong>: - El modelo lineal no captura la curvatura de la función verdadera - Error reducible ALTO: la diferencia entre <span class="math inline">\(f(X)\)</span> y <span class="math inline">\(\hat{f}(X)\)</span> es grande - Este modelo tiene alto <strong>sesgo</strong> (bias)</p>
+<p><strong>Panel central (Modelo Apropiado)</strong>: - El modelo cuadrático captura bien la forma de la función verdadera - Error reducible BAJO: <span class="math inline">\(\hat{f}(X)\)</span> está cerca de <span class="math inline">\(f(X)\)</span> - Balance óptimo entre complejidad y ajuste</p>
+<p><strong>Panel derecho (Modelo Sobreajustado)</strong>: - El modelo de grado 10 intenta capturar también el ruido - Error reducible artificialmente bajo en estos datos específicos - Pero tendría alto error en datos nuevos (alta <strong>varianza</strong>)</p>
+</div>
+</div>
+</section>
 </section>
 <section id="inferencia" class="level3">
 <h3 class="anchored" data-anchor-id="inferencia">Inferencia</h3>
@@ -500,6 +588,365 @@ window.Quarto = {
 </section>
 <section id="métodos-no-paramétricos" class="level3">
 <h3 class="anchored" data-anchor-id="métodos-no-paramétricos">Métodos no paramétricos</h3>
+<p>Los métodos no paramétricos <strong>no asumen una forma funcional específica</strong> para <span class="math inline">\(f\)</span>. En lugar de eso, buscan una estimación de <span class="math inline">\(f\)</span> que se ajuste lo más cerca posible a los datos sin estar restringida a una familia particular de funciones.</p>
+<section id="motivación" class="level4">
+<h4 class="anchored" data-anchor-id="motivación">Motivación</h4>
+<p>La principal ventaja de no asumir una forma funcional es la <strong>flexibilidad</strong>:</p>
+<ul>
+<li>Si la relación verdadera entre <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> es altamente no lineal y compleja, los métodos paramétricos pueden estar muy sesgados</li>
+<li>Los métodos no paramétricos pueden capturar formas funcionales arbitrarias</li>
+<li>No necesitamos conocimiento previo sobre la forma de la relación</li>
+</ul>
+</section>
+<section id="ventajas-de-los-métodos-no-paramétricos" class="level4">
+<h4 class="anchored" data-anchor-id="ventajas-de-los-métodos-no-paramétricos">Ventajas de los métodos no paramétricos</h4>
+<ol type="1">
+<li><strong>Mayor flexibilidad</strong>: Pueden ajustarse a relaciones complejas y no lineales</li>
+<li><strong>Menos supuestos</strong>: No requieren especificar la forma funcional de <span class="math inline">\(f\)</span></li>
+<li><strong>Mejor ajuste potencial</strong>: Si la verdadera <span class="math inline">\(f\)</span> es compleja, pueden ofrecer mejor precisión predictiva</li>
+</ol>
+</section>
+<section id="desventajas-de-los-métodos-no-paramétricos" class="level4">
+<h4 class="anchored" data-anchor-id="desventajas-de-los-métodos-no-paramétricos">Desventajas de los métodos no paramétricos</h4>
+<ol type="1">
+<li><strong>Requieren más datos</strong>: Al no reducir el problema a un conjunto pequeño de parámetros, necesitan muchas más observaciones para estimar <span class="math inline">\(f\)</span> con precisión</li>
+<li><strong>Riesgo de sobreajuste</strong>: Con mucha flexibilidad, pueden ajustarse demasiado al ruido de los datos de entrenamiento</li>
+<li><strong>Menor interpretabilidad</strong>: Es más difícil entender cómo cada predictor afecta la respuesta</li>
+<li><strong>Costo computacional</strong>: Generalmente requieren más recursos computacionales</li>
+</ol>
+</section>
+<section id="ejemplos-de-métodos-no-paramétricos" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplos-de-métodos-no-paramétricos">Ejemplos de métodos no paramétricos</h4>
+<p><strong>1. K-Nearest Neighbors (KNN)</strong></p>
+<p>Para predecir <span class="math inline">\(Y\)</span> en un punto <span class="math inline">\(x_0\)</span>, KNN: - Identifica las <span class="math inline">\(K\)</span> observaciones en el conjunto de entrenamiento más cercanas a <span class="math inline">\(x_0\)</span> - Promedia los valores de <span class="math inline">\(Y\)</span> de esos <span class="math inline">\(K\)</span> vecinos más cercanos</p>
+<p><span class="math display">\[\hat{f}(x_0) = \frac{1}{K} \sum_{x_i \in \mathcal{N}_K(x_0)} y_i\]</span></p>
+<p>donde <span class="math inline">\(\mathcal{N}_K(x_0)\)</span> es el conjunto de los <span class="math inline">\(K\)</span> vecinos más cercanos a <span class="math inline">\(x_0\)</span>.</p>
+<p><strong>2. Splines</strong></p>
+<p>Los splines son funciones polinomiales por partes que: - Dividen el rango de <span class="math inline">\(X\)</span> en regiones - Ajustan diferentes polinomios de bajo grado en cada región - Garantizan suavidad en los puntos de unión</p>
+<p><strong>3. Árboles de Decisión</strong></p>
+<p>Los árboles: - Dividen el espacio de predictores en regiones rectangulares - Asignan una predicción constante a cada región - Son interpretables pero pueden sobreajustar fácilmente</p>
+<p><strong>4. Métodos de Kernel</strong></p>
+<p>Similar a KNN pero usando pesos que decaen suavemente con la distancia:</p>
+<p><span class="math display">\[\hat{f}(x_0) = \frac{\sum_{i=1}^n K_h(x_0, x_i) y_i}{\sum_{i=1}^n K_h(x_0, x_i)}\]</span></p>
+<p>donde <span class="math inline">\(K_h\)</span> es una función kernel con bandwidth <span class="math inline">\(h\)</span>.</p>
+</section>
+<section id="comparación-visual-paramétricos-vs-no-paramétricos" class="level4">
+<h4 class="anchored" data-anchor-id="comparación-visual-paramétricos-vs-no-paramétricos">Comparación visual: Paramétricos vs No Paramétricos</h4>
+<div id="cell-parametric-vs-nonparametric" class="cell" data-fig-height="10" data-fig-width="14" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div id="parametric-vs-nonparametric" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="02-principios_files/figure-html/parametric-vs-nonparametric-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación entre métodos paramétricos y no paramétricos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observaciones Clave
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Métodos Paramétricos (fila superior)</strong>: - Asumen una forma funcional específica (lineal, cuadrática, etc.) - Son más rígidos pero requieren menos datos - Más fáciles de interpretar - Pueden tener sesgo si la forma asumida es incorrecta</p>
+<p><strong>Métodos No Paramétricos (fila inferior)</strong>: - No asumen forma funcional específica - Más flexibles, pueden capturar patrones complejos - Requieren más datos para estimar bien - El parámetro de suavizamiento (como <span class="math inline">\(k\)</span> en KNN) controla el tradeoff entre flexibilidad y suavidad</p>
+<p><strong>¿Cuándo usar cada uno?</strong> - <strong>Paramétrico</strong>: Cuando tienes pocos datos, necesitas interpretabilidad, o conoces aproximadamente la forma de la relación - <strong>No paramétrico</strong>: Cuando tienes muchos datos, la relación es compleja, o la predicción es más importante que la interpretación</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="bias-variance-tradeoff" class="level2">
+<h2 class="anchored" data-anchor-id="bias-variance-tradeoff">Bias-Variance Tradeoff</h2>
+<p>Uno de los conceptos más fundamentales en aprendizaje estadístico es el <strong>tradeoff entre sesgo y varianza</strong> (bias-variance tradeoff). Este concepto nos ayuda a entender por qué los modelos fallan y cómo elegir el nivel apropiado de complejidad del modelo.</p>
+<section id="descomposición-matemática-del-error-esperado" class="level3">
+<h3 class="anchored" data-anchor-id="descomposición-matemática-del-error-esperado">Descomposición Matemática del Error Esperado</h3>
+<p>Supongamos que queremos predecir <span class="math inline">\(Y\)</span> usando un modelo <span class="math inline">\(\hat{f}(X)\)</span>. El <strong>error cuadrático medio esperado</strong> (expected MSE) para un punto <span class="math inline">\(x_0\)</span> se puede descomponer de la siguiente manera:</p>
+<p><span class="math display">\[\begin{align*}
+\mathbb{E}[(Y - \hat{f}(x_0))^2] &amp;= \mathbb{E}[(f(x_0) + \epsilon - \hat{f}(x_0))^2]\\
+&amp;= \mathbb{E}[(f(x_0) - \hat{f}(x_0))^2] + \mathbb{E}[\epsilon^2] + 2\mathbb{E}[(f(x_0) - \hat{f}(x_0))]\mathbb{E}[\epsilon]\\
+&amp;= \mathbb{E}[(f(x_0) - \hat{f}(x_0))^2] + \text{Var}(\epsilon)
+\end{align*}\]</span></p>
+<p>Ahora, descomponemos el primer término sumando y restando <span class="math inline">\(\mathbb{E}[\hat{f}(x_0)]\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+\mathbb{E}[(f(x_0) - \hat{f}(x_0))^2] &amp;= \mathbb{E}[(f(x_0) - \mathbb{E}[\hat{f}(x_0)] + \mathbb{E}[\hat{f}(x_0)] - \hat{f}(x_0))^2]\\
+&amp;= \mathbb{E}[(f(x_0) - \mathbb{E}[\hat{f}(x_0)])^2] + \mathbb{E}[(\mathbb{E}[\hat{f}(x_0)] - \hat{f}(x_0))^2]\\
+&amp;\quad + 2\mathbb{E}[(f(x_0) - \mathbb{E}[\hat{f}(x_0)])(\mathbb{E}[\hat{f}(x_0)] - \hat{f}(x_0))]\\
+&amp;= (f(x_0) - \mathbb{E}[\hat{f}(x_0)])^2 + \mathbb{E}[(\hat{f}(x_0) - \mathbb{E}[\hat{f}(x_0)])^2]\\
+&amp;= \text{Bias}^2[\hat{f}(x_0)] + \text{Var}[\hat{f}(x_0)]
+\end{align*}\]</span></p>
+<p>Por lo tanto, el <strong>error esperado total</strong> se descompone en tres componentes:</p>
+<p><span class="math display">\[\boxed{\mathbb{E}[(Y - \hat{f}(x_0))^2] = \underset{\text{Sesgo}^2}{\underbrace{\text{Bias}^2[\hat{f}(x_0)]}} + \underset{\text{Varianza}}{\underbrace{\text{Var}[\hat{f}(x_0)]}} + \underset{\text{Ruido Irreducible}}{\underbrace{\text{Var}(\epsilon)}}}\]</span></p>
+</section>
+<section id="interpretación-de-los-componentes" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-de-los-componentes">Interpretación de los Componentes</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Los Tres Componentes del Error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>1. Sesgo (Bias)</strong> - <span class="math inline">\(\text{Bias}[\hat{f}(x_0)] = \mathbb{E}[\hat{f}(x_0)] - f(x_0)\)</span></p>
+<p>El sesgo mide el <strong>error sistemático</strong> de nuestro modelo. Es la diferencia entre la predicción promedio de nuestro modelo (si pudiéramos entrenar infinitos modelos con diferentes conjuntos de entrenamiento) y el valor verdadero.</p>
+<ul>
+<li><strong>Sesgo alto</strong>: El modelo es demasiado simple, no captura la estructura subyacente</li>
+<li><strong>Causa</strong>: Supuestos incorrectos sobre la forma de <span class="math inline">\(f\)</span> (ej: asumir linealidad cuando es cuadrática)</li>
+<li><strong>Síntoma</strong>: Underfitting (subajuste) - mal desempeño tanto en entrenamiento como en prueba</li>
+<li><strong>Ejemplos</strong>: Regresión lineal para datos claramente no lineales, KNN con <span class="math inline">\(k\)</span> muy grande</li>
+</ul>
+<p><strong>2. Varianza (Variance)</strong> - <span class="math inline">\(\text{Var}[\hat{f}(x_0)] = \mathbb{E}[(\hat{f}(x_0) - \mathbb{E}[\hat{f}(x_0)])^2]\)</span></p>
+<p>La varianza mide cuánto <strong>varían las predicciones</strong> del modelo si lo entrenamos con diferentes conjuntos de entrenamiento.</p>
+<ul>
+<li><strong>Varianza alta</strong>: El modelo es muy sensible a fluctuaciones en los datos de entrenamiento</li>
+<li><strong>Causa</strong>: Modelo demasiado flexible que captura el ruido como si fuera señal</li>
+<li><strong>Síntoma</strong>: Overfitting (sobreajuste) - excelente en entrenamiento, malo en prueba</li>
+<li><strong>Ejemplos</strong>: Polinomios de grado muy alto, KNN con <span class="math inline">\(k=1\)</span>, árboles muy profundos</li>
+</ul>
+<p><strong>3. Ruido Irreducible</strong> - <span class="math inline">\(\text{Var}(\epsilon) = \sigma^2\)</span></p>
+<p>Es la variabilidad intrínseca que no puede ser reducida sin importar qué modelo usemos.</p>
+<ul>
+<li>Representa el error mínimo alcanzable</li>
+<li>Pone un límite inferior en la precisión de cualquier modelo</li>
+<li>No depende de nuestro modelo o algoritmo</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="el-tradeoff-fundamental" class="level3">
+<h3 class="anchored" data-anchor-id="el-tradeoff-fundamental">El Tradeoff Fundamental</h3>
+<p>El término “tradeoff” surge porque hay una <strong>relación inversa</strong> entre sesgo y varianza:</p>
+<ul>
+<li><strong>Aumentar la complejidad del modelo</strong> → ↓ Sesgo, ↑ Varianza</li>
+<li><strong>Disminuir la complejidad del modelo</strong> → ↑ Sesgo, ↓ Varianza</li>
+</ul>
+<p>Esta relación se puede visualizar como:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 21%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Complejidad del Modelo</th>
+<th>Flexibilidad</th>
+<th>Sesgo</th>
+<th>Varianza</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Muy Baja</td>
+<td>Rígido</td>
+<td>↑↑ Alto</td>
+<td>↓↓ Baja</td>
+<td>Regresión lineal</td>
+</tr>
+<tr class="even">
+<td>Baja</td>
+<td>Poco flexible</td>
+<td>↑ Moderado</td>
+<td>↓ Baja</td>
+<td>Polinomio grado 2</td>
+</tr>
+<tr class="odd">
+<td><strong>Óptima</strong></td>
+<td><strong>Balanceada</strong></td>
+<td><strong>↔︎ Medio</strong></td>
+<td><strong>↔︎ Media</strong></td>
+<td><strong>Modelo ideal</strong></td>
+</tr>
+<tr class="even">
+<td>Alta</td>
+<td>Muy flexible</td>
+<td>↓ Bajo</td>
+<td>↑ Moderada</td>
+<td>Polinomio grado 10</td>
+</tr>
+<tr class="odd">
+<td>Muy Alta</td>
+<td>Extremo</td>
+<td>↓↓ Muy bajo</td>
+<td>↑↑ Alta</td>
+<td>KNN con k=1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="conexión-con-overfitting-y-underfitting" class="level3">
+<h3 class="anchored" data-anchor-id="conexión-con-overfitting-y-underfitting">Conexión con Overfitting y Underfitting</h3>
+<p>El bias-variance tradeoff explica directamente los fenómenos de overfitting y underfitting:</p>
+<p><strong>Underfitting (Subajuste)</strong> - Ocurre cuando el modelo es demasiado simple - Caracterizado por <strong>alto sesgo</strong> - El modelo no captura los patrones reales en los datos - Error alto tanto en entrenamiento como en prueba - Ejemplo: Usar regresión lineal para datos con relación cuadrática clara</p>
+<p><strong>Overfitting (Sobreajuste)</strong> - Ocurre cuando el modelo es demasiado complejo - Caracterizado por <strong>alta varianza</strong> - El modelo memoriza el ruido en vez de aprender patrones generales - Error bajo en entrenamiento pero alto en prueba - Ejemplo: Polinomio de grado 20 con solo 30 observaciones</p>
+<p><strong>Modelo Óptimo</strong> - Balance entre sesgo y varianza - Minimiza el error esperado total - Captura los patrones verdaderos sin memorizar el ruido - Generaliza bien a datos nuevos</p>
+</section>
+<section id="relación-con-parámetros-de-los-modelos" class="level3">
+<h3 class="anchored" data-anchor-id="relación-con-parámetros-de-los-modelos">Relación con Parámetros de los Modelos</h3>
+<p>Diferentes modelos tienen diferentes formas de controlar el tradeoff bias-variance:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 46%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Parámetro de Complejidad</th>
+<th>↑ Parámetro → Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>KNN</td>
+<td><span class="math inline">\(k\)</span> (número de vecinos)</td>
+<td>↑ Sesgo, ↓ Varianza</td>
+</tr>
+<tr class="even">
+<td>Regresión Polinomial</td>
+<td>Grado del polinomio</td>
+<td>↓ Sesgo, ↑ Varianza</td>
+</tr>
+<tr class="odd">
+<td>Árboles de Decisión</td>
+<td>Profundidad máxima</td>
+<td>↓ Sesgo, ↑ Varianza</td>
+</tr>
+<tr class="even">
+<td>Regresión Ridge/Lasso</td>
+<td><span class="math inline">\(\lambda\)</span> (penalización)</td>
+<td>↑ Sesgo, ↓ Varianza</td>
+</tr>
+<tr class="odd">
+<td>Redes Neuronales</td>
+<td>Número de capas/neuronas</td>
+<td>↓ Sesgo, ↑ Varianza</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implicaciones Prácticas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p><strong>No existe el modelo perfecto</strong>: Siempre habrá un tradeoff entre sesgo y varianza</p></li>
+<li><p><strong>Más datos ayudan</strong>: Con más datos, podemos usar modelos más complejos sin aumentar tanto la varianza</p></li>
+<li><p><strong>Validación cruzada es clave</strong>: Permite estimar dónde está el punto óptimo de complejidad</p></li>
+<li><p><strong>Regularización controla el tradeoff</strong>: Técnicas como Ridge, Lasso, o early stopping permiten ajustar finamente este balance</p></li>
+<li><p><strong>Conocer tu problema importa</strong>:</p>
+<ul>
+<li>Si tienes pocos datos → Prioriza modelos simples (mayor sesgo, menor varianza)</li>
+<li>Si tienes muchos datos → Puedes usar modelos complejos (menor sesgo, mayor varianza)</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="visualización-del-bias-variance-tradeoff" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-del-bias-variance-tradeoff">Visualización del Bias-Variance Tradeoff</h3>
+<p>Veamos gráficamente cómo sesgo y varianza cambian con la complejidad del modelo:</p>
+<div id="cell-bias-variance-tradeoff-curve" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div id="bias-variance-tradeoff-curve" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="02-principios_files/figure-html/bias-variance-tradeoff-curve-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Curva clásica del Bias-Variance Tradeoff mostrando el punto óptimo de complejidad</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretación de las Curvas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Panel Izquierdo - Descomposición del Error</strong>: - <strong>Sesgo² (azul)</strong>: Disminuye cuando aumenta la complejidad del modelo - <strong>Varianza (roja)</strong>: Aumenta cuando aumenta la complejidad del modelo - <strong>Ruido Irreducible (gris)</strong>: Constante, no depende del modelo - <strong>Error Total (morado)</strong>: Suma de los tres componentes, tiene forma de U - <strong>Punto óptimo (verde)</strong>: Minimiza el error total, balancea sesgo y varianza</p>
+<p><strong>Panel Derecho - Entrenamiento vs Prueba</strong>: - <strong>Error de Entrenamiento (azul)</strong>: Siempre disminuye con más complejidad - <strong>Error de Prueba (rojo)</strong>: Disminuye inicialmente, luego aumenta (overfitting) - El <strong>gap</strong> entre ambos aumenta con la complejidad → indica overfitting</p>
+</div>
+</div>
+</section>
+<section id="ejemplo-práctico-knn-con-diferentes-valores-de-k" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-práctico-knn-con-diferentes-valores-de-k">Ejemplo Práctico: KNN con Diferentes Valores de k</h3>
+<p>Veamos cómo el bias-variance tradeoff se manifiesta en K-Nearest Neighbors:</p>
+<div id="cell-bias-variance-knn-example" class="cell" data-fig-height="10" data-fig-width="14" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div id="bias-variance-knn-example" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="02-principios_files/figure-html/bias-variance-knn-example-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Bias-Variance Tradeoff en KNN: Efecto del parámetro k</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observaciones Clave del Experimento KNN
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>k=1 (Alta Complejidad)</strong>: - Las líneas grises individuales son muy diferentes entre sí → <strong>Alta varianza</strong> - La predicción promedio (roja) se acerca bastante a la función verdadera (azul) → <strong>Bajo sesgo</strong> - Problema: Cada modelo individual es muy inestable y sensible al ruido - <strong>Resultado</strong>: Overfitting - el modelo memoriza los datos específicos</p>
+<p><strong>k=5 (Complejidad Media-Alta)</strong>: - Las líneas grises son más similares entre sí → <strong>Varianza moderada</strong> - La predicción promedio aún sigue bien la función verdadera → <strong>Sesgo bajo a moderado</strong> - <strong>Balance razonable</strong> para este problema</p>
+<p><strong>k=20 (Complejidad Media-Baja)</strong>: - Las líneas grises son muy similares → <strong>Baja varianza</strong> - La predicción promedio pierde algo de la estructura verdadera → <strong>Sesgo moderado</strong> - Más estable pero menos preciso en capturar detalles</p>
+<p><strong>k=50 (Baja Complejidad)</strong>: - Las líneas grises son casi idénticas → <strong>Muy baja varianza</strong> - La predicción promedio es demasiado suave, pierde oscilaciones → <strong>Alto sesgo</strong> - Problema: Modelo demasiado simple que no captura la estructura real - <strong>Resultado</strong>: Underfitting - el modelo es demasiado rígido</p>
+<p><strong>Lección Principal</strong>: A medida que <span class="math inline">\(k\)</span> aumenta (complejidad disminuye): - ✓ Ganamos estabilidad (menor varianza) - ✗ Perdemos capacidad de ajuste (mayor sesgo)</p>
+</div>
+</div>
+</section>
+<section id="bias-variance-con-regresiones-polinomiales" class="level3">
+<h3 class="anchored" data-anchor-id="bias-variance-con-regresiones-polinomiales">Bias-Variance con Regresiones Polinomiales</h3>
+<p>Otro ejemplo clásico es el grado del polinomio:</p>
+<div id="cell-bias-variance-polynomial" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div id="bias-variance-polynomial" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="02-principios_files/figure-html/bias-variance-polynomial-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Bias-Variance Tradeoff con Regresiones Polinomiales de diferentes grados</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Resumen: Cómo Identificar y Corregir Problemas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>¿Cómo saber si tienes alto sesgo (underfitting)?</strong> - ✓ Error de entrenamiento alto - ✓ Error de prueba alto - ✓ Poca diferencia entre error de entrenamiento y prueba - ✓ El modelo es demasiado simple para capturar los patrones</p>
+<p><strong>Soluciones para alto sesgo</strong>: 1. Aumentar la complejidad del modelo (más características, mayor grado, menor k en KNN) 2. Reducir la regularización 3. Agregar características polinomiales o de interacción 4. Probar un algoritmo más flexible</p>
+<p><strong>¿Cómo saber si tienes alta varianza (overfitting)?</strong> - ✓ Error de entrenamiento bajo - ✓ Error de prueba alto - ✓ Gran diferencia (gap) entre error de entrenamiento y prueba - ✓ El modelo es muy sensible a pequeños cambios en los datos</p>
+<p><strong>Soluciones para alta varianza</strong>: 1. Reducir la complejidad del modelo (menos características, menor grado, mayor k en KNN) 2. Aumentar la regularización (Ridge, Lasso, dropout) 3. Obtener más datos de entrenamiento 4. Usar ensemble methods (bagging, random forests) 5. Aplicar validación cruzada para seleccionar hiperparámetros</p>
+</div>
+</div>
 
 
 </section>

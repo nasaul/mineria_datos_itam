@@ -31,6 +31,173 @@ $$ \begin{align*}
 
 El objetivo del curso se enfoca en técnicas para estimar $f$ con el objectivo de minimizar el error reducible. Es importante tener en cuenta que el error irreducible siempre nos pondrá una cota en la predicción de $Y$.
 
+#### Entendiendo la descomposición del error
+
+Analicemos con más detalle la descomposición del error esperado. Partiendo del error cuadrático medio esperado (Expected Mean Squared Error, MSE):
+
+$$ \begin{align*}
+\mathbb{E}[(Y-\hat{Y})^2] &= \mathbb{E}[(f(X) + \epsilon - \hat{f}(X))^2]\\
+&= \mathbb{E}[(f(X) - \hat{f}(X) + \epsilon)^2]\\
+&= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \mathbb{E}[\epsilon^2] + 2\mathbb{E}[(f(X) - \hat{f}(X))\epsilon]\\
+&= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \mathbb{E}[\epsilon^2] + 2\mathbb{E}[(f(X) - \hat{f}(X))]\mathbb{E}[\epsilon]\\
+&= \mathbb{E}[(f(X) - \hat{f}(X))^2] + \text{Var}(\epsilon)\\
+&= \underset{\text{Error Reducible}}{\underbrace{\mathbb{E}[(f(X) - \hat{f}(X))^2]}} + \underset{\text{Error Irreducible}}{\underbrace{\text{Var}(\epsilon)}}
+\end{align*}$$
+
+Donde usamos los siguientes hechos:
+- $\mathbb{E}[\epsilon] = 0$ (el error tiene media cero por definición)
+- $\epsilon$ es independiente de $X$ (asumimos que el ruido no depende de las características)
+- $\text{Var}(\epsilon) = \mathbb{E}[\epsilon^2] - (\mathbb{E}[\epsilon])^2 = \mathbb{E}[\epsilon^2]$
+
+::: {.callout-important}
+## Implicaciones Prácticas
+
+**Error Reducible** $\mathbb{E}[(f(X) - \hat{f}(X))^2]$:
+- Depende de qué tan bien nuestra estimación $\hat{f}$ aproxima la verdadera función $f$
+- Puede minimizarse usando mejores algoritmos, más datos, mejores características
+- Ejemplos de fuentes:
+  - Usar regresión lineal cuando la verdadera relación es no lineal
+  - Falta de variables explicativas importantes
+  - Exceso de variables que añaden ruido sin información
+
+**Error Irreducible** $\text{Var}(\epsilon)$:
+- Representa la variabilidad intrínseca en $Y$ que no puede ser explicada por $X$
+- No importa qué tan bien estimemos $f$, este error siempre permanecerá
+- Ejemplos de fuentes:
+  - Variables no medidas que afectan $Y$
+  - Aleatoriedad inherente en el proceso generador de datos
+  - Error de medición en la variable respuesta
+  - Factores estocásticos genuinos (ej: movimiento browniano en precios de acciones)
+:::
+
+#### Ejemplos concretos de error reducible e irreducible
+
+**Ejemplo 1: Predicción de ventas de helados**
+
+Supongamos que queremos predecir las ventas diarias de helados ($Y$) usando la temperatura ($X$).
+
+- **Error reducible**: Si usamos un modelo lineal pero la relación verdadera es cuadrática (a temperaturas muy altas la gente prefiere quedarse en casa), nuestro modelo será sistemáticamente incorrecto. Este error puede reducirse usando un modelo más flexible.
+
+- **Error irreducible**: Hay factores aleatorios que afectan las ventas (eventos inesperados, decisiones individuales caprichosas, disponibilidad de competidores ese día específico) que no podemos predecir sin importar qué tan sofisticado sea nuestro modelo.
+
+**Ejemplo 2: Diagnóstico médico**
+
+Predecir si un paciente tiene cierta enfermedad ($Y$) basándose en exámenes de laboratorio ($X$).
+
+- **Error reducible**: Si solo usamos un análisis de sangre cuando deberíamos considerar también presión arterial, historial familiar, y síntomas, estamos omitiendo información útil que podría mejorar nuestras predicciones.
+
+- **Error irreducible**: Incluso con todas las pruebas posibles, hay variabilidad biológica natural e interacciones complejas no observables que hacen imposible predecir con 100% de certeza.
+
+#### Visualización de la descomposición del error
+
+Veamos gráficamente cómo se descompone el error en una situación concreta:
+
+```{python}
+#| label: error-decomposition-visualization
+#| fig-cap: "Descomposición del error: Error reducible vs irreducible"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Configuración
+np.random.seed(42)
+sns.set_style("whitegrid")
+
+# Generar datos sintéticos
+n = 200
+X = np.linspace(0, 10, n)
+
+# Función verdadera f(X) (desconocida en la práctica)
+f_true = 2 + 1.5 * X - 0.15 * X**2
+
+# Error irreducible (ruido)
+epsilon = np.random.normal(0, 1.5, n)
+
+# Observaciones Y = f(X) + epsilon
+Y = f_true + epsilon
+
+# Diferentes modelos (estimaciones de f)
+# Modelo 1: Lineal simple (subajustado)
+z_linear = np.polyfit(X, Y, 1)
+f_linear = np.poly1d(z_linear)(X)
+
+# Modelo 2: Polinomio de grado 2 (apropiado)
+z_quad = np.polyfit(X, Y, 2)
+f_quad = np.poly1d(z_quad)(X)
+
+# Modelo 3: Polinomio de grado 10 (sobreajustado)
+z_high = np.polyfit(X, Y, 10)
+f_high = np.poly1d(z_high)(X)
+
+# Crear visualización
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+
+models = [
+    ("Modelo Subajustado (Lineal)", f_linear, "tab:orange"),
+    ("Modelo Apropiado (Cuadrático)", f_quad, "tab:green"),
+    ("Modelo Sobreajustado (Grado 10)", f_high, "tab:purple")
+]
+
+for idx, (title, f_hat, color) in enumerate(models):
+    ax = axes[idx]
+
+    # Datos observados
+    ax.scatter(X, Y, alpha=0.4, s=20, color='gray', label='Datos observados Y')
+
+    # Función verdadera f(X)
+    ax.plot(X, f_true, 'b-', linewidth=2.5, label='Función verdadera f(X)', alpha=0.7)
+
+    # Modelo estimado
+    ax.plot(X, f_hat, color=color, linewidth=2.5, label=f'Estimación $\\hat{{f}}$(X)', linestyle='--')
+
+    # Calcular errores
+    reducible_error = np.mean((f_true - f_hat)**2)
+    irreducible_error = np.var(epsilon)
+    total_error = np.mean((Y - f_hat)**2)
+
+    # Título y etiquetas
+    ax.set_title(f'{title}\n', fontsize=11, fontweight='bold')
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('Y', fontsize=10)
+    ax.legend(fontsize=8, loc='upper left')
+    ax.grid(True, alpha=0.3)
+
+    # Anotar errores
+    text_str = f'Error Reducible: {reducible_error:.2f}\nError Irreducible: {irreducible_error:.2f}\nError Total: {total_error:.2f}'
+    ax.text(0.98, 0.02, text_str, transform=ax.transAxes,
+            fontsize=9, verticalalignment='bottom', horizontalalignment='right',
+            bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-note}
+## Interpretación de las Gráficas
+
+- **Datos observados (puntos grises)**: $Y = f(X) + \epsilon$, muestran dispersión debido al error irreducible
+- **Línea azul continua**: La función verdadera $f(X)$ (desconocida en la práctica)
+- **Línea discontinua de color**: Nuestra estimación $\hat{f}(X)$
+
+**Panel izquierdo (Modelo Subajustado)**:
+- El modelo lineal no captura la curvatura de la función verdadera
+- Error reducible ALTO: la diferencia entre $f(X)$ y $\hat{f}(X)$ es grande
+- Este modelo tiene alto **sesgo** (bias)
+
+**Panel central (Modelo Apropiado)**:
+- El modelo cuadrático captura bien la forma de la función verdadera
+- Error reducible BAJO: $\hat{f}(X)$ está cerca de $f(X)$
+- Balance óptimo entre complejidad y ajuste
+
+**Panel derecho (Modelo Sobreajustado)**:
+- El modelo de grado 10 intenta capturar también el ruido
+- Error reducible artificialmente bajo en estos datos específicos
+- Pero tendría alto error en datos nuevos (alta **varianza**)
+:::
+
 ### Inferencia
 
 Existen problemas en donde nos interesa más entender la relación intrinseca que existe entre $Y$ y $X$. En esta situación nuestro objetivo no es hacer predicción, entonces $\hat{f}$ ya no puede ser tratada como una caja negra. En este tipo de enfoque se contestan preguntas cómo:
@@ -66,4 +233,737 @@ $$\underset{\beta_0, \beta_1, ..., \beta_p}{min} \sum_{i=1}^{N}(y_i - (\beta_0 +
 El enfoque basado en modelado se refiere a los modelos *paramétricos*; reduce el problema de estimar $f$ a estimar un conjunto de parámetros. La desventaja potencial es que el modelo podría no ser igual a la verdadera $f$ y tendremos malas estimaciones del valor de $y$.
 
 ### Métodos no paramétricos
+
+Los métodos no paramétricos **no asumen una forma funcional específica** para $f$. En lugar de eso, buscan una estimación de $f$ que se ajuste lo más cerca posible a los datos sin estar restringida a una familia particular de funciones.
+
+#### Motivación
+
+La principal ventaja de no asumir una forma funcional es la **flexibilidad**:
+
+- Si la relación verdadera entre $X$ y $Y$ es altamente no lineal y compleja, los métodos paramétricos pueden estar muy sesgados
+- Los métodos no paramétricos pueden capturar formas funcionales arbitrarias
+- No necesitamos conocimiento previo sobre la forma de la relación
+
+#### Ventajas de los métodos no paramétricos
+
+1. **Mayor flexibilidad**: Pueden ajustarse a relaciones complejas y no lineales
+2. **Menos supuestos**: No requieren especificar la forma funcional de $f$
+3. **Mejor ajuste potencial**: Si la verdadera $f$ es compleja, pueden ofrecer mejor precisión predictiva
+
+#### Desventajas de los métodos no paramétricos
+
+1. **Requieren más datos**: Al no reducir el problema a un conjunto pequeño de parámetros, necesitan muchas más observaciones para estimar $f$ con precisión
+2. **Riesgo de sobreajuste**: Con mucha flexibilidad, pueden ajustarse demasiado al ruido de los datos de entrenamiento
+3. **Menor interpretabilidad**: Es más difícil entender cómo cada predictor afecta la respuesta
+4. **Costo computacional**: Generalmente requieren más recursos computacionales
+
+#### Ejemplos de métodos no paramétricos
+
+**1. K-Nearest Neighbors (KNN)**
+
+Para predecir $Y$ en un punto $x_0$, KNN:
+- Identifica las $K$ observaciones en el conjunto de entrenamiento más cercanas a $x_0$
+- Promedia los valores de $Y$ de esos $K$ vecinos más cercanos
+
+$$\hat{f}(x_0) = \frac{1}{K} \sum_{x_i \in \mathcal{N}_K(x_0)} y_i$$
+
+donde $\mathcal{N}_K(x_0)$ es el conjunto de los $K$ vecinos más cercanos a $x_0$.
+
+**2. Splines**
+
+Los splines son funciones polinomiales por partes que:
+- Dividen el rango de $X$ en regiones
+- Ajustan diferentes polinomios de bajo grado en cada región
+- Garantizan suavidad en los puntos de unión
+
+**3. Árboles de Decisión**
+
+Los árboles:
+- Dividen el espacio de predictores en regiones rectangulares
+- Asignan una predicción constante a cada región
+- Son interpretables pero pueden sobreajustar fácilmente
+
+**4. Métodos de Kernel**
+
+Similar a KNN pero usando pesos que decaen suavemente con la distancia:
+
+$$\hat{f}(x_0) = \frac{\sum_{i=1}^n K_h(x_0, x_i) y_i}{\sum_{i=1}^n K_h(x_0, x_i)}$$
+
+donde $K_h$ es una función kernel con bandwidth $h$.
+
+#### Comparación visual: Paramétricos vs No Paramétricos
+
+```{python}
+#| label: parametric-vs-nonparametric
+#| fig-cap: "Comparación entre métodos paramétricos y no paramétricos"
+#| fig-width: 14
+#| fig-height: 10
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LinearRegression
+from scipy.interpolate import UnivariateSpline
+
+# Configuración
+np.random.seed(123)
+
+# Generar datos con relación no lineal compleja
+n = 150
+X = np.sort(np.random.uniform(0, 10, n))
+f_true = 5 + 2*np.sin(X) + 0.5*X - 0.05*X**2
+Y = f_true + np.random.normal(0, 0.8, n)
+
+X_plot = np.linspace(0, 10, 300)
+f_true_plot = 5 + 2*np.sin(X_plot) + 0.5*X_plot - 0.05*X_plot**2
+
+# Crear figura con subplots
+fig, axes = plt.subplots(2, 3, figsize=(14, 10))
+fig.suptitle('Comparación: Métodos Paramétricos vs No Paramétricos', fontsize=14, fontweight='bold')
+
+# Preparar datos para sklearn
+X_train = X.reshape(-1, 1)
+X_test = X_plot.reshape(-1, 1)
+
+# --- FILA 1: MÉTODOS PARAMÉTRICOS ---
+
+# 1. Regresión Lineal
+ax = axes[0, 0]
+model_linear = LinearRegression()
+model_linear.fit(X_train, Y)
+y_pred_linear = model_linear.predict(X_test)
+
+ax.scatter(X, Y, alpha=0.5, s=30, color='gray', label='Datos')
+ax.plot(X_plot, f_true_plot, 'b-', linewidth=2, label='Función verdadera', alpha=0.7)
+ax.plot(X_plot, y_pred_linear, 'r--', linewidth=2, label='Regresión Lineal')
+ax.set_title('Paramétrico: Regresión Lineal\n(Alta Rigidez)', fontweight='bold')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend(fontsize=8)
+ax.grid(True, alpha=0.3)
+mse_linear = np.mean((f_true_plot - y_pred_linear)**2)
+ax.text(0.02, 0.98, f'MSE: {mse_linear:.2f}', transform=ax.transAxes,
+        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+# 2. Regresión Polinomial (grado 2)
+ax = axes[0, 1]
+z_poly2 = np.polyfit(X, Y, 2)
+y_pred_poly2 = np.poly1d(z_poly2)(X_plot)
+
+ax.scatter(X, Y, alpha=0.5, s=30, color='gray', label='Datos')
+ax.plot(X_plot, f_true_plot, 'b-', linewidth=2, label='Función verdadera', alpha=0.7)
+ax.plot(X_plot, y_pred_poly2, 'g--', linewidth=2, label='Polinomio Grado 2')
+ax.set_title('Paramétrico: Polinomio Grado 2\n(Rigidez Media)', fontweight='bold')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend(fontsize=8)
+ax.grid(True, alpha=0.3)
+mse_poly2 = np.mean((f_true_plot - y_pred_poly2)**2)
+ax.text(0.02, 0.98, f'MSE: {mse_poly2:.2f}', transform=ax.transAxes,
+        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+# 3. Regresión Polinomial (grado 5)
+ax = axes[0, 2]
+z_poly5 = np.polyfit(X, Y, 5)
+y_pred_poly5 = np.poly1d(z_poly5)(X_plot)
+
+ax.scatter(X, Y, alpha=0.5, s=30, color='gray', label='Datos')
+ax.plot(X_plot, f_true_plot, 'b-', linewidth=2, label='Función verdadera', alpha=0.7)
+ax.plot(X_plot, y_pred_poly5, 'orange', linewidth=2, linestyle='--', label='Polinomio Grado 5')
+ax.set_title('Paramétrico: Polinomio Grado 5\n(Mayor Flexibilidad)', fontweight='bold')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend(fontsize=8)
+ax.grid(True, alpha=0.3)
+mse_poly5 = np.mean((f_true_plot - y_pred_poly5)**2)
+ax.text(0.02, 0.98, f'MSE: {mse_poly5:.2f}', transform=ax.transAxes,
+        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+# --- FILA 2: MÉTODOS NO PARAMÉTRICOS ---
+
+# 4. KNN (k=20)
+ax = axes[1, 0]
+model_knn20 = KNeighborsRegressor(n_neighbors=20)
+model_knn20.fit(X_train, Y)
+y_pred_knn20 = model_knn20.predict(X_test)
+
+ax.scatter(X, Y, alpha=0.5, s=30, color='gray', label='Datos')
+ax.plot(X_plot, f_true_plot, 'b-', linewidth=2, label='Función verdadera', alpha=0.7)
+ax.plot(X_plot, y_pred_knn20, 'purple', linewidth=2, linestyle='--', label='KNN (k=20)')
+ax.set_title('No Paramétrico: KNN (k=20)\n(Flexibilidad Media)', fontweight='bold')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend(fontsize=8)
+ax.grid(True, alpha=0.3)
+mse_knn20 = np.mean((f_true_plot - y_pred_knn20)**2)
+ax.text(0.02, 0.98, f'MSE: {mse_knn20:.2f}', transform=ax.transAxes,
+        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+# 5. KNN (k=5)
+ax = axes[1, 1]
+model_knn5 = KNeighborsRegressor(n_neighbors=5)
+model_knn5.fit(X_train, Y)
+y_pred_knn5 = model_knn5.predict(X_test)
+
+ax.scatter(X, Y, alpha=0.5, s=30, color='gray', label='Datos')
+ax.plot(X_plot, f_true_plot, 'b-', linewidth=2, label='Función verdadera', alpha=0.7)
+ax.plot(X_plot, y_pred_knn5, 'cyan', linewidth=2, linestyle='--', label='KNN (k=5)')
+ax.set_title('No Paramétrico: KNN (k=5)\n(Alta Flexibilidad)', fontweight='bold')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend(fontsize=8)
+ax.grid(True, alpha=0.3)
+mse_knn5 = np.mean((f_true_plot - y_pred_knn5)**2)
+ax.text(0.02, 0.98, f'MSE: {mse_knn5:.2f}', transform=ax.transAxes,
+        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+# 6. Spline Suavizado
+ax = axes[1, 2]
+spline = UnivariateSpline(X, Y, s=20)  # s controla la suavidad
+y_pred_spline = spline(X_plot)
+
+ax.scatter(X, Y, alpha=0.5, s=30, color='gray', label='Datos')
+ax.plot(X_plot, f_true_plot, 'b-', linewidth=2, label='Función verdadera', alpha=0.7)
+ax.plot(X_plot, y_pred_spline, 'magenta', linewidth=2, linestyle='--', label='Spline Suavizado')
+ax.set_title('No Paramétrico: Spline\n(Flexibilidad Controlada)', fontweight='bold')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend(fontsize=8)
+ax.grid(True, alpha=0.3)
+mse_spline = np.mean((f_true_plot - y_pred_spline)**2)
+ax.text(0.02, 0.98, f'MSE: {mse_spline:.2f}', transform=ax.transAxes,
+        verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## Observaciones Clave
+
+**Métodos Paramétricos (fila superior)**:
+- Asumen una forma funcional específica (lineal, cuadrática, etc.)
+- Son más rígidos pero requieren menos datos
+- Más fáciles de interpretar
+- Pueden tener sesgo si la forma asumida es incorrecta
+
+**Métodos No Paramétricos (fila inferior)**:
+- No asumen forma funcional específica
+- Más flexibles, pueden capturar patrones complejos
+- Requieren más datos para estimar bien
+- El parámetro de suavizamiento (como $k$ en KNN) controla el tradeoff entre flexibilidad y suavidad
+
+**¿Cuándo usar cada uno?**
+- **Paramétrico**: Cuando tienes pocos datos, necesitas interpretabilidad, o conoces aproximadamente la forma de la relación
+- **No paramétrico**: Cuando tienes muchos datos, la relación es compleja, o la predicción es más importante que la interpretación
+:::
+
+## Bias-Variance Tradeoff
+
+Uno de los conceptos más fundamentales en aprendizaje estadístico es el **tradeoff entre sesgo y varianza** (bias-variance tradeoff). Este concepto nos ayuda a entender por qué los modelos fallan y cómo elegir el nivel apropiado de complejidad del modelo.
+
+### Descomposición Matemática del Error Esperado
+
+Supongamos que queremos predecir $Y$ usando un modelo $\hat{f}(X)$. El **error cuadrático medio esperado** (expected MSE) para un punto $x_0$ se puede descomponer de la siguiente manera:
+
+$$\begin{align*}
+\mathbb{E}[(Y - \hat{f}(x_0))^2] &= \mathbb{E}[(f(x_0) + \epsilon - \hat{f}(x_0))^2]\\
+&= \mathbb{E}[(f(x_0) - \hat{f}(x_0))^2] + \mathbb{E}[\epsilon^2] + 2\mathbb{E}[(f(x_0) - \hat{f}(x_0))]\mathbb{E}[\epsilon]\\
+&= \mathbb{E}[(f(x_0) - \hat{f}(x_0))^2] + \text{Var}(\epsilon)
+\end{align*}$$
+
+Ahora, descomponemos el primer término sumando y restando $\mathbb{E}[\hat{f}(x_0)]$:
+
+$$\begin{align*}
+\mathbb{E}[(f(x_0) - \hat{f}(x_0))^2] &= \mathbb{E}[(f(x_0) - \mathbb{E}[\hat{f}(x_0)] + \mathbb{E}[\hat{f}(x_0)] - \hat{f}(x_0))^2]\\
+&= \mathbb{E}[(f(x_0) - \mathbb{E}[\hat{f}(x_0)])^2] + \mathbb{E}[(\mathbb{E}[\hat{f}(x_0)] - \hat{f}(x_0))^2]\\
+&\quad + 2\mathbb{E}[(f(x_0) - \mathbb{E}[\hat{f}(x_0)])(\mathbb{E}[\hat{f}(x_0)] - \hat{f}(x_0))]\\
+&= (f(x_0) - \mathbb{E}[\hat{f}(x_0)])^2 + \mathbb{E}[(\hat{f}(x_0) - \mathbb{E}[\hat{f}(x_0)])^2]\\
+&= \text{Bias}^2[\hat{f}(x_0)] + \text{Var}[\hat{f}(x_0)]
+\end{align*}$$
+
+Por lo tanto, el **error esperado total** se descompone en tres componentes:
+
+$$\boxed{\mathbb{E}[(Y - \hat{f}(x_0))^2] = \underset{\text{Sesgo}^2}{\underbrace{\text{Bias}^2[\hat{f}(x_0)]}} + \underset{\text{Varianza}}{\underbrace{\text{Var}[\hat{f}(x_0)]}} + \underset{\text{Ruido Irreducible}}{\underbrace{\text{Var}(\epsilon)}}}$$
+
+### Interpretación de los Componentes
+
+::: {.callout-important}
+## Los Tres Componentes del Error
+
+**1. Sesgo (Bias)** - $\text{Bias}[\hat{f}(x_0)] = \mathbb{E}[\hat{f}(x_0)] - f(x_0)$
+
+El sesgo mide el **error sistemático** de nuestro modelo. Es la diferencia entre la predicción promedio de nuestro modelo (si pudiéramos entrenar infinitos modelos con diferentes conjuntos de entrenamiento) y el valor verdadero.
+
+- **Sesgo alto**: El modelo es demasiado simple, no captura la estructura subyacente
+- **Causa**: Supuestos incorrectos sobre la forma de $f$ (ej: asumir linealidad cuando es cuadrática)
+- **Síntoma**: Underfitting (subajuste) - mal desempeño tanto en entrenamiento como en prueba
+- **Ejemplos**: Regresión lineal para datos claramente no lineales, KNN con $k$ muy grande
+
+**2. Varianza (Variance)** - $\text{Var}[\hat{f}(x_0)] = \mathbb{E}[(\hat{f}(x_0) - \mathbb{E}[\hat{f}(x_0)])^2]$
+
+La varianza mide cuánto **varían las predicciones** del modelo si lo entrenamos con diferentes conjuntos de entrenamiento.
+
+- **Varianza alta**: El modelo es muy sensible a fluctuaciones en los datos de entrenamiento
+- **Causa**: Modelo demasiado flexible que captura el ruido como si fuera señal
+- **Síntoma**: Overfitting (sobreajuste) - excelente en entrenamiento, malo en prueba
+- **Ejemplos**: Polinomios de grado muy alto, KNN con $k=1$, árboles muy profundos
+
+**3. Ruido Irreducible** - $\text{Var}(\epsilon) = \sigma^2$
+
+Es la variabilidad intrínseca que no puede ser reducida sin importar qué modelo usemos.
+
+- Representa el error mínimo alcanzable
+- Pone un límite inferior en la precisión de cualquier modelo
+- No depende de nuestro modelo o algoritmo
+:::
+
+### El Tradeoff Fundamental
+
+El término "tradeoff" surge porque hay una **relación inversa** entre sesgo y varianza:
+
+- **Aumentar la complejidad del modelo** → ↓ Sesgo, ↑ Varianza
+- **Disminuir la complejidad del modelo** → ↑ Sesgo, ↓ Varianza
+
+Esta relación se puede visualizar como:
+
+| Complejidad del Modelo | Flexibilidad | Sesgo | Varianza | Ejemplo |
+|------------------------|--------------|-------|----------|---------|
+| Muy Baja | Rígido | ↑↑ Alto | ↓↓ Baja | Regresión lineal |
+| Baja | Poco flexible | ↑ Moderado | ↓ Baja | Polinomio grado 2 |
+| **Óptima** | **Balanceada** | **↔ Medio** | **↔ Media** | **Modelo ideal** |
+| Alta | Muy flexible | ↓ Bajo | ↑ Moderada | Polinomio grado 10 |
+| Muy Alta | Extremo | ↓↓ Muy bajo | ↑↑ Alta | KNN con k=1 |
+
+### Conexión con Overfitting y Underfitting
+
+El bias-variance tradeoff explica directamente los fenómenos de overfitting y underfitting:
+
+**Underfitting (Subajuste)**
+- Ocurre cuando el modelo es demasiado simple
+- Caracterizado por **alto sesgo**
+- El modelo no captura los patrones reales en los datos
+- Error alto tanto en entrenamiento como en prueba
+- Ejemplo: Usar regresión lineal para datos con relación cuadrática clara
+
+**Overfitting (Sobreajuste)**
+- Ocurre cuando el modelo es demasiado complejo
+- Caracterizado por **alta varianza**
+- El modelo memoriza el ruido en vez de aprender patrones generales
+- Error bajo en entrenamiento pero alto en prueba
+- Ejemplo: Polinomio de grado 20 con solo 30 observaciones
+
+**Modelo Óptimo**
+- Balance entre sesgo y varianza
+- Minimiza el error esperado total
+- Captura los patrones verdaderos sin memorizar el ruido
+- Generaliza bien a datos nuevos
+
+### Relación con Parámetros de los Modelos
+
+Diferentes modelos tienen diferentes formas de controlar el tradeoff bias-variance:
+
+| Modelo | Parámetro de Complejidad | ↑ Parámetro → Efecto |
+|--------|-------------------------|---------------------|
+| KNN | $k$ (número de vecinos) | ↑ Sesgo, ↓ Varianza |
+| Regresión Polinomial | Grado del polinomio | ↓ Sesgo, ↑ Varianza |
+| Árboles de Decisión | Profundidad máxima | ↓ Sesgo, ↑ Varianza |
+| Regresión Ridge/Lasso | $\lambda$ (penalización) | ↑ Sesgo, ↓ Varianza |
+| Redes Neuronales | Número de capas/neuronas | ↓ Sesgo, ↑ Varianza |
+
+::: {.callout-tip}
+## Implicaciones Prácticas
+
+1. **No existe el modelo perfecto**: Siempre habrá un tradeoff entre sesgo y varianza
+
+2. **Más datos ayudan**: Con más datos, podemos usar modelos más complejos sin aumentar tanto la varianza
+
+3. **Validación cruzada es clave**: Permite estimar dónde está el punto óptimo de complejidad
+
+4. **Regularización controla el tradeoff**: Técnicas como Ridge, Lasso, o early stopping permiten ajustar finamente este balance
+
+5. **Conocer tu problema importa**:
+   - Si tienes pocos datos → Prioriza modelos simples (mayor sesgo, menor varianza)
+   - Si tienes muchos datos → Puedes usar modelos complejos (menor sesgo, mayor varianza)
+:::
+
+### Visualización del Bias-Variance Tradeoff
+
+Veamos gráficamente cómo sesgo y varianza cambian con la complejidad del modelo:
+
+```{python}
+#| label: bias-variance-tradeoff-curve
+#| fig-cap: "Curva clásica del Bias-Variance Tradeoff mostrando el punto óptimo de complejidad"
+#| fig-width: 12
+#| fig-height: 5
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Crear figura con dos subplots
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# --- Panel 1: Curva teórica del bias-variance tradeoff ---
+complejidad = np.linspace(0, 10, 100)
+
+# Simular las curvas (estas son funciones ilustrativas)
+sesgo_cuadrado = 5 / (1 + complejidad * 0.8) ** 2
+varianza = 0.1 * complejidad ** 1.3
+ruido_irreducible = np.ones_like(complejidad) * 0.5
+error_total = sesgo_cuadrado + varianza + ruido_irreducible
+
+# Encontrar el punto óptimo
+idx_optimo = np.argmin(error_total)
+complejidad_optima = complejidad[idx_optimo]
+
+ax1.plot(complejidad, sesgo_cuadrado, 'b-', linewidth=2.5, label='Sesgo² (Bias²)')
+ax1.plot(complejidad, varianza, 'r-', linewidth=2.5, label='Varianza')
+ax1.plot(complejidad, ruido_irreducible, 'gray', linewidth=2, linestyle='--', label='Ruido Irreducible')
+ax1.plot(complejidad, error_total, 'purple', linewidth=3, label='Error Total', alpha=0.8)
+
+# Marcar el punto óptimo
+ax1.axvline(x=complejidad_optima, color='green', linestyle=':', linewidth=2, alpha=0.7)
+ax1.plot(complejidad_optima, error_total[idx_optimo], 'go', markersize=12,
+         label=f'Complejidad Óptima', zorder=5)
+
+# Regiones
+ax1.axvspan(0, complejidad_optima * 0.7, alpha=0.1, color='blue', label='Zona de Underfitting')
+ax1.axvspan(complejidad_optima * 1.3, 10, alpha=0.1, color='red', label='Zona de Overfitting')
+
+ax1.set_xlabel('Complejidad del Modelo', fontsize=11)
+ax1.set_ylabel('Error Esperado', fontsize=11)
+ax1.set_title('Bias-Variance Tradeoff: Curva Teórica', fontsize=12, fontweight='bold')
+ax1.legend(fontsize=9, loc='upper center')
+ax1.grid(True, alpha=0.3)
+ax1.set_ylim([0, 6])
+
+# Anotaciones
+ax1.text(1, 4.5, 'Alto Sesgo\nBaja Varianza', fontsize=9, ha='center',
+         bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.7))
+ax1.text(8, 4.5, 'Bajo Sesgo\nAlta Varianza', fontsize=9, ha='center',
+         bbox=dict(boxstyle='round', facecolor='lightcoral', alpha=0.7))
+
+# --- Panel 2: Errores de entrenamiento vs prueba ---
+# Generar datos simulados de error de entrenamiento y prueba
+train_error = 0.5 + 5 / (1 + complejidad * 1.2)
+test_error = error_total
+
+ax2.plot(complejidad, train_error, 'b-', linewidth=2.5, label='Error de Entrenamiento', marker='o',
+         markevery=10, markersize=6)
+ax2.plot(complejidad, test_error, 'r-', linewidth=2.5, label='Error de Prueba (Generalización)',
+         marker='s', markevery=10, markersize=6)
+
+# Marcar punto óptimo
+ax2.axvline(x=complejidad_optima, color='green', linestyle=':', linewidth=2, alpha=0.7)
+ax2.plot(complejidad_optima, test_error[idx_optimo], 'go', markersize=12,
+         label='Complejidad Óptima', zorder=5)
+
+# Regiones
+ax2.axvspan(0, complejidad_optima * 0.7, alpha=0.1, color='blue')
+ax2.axvspan(complejidad_optima * 1.3, 10, alpha=0.1, color='red')
+
+ax2.set_xlabel('Complejidad del Modelo', fontsize=11)
+ax2.set_ylabel('Error', fontsize=11)
+ax2.set_title('Error de Entrenamiento vs Prueba', fontsize=12, fontweight='bold')
+ax2.legend(fontsize=9, loc='upper right')
+ax2.grid(True, alpha=0.3)
+ax2.set_ylim([0, 6])
+
+# Anotaciones
+ax2.annotate('Gap grande:\nOverfitting',
+             xy=(8, test_error[80]), xytext=(7, 4.5),
+             arrowprops=dict(arrowstyle='->', color='red', lw=1.5),
+             fontsize=9, color='red', fontweight='bold',
+             bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-note}
+## Interpretación de las Curvas
+
+**Panel Izquierdo - Descomposición del Error**:
+- **Sesgo² (azul)**: Disminuye cuando aumenta la complejidad del modelo
+- **Varianza (roja)**: Aumenta cuando aumenta la complejidad del modelo
+- **Ruido Irreducible (gris)**: Constante, no depende del modelo
+- **Error Total (morado)**: Suma de los tres componentes, tiene forma de U
+- **Punto óptimo (verde)**: Minimiza el error total, balancea sesgo y varianza
+
+**Panel Derecho - Entrenamiento vs Prueba**:
+- **Error de Entrenamiento (azul)**: Siempre disminuye con más complejidad
+- **Error de Prueba (rojo)**: Disminuye inicialmente, luego aumenta (overfitting)
+- El **gap** entre ambos aumenta con la complejidad → indica overfitting
+:::
+
+### Ejemplo Práctico: KNN con Diferentes Valores de k
+
+Veamos cómo el bias-variance tradeoff se manifiesta en K-Nearest Neighbors:
+
+```{python}
+#| label: bias-variance-knn-example
+#| fig-cap: "Bias-Variance Tradeoff en KNN: Efecto del parámetro k"
+#| fig-width: 14
+#| fig-height: 10
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.model_selection import train_test_split
+
+# Configuración
+np.random.seed(42)
+
+# Generar función verdadera y datos
+n_samples = 100
+X_true = np.linspace(0, 10, 300)
+f_true = 5 + 3 * np.sin(X_true)
+
+# Generar múltiples conjuntos de entrenamiento para estimar varianza
+n_datasets = 50
+X_train_sets = []
+y_train_sets = []
+
+for i in range(n_datasets):
+    X_train = np.random.uniform(0, 10, n_samples)
+    y_train = 5 + 3 * np.sin(X_train) + np.random.normal(0, 0.8, n_samples)
+    X_train_sets.append(X_train)
+    y_train_sets.append(y_train)
+
+# Valores de k a explorar
+k_values = [1, 5, 20, 50]
+
+# Crear figura
+fig, axes = plt.subplots(2, 4, figsize=(14, 10))
+fig.suptitle('Bias-Variance Tradeoff en KNN: Múltiples Conjuntos de Entrenamiento',
+             fontsize=14, fontweight='bold')
+
+# Para cada valor de k
+for idx, k in enumerate(k_values):
+    ax_models = axes[0, idx]
+    ax_components = axes[1, idx]
+
+    # Entrenar KNN con cada conjunto de datos y guardar predicciones
+    predictions = []
+
+    for i in range(n_datasets):
+        knn = KNeighborsRegressor(n_neighbors=k)
+        knn.fit(X_train_sets[i].reshape(-1, 1), y_train_sets[i])
+        y_pred = knn.predict(X_true.reshape(-1, 1))
+        predictions.append(y_pred)
+
+        # Plotear algunas predicciones individuales (más transparentes)
+        if i < 15:
+            ax_models.plot(X_true, y_pred, 'gray', alpha=0.15, linewidth=1)
+
+    predictions = np.array(predictions)
+
+    # Calcular predicción promedio
+    mean_prediction = np.mean(predictions, axis=0)
+
+    # Calcular componentes
+    bias_squared = np.mean((f_true - mean_prediction) ** 2)
+    variance = np.mean(np.var(predictions, axis=0))
+
+    # Panel superior: Modelos individuales y promedio
+    ax_models.plot(X_true, f_true, 'b-', linewidth=3, label='Función Verdadera f(x)', alpha=0.8)
+    ax_models.plot(X_true, mean_prediction, 'r--', linewidth=2.5,
+                   label=f'Predicción Promedio E[$\\hat{{f}}$]')
+
+    # Scatter de uno de los conjuntos de entrenamiento
+    ax_models.scatter(X_train_sets[0], y_train_sets[0], alpha=0.4, s=20,
+                     color='gray', label='Datos (1 conjunto)')
+
+    ax_models.set_title(f'KNN con k={k}\n(15 modelos diferentes mostrados)',
+                       fontsize=10, fontweight='bold')
+    ax_models.set_xlabel('X', fontsize=9)
+    ax_models.set_ylabel('Y', fontsize=9)
+    ax_models.legend(fontsize=7, loc='upper left')
+    ax_models.grid(True, alpha=0.3)
+    ax_models.set_ylim([-1, 11])
+
+    # Panel inferior: Componentes del error
+    components = ['Sesgo²', 'Varianza', 'Total']
+    values = [bias_squared, variance, bias_squared + variance]
+    colors = ['blue', 'red', 'purple']
+
+    bars = ax_components.bar(components, values, color=colors, alpha=0.7, edgecolor='black')
+    ax_components.set_ylabel('Magnitud del Error', fontsize=9)
+    ax_components.set_title(f'Componentes del Error (k={k})', fontsize=10, fontweight='bold')
+    ax_components.grid(True, alpha=0.3, axis='y')
+
+    # Añadir valores en las barras
+    for bar, val in zip(bars, values):
+        height = bar.get_height()
+        ax_components.text(bar.get_x() + bar.get_width()/2., height,
+                          f'{val:.3f}', ha='center', va='bottom', fontsize=8, fontweight='bold')
+
+    # Anotar interpretación
+    if k == 1:
+        interpretation = 'ALTA Varianza\nBAJO Sesgo\n(Overfitting)'
+        color_box = 'lightcoral'
+    elif k == 50:
+        interpretation = 'BAJA Varianza\nALTO Sesgo\n(Underfitting)'
+        color_box = 'lightblue'
+    else:
+        interpretation = 'Balance\nModerado'
+        color_box = 'lightgreen'
+
+    ax_components.text(0.5, 0.95, interpretation, transform=ax_components.transAxes,
+                      fontsize=8, ha='center', va='top', fontweight='bold',
+                      bbox=dict(boxstyle='round', facecolor=color_box, alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-important}
+## Observaciones Clave del Experimento KNN
+
+**k=1 (Alta Complejidad)**:
+- Las líneas grises individuales son muy diferentes entre sí → **Alta varianza**
+- La predicción promedio (roja) se acerca bastante a la función verdadera (azul) → **Bajo sesgo**
+- Problema: Cada modelo individual es muy inestable y sensible al ruido
+- **Resultado**: Overfitting - el modelo memoriza los datos específicos
+
+**k=5 (Complejidad Media-Alta)**:
+- Las líneas grises son más similares entre sí → **Varianza moderada**
+- La predicción promedio aún sigue bien la función verdadera → **Sesgo bajo a moderado**
+- **Balance razonable** para este problema
+
+**k=20 (Complejidad Media-Baja)**:
+- Las líneas grises son muy similares → **Baja varianza**
+- La predicción promedio pierde algo de la estructura verdadera → **Sesgo moderado**
+- Más estable pero menos preciso en capturar detalles
+
+**k=50 (Baja Complejidad)**:
+- Las líneas grises son casi idénticas → **Muy baja varianza**
+- La predicción promedio es demasiado suave, pierde oscilaciones → **Alto sesgo**
+- Problema: Modelo demasiado simple que no captura la estructura real
+- **Resultado**: Underfitting - el modelo es demasiado rígido
+
+**Lección Principal**: A medida que $k$ aumenta (complejidad disminuye):
+- ✓ Ganamos estabilidad (menor varianza)
+- ✗ Perdemos capacidad de ajuste (mayor sesgo)
+:::
+
+### Bias-Variance con Regresiones Polinomiales
+
+Otro ejemplo clásico es el grado del polinomio:
+
+```{python}
+#| label: bias-variance-polynomial
+#| fig-cap: "Bias-Variance Tradeoff con Regresiones Polinomiales de diferentes grados"
+#| fig-width: 14
+#| fig-height: 5
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Configuración
+np.random.seed(123)
+
+# Función verdadera
+X_true = np.linspace(0, 10, 200)
+f_true = 3 + 2*X_true - 0.3*X_true**2 + 0.01*X_true**3
+
+# Generar múltiples conjuntos de entrenamiento
+n_datasets = 100
+n_samples = 50
+degrees = [1, 3, 10]
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+fig.suptitle('Bias-Variance con Polinomios de Diferente Grado', fontsize=14, fontweight='bold')
+
+for idx, degree in enumerate(degrees):
+    ax = axes[idx]
+
+    predictions = []
+
+    # Entrenar con múltiples datasets
+    for _ in range(n_datasets):
+        X_train = np.random.uniform(0, 10, n_samples)
+        y_train = 3 + 2*X_train - 0.3*X_train**2 + 0.01*X_train**3 + np.random.normal(0, 5, n_samples)
+
+        # Ajustar polinomio
+        coeffs = np.polyfit(X_train, y_train, degree)
+        y_pred = np.polyval(coeffs, X_true)
+        predictions.append(y_pred)
+
+        # Plotear algunos modelos individuales
+        if _ < 20:
+            ax.plot(X_true, y_pred, 'gray', alpha=0.1, linewidth=1)
+
+    predictions = np.array(predictions)
+    mean_prediction = np.mean(predictions, axis=0)
+
+    # Calcular métricas
+    bias_sq = np.mean((f_true - mean_prediction)**2)
+    variance = np.mean(np.var(predictions, axis=0))
+
+    # Plotear función verdadera y predicción promedio
+    ax.plot(X_true, f_true, 'b-', linewidth=3, label='f(x) verdadera', alpha=0.8)
+    ax.plot(X_true, mean_prediction, 'r--', linewidth=2.5, label='E[$\\hat{f}$]')
+
+    # Banda de confianza (varianza)
+    std_prediction = np.std(predictions, axis=0)
+    ax.fill_between(X_true, mean_prediction - std_prediction, mean_prediction + std_prediction,
+                    alpha=0.2, color='red', label='±1 std (varianza)')
+
+    ax.set_title(f'Polinomio Grado {degree}\nSesgo²={bias_sq:.2f}, Varianza={variance:.2f}',
+                fontsize=11, fontweight='bold')
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('Y', fontsize=10)
+    ax.legend(fontsize=8, loc='upper left')
+    ax.grid(True, alpha=0.3)
+    ax.set_ylim([-50, 100])
+
+    # Anotación
+    if degree == 1:
+        text = 'Alto Sesgo\nBaja Varianza'
+        color = 'lightblue'
+    elif degree == 3:
+        text = 'Balance Óptimo'
+        color = 'lightgreen'
+    else:
+        text = 'Bajo Sesgo\nAlta Varianza'
+        color = 'lightcoral'
+
+    ax.text(0.5, 0.05, text, transform=ax.transAxes, fontsize=9,
+           ha='center', fontweight='bold',
+           bbox=dict(boxstyle='round', facecolor=color, alpha=0.8))
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## Resumen: Cómo Identificar y Corregir Problemas
+
+**¿Cómo saber si tienes alto sesgo (underfitting)?**
+- ✓ Error de entrenamiento alto
+- ✓ Error de prueba alto
+- ✓ Poca diferencia entre error de entrenamiento y prueba
+- ✓ El modelo es demasiado simple para capturar los patrones
+
+**Soluciones para alto sesgo**:
+1. Aumentar la complejidad del modelo (más características, mayor grado, menor k en KNN)
+2. Reducir la regularización
+3. Agregar características polinomiales o de interacción
+4. Probar un algoritmo más flexible
+
+**¿Cómo saber si tienes alta varianza (overfitting)?**
+- ✓ Error de entrenamiento bajo
+- ✓ Error de prueba alto
+- ✓ Gran diferencia (gap) entre error de entrenamiento y prueba
+- ✓ El modelo es muy sensible a pequeños cambios en los datos
+
+**Soluciones para alta varianza**:
+1. Reducir la complejidad del modelo (menos características, menor grado, mayor k en KNN)
+2. Aumentar la regularización (Ridge, Lasso, dropout)
+3. Obtener más datos de entrenamiento
+4. Usar ensemble methods (bagging, random forests)
+5. Aplicar validación cruzada para seleccionar hiperparámetros
+:::
 
