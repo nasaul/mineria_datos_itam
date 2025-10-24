@@ -2,7 +2,7 @@
 
 ## Introducción al Problema de Clasificación
 
-En los capítulos anteriores hemos trabajado con problemas de regresión, donde la variable respuesta $Y$ es cuantitativa (continua). En este capítulo estudiaremos los **problemas de clasificación**, donde la variakbble respuesta $Y$ es **cualitativa** (categórica o discreta).
+En los capítulos anteriores hemos trabajado con problemas de regresión, donde la variable respuesta $Y$ es cuantitativa (continua). En este capítulo estudiaremos los **problemas de clasificación**, donde la variable respuesta $Y$ es **cualitativa** (categórica o discreta).
 
 ### Definición Formal
 
@@ -1336,19 +1336,19 @@ El umbral de decisión debe ajustarse según el **contexto y los costos relativo
 
 - **Costo de FN (no detectar cáncer)**: Muy alto (riesgo de vida)
 - **Costo de FP (falsa alarma)**: Moderado (pruebas adicionales, ansiedad)
-- **Solución**: Usar $\tau = 0.3$ o menor → Más sensible, captura más casos positivos
+- **Solución**: Usar $\tau$ baja → Más sensible, captura más casos positivos
 
 **Ejemplo 2: Recomendación de Productos Premium**
 
 - **Costo de FP (recomendar a quien no comprará)**: Alto (recursos desperdiciados)
 - **Costo de FN (no recomendar a comprador potencial)**: Moderado
-- **Solución**: Usar $\tau = 0.7$ o mayor → Más preciso, solo casos muy probables
+- **Solución**: Usar $\tau$ alta → Más preciso, solo casos muy probables
 
 **Ejemplo 3: Filtro de Spam**
 
 - **Costo de FP (email legítimo marcado como spam)**: Alto (pérdida de información importante)
 - **Costo de FN (spam no detectado)**: Bajo (molestia menor)
-- **Solución**: Usar $\tau = 0.6$ → Balance hacia alta precisión
+- **Solución**: Usar $\tau$ poco más alta que 0.5 → Balance hacia alta precisión
 
 #### Impacto del Umbral en las Métricas
 
