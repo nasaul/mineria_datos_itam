@@ -12,12 +12,12 @@
 
 ### Evaluación {.unnumbered}
 
-- Tarea (20%)
-- Examen parcial (20%)
+- Tareas (20%)
+- Quizes (20%)
+- Examen parcial (30%)
 - Proyecto final (30%):
   - Entrega (75%)
-  - Exposición (25%)  
-- Examen final (30%)
+  - Exposición (25%)
 
 Existirá una parte extra a los alumnos que contribuyan al aprendizaje de sus compañeros:
 

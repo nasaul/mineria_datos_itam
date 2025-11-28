@@ -7,11 +7,10 @@ preview: setup-links
 	quarto preview chapters
 
 setup-links:
-	@if [ ! -L "chapters/introduccion.ipynb" ]; then \
-		cd chapters && \
-		ln -sf ../notebooks/*.ipynb . && \
-		echo "Created symbolic links to notebooks"; \
-	fi
+	cd chapters && \
+	ln -sf ../notebooks/*.ipynb . && \
+	echo "Created symbolic links to notebooks"
+
 
 render: setup-links
 	source $$(conda info --base)/etc/profile.d/conda.sh && \
@@ -22,7 +21,7 @@ install-env:
 	conda env list | grep -q $(CONDA_ENV) || conda create -n $(CONDA_ENV) python=3.10 -y
 	source $$(conda info --base)/etc/profile.d/conda.sh && \
 	conda activate $(CONDA_ENV) && \
-	mamba install jupyter numpy pandas matplotlib seaborn scikit-learn nbclient ipykernel pyyaml -y
+	mamba install jupyter numpy pandas matplotlib seaborn scikit-learn nbclient ipykernel pyyaml xgboost lightgbm catboost -y
 
 clean:
 	rm -rf chapters/_freeze/

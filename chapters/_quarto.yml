@@ -6,6 +6,8 @@ book:
   title: "Minería de Datos"
   subtitle: "ITAM 2025"
   author: "Saúl Caballero"
+  sidebar:
+    collapse-level: 1
   chapters:
     - index.qmd
     - 00-requerimientos-computacion.qmd
@@ -16,12 +18,17 @@ book:
         - 03-regresion_lineal.qmd
         - violaciones_supuestos_regresion.ipynb
         - analisis_advertising_dataset.ipynb
+        - ejercicio_wine_quality.ipynb
     - 04-clasificacion.qmd
+    - 05-arboles.qmd
+    - 06-boosting.qmd
     - references.qmd
     - part: "Ejemplos"
       chapters:
         - introduccion.ipynb
         - regresion_lineal.ipynb
+        - california_housing_case_study.ipynb
+        - operaciones_datos_pandas.ipynb
   open-graph: true
 
 bibliography: references.bib

@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./analisis_advertising_dataset.html" rel="prev">
+<link href="./05-arboles.html" rel="next">
+<link href="./ejercicio_wine_quality.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -332,13 +367,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Regresion lineal</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal</span></a>
@@ -354,11 +389,26 @@ window.Quarto = {
   <a href="./analisis_advertising_dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Análisis de Regresión Lineal con el Dataset Advertising</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ejercicio_wine_quality.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicio: Análisis de Regresión con el Dataset Wine Quality</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-clasificacion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-arboles.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Árboles de Decisión</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-boosting.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métodos de Boosting</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -369,13 +419,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Ejemplos</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./introduccion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introducción a Python para Minería de Datos</span></a>
@@ -384,6 +434,16 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso en gradiente con regresión lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./california_housing_case_study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Caso de Estudio: Predicción de Precios de Vivienda en California</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./operaciones_datos_pandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Operaciones de Datos con Pandas</span></a>
   </div>
 </li>
       </ul>
@@ -415,6 +475,18 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#clasificador-de-bayes-para-el-caso-binario" id="toc-clasificador-de-bayes-para-el-caso-binario" class="nav-link" data-scroll-target="#clasificador-de-bayes-para-el-caso-binario">Clasificador de Bayes para el Caso Binario</a></li>
   <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística">Regresión Logística</a></li>
+  </ul></li>
+  <li><a href="#métricas-de-evaluación-de-modelos-de-clasificación" id="toc-métricas-de-evaluación-de-modelos-de-clasificación" class="nav-link" data-scroll-target="#métricas-de-evaluación-de-modelos-de-clasificación">Métricas de Evaluación de Modelos de Clasificación</a>
+  <ul class="collapse">
+  <li><a href="#la-matriz-de-confusión-fundamento-de-las-métricas" id="toc-la-matriz-de-confusión-fundamento-de-las-métricas" class="nav-link" data-scroll-target="#la-matriz-de-confusión-fundamento-de-las-métricas">La Matriz de Confusión: Fundamento de las Métricas</a></li>
+  <li><a href="#métricas-derivadas-de-la-matriz-de-confusión" id="toc-métricas-derivadas-de-la-matriz-de-confusión" class="nav-link" data-scroll-target="#métricas-derivadas-de-la-matriz-de-confusión">Métricas Derivadas de la Matriz de Confusión</a></li>
+  <li><a href="#umbral-de-decisión" id="toc-umbral-de-decisión" class="nav-link" data-scroll-target="#umbral-de-decisión">Umbral de Decisión</a></li>
+  <li><a href="#trade-off-entre-precisión-y-recall" id="toc-trade-off-entre-precisión-y-recall" class="nav-link" data-scroll-target="#trade-off-entre-precisión-y-recall">Trade-off entre Precisión y Recall</a></li>
+  <li><a href="#curva-roc-y-auc" id="toc-curva-roc-y-auc" class="nav-link" data-scroll-target="#curva-roc-y-auc">Curva ROC y AUC</a></li>
+  <li><a href="#ejemplo-completo-evaluación-de-un-modelo" id="toc-ejemplo-completo-evaluación-de-un-modelo" class="nav-link" data-scroll-target="#ejemplo-completo-evaluación-de-un-modelo">Ejemplo Completo: Evaluación de un Modelo</a></li>
+  <li><a href="#selección-de-métricas-según-el-contexto" id="toc-selección-de-métricas-según-el-contexto" class="nav-link" data-scroll-target="#selección-de-métricas-según-el-contexto">Selección de Métricas según el Contexto</a></li>
+  <li><a href="#métricas-para-clasificación-multiclase" id="toc-métricas-para-clasificación-multiclase" class="nav-link" data-scroll-target="#métricas-para-clasificación-multiclase">Métricas para Clasificación Multiclase</a></li>
+  <li><a href="#consideraciones-finales" id="toc-consideraciones-finales" class="nav-link" data-scroll-target="#consideraciones-finales">Consideraciones Finales</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -573,14 +645,943 @@ window.Quarto = {
 <section id="estimación-mediante-el-teorema-de-bayes" class="level4">
 <h4 class="anchored" data-anchor-id="estimación-mediante-el-teorema-de-bayes">Estimación mediante el Teorema de Bayes</h4>
 <p>Usando el teorema de Bayes:</p>
-<p><span class="math display">\[P(Y = 1 | \mathbf{X} = \mathbf{x}) = \frac{P(\mathbf{X} = \mathbf{x} | Y = 1) \cdot P(Y = 1)}{P(\mathbf{X} = \mathbf{x})}\]</span></p>
+<p><span class="math display">\[P(Y = k | \mathbf{X} = \mathbf{x}) = \frac{P(\mathbf{X} = \mathbf{x} | Y = k) \cdot P(Y = k)}{P(\mathbf{X} = \mathbf{x})}\]</span></p>
 <p>Donde:</p>
 <ul>
-<li><span class="math inline">\(P(Y = 1)\)</span> es la probabilidad a priori de la clase 1</li>
-<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x} | Y = 1)\)</span> es la verosimilitud</li>
-<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x})\)</span> es la evidencia</li>
+<li><span class="math inline">\(P(Y = k)\)</span> es la <strong>probabilidad a priori</strong> de la clase <span class="math inline">\(k\)</span></li>
+<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x} | Y = k)\)</span> es la <strong>verosimilitud</strong> de observar <span class="math inline">\(\mathbf{x}\)</span> dado que pertenece a la clase <span class="math inline">\(k\)</span></li>
+<li><span class="math inline">\(P(\mathbf{X} = \mathbf{x})\)</span> es la <strong>evidencia</strong> (constante de normalización)</li>
 </ul>
-<p>En la práctica, el clasificador de Bayes requiere conocer o estimar estas distribuciones, lo cual puede ser difícil en alta dimensión.</p>
+<p>Como <span class="math inline">\(P(\mathbf{X} = \mathbf{x})\)</span> es igual para todas las clases, la decisión se basa en:</p>
+<p><span class="math display">\[\hat{y} = \arg\max_k P(\mathbf{X} = \mathbf{x} | Y = k) \cdot P(Y = k)\]</span></p>
+</section>
+<section id="naive-bayes-simplificando-el-problema" class="level4">
+<h4 class="anchored" data-anchor-id="naive-bayes-simplificando-el-problema">Naive Bayes: Simplificando el Problema</h4>
+<p>El problema principal del clasificador de Bayes es estimar <span class="math inline">\(P(\mathbf{X} = \mathbf{x} | Y = k)\)</span> en alta dimensión. Con <span class="math inline">\(p\)</span> características, necesitamos estimar la distribución conjunta de todas las variables, lo cual es computacionalmente intratable cuando <span class="math inline">\(p\)</span> es grande.</p>
+<p>El clasificador <strong>Naive Bayes</strong> resuelve este problema mediante una <strong>asunción de independencia condicional</strong>: asume que las características son condicionalmente independientes dada la clase:</p>
+<p><span class="math display">\[P(\mathbf{X} = \mathbf{x} | Y = k) = P(x_1, x_2, ..., x_p | Y = k) = \prod_{j=1}^{p} P(x_j | Y = k)\]</span></p>
+<p>Esta asunción, aunque “ingenua” (naive), simplifica enormemente el cálculo y funciona sorprendentemente bien en la práctica.</p>
+</section>
+<section id="tipos-de-naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="tipos-de-naive-bayes">Tipos de Naive Bayes</h4>
+<p>Dependiendo del tipo de características, existen diferentes variantes:</p>
+<section id="gaussian-naive-bayes-características-continuas" class="level5">
+<h5 class="anchored" data-anchor-id="gaussian-naive-bayes-características-continuas">1. <strong>Gaussian Naive Bayes</strong> (características continuas)</h5>
+<p>Asume que las características siguen una distribución normal dentro de cada clase:</p>
+<p><span class="math display">\[P(x_j | Y = k) = \frac{1}{\sqrt{2\pi\sigma_{jk}^2}} \exp\left(-\frac{(x_j - \mu_{jk})^2}{2\sigma_{jk}^2}\right)\]</span></p>
+<p>Donde <span class="math inline">\(\mu_{jk}\)</span> y <span class="math inline">\(\sigma_{jk}^2\)</span> son la media y varianza de la característica <span class="math inline">\(j\)</span> en la clase <span class="math inline">\(k\)</span>.</p>
+</section>
+<section id="multinomial-naive-bayes-características-discretasconteos" class="level5">
+<h5 class="anchored" data-anchor-id="multinomial-naive-bayes-características-discretasconteos">2. <strong>Multinomial Naive Bayes</strong> (características discretas/conteos)</h5>
+<p>Utilizado para datos de conteo (ej. frecuencia de palabras en clasificación de texto):</p>
+<p><span class="math display">\[P(\mathbf{x} | Y = k) = \frac{N_k!}{\prod_j x_j!} \prod_{j=1}^{p} \theta_{jk}^{x_j}\]</span></p>
+<p>Donde <span class="math inline">\(\theta_{jk}\)</span> es la probabilidad de la característica <span class="math inline">\(j\)</span> en la clase <span class="math inline">\(k\)</span>.</p>
+</section>
+<section id="bernoulli-naive-bayes-características-binarias" class="level5">
+<h5 class="anchored" data-anchor-id="bernoulli-naive-bayes-características-binarias">3. <strong>Bernoulli Naive Bayes</strong> (características binarias)</h5>
+<p>Para características binarias (presencia/ausencia):</p>
+<p><span class="math display">\[P(\mathbf{x} | Y = k) = \prod_{j=1}^{p} \theta_{jk}^{x_j} (1-\theta_{jk})^{1-x_j}\]</span></p>
+</section>
+</section>
+<section id="ventajas-y-desventajas-de-naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="ventajas-y-desventajas-de-naive-bayes">Ventajas y Desventajas de Naive Bayes</h4>
+<p><strong>Ventajas:</strong></p>
+<ul>
+<li>✓ Rápido de entrenar y predecir</li>
+<li>✓ Funciona bien con pocos datos de entrenamiento</li>
+<li>✓ Maneja naturalmente múltiples clases</li>
+<li>✓ Robusto ante características irrelevantes</li>
+<li>✓ Proporciona estimaciones de probabilidad</li>
+</ul>
+<p><strong>Desventajas:</strong></p>
+<ul>
+<li>✗ La asunción de independencia es frecuentemente violada</li>
+<li>✗ Puede dar estimaciones de probabilidad sesgadas</li>
+<li>✗ Sensible a la maldición de la dimensionalidad con Gaussian NB</li>
+</ul>
+</section>
+<section id="ejemplos-en-python" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplos-en-python">Ejemplos en Python</h4>
+<section id="ejemplo-básico-gaussian-naive-bayes" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-básico-gaussian-naive-bayes">1. Ejemplo Básico: Gaussian Naive Bayes</h5>
+<p>Comenzamos con un ejemplo simple de clasificación binaria usando Gaussian Naive Bayes:</p>
+<div id="naive-bayes-basic" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> GaussianNB</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar datos sintéticos para clasificación binaria</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    n_samples<span class="op">=</span><span class="dv">300</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    n_features<span class="op">=</span><span class="dv">2</span>,        <span class="co"># 2 características para visualización fácil</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    n_informative<span class="op">=</span><span class="dv">2</span>,     <span class="co"># Ambas características son informativas</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    n_redundant<span class="op">=</span><span class="dv">0</span>,       <span class="co"># Sin características redundantes</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    n_clusters_per_class<span class="op">=</span><span class="dv">2</span>,  <span class="co"># 2 grupos por clase</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    flip_y<span class="op">=</span><span class="fl">0.05</span>,         <span class="co"># 5% de ruido en las etiquetas</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    class_sep<span class="op">=</span><span class="fl">0.8</span>,       <span class="co"># Separación entre clases</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir en conjunto de entrenamiento (70%) y prueba (30%)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimensiones de los datos:"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Entrenamiento: </span><span class="sc">{</span>X_train<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Prueba: </span><span class="sc">{</span>X_test<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dimensiones de los datos:
+  Entrenamiento: (210, 2)
+  Prueba: (90, 2)</code></pre>
+</div>
+</div>
+<div id="naive-bayes-train" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear y entrenar el modelo Gaussian Naive Bayes</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gnb <span class="op">=</span> GaussianNB()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gnb.fit(X_train, y_train)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Realizar predicciones</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gnb.predict(X_test)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>y_proba <span class="op">=</span> gnb.predict_proba(X_test)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluar el modelo</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Exactitud (Accuracy): </span><span class="sc">{</span>accuracy<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matriz de Confusión:"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame(cm,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                   columns<span class="op">=</span>[<span class="st">'Predicho 0'</span>, <span class="st">'Predicho 1'</span>],</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                   index<span class="op">=</span>[<span class="st">'Real 0'</span>, <span class="st">'Real 1'</span>]))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros aprendidos por el modelo</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PARÁMETROS APRENDIDOS"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Probabilidades a priori (prior):"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(Y=0) = </span><span class="sc">{</span>gnb<span class="sc">.</span>class_prior_[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P(Y=1) = </span><span class="sc">{</span>gnb<span class="sc">.</span>class_prior_[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Medias de cada característica por clase:"</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, clase <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">0</span>, <span class="dv">1</span>]):</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">: μ₁=</span><span class="sc">{</span>gnb<span class="sc">.</span>theta_[i, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, μ₂=</span><span class="sc">{</span>gnb<span class="sc">.</span>theta_[i, <span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Varianzas de cada característica por clase:"</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, clase <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">0</span>, <span class="dv">1</span>]):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">: σ²₁=</span><span class="sc">{</span>gnb<span class="sc">.</span>var_[i, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, σ²₂=</span><span class="sc">{</span>gnb<span class="sc">.</span>var_[i, <span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Exactitud (Accuracy): 0.844
+
+Matriz de Confusión:
+        Predicho 0  Predicho 1
+Real 0          46           8
+Real 1           6          30
+
+==================================================
+PARÁMETROS APRENDIDOS
+==================================================
+
+Probabilidades a priori (prior):
+  P(Y=0) = 0.481
+  P(Y=1) = 0.519
+
+Medias de cada característica por clase:
+  Clase 0: μ₁=-0.072, μ₂=-0.693
+  Clase 1: μ₁=0.048, μ₂=0.726
+
+Varianzas de cada característica por clase:
+  Clase 0: σ²₁=0.872, σ²₂=0.544
+  Clase 1: σ²₁=1.275, σ²₂=0.654</code></pre>
+</div>
+</div>
+</section>
+<section id="visualización-de-la-frontera-de-decisión" class="level5">
+<h5 class="anchored" data-anchor-id="visualización-de-la-frontera-de-decisión">2. Visualización de la Frontera de Decisión</h5>
+<div id="cell-naive-bayes-visualization" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función auxiliar para visualizar fronteras de decisión</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualizar_clasificador(X, y, classifier, title):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Visualiza la frontera de decisión de un clasificador</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Parámetros:</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    - X: características (n_samples, 2)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    - y: etiquetas (n_samples,)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - classifier: modelo entrenado</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - title: título del gráfico</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">0.02</span>  <span class="co"># Tamaño del paso en la malla</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear una malla de puntos para evaluar el clasificador</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    x_min, x_max <span class="op">=</span> X[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    y_min, y_max <span class="op">=</span> X[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, h),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                         np.arange(y_min, y_max, h))</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predecir probabilidades para cada punto de la malla</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> classifier.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, <span class="dv">1</span>]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear la visualización</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Panel 1: Datos y frontera</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    plt.contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.4</span>, cmap<span class="op">=</span><span class="st">'RdBu_r'</span>, levels<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    plt.contour(xx, yy, Z, levels<span class="op">=</span>[<span class="fl">0.5</span>], colors<span class="op">=</span><span class="st">'black'</span>, linewidths<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">'Clase 0'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'red'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">'Clase 1'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Característica 1'</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Característica 2'</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss"> - Frontera de Decisión'</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Panel 2: Mapa de probabilidades</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    contour <span class="op">=</span> plt.contourf(xx, yy, Z, levels<span class="op">=</span><span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'RdBu_r'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    plt.colorbar(contour, label<span class="op">=</span><span class="st">'P(Y=1|X)'</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">0</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'blue'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    plt.scatter(X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">0</span>], X[y<span class="op">==</span><span class="dv">1</span>, <span class="dv">1</span>], c<span class="op">=</span><span class="st">'red'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Característica 1'</span>)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Característica 2'</span>)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss"> - Probabilidades'</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar nuestro modelo entrenado</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>visualizar_clasificador(X_train, y_train, gnb, <span class="st">'Gaussian Naive Bayes'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Frontera de decisión de Gaussian Naive Bayes</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparación-de-variantes-de-naive-bayes" class="level5">
+<h5 class="anchored" data-anchor-id="comparación-de-variantes-de-naive-bayes">3. Comparación de Variantes de Naive Bayes</h5>
+<p>Ahora comparemos las tres variantes principales de Naive Bayes:</p>
+<div id="naive-bayes-variants-prep" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> MultinomialNB, BernoulliNB</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparar diferentes versiones de los datos para cada variante</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Gaussian NB: usa los datos originales</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>X_gaussian <span class="op">=</span> X_train.copy()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Multinomial NB: necesita valores no negativos (frecuencias)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> MinMaxScaler()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>X_multinomial <span class="op">=</span> scaler.fit_transform(X_train) <span class="op">+</span> <span class="fl">0.1</span>  <span class="co"># Asegurar valores positivos</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Bernoulli NB: necesita valores binarios</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>X_bernoulli <span class="op">=</span> (X_train <span class="op">&gt;</span> np.median(X_train, axis<span class="op">=</span><span class="dv">0</span>)).astype(<span class="bu">float</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Forma de los datos para cada variante:"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Gaussian: </span><span class="sc">{</span>X_gaussian<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> - Valores continuos"</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Multinomial: </span><span class="sc">{</span>X_multinomial<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> - Valores positivos"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Bernoulli: </span><span class="sc">{</span>X_bernoulli<span class="sc">.</span>shape<span class="sc">}</span><span class="ss"> - Valores binarios"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar ejemplos de los primeros 3 datos</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ejemplo de transformación (primeras 3 muestras, primera característica):"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Original: </span><span class="sc">{</span>X_gaussian[:<span class="dv">3</span>, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Multinomial: </span><span class="sc">{</span>X_multinomial[:<span class="dv">3</span>, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Bernoulli: </span><span class="sc">{</span>X_bernoulli[:<span class="dv">3</span>, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Forma de los datos para cada variante:
+  Gaussian: (210, 2) - Valores continuos
+  Multinomial: (210, 2) - Valores positivos
+  Bernoulli: (210, 2) - Valores binarios
+
+Ejemplo de transformación (primeras 3 muestras, primera característica):
+  Original: [-0.98221929  1.48740486  0.62625557]
+  Multinomial: [0.37211974 0.9009729  0.71656365]
+  Bernoulli: [0. 1. 1.]</code></pre>
+</div>
+</div>
+<div id="naive-bayes-variants-train" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar las tres variantes</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>modelos <span class="op">=</span> {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Gaussian NB'</span>: (GaussianNB(), X_gaussian),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Multinomial NB'</span>: (MultinomialNB(), X_multinomial),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Bernoulli NB'</span>: (BernoulliNB(), X_bernoulli)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>resultados <span class="op">=</span> {}</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nombre, (modelo, X_train_variant) <span class="kw">in</span> modelos.items():</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Entrenar</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    modelo.fit(X_train_variant, y_train)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Preparar datos de prueba según la variante</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> nombre <span class="op">==</span> <span class="st">'Gaussian NB'</span>:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        X_test_variant <span class="op">=</span> X_test</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> nombre <span class="op">==</span> <span class="st">'Multinomial NB'</span>:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        X_test_variant <span class="op">=</span> scaler.transform(X_test) <span class="op">+</span> <span class="fl">0.1</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># Bernoulli</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        X_test_variant <span class="op">=</span> (X_test <span class="op">&gt;</span> np.median(X_train, axis<span class="op">=</span><span class="dv">0</span>)).astype(<span class="bu">float</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Predecir</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> modelo.predict(X_test_variant)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar resultados</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    resultados[nombre] <span class="op">=</span> {</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">'modelo'</span>: modelo,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">'accuracy'</span>: accuracy_score(y_test, y_pred),</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">'y_pred'</span>: y_pred</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span>nombre<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Accuracy: </span><span class="sc">{</span>resultados[nombre][<span class="st">'accuracy'</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Gaussian NB:
+  Accuracy: 0.844
+
+Multinomial NB:
+  Accuracy: 0.544
+
+Bernoulli NB:
+  Accuracy: 0.844</code></pre>
+</div>
+</div>
+<div id="cell-naive-bayes-comparison-plot" class="cell" data-fig-height="4" data-fig-width="10" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar comparación de resultados</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de barras de accuracy</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>nombres <span class="op">=</span> <span class="bu">list</span>(resultados.keys())</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>accuracies <span class="op">=</span> [resultados[n][<span class="st">'accuracy'</span>] <span class="cf">for</span> n <span class="kw">in</span> nombres]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> axes[<span class="dv">0</span>].bar(nombres, accuracies, color<span class="op">=</span>[<span class="st">'blue'</span>, <span class="st">'green'</span>, <span class="st">'red'</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Comparación de Exactitud'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'y'</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores en las barras</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bar, acc <span class="kw">in</span> <span class="bu">zip</span>(bars, accuracies):</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    height <span class="op">=</span> bar.get_height()</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].text(bar.get_x() <span class="op">+</span> bar.get_width()<span class="op">/</span><span class="fl">2.</span>, height,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                 <span class="ss">f'</span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrices de confusión</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axis(<span class="st">'off'</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, nombre <span class="kw">in</span> <span class="bu">enumerate</span>(nombres):</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(y_test, resultados[nombre][<span class="st">'y_pred'</span>])</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear subtabla</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    ax_sub <span class="op">=</span> plt.subplot2grid((<span class="dv">1</span>, <span class="dv">6</span>), (<span class="dv">0</span>, <span class="dv">4</span> <span class="op">+</span> i<span class="op">*</span><span class="dv">2</span><span class="op">//</span><span class="dv">3</span>), colspan<span class="op">=</span><span class="dv">2</span><span class="op">//</span><span class="dv">3</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    ax_sub.imshow(cm, cmap<span class="op">=</span><span class="st">'Blues'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_title(<span class="ss">f'</span><span class="sc">{</span>nombre<span class="sc">.</span>split()[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> NB'</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Añadir texto en cada celda</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i, j), val <span class="kw">in</span> np.ndenumerate(cm):</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        ax_sub.text(j, i, <span class="bu">str</span>(val), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        ax_sub.set_ylabel(<span class="st">'Real'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_xlabel(<span class="st">'Pred'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_xticks([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    ax_sub.set_yticks([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    ax_sub.tick_params(labelsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Comparación de Variantes de Naive Bayes'</span>, y<span class="op">=</span><span class="fl">1.05</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-comparison-plot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-comparison-plot-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de variantes de Naive Bayes</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-práctico-clasificación-de-texto" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-práctico-clasificación-de-texto">4. Ejemplo Práctico: Clasificación de Texto</h5>
+<div id="naive-bayes-text-example" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular un conjunto de datos de texto</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Imaginemos que tenemos documentos con conteo de palabras</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EJEMPLO: CLASIFICACIÓN DE DOCUMENTOS"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear datos simulados de texto</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>n_docs <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>n_palabras <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombres de las "palabras" para mejor interpretación</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>palabras <span class="op">=</span> [<span class="st">'tecnología'</span>, <span class="st">'computadora'</span>, <span class="st">'software'</span>, <span class="st">'datos'</span>, <span class="st">'algoritmo'</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">'deporte'</span>, <span class="st">'equipo'</span>, <span class="st">'juego'</span>, <span class="st">'campeonato'</span>, <span class="st">'jugador'</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear matriz de frecuencias</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Clase 0: documentos sobre tecnología (más palabras 0-4)</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Clase 1: documentos sobre deportes (más palabras 5-9)</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>X_text <span class="op">=</span> np.random.poisson(<span class="dv">1</span>, (n_docs, n_palabras))</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>y_text <span class="op">=</span> np.array([<span class="dv">0</span>] <span class="op">*</span> <span class="dv">50</span> <span class="op">+</span> [<span class="dv">1</span>] <span class="op">*</span> <span class="dv">50</span>)  <span class="co"># 50 docs de cada clase</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Sesgar frecuencias según la clase</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>X_text[:<span class="dv">50</span>, :<span class="dv">5</span>] <span class="op">*=</span> <span class="dv">3</span>   <span class="co"># Docs de tecnología: más palabras técnicas</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>X_text[<span class="dv">50</span>:, <span class="dv">5</span>:] <span class="op">*=</span> <span class="dv">3</span>   <span class="co"># Docs de deportes: más palabras deportivas</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear DataFrame para mejor visualización</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>df_text <span class="op">=</span> pd.DataFrame(X_text, columns<span class="op">=</span>palabras)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>df_text[<span class="st">'clase'</span>] <span class="op">=</span> y_text</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>df_text[<span class="st">'tipo_documento'</span>] <span class="op">=</span> df_text[<span class="st">'clase'</span>].<span class="bu">map</span>({<span class="dv">0</span>: <span class="st">'Tecnología'</span>, <span class="dv">1</span>: <span class="st">'Deportes'</span>})</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Primeros 5 documentos:"</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_text.head())</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Estadísticas por clase:"</span>)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_text.groupby(<span class="st">'tipo_documento'</span>)[palabras].mean().<span class="bu">round</span>(<span class="dv">2</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>============================================================
+EJEMPLO: CLASIFICACIÓN DE DOCUMENTOS
+============================================================
+
+Primeros 5 documentos:
+   tecnología  computadora  software  datos  algoritmo  deporte  equipo  \
+0           3            6         0      0          9        2       0   
+1           0            3         0      0          3        0       1   
+2           9            0         3      0          3        1       1   
+3           0            0         0      0          3        1       0   
+4           0            9         0      0          0        2       0   
+
+   juego  campeonato  jugador  clase tipo_documento  
+0      0           0        1      0     Tecnología  
+1      0           1        0      0     Tecnología  
+2      1           0        5      0     Tecnología  
+3      1           1        2      0     Tecnología  
+4      0           0        3      0     Tecnología  
+
+Estadísticas por clase:
+                tecnología  computadora  software  datos  algoritmo  deporte  \
+tipo_documento                                                                 
+Deportes              1.16         1.02      1.00   1.12       1.02     3.12   
+Tecnología            2.82         2.94      2.22   2.46       2.28     1.12   
+
+                equipo  juego  campeonato  jugador  
+tipo_documento                                      
+Deportes           3.0   2.76        3.12     3.36  
+Tecnología         0.9   0.68        0.92     1.20  </code></pre>
+</div>
+</div>
+<div id="naive-bayes-text-train" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos de texto</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>X_text_train, X_text_test, y_text_train, y_text_test <span class="op">=</span> train_test_split(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    X_text, y_text, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_text</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar Multinomial Naive Bayes (ideal para datos de conteo)</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mnb_text <span class="op">=</span> MultinomialNB(alpha<span class="op">=</span><span class="fl">1.0</span>)  <span class="co"># alpha: parámetro de suavizado Laplace</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>mnb_text.fit(X_text_train, y_text_train)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>y_pred_text <span class="op">=</span> mnb_text.predict(X_text_test)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>y_proba_text <span class="op">=</span> mnb_text.predict_proba(X_text_test)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluación</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Resultados de Clasificación de Texto:"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>accuracy_score(y_text_test, y_pred_text)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>cm_text <span class="op">=</span> confusion_matrix(y_text_test, y_pred_text)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matriz de Confusión:"</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.DataFrame(cm_text,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                   columns<span class="op">=</span>[<span class="st">'Pred Tecnología'</span>, <span class="st">'Pred Deportes'</span>],</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                   index<span class="op">=</span>[<span class="st">'Real Tecnología'</span>, <span class="st">'Real Deportes'</span>]))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Importancia de las palabras</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Importancia de palabras por clase (log-probabilidades):"</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>log_probs <span class="op">=</span> mnb_text.feature_log_prob_</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>importancia_df <span class="op">=</span> pd.DataFrame(log_probs.T,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                               columns<span class="op">=</span>[<span class="st">'Tecnología'</span>, <span class="st">'Deportes'</span>],</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                               index<span class="op">=</span>palabras)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(importancia_df.<span class="bu">round</span>(<span class="dv">3</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Resultados de Clasificación de Texto:
+Accuracy: 0.833
+
+Matriz de Confusión:
+                 Pred Tecnología  Pred Deportes
+Real Tecnología               14              1
+Real Deportes                  4             11
+
+Importancia de palabras por clase (log-probabilidades):
+             Tecnología  Deportes
+tecnología       -1.924    -2.854
+computadora      -1.703    -3.112
+software         -2.162    -3.028
+datos            -1.960    -2.950
+algoritmo        -1.997    -3.112
+deporte          -2.582    -1.894
+equipo           -3.034    -1.947
+juego            -3.188    -2.064
+campeonato       -3.108    -1.748
+jugador          -2.653    -1.843</code></pre>
+</div>
+</div>
+<div id="cell-naive-bayes-text-visualization" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar importancia de palabras</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Diferencia en log-probabilidades (palabras más discriminativas)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>diff_log_prob <span class="op">=</span> log_probs[<span class="dv">0</span>] <span class="op">-</span> log_probs[<span class="dv">1</span>]  <span class="co"># Tecnología - Deportes</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>indices_sorted <span class="op">=</span> np.argsort(diff_log_prob)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Palabras más importantes para cada clase</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>y_pos <span class="op">=</span> np.arange(<span class="bu">len</span>(palabras))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].barh(y_pos, diff_log_prob[indices_sorted],</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span>[<span class="st">'red'</span> <span class="cf">if</span> x <span class="op">&lt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'blue'</span> <span class="cf">for</span> x <span class="kw">in</span> diff_log_prob[indices_sorted]],</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>             alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks(y_pos)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticklabels([palabras[i] <span class="cf">for</span> i <span class="kw">in</span> indices_sorted])</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Diferencia en log-probabilidad</span><span class="ch">\n</span><span class="st">(← Deportes | Tecnología →)'</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Palabras Discriminativas'</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axvline(x<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Matriz de probabilidades</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> axes[<span class="dv">1</span>].imshow(np.exp(log_probs), cmap<span class="op">=</span><span class="st">'YlOrRd'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(palabras)))</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(palabras, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels([<span class="st">'Tecnología'</span>, <span class="st">'Deportes'</span>])</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Probabilidades de Palabras por Clase'</span>)</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>plt.colorbar(im, ax<span class="op">=</span>axes[<span class="dv">1</span>], label<span class="op">=</span><span class="st">'Probabilidad'</span>)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores en la matriz</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(palabras)):</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> axes[<span class="dv">1</span>].text(j, i, <span class="ss">f'</span><span class="sc">{</span>np<span class="sc">.</span>exp(log_probs[i, j])<span class="sc">:.2f}</span><span class="ss">'</span>,</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>                           ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"center"</span>, color<span class="op">=</span><span class="st">"black"</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-text-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-text-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Importancia de palabras en clasificación de texto</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-con-dataset-real-iris" class="level5">
+<h5 class="anchored" data-anchor-id="ejemplo-con-dataset-real-iris">5. Ejemplo con Dataset Real: Iris</h5>
+<div id="cell-naive-bayes-iris" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar dataset Iris</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>X_iris <span class="op">=</span> iris.data[:, [<span class="dv">0</span>, <span class="dv">2</span>]]  <span class="co"># Usar solo 2 características para visualización</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>y_iris <span class="op">=</span> iris.target</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>nombres_clases <span class="op">=</span> iris.target_names</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>nombres_features <span class="op">=</span> [iris.feature_names[<span class="dv">0</span>], iris.feature_names[<span class="dv">2</span>]]</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset Iris:"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Número de muestras: </span><span class="sc">{</span>X_iris<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Número de características: </span><span class="sc">{</span>X_iris<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Clases: </span><span class="sc">{</span>nombres_clases<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Características usadas: </span><span class="sc">{</span>nombres_features<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>X_iris_train, X_iris_test, y_iris_train, y_iris_test <span class="op">=</span> train_test_split(</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    X_iris, y_iris, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_iris</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar Gaussian Naive Bayes</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>gnb_iris <span class="op">=</span> GaussianNB()</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>gnb_iris.fit(X_iris_train, y_iris_train)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>y_pred_iris <span class="op">=</span> gnb_iris.predict(X_iris_test)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>accuracy_iris <span class="op">=</span> accuracy_score(y_iris_test, y_pred_iris)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Accuracy en Iris: </span><span class="sc">{</span>accuracy_iris<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Datos y fronteras de decisión</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">.02</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>x_min, x_max <span class="op">=</span> X_iris[:, <span class="dv">0</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X_iris[:, <span class="dv">0</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>y_min, y_max <span class="op">=</span> X_iris[:, <span class="dv">1</span>].<span class="bu">min</span>() <span class="op">-</span> <span class="dv">1</span>, X_iris[:, <span class="dv">1</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(x_min, x_max, h),</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>                     np.arange(y_min, y_max, h))</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> gnb_iris.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> Z.reshape(xx.shape)</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].contourf(xx, yy, Z, alpha<span class="op">=</span><span class="fl">0.4</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> axes[<span class="dv">0</span>].scatter(X_iris[:, <span class="dv">0</span>], X_iris[:, <span class="dv">1</span>], c<span class="op">=</span>y_iris,</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                          cmap<span class="op">=</span><span class="st">'viridis'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, s<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(nombres_features[<span class="dv">0</span>])</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(nombres_features[<span class="dv">1</span>])</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Gaussian NB - Dataset Iris (3 clases)'</span>)</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir leyenda</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [Patch(facecolor<span class="op">=</span>plt.cm.viridis(i<span class="op">/</span><span class="dv">2</span>), label<span class="op">=</span>nombres_clases[i])</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>                   <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>)]</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: Matriz de confusión</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>cm_iris <span class="op">=</span> confusion_matrix(y_iris_test, y_pred_iris)</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> axes[<span class="dv">1</span>].imshow(cm_iris, cmap<span class="op">=</span><span class="st">'Blues'</span>, aspect<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(<span class="bu">range</span>(<span class="dv">3</span>))</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="dv">3</span>))</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(nombres_clases)</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels(nombres_clases)</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Predicción'</span>)</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Valor Real'</span>)</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f'Matriz de Confusión (Accuracy: </span><span class="sc">{</span>accuracy_iris<span class="sc">:.3f}</span><span class="ss">)'</span>)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir valores</span></span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, j), val <span class="kw">in</span> np.ndenumerate(cm_iris):</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].text(j, i, <span class="bu">str</span>(val), ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>,</span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>                 color<span class="op">=</span><span class="st">'white'</span> <span class="cf">if</span> val <span class="op">&gt;</span> cm_iris.<span class="bu">max</span>()<span class="op">/</span><span class="dv">2</span> <span class="cf">else</span> <span class="st">'black'</span>)</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>plt.colorbar(im, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset Iris:
+  Número de muestras: 150
+  Número de características: 2
+  Clases: ['setosa' 'versicolor' 'virginica']
+  Características usadas: ['sepal length (cm)', 'petal length (cm)']
+
+Accuracy en Iris: 0.911</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="naive-bayes-iris" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/naive-bayes-iris-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Clasificación multiclase con Naive Bayes en dataset Iris</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="implementación-desde-cero-de-gaussian-naive-bayes" class="level5">
+<h5 class="anchored" data-anchor-id="implementación-desde-cero-de-gaussian-naive-bayes">6. Implementación Desde Cero de Gaussian Naive Bayes</h5>
+<p>Para comprender mejor el funcionamiento interno del algoritmo, vamos a implementar Gaussian Naive Bayes paso a paso:</p>
+<div id="naive-bayes-from-scratch-class" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GaussianNBDesdesCero:</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Implementación educativa de Gaussian Naive Bayes</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Esta clase implementa el algoritmo paso a paso para</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">    fines pedagógicos.</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.clases <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.priors <span class="op">=</span> {}        <span class="co"># P(Y=k) para cada clase k</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.medias <span class="op">=</span> {}        <span class="co"># μ para cada clase y característica</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.varianzas <span class="op">=</span> {}     <span class="co"># σ² para cada clase y característica</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> entrenar(<span class="va">self</span>, X, y):</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">        Fase de entrenamiento: calcular estadísticas</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">        Parámetros:</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">        - X: matriz de características (n_muestras, n_características)</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">        - y: vector de etiquetas (n_muestras,)</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.clases <span class="op">=</span> np.unique(y)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        n_muestras <span class="op">=</span> <span class="bu">len</span>(y)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        n_caracteristicas <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Entrenando con </span><span class="sc">{</span>n_muestras<span class="sc">}</span><span class="ss"> muestras y </span><span class="sc">{</span>n_caracteristicas<span class="sc">}</span><span class="ss"> características"</span>)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Clases encontradas: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>clases<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> clase <span class="kw">in</span> <span class="va">self</span>.clases:</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Filtrar datos de esta clase</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>            X_clase <span class="op">=</span> X[y <span class="op">==</span> clase]</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>            n_clase <span class="op">=</span> <span class="bu">len</span>(X_clase)</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calcular probabilidad a priori P(Y=clase)</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.priors[clase] <span class="op">=</span> n_clase <span class="op">/</span> n_muestras</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calcular media y varianza para cada característica</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.medias[clase] <span class="op">=</span> np.mean(X_clase, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.varianzas[clase] <span class="op">=</span> np.var(X_clase, axis<span class="op">=</span><span class="dv">0</span>) <span class="op">+</span> <span class="fl">1e-9</span>  <span class="co"># Evitar división por cero</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>n_clase<span class="sc">}</span><span class="ss"> muestras (</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>priors[clase]<span class="sc">:.1%}</span><span class="ss">)"</span>)</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  Medias: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>medias[clase]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  Varianzas: </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>varianzas[clase]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _calcular_gaussiana(<span class="va">self</span>, x, media, varianza):</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">        Calcula P(x|μ,σ²) usando la distribución gaussiana</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co">        Fórmula: P(x|μ,σ²) = 1/√(2πσ²) * exp(-(x-μ)²/(2σ²))</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>        coeficiente <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(<span class="fl">2.0</span> <span class="op">*</span> np.pi <span class="op">*</span> varianza)</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>        exponente <span class="op">=</span> <span class="op">-</span>((x <span class="op">-</span> media) <span class="op">**</span> <span class="dv">2</span>) <span class="op">/</span> (<span class="fl">2.0</span> <span class="op">*</span> varianza)</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> coeficiente <span class="op">*</span> np.exp(exponente)</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predecir_probabilidades(<span class="va">self</span>, X):</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co">        Calcula P(Y=k|X) para cada clase k</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Usa el teorema de Bayes:</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="co">        P(Y=k|X) ∝ P(X|Y=k) * P(Y=k)</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>        n_muestras <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>        n_clases <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.clases)</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>        probabilidades <span class="op">=</span> np.zeros((n_muestras, n_clases))</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(X):</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j, clase <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.clases):</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calcular P(Y=clase) - prior</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>                prob_prior <span class="op">=</span> <span class="va">self</span>.priors[clase]</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calcular P(X|Y=clase) - verosimilitud</span></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Producto de probabilidades (asumiendo independencia)</span></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>                verosimilitud <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x)):</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>                    prob_caracteristica <span class="op">=</span> <span class="va">self</span>._calcular_gaussiana(</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>                        x[k],</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>                        <span class="va">self</span>.medias[clase][k],</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>                        <span class="va">self</span>.varianzas[clase][k]</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>                    verosimilitud <span class="op">*=</span> prob_caracteristica</span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>                <span class="co"># P(Y=clase|X) ∝ P(X|Y=clase) * P(Y=clase)</span></span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>                probabilidades[i, j] <span class="op">=</span> verosimilitud <span class="op">*</span> prob_prior</span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Normalizar para que sumen 1</span></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>            probabilidades[i] <span class="op">=</span> probabilidades[i] <span class="op">/</span> np.<span class="bu">sum</span>(probabilidades[i])</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> probabilidades</span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predecir(<span class="va">self</span>, X):</span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a><span class="co">        Predice la clase con mayor probabilidad posterior</span></span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>        probabilidades <span class="op">=</span> <span class="va">self</span>.predecir_probabilidades(X)</span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>        indices_maximos <span class="op">=</span> np.argmax(probabilidades, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.clases[indices_maximos]</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="naive-bayes-from-scratch-test" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear y entrenar nuestro modelo</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"IMPLEMENTACIÓN DESDE CERO"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar un conjunto pequeño para demostración</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>X_demo <span class="op">=</span> X_train[:<span class="dv">20</span>]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>y_demo <span class="op">=</span> y_train[:<span class="dv">20</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>X_test_demo <span class="op">=</span> X_test[:<span class="dv">10</span>]</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>y_test_demo <span class="op">=</span> y_test[:<span class="dv">10</span>]</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar nuestro modelo</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>modelo_propio <span class="op">=</span> GaussianNBDesdesCero()</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>modelo_propio.entrenar(X_demo, y_demo)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Hacer predicciones</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PREDICCIONES"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>y_pred_propio <span class="op">=</span> modelo_propio.predecir(X_test_demo)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>probabilidades <span class="op">=</span> modelo_propio.predecir_probabilidades(X_test_demo)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar resultados detallados</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):  <span class="co"># Mostrar solo las primeras 5</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Muestra </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Características: [</span><span class="sc">{</span>X_test_demo[i, <span class="dv">0</span>]<span class="sc">:.2f}</span><span class="ss">, </span><span class="sc">{</span>X_test_demo[i, <span class="dv">1</span>]<span class="sc">:.2f}</span><span class="ss">]"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Probabilidades: P(Y=0|X)=</span><span class="sc">{</span>probabilidades[i, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, P(Y=1|X)=</span><span class="sc">{</span>probabilidades[i, <span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Predicción: </span><span class="sc">{</span>y_pred_propio[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Valor real: </span><span class="sc">{</span>y_test_demo[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span><span class="st">'✓ Correcto'</span> <span class="cf">if</span> y_pred_propio[i] <span class="op">==</span> y_test_demo[i] <span class="cf">else</span> <span class="st">'✗ Incorrecto'</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>============================================================
+IMPLEMENTACIÓN DESDE CERO
+============================================================
+Entrenando con 20 muestras y 2 características
+Clases encontradas: [0 1]
+
+Clase 0: 8 muestras (40.0%)
+  Medias: [ 0.02629741 -1.03784986]
+  Varianzas: [0.69718407 0.29135071]
+
+Clase 1: 12 muestras (60.0%)
+  Medias: [0.35445188 0.56734888]
+  Varianzas: [1.40440918 0.69226573]
+
+============================================================
+PREDICCIONES
+============================================================
+
+Muestra 1:
+  Características: [-0.43, -0.48]
+  Probabilidades: P(Y=0|X)=0.672, P(Y=1|X)=0.328
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto
+
+Muestra 2:
+  Características: [0.85, -0.84]
+  Probabilidades: P(Y=0|X)=0.792, P(Y=1|X)=0.208
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto
+
+Muestra 3:
+  Características: [-0.60, -1.15]
+  Probabilidades: P(Y=0|X)=0.926, P(Y=1|X)=0.074
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto
+
+Muestra 4:
+  Características: [0.96, 1.52]
+  Probabilidades: P(Y=0|X)=0.000, P(Y=1|X)=1.000
+  Predicción: 1
+  Valor real: 0
+  ✗ Incorrecto
+
+Muestra 5:
+  Características: [0.72, -0.68]
+  Probabilidades: P(Y=0|X)=0.727, P(Y=1|X)=0.273
+  Predicción: 0
+  Valor real: 0
+  ✓ Correcto</code></pre>
+</div>
+</div>
+<div id="naive-bayes-comparison-final" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparación con scikit-learn</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COMPARACIÓN CON SCIKIT-LEARN"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar modelo de scikit-learn con los mismos datos</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>gnb_sklearn_demo <span class="op">=</span> GaussianNB()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>gnb_sklearn_demo.fit(X_demo, y_demo)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>y_pred_sklearn_demo <span class="op">=</span> gnb_sklearn_demo.predict(X_test_demo)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparar resultados</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Predicciones:"</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Implementación propia: </span><span class="sc">{</span>y_pred_propio<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Scikit-learn:         </span><span class="sc">{</span>y_pred_sklearn_demo<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Valores reales:       </span><span class="sc">{</span>y_test_demo<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular accuracy</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>acc_propio <span class="op">=</span> np.mean(y_pred_propio <span class="op">==</span> y_test_demo)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>acc_sklearn <span class="op">=</span> np.mean(y_pred_sklearn_demo <span class="op">==</span> y_test_demo)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Accuracy:"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Implementación propia: </span><span class="sc">{</span>acc_propio<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Scikit-learn:         </span><span class="sc">{</span>acc_sklearn<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar que los parámetros aprendidos son similares</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"VERIFICACIÓN DE PARÁMETROS APRENDIDOS"</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> clase <span class="kw">in</span> [<span class="dv">0</span>, <span class="dv">1</span>]:</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Clase </span><span class="sc">{</span>clase<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Priors:"</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Propio: </span><span class="sc">{</span>modelo_propio<span class="sc">.</span>priors[clase]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Sklearn: </span><span class="sc">{</span>gnb_sklearn_demo<span class="sc">.</span>class_prior_[clase]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Medias (primera característica):"</span>)</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Propio: </span><span class="sc">{</span>modelo_propio<span class="sc">.</span>medias[clase][<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"    Sklearn: </span><span class="sc">{</span>gnb_sklearn_demo<span class="sc">.</span>theta_[clase, <span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+============================================================
+COMPARACIÓN CON SCIKIT-LEARN
+============================================================
+
+Predicciones:
+  Implementación propia: [0 0 0 1 0 0 0 0 1 1]
+  Scikit-learn:         [0 0 0 1 0 0 0 0 1 1]
+  Valores reales:       [0 0 0 0 0 0 0 0 0 1]
+
+Accuracy:
+  Implementación propia: 0.800
+  Scikit-learn:         0.800
+
+============================================================
+VERIFICACIÓN DE PARÁMETROS APRENDIDOS
+============================================================
+
+Clase 0:
+  Priors:
+    Propio: 0.400
+    Sklearn: 0.400
+  Medias (primera característica):
+    Propio: 0.026
+    Sklearn: 0.026
+
+Clase 1:
+  Priors:
+    Propio: 0.600
+    Sklearn: 0.600
+  Medias (primera característica):
+    Propio: 0.354
+    Sklearn: 0.354</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="cuándo-usar-naive-bayes" class="level4">
+<h4 class="anchored" data-anchor-id="cuándo-usar-naive-bayes">Cuándo Usar Naive Bayes</h4>
+<p>Naive Bayes es particularmente efectivo en:</p>
+<ol type="1">
+<li><p><strong>Clasificación de texto y procesamiento de lenguaje natural</strong></p>
+<ul>
+<li>Filtrado de spam</li>
+<li>Análisis de sentimientos</li>
+<li>Categorización de documentos</li>
+</ul></li>
+<li><p><strong>Sistemas de recomendación</strong></p>
+<ul>
+<li>Predicción de preferencias basada en características</li>
+</ul></li>
+<li><p><strong>Diagnóstico médico</strong></p>
+<ul>
+<li>Cuando las características son síntomas relativamente independientes</li>
+</ul></li>
+<li><p><strong>Aplicaciones en tiempo real</strong></p>
+<ul>
+<li>Cuando se necesitan predicciones muy rápidas</li>
+</ul></li>
+<li><p><strong>Conjuntos de datos pequeños</strong></p>
+<ul>
+<li>Cuando hay pocos ejemplos de entrenamiento por clase</li>
+</ul></li>
+</ol>
+<p>El clasificador Naive Bayes, a pesar de su simplicidad, sigue siendo uno de los algoritmos fundamentales en machine learning, especialmente valioso como baseline y en aplicaciones donde la velocidad y simplicidad son críticas.</p>
 </section>
 </section>
 <section id="regresión-logística" class="level3">
@@ -615,7 +1616,7 @@ window.Quarto = {
 </section>
 <section id="ejemplo-en-python" class="level4">
 <h4 class="anchored" data-anchor-id="ejemplo-en-python">Ejemplo en Python</h4>
-<div id="cell-logistic-regression-example" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="2">
+<div id="cell-logistic-regression-example" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div id="logistic-regression-example" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -736,10 +1737,782 @@ Coeficientes: β₁ = -0.273, β₂ = 2.214</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 </section>
 </section>
+</section>
+</section>
+<section id="métricas-de-evaluación-de-modelos-de-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="métricas-de-evaluación-de-modelos-de-clasificación">Métricas de Evaluación de Modelos de Clasificación</h2>
+<p>Una vez entrenado un modelo de clasificación, necesitamos evaluar su desempeño de manera rigurosa. Mientras que las funciones de pérdida (como Brier Score y Log Loss) son útiles durante el entrenamiento, las <strong>métricas de evaluación</strong> nos permiten interpretar el rendimiento del modelo desde diferentes perspectivas y tomar decisiones informadas sobre su uso en producción.</p>
+<section id="la-matriz-de-confusión-fundamento-de-las-métricas" class="level3">
+<h3 class="anchored" data-anchor-id="la-matriz-de-confusión-fundamento-de-las-métricas">La Matriz de Confusión: Fundamento de las Métricas</h3>
+<p>La <strong>matriz de confusión</strong> es la herramienta fundamental para entender el comportamiento de un clasificador binario. Para clasificación binaria (clase positiva = 1, clase negativa = 0), la matriz tiene la siguiente estructura:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicción Positiva (1)</th>
+<th>Predicción Negativa (0)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Clase Real Positiva (1)</strong></td>
+<td>Verdaderos Positivos (VP)</td>
+<td>Falsos Negativos (FN)</td>
+</tr>
+<tr class="even">
+<td><strong>Clase Real Negativa (0)</strong></td>
+<td>Falsos Positivos (FP)</td>
+<td>Verdaderos Negativos (VN)</td>
+</tr>
+</tbody>
+</table>
+<p>Donde:</p>
+<ul>
+<li><strong>Verdaderos Positivos (VP)</strong>: Casos positivos correctamente identificados</li>
+<li><strong>Verdaderos Negativos (VN)</strong>: Casos negativos correctamente identificados</li>
+<li><strong>Falsos Positivos (FP)</strong>: Casos negativos incorrectamente clasificados como positivos (Error Tipo I)</li>
+<li><strong>Falsos Negativos (FN)</strong>: Casos positivos incorrectamente clasificados como negativos (Error Tipo II)</li>
+</ul>
+<section id="interpretación-en-contexto" class="level4">
+<h4 class="anchored" data-anchor-id="interpretación-en-contexto">Interpretación en Contexto</h4>
+<p>La importancia relativa de cada tipo de error depende del contexto de aplicación:</p>
+<p><strong>Ejemplo 1: Detección de Spam</strong></p>
+<ul>
+<li><strong>FP (Error Tipo I)</strong>: Email legítimo marcado como spam → Usuario pierde email importante</li>
+<li><strong>FN (Error Tipo II)</strong>: Spam no detectado → Usuario recibe spam (menor consecuencia)</li>
+<li><strong>Prioridad</strong>: Minimizar FP (alta precisión)</li>
+</ul>
+<p><strong>Ejemplo 2: Diagnóstico de Cáncer</strong></p>
+<ul>
+<li><strong>FP (Error Tipo I)</strong>: Falso positivo → Paciente sano sometido a pruebas adicionales</li>
+<li><strong>FN (Error Tipo II)</strong>: Falso negativo → Paciente enfermo no recibe tratamiento</li>
+<li><strong>Prioridad</strong>: Minimizar FN (alta sensibilidad/recall)</li>
+</ul>
+<p><strong>Ejemplo 3: Detección de Fraude Bancario</strong></p>
+<ul>
+<li><strong>FP (Error Tipo I)</strong>: Transacción legítima bloqueada → Cliente molesto</li>
+<li><strong>FN (Error Tipo II)</strong>: Fraude no detectado → Pérdida económica</li>
+<li><strong>Prioridad</strong>: Balance entre ambos (F1-score)</li>
+</ul>
+</section>
+</section>
+<section id="métricas-derivadas-de-la-matriz-de-confusión" class="level3">
+<h3 class="anchored" data-anchor-id="métricas-derivadas-de-la-matriz-de-confusión">Métricas Derivadas de la Matriz de Confusión</h3>
+<section id="exactitud-accuracy" class="level4">
+<h4 class="anchored" data-anchor-id="exactitud-accuracy">1. Exactitud (Accuracy)</h4>
+<p>La <strong>exactitud</strong> es la proporción de predicciones correctas sobre el total:</p>
+<p><span class="math display">\[\text{Accuracy} = \frac{VP + VN}{VP + VN + FP + FN}\]</span></p>
+<p><strong>Ventajas:</strong></p>
+<ul>
+<li>✓ Interpretación intuitiva</li>
+<li>✓ Métrica general del desempeño</li>
+</ul>
+<p><strong>Desventajas:</strong></p>
+<ul>
+<li>✗ Engañosa con <strong>clases desbalanceadas</strong></li>
+<li>✗ No distingue entre tipos de errores</li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Limitación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Si el 95% de los emails son legítimos, un clasificador que siempre predice “no spam” tendrá 95% de accuracy, pero es completamente inútil.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="precisión-precision" class="level4">
+<h4 class="anchored" data-anchor-id="precisión-precision">2. Precisión (Precision)</h4>
+<p>La <strong>precisión</strong> mide la proporción de predicciones positivas que son realmente positivas:</p>
+<p><span class="math display">\[\text{Precision} = \frac{VP}{VP + FP} = \frac{VP}{\text{Total Predicciones Positivas}}\]</span></p>
+<p><strong>Interpretación</strong>: “De todos los casos que el modelo predijo como positivos, ¿qué proporción es realmente positiva?”</p>
+<p><strong>Cuándo usar:</strong></p>
+<ul>
+<li>Cuando los <strong>falsos positivos son costosos</strong></li>
+<li>Ejemplo: Recomendación de productos (no queremos recomendar productos irrelevantes)</li>
+</ul>
+</section>
+<section id="sensibilidad-recall-sensitivity-true-positive-rate" class="level4">
+<h4 class="anchored" data-anchor-id="sensibilidad-recall-sensitivity-true-positive-rate">3. Sensibilidad (Recall, Sensitivity, True Positive Rate)</h4>
+<p>La <strong>sensibilidad</strong> o <strong>recall</strong> mide la proporción de casos positivos que fueron correctamente identificados:</p>
+<p><span class="math display">\[\text{Recall} = \frac{VP}{VP + FN} = \frac{VP}{\text{Total Casos Positivos Reales}}\]</span></p>
+<p><strong>Interpretación</strong>: “De todos los casos que son realmente positivos, ¿qué proporción detectó el modelo?”</p>
+<p><strong>Cuándo usar:</strong></p>
+<ul>
+<li>Cuando los <strong>falsos negativos son críticos</strong></li>
+<li>Ejemplo: Detección de enfermedades graves (no queremos dejar casos sin diagnosticar)</li>
+</ul>
+</section>
+<section id="especificidad-specificity-true-negative-rate" class="level4">
+<h4 class="anchored" data-anchor-id="especificidad-specificity-true-negative-rate">4. Especificidad (Specificity, True Negative Rate)</h4>
+<p>La <strong>especificidad</strong> mide la proporción de casos negativos correctamente identificados:</p>
+<p><span class="math display">\[\text{Specificity} = \frac{VN}{VN + FP} = \frac{VN}{\text{Total Casos Negativos Reales}}\]</span></p>
+<p><strong>Interpretación</strong>: “De todos los casos que son realmente negativos, ¿qué proporción identificó correctamente el modelo?”</p>
+</section>
+<section id="f1-score" class="level4">
+<h4 class="anchored" data-anchor-id="f1-score">5. F1-Score</h4>
+<p>El <strong>F1-Score</strong> es la media armónica de precisión y recall:</p>
+<p><span class="math display">\[F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2 \cdot VP}{2 \cdot VP + FP + FN}\]</span></p>
+<p><strong>Propiedades:</strong></p>
+<ul>
+<li>Rango: <span class="math inline">\([0, 1]\)</span> (mayor es mejor)</li>
+<li>Penaliza desbalances entre precision y recall</li>
+<li>Si precision = recall, entonces <span class="math inline">\(F_1 = \text{precision} = \text{recall}\)</span></li>
+</ul>
+<p><strong>Cuándo usar:</strong></p>
+<ul>
+<li>Cuando se necesita un <strong>balance</strong> entre precision y recall</li>
+<li>Con <strong>clases desbalanceadas</strong></li>
+<li>Como métrica única de comparación entre modelos</li>
+</ul>
+</section>
+<section id="f-beta-score" class="level4">
+<h4 class="anchored" data-anchor-id="f-beta-score">6. F-Beta Score</h4>
+<p>Generalización del F1-Score que permite ponderar la importancia relativa de precision y recall:</p>
+<p><span class="math display">\[F_\beta = (1 + \beta^2) \cdot \frac{\text{Precision} \cdot \text{Recall}}{\beta^2 \cdot \text{Precision} + \text{Recall}}\]</span></p>
+<p>Donde <span class="math inline">\(\beta\)</span> controla el peso relativo:</p>
+<ul>
+<li><span class="math inline">\(\beta &lt; 1\)</span>: Más peso a la precisión (ej: <span class="math inline">\(F_{0.5}\)</span>)</li>
+<li><span class="math inline">\(\beta = 1\)</span>: Peso igual (F1-Score)</li>
+<li><span class="math inline">\(\beta &gt; 1\)</span>: Más peso al recall (ej: <span class="math inline">\(F_2\)</span>)</li>
+</ul>
+</section>
+</section>
+<section id="umbral-de-decisión" class="level3">
+<h3 class="anchored" data-anchor-id="umbral-de-decisión">Umbral de Decisión</h3>
+<p>Hasta ahora hemos hablado de “predicciones” como si fueran categóricas (clase 0 o clase 1), pero es importante entender que la mayoría de los modelos de clasificación en realidad producen <strong>probabilidades</strong> que luego se convierten en predicciones discretas mediante un <strong>umbral de decisión</strong> (decision threshold).</p>
+<section id="de-probabilidades-a-predicciones" class="level4">
+<h4 class="anchored" data-anchor-id="de-probabilidades-a-predicciones">De Probabilidades a Predicciones</h4>
+<p>Los modelos probabilísticos (como regresión logística, Naive Bayes, redes neuronales) no predicen directamente una clase, sino que estiman:</p>
+<p><span class="math display">\[\hat{p} = P(Y = 1 | \mathbf{x})\]</span></p>
+<p>Para convertir esta probabilidad en una predicción categórica, se utiliza un <strong>umbral de decisión</strong> <span class="math inline">\(\tau\)</span>:</p>
+<p><span class="math display">\[\hat{y} = \begin{cases}
+1 &amp; \text{si } \hat{p} \geq \tau \\
+0 &amp; \text{si } \hat{p} &lt; \tau
+\end{cases}\]</span></p>
+</section>
+<section id="el-umbral-estándar-0.5" class="level4">
+<h4 class="anchored" data-anchor-id="el-umbral-estándar-0.5">El Umbral Estándar: 0.5</h4>
+<p>Por defecto, la mayoría de las implementaciones usan <span class="math inline">\(\tau = 0.5\)</span>:</p>
+<ul>
+<li>Si <span class="math inline">\(P(Y = 1 | \mathbf{x}) \geq 0.5\)</span> → Predecir clase positiva (1)</li>
+<li>Si <span class="math inline">\(P(Y = 1 | \mathbf{x}) &lt; 0.5\)</span> → Predecir clase negativa (0)</li>
+</ul>
+<p>Esta elección parece natural desde una perspectiva bayesiana (seleccionar la clase más probable), pero <strong>no siempre es óptima</strong> en la práctica.</p>
+</section>
+<section id="por-qué-cambiar-el-umbral" class="level4">
+<h4 class="anchored" data-anchor-id="por-qué-cambiar-el-umbral">¿Por Qué Cambiar el Umbral?</h4>
+<p>El umbral de decisión debe ajustarse según el <strong>contexto y los costos relativos de los errores</strong>:</p>
+<p><strong>Ejemplo 1: Detección de Cáncer</strong></p>
+<ul>
+<li><strong>Costo de FN (no detectar cáncer)</strong>: Muy alto (riesgo de vida)</li>
+<li><strong>Costo de FP (falsa alarma)</strong>: Moderado (pruebas adicionales, ansiedad)</li>
+<li><strong>Solución</strong>: Usar <span class="math inline">\(\tau = 0.3\)</span> o menor → Más sensible, captura más casos positivos</li>
+</ul>
+<p><strong>Ejemplo 2: Recomendación de Productos Premium</strong></p>
+<ul>
+<li><strong>Costo de FP (recomendar a quien no comprará)</strong>: Alto (recursos desperdiciados)</li>
+<li><strong>Costo de FN (no recomendar a comprador potencial)</strong>: Moderado</li>
+<li><strong>Solución</strong>: Usar <span class="math inline">\(\tau = 0.7\)</span> o mayor → Más preciso, solo casos muy probables</li>
+</ul>
+<p><strong>Ejemplo 3: Filtro de Spam</strong></p>
+<ul>
+<li><strong>Costo de FP (email legítimo marcado como spam)</strong>: Alto (pérdida de información importante)</li>
+<li><strong>Costo de FN (spam no detectado)</strong>: Bajo (molestia menor)</li>
+<li><strong>Solución</strong>: Usar <span class="math inline">\(\tau = 0.6\)</span> → Balance hacia alta precisión</li>
+</ul>
+</section>
+<section id="impacto-del-umbral-en-las-métricas" class="level4">
+<h4 class="anchored" data-anchor-id="impacto-del-umbral-en-las-métricas">Impacto del Umbral en las Métricas</h4>
+<p>Veamos con un ejemplo concreto cómo el umbral afecta las predicciones:</p>
+<div id="threshold-example" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, precision_score, recall_score, f1_score</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: 10 casos con sus probabilidades predichas y etiquetas reales</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>n_ejemplos <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular probabilidades y etiquetas reales</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>data_ejemplo <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ID'</span>: <span class="bu">range</span>(<span class="dv">1</span>, n_ejemplos <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Probabilidad'</span>: [<span class="fl">0.15</span>, <span class="fl">0.32</span>, <span class="fl">0.48</span>, <span class="fl">0.55</span>, <span class="fl">0.62</span>, <span class="fl">0.71</span>, <span class="fl">0.78</span>, <span class="fl">0.85</span>, <span class="fl">0.91</span>, <span class="fl">0.95</span>],</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Clase_Real'</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"DATOS DE EJEMPLO"</span>)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data_ejemplo.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Probar diferentes umbrales</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>umbrales <span class="op">=</span> [<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>]</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"IMPACTO DEL UMBRAL EN LAS PREDICCIONES"</span>)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tau <span class="kw">in</span> umbrales:</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aplicar umbral</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    predicciones <span class="op">=</span> (data_ejemplo[<span class="st">'Probabilidad'</span>] <span class="op">&gt;=</span> tau).astype(<span class="bu">int</span>)</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular métricas</span></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>    cm <span class="op">=</span> confusion_matrix(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones)</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    precision <span class="op">=</span> precision_score(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones, zero_division<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> recall_score(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones)</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>    f1 <span class="op">=</span> f1_score(data_ejemplo[<span class="st">'Clase_Real'</span>], predicciones, zero_division<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">60</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Umbral τ = </span><span class="sc">{</span>tau<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">60</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Predicciones: </span><span class="sc">{</span>predicciones<span class="sc">.</span>tolist()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-41"><a href="#cb24-41" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"VP=</span><span class="sc">{</span>cm[<span class="dv">1</span>,<span class="dv">1</span>]<span class="sc">}</span><span class="ss">, VN=</span><span class="sc">{</span>cm[<span class="dv">0</span>,<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, FP=</span><span class="sc">{</span>cm[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">}</span><span class="ss">, FN=</span><span class="sc">{</span>cm[<span class="dv">1</span>,<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-42"><a href="#cb24-42" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Recall:    </span><span class="sc">{</span>recall<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb24-44"><a href="#cb24-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"F1-Score:  </span><span class="sc">{</span>f1<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DATOS DE EJEMPLO
+============================================================
+ ID  Probabilidad  Clase_Real
+  1          0.15           0
+  2          0.32           0
+  3          0.48           0
+  4          0.55           1
+  5          0.62           1
+  6          0.71           0
+  7          0.78           1
+  8          0.85           1
+  9          0.91           1
+ 10          0.95           1
+
+============================================================
+IMPACTO DEL UMBRAL EN LAS PREDICCIONES
+============================================================
+
+============================================================
+Umbral τ = 0.3
+============================================================
+Predicciones: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+VP=6, VN=1, FP=3, FN=0
+Precision: 0.667
+Recall:    1.000
+F1-Score:  0.800
+
+============================================================
+Umbral τ = 0.5
+============================================================
+Predicciones: [0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
+VP=6, VN=3, FP=1, FN=0
+Precision: 0.857
+Recall:    1.000
+F1-Score:  0.923
+
+============================================================
+Umbral τ = 0.7
+============================================================
+Predicciones: [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+VP=4, VN=3, FP=1, FN=2
+Precision: 0.800
+Recall:    0.667
+F1-Score:  0.727</code></pre>
+</div>
+</div>
+<p>Como podemos observar:</p>
+<ul>
+<li><strong>Umbral bajo (τ = 0.3)</strong>: Más predicciones positivas → Mayor recall, menor precision</li>
+<li><strong>Umbral medio (τ = 0.5)</strong>: Caso estándar (balance)</li>
+<li><strong>Umbral alto (τ = 0.7)</strong>: Menos predicciones positivas → Mayor precision, menor recall</li>
+</ul>
+</section>
+<section id="selección-del-umbral-óptimo" class="level4">
+<h4 class="anchored" data-anchor-id="selección-del-umbral-óptimo">Selección del Umbral Óptimo</h4>
+<p>La selección del umbral óptimo depende de:</p>
+<ol type="1">
+<li><strong>Costos de negocio</strong>: Cuantificar el costo relativo de FP vs FN</li>
+<li><strong>Métricas objetivo</strong>: Optimizar para la métrica más relevante (precision, recall, F1, etc.)</li>
+<li><strong>Restricciones operacionales</strong>: Capacidad para manejar volumen de casos positivos</li>
+<li><strong>Validación empírica</strong>: Usar curvas Precision-Recall o ROC para explorar opciones</li>
+</ol>
+</section>
+</section>
+<section id="trade-off-entre-precisión-y-recall" class="level3">
+<h3 class="anchored" data-anchor-id="trade-off-entre-precisión-y-recall">Trade-off entre Precisión y Recall</h3>
+<p>Ahora que comprendemos el concepto de umbral de decisión, podemos analizar el <strong>trade-off fundamental</strong> entre precision y recall:</p>
+<ul>
+<li><strong>Aumentar el umbral</strong> (<span class="math inline">\(\tau \uparrow\)</span>) → Más conservador → ↑ Precision, ↓ Recall</li>
+<li><strong>Disminuir el umbral</strong> (<span class="math inline">\(\tau \downarrow\)</span>) → Más liberal → ↓ Precision, ↑ Recall</li>
+</ul>
+<p>Este trade-off es inherente a cualquier clasificador probabilístico y no puede eliminarse, solo puede balancearse según las necesidades del problema.</p>
+<div id="cell-precision-recall-tradeoff" class="cell" data-fig-height="5" data-fig-width="12" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div id="precision-recall-tradeoff" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/precision-recall-tradeoff-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Trade-off entre Precisión y Recall según el umbral de decisión</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Métricas con umbral = 0.5:
+  Precision: 0.789
+  Recall:    0.602
+  F1-Score:  0.683</code></pre>
+</div>
+</div>
+</section>
+<section id="curva-roc-y-auc" class="level3">
+<h3 class="anchored" data-anchor-id="curva-roc-y-auc">Curva ROC y AUC</h3>
+<section id="curva-roc-receiver-operating-characteristic" class="level4">
+<h4 class="anchored" data-anchor-id="curva-roc-receiver-operating-characteristic">Curva ROC (Receiver Operating Characteristic)</h4>
+<p>La <strong>curva ROC</strong> visualiza el desempeño del clasificador en todos los posibles umbrales de decisión, graficando:</p>
+<ul>
+<li><strong>Eje Y</strong>: Tasa de Verdaderos Positivos (TPR = Recall = Sensibilidad)</li>
+<li><strong>Eje X</strong>: Tasa de Falsos Positivos (FPR = 1 - Especificidad)</li>
+</ul>
+<p><span class="math display">\[\text{TPR} = \frac{VP}{VP + FN}, \quad \text{FPR} = \frac{FP}{FP + VN}\]</span></p>
+<p><strong>Puntos de referencia:</strong></p>
+<ul>
+<li>Clasificador perfecto: TPR = 1, FPR = 0 (esquina superior izquierda)</li>
+<li>Clasificador aleatorio: Línea diagonal (TPR = FPR)</li>
+<li>Peor clasificador: TPR = 0, FPR = 1</li>
+</ul>
+</section>
+<section id="auc-area-under-the-curve" class="level4">
+<h4 class="anchored" data-anchor-id="auc-area-under-the-curve">AUC (Area Under the Curve)</h4>
+<p>El <strong>AUC</strong> es el área bajo la curva ROC:</p>
+<p><span class="math display">\[\text{AUC} \in [0, 1]\]</span></p>
+<p><strong>Interpretación:</strong></p>
+<ul>
+<li>AUC = 1.0: Clasificador perfecto</li>
+<li>AUC = 0.9-1.0: Excelente</li>
+<li>AUC = 0.8-0.9: Muy bueno</li>
+<li>AUC = 0.7-0.8: Bueno</li>
+<li>AUC = 0.6-0.7: Regular</li>
+<li>AUC = 0.5: No mejor que azar</li>
+<li>AUC &lt; 0.5: Peor que azar (predicciones invertidas)</li>
+</ul>
+<p><strong>Interpretación probabilística</strong></p>
+<p>El AUC representa la probabilidad de que el modelo asigne una mayor probabilidad a un ejemplo positivo aleatorio que a un ejemplo negativo aleatorio.</p>
+<div id="cell-roc-curve-comparison" class="cell" data-fig-height="5" data-fig-width="14" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div id="roc-curve-comparison" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/roc-curve-comparison-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Curvas ROC y AUC para comparación de modelos</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ejemplo-completo-evaluación-de-un-modelo" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-completo-evaluación-de-un-modelo">Ejemplo Completo: Evaluación de un Modelo</h3>
+<div id="complete-evaluation-example" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (classification_report, confusion_matrix,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                            accuracy_score, precision_score, recall_score,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                            f1_score, roc_auc_score)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar el modelo de Regresión Logística entrenado anteriormente</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>y_proba <span class="op">=</span> model.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EVALUACIÓN COMPLETA DEL MODELO DE CLASIFICACIÓN"</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Matriz de Confusión</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">1. MATRIZ DE CONFUSIÓN"</span>)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>cm_df <span class="op">=</span> pd.DataFrame(cm,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                     columns<span class="op">=</span>[<span class="st">'Predicho Negativo (0)'</span>, <span class="st">'Predicho Positivo (1)'</span>],</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                     index<span class="op">=</span>[<span class="st">'Real Negativo (0)'</span>, <span class="st">'Real Positivo (1)'</span>])</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cm_df)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer valores</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>VP <span class="op">=</span> cm[<span class="dv">1</span>, <span class="dv">1</span>]  <span class="co"># Verdaderos Positivos</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>VN <span class="op">=</span> cm[<span class="dv">0</span>, <span class="dv">0</span>]  <span class="co"># Verdaderos Negativos</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>FP <span class="op">=</span> cm[<span class="dv">0</span>, <span class="dv">1</span>]  <span class="co"># Falsos Positivos</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>FN <span class="op">=</span> cm[<span class="dv">1</span>, <span class="dv">0</span>]  <span class="co"># Falsos Negativos</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">  VP (Verdaderos Positivos): </span><span class="sc">{</span>VP<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  VN (Verdaderos Negativos): </span><span class="sc">{</span>VN<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  FP (Falsos Positivos):     </span><span class="sc">{</span>FP<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  FN (Falsos Negativos):     </span><span class="sc">{</span>FN<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Métricas principales</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">2. MÉTRICAS DE DESEMPEÑO"</span>)</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> accuracy_score(y_test, y_pred)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>precision <span class="op">=</span> precision_score(y_test, y_pred)</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>recall <span class="op">=</span> recall_score(y_test, y_pred)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> f1_score(y_test, y_pred)</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>specificity <span class="op">=</span> VN <span class="op">/</span> (VN <span class="op">+</span> FP)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>auc_score <span class="op">=</span> roc_auc_score(y_test, y_proba)</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>metricas <span class="op">=</span> {</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Métrica'</span>: [<span class="st">'Accuracy'</span>, <span class="st">'Precision'</span>, <span class="st">'Recall (Sensibilidad)'</span>,</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Specificity'</span>, <span class="st">'F1-Score'</span>, <span class="st">'AUC-ROC'</span>],</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Valor'</span>: [accuracy, precision, recall, specificity, f1, auc_score],</span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Interpretación'</span>: [</span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Proporción de predicciones correctas'</span>,</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">'De las predicciones positivas, proporción correcta'</span>,</span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">'De los casos positivos reales, proporción detectada'</span>,</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">'De los casos negativos reales, proporción correcta'</span>,</span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Media armónica de Precision y Recall'</span>,</span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Área bajo la curva ROC'</span></span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a>metricas_df <span class="op">=</span> pd.DataFrame(metricas)</span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a>metricas_df[<span class="st">'Valor'</span>] <span class="op">=</span> metricas_df[<span class="st">'Valor'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f'</span><span class="sc">{</span>x<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metricas_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Reporte de clasificación completo</span></span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">3. REPORTE DE CLASIFICACIÓN DETALLADO"</span>)</span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred, target_names<span class="op">=</span>[<span class="st">'Clase 0'</span>, <span class="st">'Clase 1'</span>]))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+EVALUACIÓN COMPLETA DEL MODELO DE CLASIFICACIÓN
+======================================================================
+
+1. MATRIZ DE CONFUSIÓN
+----------------------------------------------------------------------
+                   Predicho Negativo (0)  Predicho Positivo (1)
+Real Negativo (0)                    192                     15
+Real Positivo (1)                     37                     56
+
+  VP (Verdaderos Positivos): 56
+  VN (Verdaderos Negativos): 192
+  FP (Falsos Positivos):     15
+  FN (Falsos Negativos):     37
+
+2. MÉTRICAS DE DESEMPEÑO
+----------------------------------------------------------------------
+              Métrica Valor                                      Interpretación
+             Accuracy 0.827                Proporción de predicciones correctas
+            Precision 0.789  De las predicciones positivas, proporción correcta
+Recall (Sensibilidad) 0.602 De los casos positivos reales, proporción detectada
+          Specificity 0.928  De los casos negativos reales, proporción correcta
+             F1-Score 0.683                Media armónica de Precision y Recall
+              AUC-ROC 0.872                              Área bajo la curva ROC
+
+3. REPORTE DE CLASIFICACIÓN DETALLADO
+----------------------------------------------------------------------
+              precision    recall  f1-score   support
+
+     Clase 0       0.84      0.93      0.88       207
+     Clase 1       0.79      0.60      0.68        93
+
+    accuracy                           0.83       300
+   macro avg       0.81      0.76      0.78       300
+weighted avg       0.82      0.83      0.82       300
+</code></pre>
+</div>
+</div>
+<div id="cell-confusion-matrix-visualization" class="cell" data-fig-height="6" data-fig-width="8" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización mejorada de la matriz de confusión</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear matriz de confusión normalizada</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>cm_normalized <span class="op">=</span> cm.astype(<span class="st">'float'</span>) <span class="op">/</span> cm.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)[:, np.newaxis]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear anotaciones personalizadas con conteos y porcentajes</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>annot <span class="op">=</span> np.empty_like(cm, dtype<span class="op">=</span><span class="bu">object</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(cm.shape[<span class="dv">0</span>]):</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(cm.shape[<span class="dv">1</span>]):</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        annot[i, j] <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>cm[i, j]<span class="sc">}</span><span class="ch">\n</span><span class="ss">(</span><span class="sc">{</span>cm_normalized[i, j]<span class="sc">:.1%}</span><span class="ss">)'</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear heatmap</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cm_normalized, annot<span class="op">=</span>annot, fmt<span class="op">=</span><span class="st">''</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>            xticklabels<span class="op">=</span>[<span class="st">'Predicho: 0'</span>, <span class="st">'Predicho: 1'</span>],</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>            yticklabels<span class="op">=</span>[<span class="st">'Real: 0'</span>, <span class="st">'Real: 1'</span>],</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>            cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Proporción'</span>},</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>            vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">1</span>, linewidths<span class="op">=</span><span class="dv">2</span>, linecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Matriz de Confusión (Accuracy = </span><span class="sc">{</span>accuracy<span class="sc">:.3f}</span><span class="ss">)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, pad<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Clase Real'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Clase Predicha'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir etiquetas descriptivas</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="ss">f'VN</span><span class="ch">\n</span><span class="sc">{</span>VN<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightgreen'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="ss">f'FP</span><span class="ch">\n</span><span class="sc">{</span>FP<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightcoral'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="ss">f'FN</span><span class="ch">\n</span><span class="sc">{</span>FN<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightcoral'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="ss">f'VP</span><span class="ch">\n</span><span class="sc">{</span>VP<span class="sc">}</span><span class="ss">'</span>, ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>         bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">'round'</span>, facecolor<span class="op">=</span><span class="st">'lightgreen'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="confusion-matrix-visualization" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/confusion-matrix-visualization-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Visualización de la Matriz de Confusión</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="selección-de-métricas-según-el-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="selección-de-métricas-según-el-contexto">Selección de Métricas según el Contexto</h3>
+<p>La elección de la métrica apropiada depende del problema específico:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 52%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Contexto</th>
+<th>Métrica Recomendada</th>
+<th>Razón</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Clases balanceadas</strong></td>
+<td>Accuracy</td>
+<td>Proporción general de aciertos es suficiente</td>
+</tr>
+<tr class="even">
+<td><strong>Clases desbalanceadas</strong></td>
+<td>F1-Score, AUC-ROC</td>
+<td>Accuracy puede ser engañosa</td>
+</tr>
+<tr class="odd">
+<td><strong>Costo alto de FP</strong></td>
+<td>Precision</td>
+<td>Minimizar falsos positivos</td>
+</tr>
+<tr class="even">
+<td><strong>Costo alto de FN</strong></td>
+<td>Recall</td>
+<td>Minimizar falsos negativos</td>
+</tr>
+<tr class="odd">
+<td><strong>Balance entre FP y FN</strong></td>
+<td>F1-Score</td>
+<td>Considera ambos errores</td>
+</tr>
+<tr class="even">
+<td><strong>Comparación de modelos</strong></td>
+<td>AUC-ROC</td>
+<td>Independiente del umbral</td>
+</tr>
+<tr class="odd">
+<td><strong>Diagnóstico médico</strong></td>
+<td>Recall, AUC-ROC</td>
+<td>No perder casos positivos</td>
+</tr>
+<tr class="even">
+<td><strong>Filtro de spam</strong></td>
+<td>Precision, F1-Score</td>
+<td>No bloquear emails legítimos</td>
+</tr>
+<tr class="odd">
+<td><strong>Detección de fraude</strong></td>
+<td>F1-Score, Recall</td>
+<td>Balance según costo relativo</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="métricas-para-clasificación-multiclase" class="level3">
+<h3 class="anchored" data-anchor-id="métricas-para-clasificación-multiclase">Métricas para Clasificación Multiclase</h3>
+<p>Para problemas con <span class="math inline">\(K &gt; 2\)</span> clases, las métricas se generalizan de dos formas:</p>
+<section id="macro-averaging" class="level4">
+<h4 class="anchored" data-anchor-id="macro-averaging">1. Macro-averaging</h4>
+<p>Calcula la métrica para cada clase por separado y promedia:</p>
+<p><span class="math display">\[\text{Precision}_{\text{macro}} = \frac{1}{K} \sum_{k=1}^{K} \text{Precision}_k\]</span></p>
+<p><strong>Ventaja</strong>: Trata todas las clases por igual (útil si todas las clases son igualmente importantes)</p>
+</section>
+<section id="weighted-averaging" class="level4">
+<h4 class="anchored" data-anchor-id="weighted-averaging">2. Weighted-averaging</h4>
+<p>Promedio ponderado por el número de muestras reales de cada clase:</p>
+<p><span class="math display">\[\text{Precision}_{\text{weighted}} = \sum_{k=1}^{K} w_k \cdot \text{Precision}_k\]</span></p>
+<p>Donde <span class="math inline">\(w_k = \frac{n_k}{n}\)</span> (proporción de muestras de la clase <span class="math inline">\(k\)</span>)</p>
+<p><strong>Ventaja</strong>: Tiene en cuenta el desbalance de clases</p>
+<div id="multiclass-metrics-example" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo con dataset Iris (3 clases)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris()</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>X_iris_full <span class="op">=</span> iris.data</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>y_iris_full <span class="op">=</span> iris.target</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir datos</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>X_train_iris, X_test_iris, y_train_iris, y_test_iris <span class="op">=</span> train_test_split(</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    X_iris_full, y_iris_full, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y_iris_full</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenar modelo</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>model_iris <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>model_iris.fit(X_train_iris, y_train_iris)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>y_pred_iris <span class="op">=</span> model_iris.predict(X_test_iris)</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"EVALUACIÓN MULTICLASE (Dataset Iris - 3 clases)"</span>)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Reporte de clasificación con macro y weighted averaging</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Reporte de Clasificación:"</span>)</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test_iris, y_pred_iris,</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>                          target_names<span class="op">=</span>iris.target_names,</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>                          digits<span class="op">=</span><span class="dv">3</span>))</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión multiclase</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Matriz de Confusión:"</span>)</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>cm_iris <span class="op">=</span> confusion_matrix(y_test_iris, y_pred_iris)</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>cm_iris_df <span class="op">=</span> pd.DataFrame(cm_iris,</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>                          columns<span class="op">=</span>[<span class="ss">f'Pred: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> name <span class="kw">in</span> iris.target_names],</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>                          index<span class="op">=</span>[<span class="ss">f'Real: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> name <span class="kw">in</span> iris.target_names])</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cm_iris_df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+EVALUACIÓN MULTICLASE (Dataset Iris - 3 clases)
+======================================================================
+
+Reporte de Clasificación:
+              precision    recall  f1-score   support
+
+      setosa      1.000     1.000     1.000        15
+  versicolor      0.875     0.933     0.903        15
+   virginica      0.929     0.867     0.897        15
+
+    accuracy                          0.933        45
+   macro avg      0.935     0.933     0.933        45
+weighted avg      0.935     0.933     0.933        45
+
+
+Matriz de Confusión:
+                  Pred: setosa  Pred: versicolor  Pred: virginica
+Real: setosa                15                 0                0
+Real: versicolor             0                14                1
+Real: virginica              0                 2               13</code></pre>
+</div>
+</div>
+<div id="cell-multiclass-confusion-matrix" class="cell" data-fig-height="6" data-fig-width="8" data-execution_count="22">
+<div class="cell-output cell-output-display">
+<div id="multiclass-confusion-matrix" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="04-clasificacion_files/figure-html/multiclass-confusion-matrix-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Matriz de Confusión para Clasificación Multiclase</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="consideraciones-finales" class="level3">
+<h3 class="anchored" data-anchor-id="consideraciones-finales">Consideraciones Finales</h3>
+<p><strong>Principios clave para la evaluación de modelos de clasificación:</strong></p>
+<ol type="1">
+<li><strong>Nunca confíes solo en accuracy</strong> - Especialmente con clases desbalanceadas</li>
+<li><strong>Analiza la matriz de confusión</strong> - Comprende qué tipos de errores comete tu modelo</li>
+<li><strong>Selecciona métricas según el contexto</strong> - Considera el costo relativo de FP vs FN</li>
+<li><strong>Usa múltiples métricas</strong> - Una sola métrica raramente cuenta toda la historia</li>
+<li><strong>Evalúa en datos independientes</strong> - Usa conjuntos de validación/prueba no vistos</li>
+<li><strong>Considera el umbral de decisión</strong> - El umbral 0.5 no siempre es óptimo</li>
+<li><strong>Visualiza el desempeño</strong> - Curvas ROC y Precision-Recall proveen información valiosa</li>
+</ol>
+<p>La evaluación rigurosa del desempeño es fundamental para construir modelos de clasificación confiables y tomar decisiones informadas sobre su uso en aplicaciones del mundo real.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+💬 Discusión en Parejas (15 minutos)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Escenario de Análisis:</strong></p>
+<p>Tu equipo ha desarrollado un modelo de clasificación para una aplicación real. Ahora deben presentar los resultados al equipo de negocio y justificar la elección de métricas.</p>
+<p><strong>Instrucciones:</strong></p>
+<ol type="1">
+<li><p><strong>Formen parejas</strong> y lean el siguiente escenario asignado por el instructor (o elijan uno):</p>
+<p><strong>Escenario A: Sistema de Detección de Fraude con Tarjetas de Crédito</strong></p>
+<ul>
+<li>El modelo predice si una transacción es fraudulenta (clase positiva) o legítima (clase negativa)</li>
+<li>Solo el 0.5% de las transacciones son fraudulentas (alta desbalance)</li>
+<li>Costos: Bloquear una transacción legítima = $5 de molestia al cliente; No detectar un fraude = $150 de pérdida</li>
+</ul>
+<p><strong>Escenario B: Sistema de Recomendación de Contenido Premium</strong></p>
+<ul>
+<li>El modelo predice si un usuario comprará contenido premium (clase positiva) o no (clase negativa)</li>
+<li>20% de los usuarios compran contenido premium</li>
+<li>Costos: Mostrar anuncio a usuario no interesado = $0.50 de recursos desperdiciados; No mostrar anuncio a comprador potencial = $15 de venta perdida</li>
+</ul>
+<p><strong>Escenario C: Sistema de Diagnóstico Médico de Enfermedad Rara</strong></p>
+<ul>
+<li>El modelo predice si un paciente tiene una enfermedad rara (clase positiva) o está sano (clase negativa)</li>
+<li>Solo el 2% de los pacientes tienen la enfermedad</li>
+<li>Costos: Falso positivo = $500 en pruebas adicionales + ansiedad; Falso negativo = enfermedad no tratada (alto riesgo)</li>
+</ul></li>
+<li><p><strong>Discutan en pareja (10 minutos):</strong></p>
+<ol type="a">
+<li><p><strong>Análisis de costos:</strong></p>
+<ul>
+<li>¿Qué tipo de error es más costoso: FP o FN?</li>
+<li>¿Por qué el accuracy no es una buena métrica para este problema?</li>
+</ul></li>
+<li><p><strong>Selección de métricas:</strong></p>
+<ul>
+<li>¿Qué métrica(s) deberían reportar al equipo de negocio?</li>
+<li>¿Usarían el umbral estándar de 0.5 o lo ajustarían? ¿Hacia dónde y por qué?</li>
+</ul></li>
+<li><p><strong>Interpretación de resultados:</strong></p>
+<ul>
+<li>Si el modelo tiene Precision = 0.85 y Recall = 0.60, ¿es aceptable para este caso?</li>
+<li>¿Qué cambios harían para mejorar el modelo según las prioridades del negocio?</li>
+</ul></li>
+</ol></li>
+<li><p><strong>Preparen</strong> (2 minutos):</p>
+<ul>
+<li>Una conclusión de 1-2 frases sobre la métrica más importante para su escenario</li>
+<li>Un argumento breve de por qué eligieron esa métrica</li>
+</ul></li>
+<li><p><strong>Compartan</strong> con otra pareja o con la clase (3 minutos):</p>
+<ul>
+<li>Presenten su razonamiento</li>
+<li>Escuchen el análisis de otro escenario</li>
+</ul></li>
+</ol>
+<p><strong>Preguntas guía para profundizar:</strong></p>
+<ul>
+<li>¿Cómo cambiaría su respuesta si los costos fueran diferentes?</li>
+<li>¿Qué información adicional necesitarían del negocio para tomar una mejor decisión?</li>
+<li>¿Cómo comunicarían las limitaciones del modelo a stakeholders no técnicos?</li>
+</ul>
+</div>
+</div>
+
+
 </section>
 </section>
 
@@ -1158,13 +2931,13 @@ Coeficientes: β₁ = -0.273, β₂ = 2.214</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./analisis_advertising_dataset.html" class="pagination-link" aria-label="Análisis de Regresión Lineal con el Dataset Advertising">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Análisis de Regresión Lineal con el Dataset Advertising</span></span>
+      <a href="./ejercicio_wine_quality.html" class="pagination-link" aria-label="Ejercicio: Análisis de Regresión con el Dataset Wine Quality">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Ejercicio: Análisis de Regresión con el Dataset Wine Quality</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="Referencias">
-        <span class="nav-page-text">Referencias</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./05-arboles.html" class="pagination-link" aria-label="Árboles de Decisión">
+        <span class="nav-page-text"><span class="chapter-title">Árboles de Decisión</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
